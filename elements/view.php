@@ -15,12 +15,12 @@
 
       <div class="owner-quote row d-flex justify-content-center align-items-center mt-3 ">
         <div class="col-md-1"></div>
-        <div class="img col-md-4"><img src="icons/online-business.JPG"></div>
+        <div class="img col-md-4"><img src="assets/images/online-business.JPG"></div>
         <div class="col-md-4">
           <h1>Business Owner</h1>
           <br>
           <p class="lh-base text-justify">Are you ready to unlock the full potential of your business and expand your reach like never before? We've got just the thing for you! Sign up now and venture into the world of online business to tap into a massive audience waiting to discover your products and services. </p>
-          <a href="signup.php" class="btn-sign-up d-inline-flex">
+          <a href="<?php echo SITE_URL?>/?page=register" class="btn-sign-up d-inline-flex">
             <span>Sign Up</span>
             <i class="bi bi-arrow-right"></i> 
           </a>

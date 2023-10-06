@@ -20,7 +20,7 @@
                 redirect( LOGIN_REDIRECT );
             }
             if (password_verify($password, $user->password)) {
-                $_SESSION[ AUTH_ID ] = $user->User;
+                $_SESSION[ AUTH_ID ] = $user->UserID;
                 $_SESSION[ AUTH_NAME ] = $user->username;
                 $_SESSION[ AUTH_TYPE ] = $user->usertype;
                 $_SESSION[ AUTH_TOKEN ] = $user->token;
