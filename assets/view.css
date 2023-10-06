@@ -1,0 +1,383 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Exa&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap');
+
+body{
+  font-family: "Lexend exa", Arial;
+}
+input.form-control::placeholder {
+  opacity: .5;
+}
+.btn-primary, .search-btn{
+  background-color: #ffa630;
+  border: none;
+}
+/* for header part only */
+.header{
+    background-color: #007ea7 ;
+    height: 80px;
+    box-shadow: 0px 5px 10px #00171f;
+    z-index: 10000;
+    
+  }
+  .header-nav{
+    height: 80px;
+  }
+  .logo{
+    height: 50px;
+  }
+  nav li{
+    list-style: none;
+    padding: 0px 10px;
+    
+  }
+  nav li a {
+    color: #ffff;
+    text-decoration: none;
+    font-size: 20px;
+  }
+  header span, footer span{
+    font-family: "Lexend Exa", Arial;
+    color: #ffff;
+    font-size: 20px;
+  }
+  nav a:hover,
+  nav .active,
+  nav .active:focus,
+  nav li:hover>a {
+    color: #ffa630;
+    
+  }
+  nav i{
+    font-size: 40px;
+  }
+  nav ul{
+    margin-top: 20px;
+  }
+ .dropdown ul{
+  display: block;
+  position: absolute;
+  right: 10px;
+  z-index: 99;
+  background: #fff;
+  color: #161616;
+  box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+  transition: 0.3s;
+  border-radius: 4px;
+  width: 10em;
+  padding: 0px;
+  top: 50px;
+  visibility: hidden;
+ }
+ .dropdown ul li{
+  padding: 10px;
+ }
+ .dropdown ul li a{
+  color: #161616;
+ }
+ .user-logo{
+  filter: brightness(0) invert(1);
+ }
+ .dropdown:hover>ul{
+    visibility: visible; 
+  }
+  .dropdown ul a:hover,
+  .dropdown ul .active:hover,
+  .dropdown ul li:hover>a {
+    color: #b64900;
+  }
+
+ /* home page */
+.bg-image{
+    background-image: url('./assets/images/bgnew.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 900px;
+    background-size: 100% 100%;
+    
+}
+.bg-image .row{
+    margin-left: 0;
+    
+}
+
+.home-quote{
+    background-color: rgba(0,0,0,.5);
+    height: 500px;
+    border-radius: 25px;
+    box-shadow: 5px 5px 15px #161616;
+}
+.home-quote h1{
+  color: #fdf99b;
+  font-family: "Arvo";
+}
+.home-quote p, footer p, .home-quote a span{
+    color:#ffff;
+    font-size: 16px;
+  
+}
+/* home page part 2*/
+.img img{
+  height: 300px;
+  width:  300px;
+  border-radius: 25px;
+  box-shadow:
+  0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+  0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+  0 12.5px 10px rgba(0, 0, 0, 0.06),
+  0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+  0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+  0 100px 80px rgba(0, 0, 0, 0.12);
+  transform: rotate(-10deg);
+}
+.owner-quote{
+  height: 600px;;
+}
+.owner-quote h1{
+  color: #b64900;
+  font-family: "Arvo";
+}
+.btn-sign-up span{
+  color: black;
+}
+a{
+  text-decoration: none;
+}
+/*footer*/
+footer{
+  background-color: #007ea7;
+  height: 150px;
+  z-index: 999;
+  position: absolute;
+  width: 99vw;
+}
+.footer{
+  padding: 50px 0 0 0 ;
+}
+.footer hr{
+  margin: 0;
+  height: 3px;
+  background-color: black;
+}
+
+/* login page */
+.logimg img{
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login, .signup{
+  margin-top: 150px;
+}
+/*details page*/
+.details p{
+  margin: 0;
+  padding: 2px;
+}
+.links ul li{
+  list-style: none;
+  
+}
+.info{
+  width:70vw;
+  margin-top: 70px;
+}
+.info .card{
+  margin: 30px 0px;
+}
+.details{
+  width: 90vw;
+  height: 20vh;
+  background-color: #ffff;
+  top: 80px;
+  padding-top: 10px;
+  border-bottom: 5px solid #fb7e00;
+  
+}
+
+.links a:hover,
+.links .active,
+.links .active:focus,
+.links li:hover>a {
+    border-bottom: 3px solid #fb7e00;
+    
+  }
+
+.branches{
+  width: 100vw;
+}
+.nav-item{
+  margin: 10px 10px 0px 10px;
+}
+
+/*side nav bar*/
+.side-nav {
+  position: fixed;
+  top: 80px;
+  bottom: 0;
+  left: 0;
+  padding: 50px 0 0; /* Height of navbar */
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 30%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+  width: 15rem;
+  z-index: 600;
+  background-color: #fdf99b;
+}
+.side-nav .hover {
+  border-radius: 5px;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+}
+
+.side-nav .nav-item{
+  list-style: none;
+  margin: 5px 20px;
+  height: 30px;
+  
+
+}
+.side-nav .nav-item a span{
+  color: black;
+  font-family: "Lexend Exa";
+  width: 240px;
+  padding: 3px;
+  font-style: normal;
+}
+.side-nav .nav-item:hover,
+.side-nav .active,
+.side-nav .active:focus,
+.side-nav div a:hover>a {
+  border-bottom: 3px solid #fb7e00;
+}
+
+.side-nav i{
+  font-size: 25px;
+  color: black;
+  padding-right: 5px;
+}
+/*profile pages main content*/
+.profile, .purchase, .voucher,
+.own_bus, .own_vouch, .admin-reg{
+  margin: 120px 10px 50px 300px;
+  width: 60vw;
+  scroll-margin-top:100px;
+}
+/*
+profile page*/
+h1{
+  font-family: "Arvo";
+}
+.btn-edit{
+  color: #161616;
+}
+/* cards*/
+.purchase .card, .voucher .card, .own_vouch .card{
+  margin: 20px 0px;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+}
+
+.card-img{
+  height: 200px;
+  width:  200px;
+}
+.ext{
+  border-left: 1px solid rgb(212, 212, 212);
+}
+
+/*package*/
+#pack{
+  margin-top: 100px;
+}
+.pack .card{
+  width: 18rem;
+}
+.pack .card-img-top{
+  height: 15rem;
+}
+
+.own_vouch .card{
+  height: 10rem;
+}
+
+.own_vouch .card p{
+  padding: 0;
+  margin: 0;
+}
+/*.btn-back{
+  margin: 15px 50px;
+}*/
+.bi-arrow-left{
+  font-size: 30px;}
+
+  /*search*/
+.search-header{
+    margin-top: 80px;
+    background-image: url(./assets/images/plan.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+  }
+  #searchbar input{
+    width: 20em;
+  }
+  .search-btn{
+    color: #ffff;
+  }
+  .search-btn:hover{
+    background-color: #007ea7;
+  }
+/*service*/
+  .body-content .card{
+  width: 90%;
+  height: 30vh;
+  margin: 30px 50px;
+}
+
+.body-content{
+  margin-top: 150px;
+}
+.body-content .card-img{
+  max-width: 30%;
+  max-height: 100%;
+}
+
+/*package page*/
+.pack-head{
+  height: 13vh;
+  background-color: #ffff;
+  top: 80px;
+  padding-top: 25px;
+}
+.pack{
+  margin: 30px 100px
+}
+
+.admin-reg{
+  height: 100vh;
+}
+
+/*business registration page*/
+.bus-reg{
+  width: 70vw;
+  padding: 20vh;
+  margin: 0px 15vw;
+  
+}
+@media (max-width:1250px) {
+  .bus-reg {
+    margin-top: 100px;
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+  }
+}
+.bus-reg h5{
+  background-color: #003459;
+  color: #fff;
+}
+.bus-reg h6{
+  background-color: #00a8e8;
+  color: #161616;
+}
+.bus-reg .overflow-hidden .row{
+  padding: 5px 0px;
+}
