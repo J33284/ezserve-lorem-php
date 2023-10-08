@@ -43,7 +43,7 @@ function validate_csrf() {
         
         if ($decodedToken !== $_SESSION[AUTH_TOKEN]) {
             set_message("Invalid CSRF token", 'danger');
-            redirect();
+            redirect(LOGIN_REDIRECT);
         }
     }
 }

@@ -14,7 +14,7 @@
 if (!defined('ACCESS')) {
     die('DIRECT ACCESS NOT ALLOWED');
 }
-
+/*
 // Function to View 
 function viewUser() {
     global $DB;
@@ -134,3 +134,5 @@ function deleteUser($token)
         return false;
     }
 }
+
+*/

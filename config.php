@@ -13,3 +13,4 @@ define( 'DBNAME', 'webworks_db' );
 define( 'SITE_TITLE', 'WEBWORKS' );
 
 
+?>

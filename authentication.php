@@ -44,14 +44,11 @@ define( 'AUTH_TOKEN', 'token' );
 // default page to login, name of the file found in /pages
 define( 'LOGIN_REDIRECT', 'default' ); 
 
-/*$restricted_pages[ 'admin' ]['access'] = [ "admin-page" ];
-$restricted_pages[ 'admin' ][ 'default_page' ] = "default";*/
-
-$restricted_pages['admin']['access'] = ["admin_profile", "admin_register", "admin_business_list", "default"];
-$restricted_pages['admin']['default_page'] = "default";
-
-$restricted_pages[ 'user' ]['access'] = [ "user-page" ];
-$restricted_pages[ 'user' ][ 'default_page' ] = "default";
+/* $restricted_pages[ 'admin' ]['access'] = [ "admin-page" ];
+$restricted_pages[ 'admin' ][ 'default_page' ] = "default";
+*/
+$restricted_pages[ 'user' ]['access'] = [ "default", "owner_profile" ];
+$restricted_pages[ 'user' ][ 'default_page' ] = "owner_profile";
 
 $restricted_pages[ 'default' ]['access'] = [ "default", "login", "register" ];
 $restricted_pages[ 'default' ][ 'default_page' ] = "default"; 

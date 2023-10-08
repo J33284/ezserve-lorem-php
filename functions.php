@@ -10,10 +10,20 @@ function has_message() {
 	return isset( $_SESSION[ 'MESSAGE' ] ) && !empty( $_SESSION[ 'MESSAGE' ] );
 }
 
-function set_message( $msg, $type = "success" ) {
+/*function set_message( $msg, $type = "success" ) {
 	$_SESSION[ 'MESSAGE' ] = $msg; 
 	$_SESSION[ 'MESSAGE_TYPE' ] = $type; 
+}*/
+
+function set_message($msg, $type = "success", $db_error = null) {
+    if ($db_error !== null) {
+        $msg .= " Database error: " . $db_error;
+    }
+
+    $_SESSION['MESSAGE'] = $msg;
+    $_SESSION['MESSAGE_TYPE'] = $type;
 }
+
 
 function show_message() {		
 	if( isset( $_SESSION[ 'MESSAGE' ] ) && !empty( $_SESSION[ 'MESSAGE' ] ) ) {
@@ -24,9 +34,10 @@ function show_message() {
 }
 
 function redirect( $page = "", $q = "" ) {
-	header( "Location: " . SITE_URL . "/?page=$page" . ( !empty( $q ) ? '&' . $q : '' ) );
+	header( "Location: " . SITE_URL . "/$page" . ( !empty( $q ) ? '&' . $q : '' ) );
 	exit;
 }
+
 
 // Start of Subfoldering inside the pages Changes
 function get_page() {
@@ -223,6 +234,7 @@ function parseSerializedData( $data ) {
 	}
 	return $a;
 }
+
 
 /* ADD YOUR CUSTOM FUNCTIONS IN custom_functions.php */
 require 'custom_functions.php';

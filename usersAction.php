@@ -28,17 +28,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
         $usertype = $_POST['usertype'];
 
-        createUser($fname, $lname, $email, $username, $password, $usertype);
+        createUser($fname, $lname, $email, $number, $username, $password, $usertype);
         // Redirect or perform additional actions as needed
     }
 
     if (isset($_POST['btn-update'])) {
         $fname = $_POST['fname'];
-        $mname = $_POST['mname'];
         $lname = $_POST['lname'];
+        $email = $_POST['email'];
+        $email = $_POST['email'];
+        $number = $_POST['number'];
         $username = $_POST['username'];
         $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-        $emp_gender = $_POST['emp_gender'];
         $usertype = $_POST['usertype'];
         $token = $_GET['token'];
 
