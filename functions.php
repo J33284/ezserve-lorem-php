@@ -60,7 +60,7 @@ function get_page() {
             return $restricted_pages[$_SESSION[AUTH_TYPE]]['default_page'];
         } else {
             return $restricted_pages['default']['default_page'];
-        }
+        }       
     }
 
     if (file_exists(ROOT_DIR . '/pages/' . $page . '.php')) {
