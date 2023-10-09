@@ -10,20 +10,10 @@ function has_message() {
 	return isset( $_SESSION[ 'MESSAGE' ] ) && !empty( $_SESSION[ 'MESSAGE' ] );
 }
 
-/*function set_message( $msg, $type = "success" ) {
+function set_message( $msg, $type = "success" ) {
 	$_SESSION[ 'MESSAGE' ] = $msg; 
 	$_SESSION[ 'MESSAGE_TYPE' ] = $type; 
-}*/
-
-function set_message($msg, $type = "success", $db_error = null) {
-    if ($db_error !== null) {
-        $msg .= " Database error: " . $db_error;
-    }
-
-    $_SESSION['MESSAGE'] = $msg;
-    $_SESSION['MESSAGE_TYPE'] = $type;
 }
-
 
 function show_message() {		
 	if( isset( $_SESSION[ 'MESSAGE' ] ) && !empty( $_SESSION[ 'MESSAGE' ] ) ) {
@@ -37,7 +27,6 @@ function redirect( $page = "", $q = "" ) {
 	header( "Location: " . SITE_URL . "/$page" . ( !empty( $q ) ? '&' . $q : '' ) );
 	exit;
 }
-
 
 // Start of Subfoldering inside the pages Changes
 function get_page() {
@@ -54,13 +43,13 @@ function get_page() {
     $request_uri = strtok($request_uri, '?');
     $request_uri = rtrim($request_uri, '/');
     $page = trim($request_uri, '/');
-    
-    if (empty($page)) {
+
+	if (empty($page)) {
         if (isset($_SESSION[AUTH_TYPE]) && !empty($_SESSION[AUTH_TYPE])) {
-            return $restricted_pages[$_SESSION[AUTH_TYPE]]['default_page'];
+            return isset($restricted_pages[$_SESSION[AUTH_TYPE]]) ? $restricted_pages[$_SESSION[AUTH_TYPE]]['default_page'] : null;
         } else {
-            return $restricted_pages['default']['default_page'];
-        }       
+            return isset($restricted_pages['default']) ? $restricted_pages['default']['default_page'] : null;
+        }
     }
 
     if (file_exists(ROOT_DIR . '/pages/' . $page . '.php')) {
@@ -88,14 +77,21 @@ function has_access($redirect = false) {
     global $restricted_pages;
     $page = get_page();
 
+    if (!is_array($restricted_pages)) {
+        // Handle the case where $restricted_pages is not properly defined
+        // You might want to set a default behavior or throw an error
+        return false;
+    }
+
     if (isset($_SESSION[AUTH_ID])) {
         if (isset($_REQUEST['action'])) {
             return;
         }
 
         $type = isset($_SESSION[AUTH_TYPE]) && !empty($_SESSION[AUTH_TYPE]) ? $_SESSION[AUTH_TYPE] : 'default';
-        //var_dump($restricted_pages, $page);
-        if (array_search($page, $restricted_pages[$type]['access']) === false && ($page != LOGIN_REDIRECT && $restricted_pages[$type]['default_page'] != $page)) {
+
+        if (isset($restricted_pages[$type]) && array_search($page, $restricted_pages[$type]['access']) === false
+            && ($page != LOGIN_REDIRECT && $restricted_pages[$type]['default_page'] != $page)) {
 
             if ($redirect) {
                 set_message("You have no access to page <span class='fw-bold'>$page</span>", "warning");
@@ -106,15 +102,13 @@ function has_access($redirect = false) {
         }
 
         return true;
-        
     } else {
-        if (isset($restricted_pages) && !isset($_SESSION[AUTH_ID])) {
-            if (array_search($page, $restricted_pages['default']['access']) === false) {
-                redirect(LOGIN_REDIRECT);
-            }
+        if (isset($restricted_pages['default']) && array_search($page, $restricted_pages['default']['access']) === false) {
+            redirect(LOGIN_REDIRECT);
         }
     }
 }
+
 // End of Subfoldering inside the pages Changes
 
 function is_usertype( $check_type ) {
@@ -234,7 +228,6 @@ function parseSerializedData( $data ) {
 	}
 	return $a;
 }
-
 
 /* ADD YOUR CUSTOM FUNCTIONS IN custom_functions.php */
 require 'custom_functions.php';

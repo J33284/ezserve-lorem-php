@@ -31,14 +31,13 @@
             <ul class="d-flex align-items-center justify-content-between">
                 <li><a href="<?php echo SITE_URL ?>/?page=default">Home</a></li>
                 <li><a href="<?php echo SITE_URL ?>/?page=service">Service</a></li>
-                <li><a href="<?php echo SITE_URL ?>/?page=owner-profile">About</a></li>
+                <li><a href="<?php echo SITE_URL ?>/?page=about">About</a></li>
                 <li><a href="<?php echo SITE_URL ?>/?page=login"><i class="bi-person-fill"></i></a></li>
               
         </nav>
     </div>
    
 </header>
-      
 <div class="row">      
           <div class="col left-content">
           <?= show_message(); ?>

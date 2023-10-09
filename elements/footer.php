@@ -1,4 +1,4 @@
-<?php /* if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); ?>
+<?php  if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); ?>
 <footer>
       <div class="footer container justify-content-center align-items-center "> 
         <div class="d-flex">
@@ -13,4 +13,4 @@
     </footer>
 
     </body>
-</html>*/
+</html>

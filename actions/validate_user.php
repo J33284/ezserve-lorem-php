@@ -19,15 +19,14 @@
                 set_message( "Your account is not yet activated." . $DB->error, "danger" );
                 redirect(LOGIN_REDIRECT);
             }
-            //var_dump($password, $user->password);
+           
             if ($password == $user->password) {
                 $_SESSION[ AUTH_ID ] = $user->userID;
                 $_SESSION[ AUTH_NAME ] = $user->username;
                 $_SESSION[ AUTH_TYPE ] = $user->usertype;
                 $_SESSION[ AUTH_TOKEN ] = $user->token;
                 set_message( "Welcome back {$user->fname}!", 'success' );
-                //header("Location: " . SITE_URL . "/?page=");
-                redirect( "owner-profile" );
+                redirect();
             } else {        
                 set_message( "Invalid login, please try again." . $DB->error, "danger" );
             }

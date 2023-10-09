@@ -12,7 +12,7 @@ input.form-control::placeholder {
   opacity: .5;
 }
 h1{
-  color: #ffff;
+  color: #000000;
 }
 .btn-primary, .search-btn{
   background-color: #ffa630;
