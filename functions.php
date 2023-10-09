@@ -54,7 +54,7 @@ function get_page() {
     $request_uri = strtok($request_uri, '?');
     $request_uri = rtrim($request_uri, '/');
     $page = trim($request_uri, '/');
-
+    
     if (empty($page)) {
         if (isset($_SESSION[AUTH_TYPE]) && !empty($_SESSION[AUTH_TYPE])) {
             return $restricted_pages[$_SESSION[AUTH_TYPE]]['default_page'];
@@ -94,7 +94,7 @@ function has_access($redirect = false) {
         }
 
         $type = isset($_SESSION[AUTH_TYPE]) && !empty($_SESSION[AUTH_TYPE]) ? $_SESSION[AUTH_TYPE] : 'default';
-
+        //var_dump($restricted_pages, $page);
         if (array_search($page, $restricted_pages[$type]['access']) === false && ($page != LOGIN_REDIRECT && $restricted_pages[$type]['default_page'] != $page)) {
 
             if ($redirect) {

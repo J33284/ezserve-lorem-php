@@ -5,7 +5,7 @@
         validate_csrf();
         
         $username = $_POST[ 'username' ];
-        $password = $_POST[ 'password' ];
+        $password = md5($_POST[ 'password' ]);
 
         $q = "SELECT * FROM users WHERE username = ? LIMIT 1";
         $stmt = $DB->prepare($q);
@@ -17,17 +17,19 @@
             $user = $check->fetch_object();          
             if( $user->status == 0 ) {
                 set_message( "Your account is not yet activated." . $DB->error, "danger" );
-                redirect(LOGIN_REDIRECT);       
+                redirect(LOGIN_REDIRECT);
             }
-            if (password_verify($password, $user->password)) {
+            //var_dump($password, $user->password);
+            if ($password == $user->password) {
                 $_SESSION[ AUTH_ID ] = $user->userID;
                 $_SESSION[ AUTH_NAME ] = $user->username;
                 $_SESSION[ AUTH_TYPE ] = $user->usertype;
                 $_SESSION[ AUTH_TOKEN ] = $user->token;
                 set_message( "Welcome back {$user->fname}!", 'success' );
-                redirect();
+                //header("Location: " . SITE_URL . "/?page=");
+                redirect( "owner-profile" );
             } else {        
-                set_message( "Invalid login1, please try again." . $DB->error, "danger" );
+                set_message( "Invalid login, please try again." . $DB->error, "danger" );
             }
                     
         } else {        

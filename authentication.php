@@ -53,4 +53,10 @@ $restricted_pages[ 'user' ][ 'default_page' ] = "owner_profile";
 $restricted_pages[ 'default' ]['access'] = [ "default", "login", "register" ];
 $restricted_pages[ 'default' ][ 'default_page' ] = "default"; 
 
+$restricted_pages[ 'client' ]['access'] = [ "default", "owner_profile" ];
+$restricted_pages[ 'client' ][ 'default_page' ] = "owner_profile";
+
+$restricted_pages[ 'owner' ]['access'] = [ "default", "owner_profile" ];
+$restricted_pages[ 'owner' ][ 'default_page' ] = "owner_profile";
+
 has_access( true );
