@@ -7,7 +7,6 @@
 	// $whoops->register();
 	error_reporting(E_ALL);
 	session_start();
-	//$_SESSION['name'] = "asdasd";
 	
 	define( 'ROOT_DIR', realpath(dirname(__FILE__)) ); // absolute path of the directory	
 	define( 'DIR', ( ( dirname( $_SERVER[ 'PHP_SELF' ] ) == "/" ) ? "" : dirname( $_SERVER['PHP_SELF']) ) ); // directory name
@@ -26,5 +25,4 @@
 	if( $DB )
 	$DB->close();
 
-	var_dump($_SESSION);
 	

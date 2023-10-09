@@ -17,7 +17,7 @@
             $user = $check->fetch_object();          
             if( $user->status == 0 ) {
                 set_message( "Your account is not yet activated." . $DB->error, "danger" );
-                header("Location: " . SITE_URL . "/?page=default");
+                redirect(LOGIN_REDIRECT);       
             }
             if (password_verify($password, $user->password)) {
                 $_SESSION[ AUTH_ID ] = $user->userID;
@@ -25,7 +25,7 @@
                 $_SESSION[ AUTH_TYPE ] = $user->usertype;
                 $_SESSION[ AUTH_TOKEN ] = $user->token;
                 set_message( "Welcome back {$user->fname}!", 'success' );
-                header("Location: " . SITE_URL . "/?page=owner-profile");
+                redirect();
             } else {        
                 set_message( "Invalid login1, please try again." . $DB->error, "danger" );
             }

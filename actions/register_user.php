@@ -2,9 +2,7 @@
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
 if (isset($_POST['data'])) {
-    // Hash the password before storing it in the database.
-    $_POST['data']['password'] = password_hash($_POST['data']['password'], PASSWORD_BCRYPT);
-
+    $_POST['data']['password'] = md5($_POST['data']['password']);
     // Check if usertype is set to "client" or "business owner."
     $allowedUsertypes = ['client', 'business owner'];
     if (in_array($_POST['data']['usertype'], $allowedUsertypes)) {
