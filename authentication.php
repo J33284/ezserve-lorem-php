@@ -10,8 +10,11 @@ define('AUTH_TOKEN', 'token');
 // Default page to redirect after login
 define('LOGIN_REDIRECT', 'owner-profile');
 
-$restricted_pages['Client']['access'] = ['default', 'owner-profile'];
-$restricted_pages['Client']['default_page'] = 'owner-profile';
+$restricted_pages['client']['access'] = ['default', 'owner-profile'];
+$restricted_pages['client']['default_page'] = 'owner-profile';
+
+$restricted_pages['business owner']['access'] = ['default', 'owner-business'];
+$restricted_pages['business owner']['default_page'] = 'owner-profile';
 
 $restricted_pages['default']['access'] = ['default', 'login', 'register'];
 $restricted_pages['default']['default_page'] = 'default';
@@ -20,9 +23,9 @@ has_access(true);
 
 ?>
 
-<?php	
 
-/*
+
+<!--
 |--------------------------------------------------------------------------
 | Authentication
 |--------------------------------------------------------------------------
@@ -31,9 +34,9 @@ has_access(true);
 | page authentication giving you access in all "pages" which
 | depends in every "Usertype". Now create more authentication pages!
 |
-*/
 
-/*
+
+
 |--------------------------------------------------------------------------
 | TO USE:
 |--------------------------------------------------------------------------
@@ -43,9 +46,9 @@ has_access(true);
 | When added, these pages will not be accessible unless the SESSION AUTH_ID
 | is assigned with a value.
 |
-*/
 
-/*
+
+
 |--------------------------------------------------------------------------
 | NOTE:
 |--------------------------------------------------------------------------
@@ -66,7 +69,7 @@ define( 'AUTH_TOKEN', 'token' );
 // default page to login, name of the file found in /pages
 define('LOGIN_REDIRECT', 'owner-profile');
 
-/* $restricted_pages[ 'admin' ]['access'] = [ "admin-page" ];
+$restricted_pages[ 'admin' ]['access'] = [ "admin-page" ];
 $restricted_pages[ 'admin' ][ 'default_page' ] = "default";
 
 
@@ -83,4 +86,4 @@ $restricted_pages[ 'default' ]['access'] = [ "default", "login" , "register"];
 $restricted_pages[ 'default' ][ 'default_page' ] = "default"; 
 
 has_access( true );
-*/
+-->
