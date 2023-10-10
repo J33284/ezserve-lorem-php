@@ -1,3 +1,25 @@
+<?php
+
+if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
+
+define('AUTH_ID', 'userID');
+define('AUTH_NAME', 'username');
+define('AUTH_TYPE', 'usertype');
+define('AUTH_TOKEN', 'token');
+
+// Default page to redirect after login
+define('LOGIN_REDIRECT', 'owner-profile');
+
+$restricted_pages['Client']['access'] = ['default', 'owner-profile'];
+$restricted_pages['Client']['default_page'] = 'owner-profile';
+
+$restricted_pages['default']['access'] = ['default', 'login', 'register'];
+$restricted_pages['default']['default_page'] = 'default';
+
+has_access(true);
+
+?>
+
 <?php	
 
 /*
@@ -30,7 +52,7 @@
 |
 | ONLY SET THESE IF YOU WANT TO ALLOW AUTHENTICATION. IF NOT THEN JUST COMMENT THEM OUT
 |
-*/
+
 
 
 if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' );
@@ -42,7 +64,7 @@ define( 'AUTH_TYPE', 'usertype' );
 define( 'AUTH_TOKEN', 'token' );
 
 // default page to login, name of the file found in /pages
-define( 'LOGIN_REDIRECT', 'default' ); 
+define('LOGIN_REDIRECT', 'owner-profile');
 
 /* $restricted_pages[ 'admin' ]['access'] = [ "admin-page" ];
 $restricted_pages[ 'admin' ][ 'default_page' ] = "default";
@@ -54,11 +76,11 @@ $restricted_pages[ 'user' ][ 'default_page' ] = "owner_profile";
 $restricted_pages[ 'owner' ]['access'] = [ "default", "owner_profile" ];
 $restricted_pages[ 'owner' ][ 'default_page' ] = "owner_profile";
 
-$restricted_pages[ 'client' ]['access'] = [ "default", "owner_profile" ];
-$restricted_pages[ 'client' ][ 'default_page' ] = "owner_profile";*/
+$restricted_pages[ 'Client' ]['access'] = [ "default", "owner_profile" ];
+$restricted_pages[ 'Client' ][ 'default_page' ] = "owner_profile";
 
-$restricted_pages[ 'default' ]['access'] = [ "default", "login", "register" ];
+$restricted_pages[ 'default' ]['access'] = [ "default", "login" , "register"];
 $restricted_pages[ 'default' ][ 'default_page' ] = "default"; 
 
-
 has_access( true );
+*/

@@ -10,10 +10,20 @@ function has_message() {
 	return isset( $_SESSION[ 'MESSAGE' ] ) && !empty( $_SESSION[ 'MESSAGE' ] );
 }
 
-function set_message( $msg, $type = "success" ) {
+/*function set_message( $msg, $type = "success" ) {
 	$_SESSION[ 'MESSAGE' ] = $msg; 
 	$_SESSION[ 'MESSAGE_TYPE' ] = $type; 
+}*/
+
+function set_message($msg, $type = "success", $db_error = null) {
+    if ($db_error !== null) {
+        $msg .= " Database error: " . $db_error;
+    }
+
+    $_SESSION['MESSAGE'] = $msg;
+    $_SESSION['MESSAGE_TYPE'] = $type;
 }
+
 
 function show_message() {		
 	if( isset( $_SESSION[ 'MESSAGE' ] ) && !empty( $_SESSION[ 'MESSAGE' ] ) ) {
@@ -22,6 +32,30 @@ function show_message() {
 		unset( $_SESSION[ 'MESSAGE_TYPE' ] );
 	}
 }
+
+/*
+function redirect($page = "", $q = "") {
+    global $restricted_pages;
+
+    // Get the user's usertype
+    $user_usertype = isset($_SESSION[AUTH_TYPE]) ? $_SESSION[AUTH_TYPE] : 'default';
+
+    // Check if the user's usertype has a defined default page
+    if (isset($restricted_pages[$user_usertype]['default_page'])) {
+        $default_page = $restricted_pages[$user_usertype]['default_page'];
+
+        // If $page is empty, redirect to the default page for the user's usertype
+        $redirect_url = empty($page) ? $default_page : $page;
+    } else {
+        // If the usertype doesn't have a default page defined, redirect to the specified page
+        $redirect_url = empty($page) ? LOGIN_REDIRECT : $page;
+    }
+    
+
+    $redirect_url = SITE_URL . "/" . $redirect_url . (!empty($q) ? '?' . $q : '');
+    header("Location: $redirect_url");
+    exit();
+}*/
 
 function redirect( $page = "", $q = "" ) {
 	header( "Location: " . SITE_URL . "/$page" . ( !empty( $q ) ? '&' . $q : '' ) );
