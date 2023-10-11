@@ -12,12 +12,9 @@
     
     <main>
     <?= element( 'header' ) ?>
-<?= element( 'login-form' ) ?>2
-
-
       <div class=" container pack-head sticky-top ">
         <div class="row">
-          <a href="./details.html" class=" col-xl-1 btn-back btn-lg float-end ">
+          <a href="?page=client_profile" class=" col-xl-1 btn-back btn-lg float-end ">
             <i class="bi bi-arrow-left"></i></a>
           <h1 class="col-xl-7 d-flex justify-content-start">My Packages</h1>
           <div class="col-xl-3">
@@ -34,7 +31,7 @@
         <div class="d-flex">
           <!-- sample 1-->
           <div class="card m-3 shadow p-3 mb-5 bg-white rounded border-0" >
-          <img class="card-img-top" src="../icons/jh.jpg" alt="Card image cap">
+          <img class="card-img-top" src="assets/images/jh.jpg" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">Business Name</h5>
             <p class="card-text">Some Info</p>
@@ -43,7 +40,7 @@
         </div>
         <!-- sample 2-->
         <div class="card m-3 shadow p-3 mb-5 bg-white rounded border-0" >
-          <img class="card-img-top" src="../icons/jh.jpg" alt="Card image cap">
+          <img class="card-img-top" src="assets/images/jh.jpg" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">Business Name</h5>
             <p class="card-text">Some Info</p>
@@ -52,7 +49,7 @@
         </div>
         <!--sample 3-->
         <div class="card m-3 shadow p-3 mb-5 bg-white rounded border-0" >
-          <img class="card-img-top" src="../icons/jh.jpg" alt="Card image cap">
+          <img class="card-img-top" src="assets/images/jh.jpg" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">Business Name</h5>
             <p class="card-text">Some Info</p>
@@ -61,7 +58,7 @@
         </div>
         <!--sample 4-->
         <div class="card m-3 shadow p-3 mb-5 bg-white rounded border-0" >
-          <img class="card-img-top" src="../icons/jh.jpg" alt="Card image cap">
+          <img class="card-img-top" src="assets/images/jh.jpg" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">Business Name</h5>
             <p class="card-text">Some Info</p>
