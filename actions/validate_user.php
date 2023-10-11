@@ -25,13 +25,7 @@
                 $_SESSION[ AUTH_TYPE ] = $user->usertype;
                 $_SESSION[ AUTH_TOKEN ] = $user->token;
                 set_message( "Welcome back {$user->fname}!", 'success' );
-                if ($user->usertype === 'client') {
-                    redirect('client_profile'); 
-                } elseif ($user->usertype === 'business_owner') {
-                    redirect('owner_profile'); 
-                } else {
-                    redirect();
-                }
+                redirect();
             } else {        
                 set_message( "Invalid login, please try again." . $DB->error, "danger" );
             }

@@ -1,5 +1,3 @@
-
-
 <style>
       html{
         scroll-padding-top: 250px;

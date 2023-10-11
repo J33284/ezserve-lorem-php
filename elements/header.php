@@ -28,18 +28,36 @@
             <span><b>WEBWORKS</b></span>
         </div>
         <nav class="d-flex justify-content-between align-items-center">
-            <ul class="d-flex align-items-center justify-content-between">
-                <li><a href="<?php echo SITE_URL ?>/?page=default">Home</a></li>
-                <li><a href="<?php echo SITE_URL ?>/?page=service">Service</a></li>
-                <li><a href="<?php echo SITE_URL ?>/?page=about">About</a></li>
-                <li><a href="<?php echo SITE_URL ?>/?page=login"><i class="bi-person-fill"></i></a></li>
-              
-        </nav>
+        <ul class="d-flex align-items-center justify-content-between">
+            <li><a href="<?php echo SITE_URL ?>/?page=default">Home</a></li>
+            <li><a href="<?php echo SITE_URL ?>/?page=service">Service</a></li>
+            <li><a href="<?php echo SITE_URL ?>/?page=about">About</a></li>
+        
+            <?php if (isset($_SESSION[AUTH_ID])) { ?>
+            <li class="dropdown">
+                <a class="" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi-person-fill"></i>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <?php if ($_SESSION[AUTH_TYPE] === 'client') { ?>
+                        <li><a class="dropdown-item" href="<?php echo SITE_URL ?>/?page=client_profile">Profile</a></li>
+                    <?php } elseif ($_SESSION[AUTH_TYPE] === 'business owner') { ?>
+                        <li><a class="dropdown-item" href="<?php echo SITE_URL ?>/?page=owner_profile">Profile</a></li>
+                    <?php } ?>
+                    <li><a class="dropdown-item" href="<?php echo SITE_URL ?>/?action=logout">Logout</a></li>
+                </ul>
+            </li>
+        <?php } else { ?>
+            <li><a href="<?php echo SITE_URL ?>/?page=login"><i class="bi-person-fill"></i></a></li>
+        <?php } ?>
+    </ul>
+</nav>
+
     </div>
    
 </header>
 <div class="row">      
-          <div class="col left-content mt-5">
+          <div class="message col left-content">
           <?= show_message(); ?>
 </div>
 </div>
