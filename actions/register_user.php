@@ -10,7 +10,6 @@ if (isset($_POST['data'])) {
             set_message("Thank you for your registration.", "success");
             // Redirect to the login page after successful registration.
             header("Location: " . SITE_URL . "/?page=login");
-            
             exit(); // Make sure to exit after redirection.
         } else {
             set_message("Failed to register.", "danger");

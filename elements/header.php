@@ -21,7 +21,7 @@
  
 
 
-    <header class="header container-fluid align-items-center justify-content-center">
+    <header class="header container-fluid align-items-center justify-content-center fixed-top">
     <div class="container header-nav d-flex justify-content-between align-items-center">
         <div>
             <img class="logo" src="assets/images/webworks-logo(white).png">
@@ -39,7 +39,7 @@
    
 </header>
 <div class="row">      
-          <div class="col left-content">
+          <div class="col left-content mt-5">
           <?= show_message(); ?>
 </div>
 </div>

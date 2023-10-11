@@ -17,7 +17,7 @@
             $user = $check->fetch_object();          
             if( $user->status == 0 ) {
                 set_message( "Your account is not yet activated." . $DB->error, "danger" );
-                redirect(LOGIN_REDIRECT );
+                redirect();
             }
             if ($password == $user->password) {
                 $_SESSION[ AUTH_ID ] = $user->userID;
@@ -25,7 +25,13 @@
                 $_SESSION[ AUTH_TYPE ] = $user->usertype;
                 $_SESSION[ AUTH_TOKEN ] = $user->token;
                 set_message( "Welcome back {$user->fname}!", 'success' );
-                redirect();
+                if ($user->usertype === 'client') {
+                    redirect('client_profile'); 
+                } elseif ($user->usertype === 'business_owner') {
+                    redirect('owner_profile'); 
+                } else {
+                    redirect();
+                }
             } else {        
                 set_message( "Invalid login, please try again." . $DB->error, "danger" );
             }

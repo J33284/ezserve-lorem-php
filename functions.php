@@ -6,6 +6,10 @@ function element( $el ) {
 	include ROOT_DIR . "/elements/$el.php";
 }
 
+/*function element( $el ) {	
+	include ROOT_DIR . "/elements/$el.php";
+}*/
+
 function has_message() {
 	return isset( $_SESSION[ 'MESSAGE' ] ) && !empty( $_SESSION[ 'MESSAGE' ] );
 }
@@ -86,7 +90,7 @@ function has_access($redirect = false) {
     if (!is_array($restricted_pages)) {
         // Handle the case where $restricted_pages is not properly defined
         // You might want to set a default behavior or throw an error
-        return false;
+        return;
     }
 
     if (isset($_SESSION[AUTH_ID])) {
