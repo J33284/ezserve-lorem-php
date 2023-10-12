@@ -10,7 +10,7 @@
                     <div class="message row m-0">      
                             <div class="col left-content">
                             <?= show_message(); ?>
-                    </div>
+                            </div>
                     </div>
                     <form method="post">
                     <?= csrf_token()?>
