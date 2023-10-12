@@ -56,8 +56,4 @@
     </div>
    
 </header>
-<div class="row">      
-          <div class="message col left-content">
-          <?= show_message(); ?>
-</div>
-</div>
+
