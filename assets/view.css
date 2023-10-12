@@ -18,11 +18,11 @@ h1{
   background-color: #ffa630;
   border: none;
 }
-.message{
-  margin: 100px;
-}
 h2{
   color: #fff;
+}
+.message{
+  height: 30px;
 }
 /* for header part only */
 header{
