@@ -4,7 +4,7 @@
 
 <?= element( 'admin-side-nav' ) ?>
 
-<?= element( 'profile_form' ) ?>    
+<?= element( 'profile-form' ) ?>    
 
 <?= element( 'footer' ) ?>
         
