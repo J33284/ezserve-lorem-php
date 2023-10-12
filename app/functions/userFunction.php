@@ -67,33 +67,19 @@ function createUser($fname, $mname, $lname, $username, $password, $emp_gender, $
 }
 
 // Function to update
-function updateUser($fname, $lname, $email,$birthday, $number, $username, $password, $usertype)
-{
+function updateUser($fname, $lname, $email, $birthday, $number, $username, $password, $usertype, $userID) {
     global $DB;
 
-    // Check if the username already exists
-    $sql_check = "SELECT COUNT(*) AS count FROM users WHERE username = ? AND token <> ?";
-    $stmt_check = $DB->prepare($sql_check);
-    $stmt_check->bind_param("ss", $username, $token);
-    $stmt_check->execute();
-    $result_check = $stmt_check->get_result();
-    $row_count = $result_check->fetch_assoc()['count'];
-
-    if ($row_count > 0) {
-        set_message("<i class='fa fa-times'></i> Username Already Exists", 'danger');
-        return false;
-    }
-
-    // Update
-    $sql_update = "UPDATE users SET fname=?, lname=?, email=?, birthday=?, number=?, username=?, password=?, usertype=? WHERE token=?";
+    // Update user details based on user ID
+    $sql_update = "UPDATE users SET fname=?, lname=?, email=?, birthday=?, number=?, username=?,  WHERE userID=?";
     $stmt_update = $DB->prepare($sql_update);
-    $stmt_update->bind_param("ssssssss", $fname, $lname, $email,$birthday, $number, $username, $usertype, $token);
+    $stmt_update->bind_param("ssssssss", $fname, $lname, $email, $birthday, $number, $username);
 
     if ($stmt_update->execute()) {
-        set_message("<i class='fa fa-check'></i> User Updated Successfully", 'success');
+        set_message("User details updated successfully.", 'success');
         return true;
     } else {
-        set_message("<i class='fa fa-times'></i> Failed to Update User" . $DB->error, 'danger');
+        set_message("Failed to update user details: " . $DB->error, 'danger');
         return false;
     }
 }

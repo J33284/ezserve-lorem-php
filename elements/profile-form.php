@@ -6,23 +6,24 @@
     </a>
   </div>
 
-  <form id="profileForm" method="POST" action="">
-    <div class="form"> <!-- naka only read format dapat, unless gn edit-->
-      <div class="row g-3 p-4">
-        <input type="text" class="form-control" name="fname" placeholder="First Name" required readonly>
-        <input type="text" class="form-control" name="lname" placeholder="Last Name" required readonly>
-        <input type="date" class="date form-control" name="birthday" placeholder="Birthday" required readonly>
-        <input type="email" class="form-control" name="email" placeholder="Email Address" required readonly>
-        <input type="text" class="form-control" name="mobile" placeholder="Mobile Number" required readonly>
-        <input type="text" class="form-control" name="username" placeholder="Username" required readonly>
-        <input type="password" class="form-control" name="password" placeholder="Password" required readonly>
-      </div>
+<form id="profileForm" method="POST" action="usersAction.php">
+  <div class="form">
+    <div class="row g-3 p-4">
+      <input type="text" class="form-control" name="fname" placeholder="First Name" required readonly>
+      <input type="text" class="form-control" name="lname" placeholder="Last Name" required readonly>
+      <input type="date" class="date form-control" name="birthday" placeholder="Birthday" required readonly>
+      <input type="email" class="form-control" name="email" placeholder="Email Address" required readonly>
+      <input type="text" class="form-control" name="mobile" placeholder="Mobile Number" required readonly>
+      <input type="text" class="form-control" name="username" placeholder="Username" required readonly>
+      <input type="password" class="form-control" name="password" placeholder="Password" required readonly>
     </div>
-    <div class="d-flex justify-content-end p-3">
-      <button type="submit" name="update" id="updateButton" class="btn-update btn btn-primary me-2" style="display: none">Update</button>
-      <button type="button" name="cancel" id="cancelButton" class="btn-cancel btn btn-secondary" style="display: none" onclick="cancelEdit()">Cancel</button>
-    </div>
-  </form>
+  </div>
+  <div class="d-flex justify-content-end p-3">
+    <input type="hidden" name="action" value="update_user">
+    <button type="submit" name="update" id="updateButton" class="btn-update btn btn-primary me-2" style="display: none">Update</button>
+    <button type="button" name="cancel" id="cancelButton" class="btn-cancel btn btn-secondary" style="display: none" onclick="cancelEdit()">Cancel</button>
+  </div>
+</form>
 
   <script>
     function toggleEdit() {
@@ -66,6 +67,7 @@
       pencilIcon.classList.remove('bi-pencil');
       pencilIcon.classList.add('bi-pencil-fill');
     }
+    
   </script>
 </body>
 </html>
