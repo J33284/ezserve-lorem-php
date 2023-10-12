@@ -67,7 +67,7 @@ function createUser($fname, $mname, $lname, $username, $password, $emp_gender, $
 }
 
 // Function to update
-function updateUser($fname, $mname, $lname, $username, $emp_gender, $usertype, $token)
+function updateUser($fname, $lname, $email,$birthday, $number, $username, $password, $usertype)
 {
     global $DB;
 
@@ -85,9 +85,9 @@ function updateUser($fname, $mname, $lname, $username, $emp_gender, $usertype, $
     }
 
     // Update
-    $sql_update = "UPDATE users SET fname=?, mname=?, lname=?, username=?, password=?, emp_gender=?, usertype=? WHERE token=?";
+    $sql_update = "UPDATE users SET fname=?, lname=?, email=?, birthday=?, number=?, username=?, password=?, usertype=? WHERE token=?";
     $stmt_update = $DB->prepare($sql_update);
-    $stmt_update->bind_param("ssssssss", $fname, $mname, $lname, $username, $password, $emp_gender, $usertype, $token);
+    $stmt_update->bind_param("ssssssss", $fname, $lname, $email,$birthday, $number, $username, $usertype, $token);
 
     if ($stmt_update->execute()) {
         set_message("<i class='fa fa-check'></i> User Updated Successfully", 'success');

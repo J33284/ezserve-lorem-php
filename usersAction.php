@@ -22,30 +22,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['btn-submit'])) {
         $fname = $_POST['fname'];
         $lname = $_POST['lname'];
+        $birthday = $_POST['birthday'];
         $email = $_POST['email'];
         $number = $_POST['number'];
         $username = $_POST['username'];
         $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
         $usertype = $_POST['usertype'];
 
-        createUser($fname, $lname, $email, $number, $username, $password, $usertype);
+        createUser($fname, $lname, $email,$birthday, $number, $username, $password, $usertype);
         // Redirect or perform additional actions as needed
     }
 
     if (isset($_POST['btn-update'])) {
         $fname = $_POST['fname'];
         $lname = $_POST['lname'];
-        $email = $_POST['email'];
+        $birthday = $_POST['birthday'];
         $email = $_POST['email'];
         $number = $_POST['number'];
         $username = $_POST['username'];
         $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
         $usertype = $_POST['usertype'];
-        $token = $_GET['token'];
 
-        updateUser($fname, $mname, $lname, $username, $password, $emp_gender, $usertype, $token);
+        updateUser($fname, $lname, $email,$birthday, $number, $username, $password, $usertype, $token);
         // Redirect or perform additional actions as needed
-    }
+    }    
 
     if (isset($_POST['btn-updatePassword'])) {
         $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
