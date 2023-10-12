@@ -7,7 +7,7 @@
                 <div class="card-body">
                     <h1>Login</h1>
                     <hr>
-                    <div class="message row">      
+                    <div class="message row m-0">      
                             <div class="col left-content">
                             <?= show_message(); ?>
                     </div>
