@@ -6,10 +6,6 @@ function element( $el ) {
 	include ROOT_DIR . "/elements/$el.php";
 }
 
-/*function element( $el ) {	
-	include ROOT_DIR . "/elements/$el.php";
-}*/
-
 function has_message() {
 	return isset( $_SESSION[ 'MESSAGE' ] ) && !empty( $_SESSION[ 'MESSAGE' ] );
 }
