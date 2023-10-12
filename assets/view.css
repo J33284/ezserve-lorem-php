@@ -274,12 +274,15 @@ a{
 }
 /*profile pages main content*/
 .profile, .purchase, .voucher,
-.own-bus, .own_vouch, .admin-reg, .owner-order{
+.own-bus, .own_vouch, .admin-reg, .admin-bus-list, .owner-order-list{
   margin: 120px 10px 50px 280px;
   width: 75vw;
   scroll-margin-top:100px;
   height: 100vh;
 
+}
+.page-title{
+  color: white;
 }
 /*
 profile page*/
@@ -380,9 +383,9 @@ h1{
 
 /*business registration page*/
 .bus-reg{
-  width: 70vw;
+  width: 80vw;
   padding: 20vh;
-  margin: 0px 15vw;
+  margin: 0px 10vw;
   
 }
 @media (max-width:1250px) {

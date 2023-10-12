@@ -5,7 +5,15 @@
 <?= element( 'admin-side-nav' ) ?>
 
 <div id= "admin-bus-list" class="admin-bus-list">
-        <table class="table table-hover table-responsive">
+<div id= "admin-bus-list" class="admin-bus-list">
+          <div id="searchbar" class="d-flex my-3 float-end">
+            <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+            <span class="search-btn input-group-text border-0">
+              <i class="bi bi-search"></i>
+            </span>
+          </div>
+                
+<table class="table table-hover table-responsive">
           <thead>
             <tr>
               <th scope="col">#</th>

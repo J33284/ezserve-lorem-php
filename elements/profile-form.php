@@ -73,10 +73,6 @@
 </html>
 
 
-
-
-
-
 <!--<div id="profile" class="profile">
   <div class="d-flex justify-content-between p-3">
     <h1>My Profile</h1>
