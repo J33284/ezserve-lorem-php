@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="d-flex justify-content-end p-3">
-      <button type="submit" name="update" class="btn-update btn-primary me-2">Update</button>
-      <button type="submit" name="cancel" class="btn-cancel btn-secondary">Cancel</button>
+      <button type="submit" name="update" class="btn-update btn btn-primary me-2">Update</button>
+      <button type="submit" name="cancel" class="btn-cancel btn btn-secondary">Cancel</button>
     </div>
   </form>

@@ -48,7 +48,7 @@
                   <input type="password" class="form-control" id="exampleInputPassword1" name="data[password]">
               </div>
         
-              <button type="submit" class="btn-submit btn-primary">Register</button>
+              <button type="submit" class="btn btn-primary">Register</button>
                        
             </form>
           </div>
