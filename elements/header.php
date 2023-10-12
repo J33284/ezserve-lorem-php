@@ -54,11 +54,11 @@
 </nav>
 
     </div>
-   
-</header>
-<div class="message row">      
+    <div class="message row m-0">      
       <div class="col left-content">
      <?= show_message(); ?>
      </div>
 </div>
+</header>
+
 
