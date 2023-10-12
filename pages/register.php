@@ -2,7 +2,7 @@
 
 <?= element( 'header' ) ?>
 
-<?= element( 'register_form' ) ?>    
+<?= element( 'register-form' ) ?>    
 
 <?= element( 'footer' ) ?>
         

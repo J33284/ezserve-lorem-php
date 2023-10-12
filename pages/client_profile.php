@@ -38,7 +38,7 @@
         <br>
 
         <div class="card flex-row border-0">
-          <img class="card-img col-xl-2" src="../icons/jh.jpg" alt="Card image cap">
+          <img class="card-img col-xl-2" src="assets/images/jh.jpg" alt="Card image cap">
           <div class="card-body col-xl-8">
             <h5 class="card-title">Business name</h5>
             <p class="card-text">Address and other info</p>
