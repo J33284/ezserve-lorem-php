@@ -19,11 +19,19 @@
               </div>
                         
               <!-- DEFAULT FORM FIELD -->
-              
-              <input type="text" class="form-control mb-3" id="exampleInputEmail1" aria-describedby="emailHelp" name="data[fname]" placeholder="First Name">			
-              <input type="text" class="form-control mb-3" id="exampleInputEmail1" aria-describedby="emailHelp" name="data[lname]" placeholder="Last Name">			
-            
               <div class="mb-2">
+                  <label for="exampleInputEmail1" class="form-label">First Name</label>
+                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="data[fname]">			
+              </div>
+              <div class="mb-2">
+                  <label for="exampleInputEmail1" class="form-label">Last Name</label>
+                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="data[lname]">			
+              </div>
+              <div class="mb-2">
+                  <label for="exampleInputEmail1" class="form-label">Birthday</label>
+                  <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="data[birthday]">			
+              </div>
+              <div class="mb-2"> 
                   <label for="exampleInputEmail1" class="form-label">Email</label>
                   <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="data[email]">			
               </div>
