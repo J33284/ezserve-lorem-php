@@ -7,6 +7,11 @@
                 <div class="card-body">
                     <h1>Login</h1>
                     <hr>
+                    <div class="row">      
+                            <div class="message col left-content">
+                            <?= show_message(); ?>
+                    </div>
+                    </div>
                     <form method="post">
                     <?= csrf_token()?>
                     <input type="hidden" name="action" value="validate_user">
