@@ -48,7 +48,13 @@
                 </ul>
             </li>
         <?php } else { ?>
-            <li><a href="<?php echo SITE_URL ?>/?page=login"><i class="bi-person-fill"></i></a></li>
+            <a class="" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi-person-fill"></i>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="<?php echo SITE_URL ?>/?page=login">Login</a></li><br>
+                <li><a class="dropdown-item" href="<?php echo SITE_URL ?>/?page=register">Sign Up</a></li>
+                </ul>
         <?php } ?>
     </ul>
 </nav>

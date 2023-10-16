@@ -15,11 +15,12 @@ if (!defined('ACCESS')) {
     die('DIRECT ACCESS NOT ALLOWED');
 }
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     validate_csrf_token();
 
-    if (isset($_POST['btn-submit'])) {
+    if (isset($_POST['submit'])) {
         $fname = $_POST['fname'];
         $lname = $_POST['lname'];
         $birthday = $_POST['birthday'];
@@ -27,23 +28,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $number = $_POST['number'];
         $username = $_POST['username'];
         $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-        $usertype = $_POST['usertype'];
 
-        createUser($fname, $lname, $email,$birthday, $number, $username, $password, $usertype);
+
+        createUser($fname, $lname, $email,$birthday, $number, $username);
         // Redirect or perform additional actions as needed
     }
 
-    if (isset($_POST['btn-update'])) {
+    if (isset($_POST['update'])) {
         $fname = $_POST['fname'];
         $lname = $_POST['lname'];
         $birthday = $_POST['birthday'];
         $email = $_POST['email'];
         $number = $_POST['number'];
         $username = $_POST['username'];
-        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-        $usertype = $_POST['usertype'];
+ 
 
-        updateUser($fname, $lname, $email,$birthday, $number, $username, $password, $usertype, $token);
+        updateUser($fname, $lname, $birthday,$email, $number, $username, $password,$token);
         // Redirect or perform additional actions as needed
     }    
 
@@ -61,5 +61,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         deleteUser($token);
         // Redirect or perform additional actions as needed
     }
-}
+}*/
 ?>

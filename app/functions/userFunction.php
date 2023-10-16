@@ -11,11 +11,25 @@
 |
 */
 
-if (!defined('ACCESS')) {
-    die('DIRECT ACCESS NOT ALLOWED');
+
+
+// viewUser function to fetch a specific user based on user ID
+function viewUser($userID) {
+    global $DB;
+
+    $query = $DB->prepare("SELECT * FROM users WHERE userID = ?");
+    $query->bind_param("i", $userID);
+
+    $query->execute();
+    $result = $query->get_result();
+
+    $user = $result->fetch_object();
+
+    return $user;
 }
 
-// Function to View 
+
+/* Function to View 
 function viewUser() {
     global $DB;
 
@@ -119,5 +133,5 @@ function deleteUser($token)
         set_message("<i class='fa fa-times'></i> Failed to Delete User" . $DB->error, 'danger');
         return false;
     }
-}
+}*/
 
