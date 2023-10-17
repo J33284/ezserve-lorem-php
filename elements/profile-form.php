@@ -8,9 +8,10 @@ $email = $userData->email;
 $number = $userData->number;
 $username = $userData->username;
 $password = $userData->password;
+
 ?>
 
-<script src="main.js"></script>
+<script src="assets/js/script.js"></script>
 <div id="profile" class="profile">
   <div class="d-flex justify-content-between p-3">
     <h1>My Profile</h1>
@@ -19,7 +20,9 @@ $password = $userData->password;
     </a>
   </div>
 
-<form id="profileForm" method="POST" action="usersAction.php">
+  <form id="profileForm" method="POST">
+  <?= csrf_token()?>
+  <input type="hidden" name="action" value="usersAction">
   <div class="form">
     <div class="row g-3 p-4">
       <input type="text" class="form-control" name="fname" placeholder="First Name" required readonly value="<?php echo $fname; ?>">
@@ -28,10 +31,6 @@ $password = $userData->password;
       <input type="email" class="form-control" name="email" placeholder="Email Address" required readonly value="<?php echo $email; ?>">
       <input type="text" class="form-control" name="number" placeholder="Mobile Number" required readonly value="<?php echo $number; ?>">
       <input type="text" class="form-control" name="username" placeholder="Username" required readonly value="<?php echo $username; ?>">
-      </div>
-  </div>
-  <div class="d-flex justify-content-end p-3">
-    <input type="hidden" name="action" value="updateUser">
     <button type="submit" name="update" id="updateButton" class="btn-update btn btn-primary me-2" style="display: none">Update</button>
     <button type="button" name="cancel" id="cancelButton" class="btn-cancel btn btn-secondary" style="display: none" onclick="cancelEdit()">Cancel</button>
   </div>
