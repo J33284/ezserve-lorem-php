@@ -30,7 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['update'])) {
 
     if (update($userID, $updatedData)) {
         // Update successful
-        echo "Record updated successfully";
+        set_message( "Changes Saved Successfully" );
+        
     } else {
         // Update failed
         echo "Error updating record";

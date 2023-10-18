@@ -31,8 +31,10 @@ $password = $userData->password;
       <input type="email" class="form-control" name="email" placeholder="Email Address" required readonly value="<?php echo $email; ?>">
       <input type="text" class="form-control" name="number" placeholder="Mobile Number" required readonly value="<?php echo $number; ?>">
       <input type="text" class="form-control" name="username" placeholder="Username" required readonly value="<?php echo $username; ?>">
-    <button type="submit" name="update" id="updateButton" class="btn-update btn btn-primary me-2" style="display: none">Update</button>
-    <button type="button" name="cancel" id="cancelButton" class="btn-cancel btn btn-secondary" style="display: none" onclick="cancelEdit()">Cancel</button>
+      <div class="d-flex justify-content-end p-3" id="buttons">
+      <button type="submit" name="update" id="updateButton" class="btn-update btn btn-primary me-2" style="display: none">Update</button>
+      <button type="button" name="cancel" id="cancelButton" class="btn-cancel btn btn-secondary" style="display: none" onclick="cancelEdit()">Cancel</button>
+    </div>
   </div>
 </form>
 </body>
