@@ -28,9 +28,27 @@ function viewUser($userID) {
     $user = $result->fetch_object();
 
     return $user;
+
 }
+/*
+function viewBusiness($userID) {
+    global $DB;
+   
+    $query = $DB->prepare("SELECT users.*, business.* FROM users 
+                          JOIN business ON users.BusinessCode = business.BusinessCode 
+                          WHERE users.userID = ?");
+    ");
+    $query->bind_param("i", $userID);
 
+    $query->execute();
+    $result = $query->get_result();
 
+    // Fetch the result as an associative array
+    $user = $result->fetch_assoc();
+
+    return $user;
+}
+*/
 // Function to add 
 /*function createUser($fname, $mname, $lname, $username, $password, $emp_gender, $usertype)
 {

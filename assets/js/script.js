@@ -92,13 +92,10 @@ function toggleEditBusiness() {
 
 function saveChanges() {
     // Logic to save changes goes here
-    
     // For demo purposes, we'll just alert a message
-    alert('Changes saved!');
-    
     // Toggle back to read-only mode and hide save and cancel buttons
     toggleEditBusiness();
-    toggleEditBranch();
+    toggleEdit2();
 }
 
 function cancelEditBusiness() {
@@ -134,9 +131,7 @@ function toggleEdit2() {
 function saveChanges2() {
     // Logic to save changes goes here
     
-    // For demo purposes, we'll just alert a message
-    alert('Changes saved for Division 2!');
-    
+    // For demo purposes, we'll just alert a message 
     // Toggle back to read-only mode and hide save and cancel buttons
     toggleEdit2();
 }

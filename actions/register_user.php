@@ -4,7 +4,7 @@ if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 if (isset($_POST['data'])) {
     $_POST['data']['password'] = md5($_POST['data']['password']);
     // Check if usertype is set to "client" or "business owner."
-    $allowedUsertypes = ['client', 'business owner'];
+    $allowedBusinesstypes = ['client', 'business owner'];
     if (in_array($_POST['data']['usertype'], $allowedUsertypes)) {
         if (add_record("users", $_POST['data'])) {
             set_message("Thank you for your registration.", "success");

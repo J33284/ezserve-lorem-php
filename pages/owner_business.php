@@ -1,4 +1,13 @@
-<?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); ?>
+<?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' );
+
+/*
+$userData = viewBusiness($_SESSION['BusinessCode']);
+
+$BusName = $userData->BusName;
+$About = $userData->About;
+$Contacts = $userData->Contacts;
+*/
+?>
 
 <?= element( 'header' ) ?>
 
@@ -25,17 +34,21 @@
                 <i class="bi bi-pencil-fill"></i>
                 <span>Edit</span>
              </a>
+             
           </div>
           <!-- 2 columns for details and pic-->
+          <form method="post">
+          <input type="hidden" name="action" value="usersAction">
           <div class="column d-flex row justify-content-between">
             <div class="col-md-7 flex-column">
               <h6>About Us</h6>
-              <input type="text" class="bus-name-field form-control" id="fname" placeholder="Business Name" readonly>
+              <input type="text" class="bus-Name-field form-control" name="data[busName]" id="busName" placeholder="Business Name" readonly>
               <h6>About Us</h6>
-              <input type="text" class="about-field form-control" id="fname" placeholder="Tell something about your business" readonly>
+              <input type="text" class="about-field form-control" name="data[about]" id="about" placeholder="Tell something about your business" readonly>
               <h6>Contact Us</h6>
-              <input type="text" class="contact-field form-control" id="fname" placeholder="(e.g. Links, Contact Numbers, Websites)"  readonly>
+              <input type="text" class="contact-field form-control" name="data[contacts]" id="Contacts" placeholder="(e.g. Links, Contact Numbers, Websites)"  readonly>
             </div>
+            
             <!--image preview-->
             <div class="col-md-5">
               <div>
@@ -57,13 +70,11 @@
         </a>
        </div>
        <div class="mt-4 p-4">
-            <button class="btn btn-primary" id="saveButton" style="display: none;" onclick="saveChanges()">Save</button>
+            <button type ="submit" button class="btn btn-primary" id="saveButton" style="display: none;" onclick="saveChanges()">Save</button>
             <button class="btn btn-secondary" id="cancelButton" style="display: none;" onclick="cancelEditBusiness()">Cancel</button>
         </div>
+        </form>
 </div>
-
-
-
 
 
 

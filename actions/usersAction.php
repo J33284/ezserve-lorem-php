@@ -1,5 +1,5 @@
 <?php
-// Function to update user record
+// Function to update profile 
 function update($userID, $updatedData) {
     global $DB;
 
@@ -38,5 +38,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['update'])) {
     }
 }
 
-// Rest of your existing code for displaying the form
-?>
+
+
+//register business
+if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
+
+if (isset($_POST['data'])) {
+   
+    $allowedBusinesstypes = ['1', '2', '3'];
+    if (in_array($_POST['data']['busType'], $allowedBusinesstypes)) {
+        if (add_record("business", $_POST['data'])) {
+            set_message("Thank you for your registration.", "Please wait for confirmation");
+            // Redirect to the login page after successful registration.
+            header("Location: " . SITE_URL . "/?page=login");
+            exit(); // Make sure to exit after redirection.
+        } else {
+            set_message("Failed to register.", "danger");
+        }
+    } else {
+        // Handle the case where an invalid usertype was selected.
+        set_message("Invalid usertype selected.", "danger");
+    }
+}
+
+redirect();
+
+
+
+
+
