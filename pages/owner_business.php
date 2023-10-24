@@ -1,13 +1,4 @@
-<?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' );
-
-/*
-$userData = viewBusiness($_SESSION['BusinessCode']);
-
-$BusName = $userData->BusName;
-$About = $userData->About;
-$Contacts = $userData->Contacts;
-*/
-?>
+<?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' );?>
 
 <?= element( 'header' ) ?>
 
@@ -20,14 +11,12 @@ $Contacts = $userData->Contacts;
 <div id= "own-bus"class="own-bus">
         <div class="d-flex justify-content-between p-3">
           <h1>My Business</h1>
-          <a href="#" id="registerButton" class="btn-edit btn-lg float-end mt-4 pb-1" onclick="toggleDivision1()">
             <i class="bi bi-plus-square"></i>
             <span>Register your business here!</span>
         </a>
         </div>
         <br>
-        <!--nka read only but ma edit if na click ang edit button-->
-        <div id="division1" style="display: none;" class="bus-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded">
+        <div id="division1"  class="bus-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded">
           <div class="d-flex justify-content-between p-4">
             <h2>Business Information</h2>
             <a href="#" id="editButton" class="btn-edit float-end mt-4" onclick="toggleEditBusiness()">

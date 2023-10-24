@@ -80,39 +80,35 @@ function get_page() {
 }
 
 function has_access($redirect = false) {
-    global $restricted_pages;
-    $page = get_page();
+  global $restricted_pages;
+  $page = get_page();
 
-    if (!is_array($restricted_pages)) {
-        // Handle the case where $restricted_pages is not properly defined
-        // You might want to set a default behavior or throw an error
-        return;
-    }
+  if (isset($_SESSION[AUTH_ID])) {
+      if (isset($_REQUEST['action'])) {
+          return;
+      }
 
-    if (isset($_SESSION[AUTH_ID])) {
-        if (isset($_REQUEST['action'])) {
-            return;
-        }
+      $type = isset($_SESSION[AUTH_TYPE]) && !empty($_SESSION[AUTH_TYPE]) ? $_SESSION[AUTH_TYPE] : 'default';
 
-        $type = isset($_SESSION[AUTH_TYPE]) && !empty($_SESSION[AUTH_TYPE]) ? $_SESSION[AUTH_TYPE] : 'default';
+      if (array_search($page, $restricted_pages[$type]['access']) === false && ($page != LOGIN_REDIRECT && $restricted_pages[$type]['default_page'] != $page)) {
 
-        if (isset($restricted_pages[$type]) && array_search($page, $restricted_pages[$type]['access']) === false
-            && ($page != LOGIN_REDIRECT && $restricted_pages[$type]['default_page'] != $page)) {
+          if ($redirect) {
+              set_message("You have no access to page <span class='fw-bold'>$page</span>", "warning");
+              redirect($restricted_pages[$type]['default_page']);
+          } else {
+              return false;
+          }
+      }
 
-            if ($redirect) {
-                set_message("You have no access to page <span class='fw-bold'>$page</span>", "warning");
-                redirect($restricted_pages[$type]['default_page']);
-            } else {
-                return false;
-            }
-        }
-
-        return true;
-    } else {
-        if (isset($restricted_pages['default']) && array_search($page, $restricted_pages['default']['access']) === false) {
-            redirect(LOGIN_REDIRECT);
-        }
-    }
+      return true;
+      
+  } else {
+      if (isset($restricted_pages) && !isset($_SESSION[AUTH_ID])) {
+          if (array_search($page, $restricted_pages['default']['access']) === false) {
+              redirect(LOGIN_REDIRECT);
+          }
+      }
+  }
 }
 
 // End of Subfoldering inside the pages Changes
@@ -135,23 +131,34 @@ function all_records( $name ) {
 }
 
 function add_record( $name, $fields = [] ) {
-	global $DB;
-
-	if( ( isset( $name ) && isset( $fields ) ) && !empty( $name ) && !empty( $fields ) && is_array( $fields ) ) {
-		$cols = implode( " , ", array_keys( $fields ) );
-		$x = [];
-		foreach( array_values( $fields) as $a) {
-			$x[] = $DB->real_escape_string($a);
-		}
-		$vals = "'" . implode( "' , '", array_values( $x)) . "'";
-		$sql = "INSERT INTO $name ( $cols ) VALUES( $vals )";
-		//echo $sql; exit;
-		$DB->query( $sql );
-		return $DB->insert_id;
-	} else {
-		return false;
-	}
-}
+    global $DB;
+  
+    if( ( isset( $name ) && isset( $fields ) ) && !empty( $name ) && !empty( $fields ) && is_array( $fields ) ) {
+      // Check if the business code exists in the business table.
+      $business_code = $fields['businessCode'];
+      $sql = "SELECT COUNT(*) FROM business WHERE businessCode = '$business_code'";
+      $result = $DB->query( $sql );
+      $rows = $result->num_rows;
+      if( $rows > 0 ) {
+        // The business code exists, so we can insert the user record.
+        $cols = implode( " , ", array_keys( $fields ) );
+        $x = [];
+        foreach( array_values( $fields) as $a) {
+          $x[] = $DB->real_escape_string($a);
+        }
+        $vals = "'" . implode( "' , '", array_values( $x)) . "'";
+        $sql = "INSERT INTO $name ( $cols ) VALUES( $vals )";
+        $DB->query( $sql );
+        return $DB->insert_id;
+      } else {
+        // The business code does not exist, so we cannot insert the user record.
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+  
 
 // sample
 // update_record( "persons", [ 'key' => 'id', 'val' => $_POST[ 'id' ] ], $_POST[ 'data' ] )

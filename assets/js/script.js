@@ -57,14 +57,11 @@ function toggleDivision1() {
 function toggleDivision2() {
     var division1 = document.getElementById('division1');
     var division2 = document.getElementById('division2');
-    var registerButton = document.getElementById('registerButton');
     
     division1.style.display = 'block';
     division2.style.display = 'block';
-    registerButton.innerHTML = '<i class="bi bi-arrow-left"></i><span> Back</span>';
-    registerButton.setAttribute('onclick', 'toggleRegisterButton()');
 }
-
+/*
 function toggleRegisterButton() {
     var division1 = document.getElementById('division1');
     var registerButton = document.getElementById('registerButton');
@@ -73,7 +70,8 @@ function toggleRegisterButton() {
     division2.style.display = 'none';
     registerButton.innerHTML = '<i class="bi bi-plus-square"></i><span> Register your business here!</span>';
     registerButton.setAttribute('onclick', 'toggleDivision1()');
-}
+}*/
+
 function toggleEditBusiness() {
     var inputs = document.querySelectorAll('#division1 input');
     var editButton = document.getElementById('editButton');
