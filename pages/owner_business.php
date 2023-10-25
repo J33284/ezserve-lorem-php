@@ -11,8 +11,9 @@
 <div id= "own-bus"class="own-bus">
         <div class="d-flex justify-content-between p-3">
           <h1>My Business</h1>
-            <i class="bi bi-plus-square"></i>
-            <span>Register your business here!</span>
+          <a href="?page=bus-register">
+          <i class="bi bi-plus-square"></i>
+          <span>Register your business here!</span>
         </a>
         </div>
         <br>
@@ -67,7 +68,6 @@
 
 
 
-
         <div id="division2" style="display: none;" class="branch-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded">
         <div class="d-flex justify-content-between p-4">
             <h2>Branch Information</h2>
@@ -116,6 +116,121 @@
         </div> <!--end of branch info-->
 </div>
 
+<div id= "owner-edit-pack"class="owner-edit-pack mb-3 row d-flex">
+        <div class="col-5 card py-5 mx-4 px-4">
+          <h2>Pre-made Packages</h2>
+          <h6>This section lets you create pre-made packages for your customers. </h6>
+          <div class="accordion " id="accordionFlushExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="flush-headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                  Package No. 1  <!--change to input field-->
+                </button>
+              </h2>
+              <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                  <!-- inner accordion -->
+                  <table class="table table-hover table-responsive">
+                    <thead>
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>De barra Metal</th> <!--change to input field-->
+                        <td>metal na lungon</td><!--change to input field-->
+                        <td>1</td><!--change to input field-->
+                        <td>20,000</td><!--change to input field-->
+                      </tr>
+                      <tr>
+                        <th>Barong Tagalog</th>
+                        <td>medium size</td>
+                        <td>1</td>
+                        <td>800</td>
+                      </tr>
+                    </tbody>
+                  </table>
+               
+                  <div class="m-3" >
+                    <a href="#" class="btn-edit btn-lg mt-4">
+                      <i class="bi bi-plus-square"></i>
+                      <span>Add Item</span> <!--triggers another row in table-->
+                  </a>
+                </div></div>
+              </div>
+            </div>
+           </div>
+         
+            <div class="m-3" >
+              <a href="#" class="btn-edit btn-lg mt-4">
+                <i class="bi bi-plus-square"></i>
+                <span>Add Another Package</span> <!--triggers another accordion-->
+            </a>
+
+            
+        </div>
+        </div>
+        <div class="col-5 card py-5 mx-4 px-4">
+          <h2>Custom Package</h2>
+          <h6 class="mb-3">This section lets you create a list of all items which your customers can customize.</h6>
+          <div class="accordion mb-3" id="accordion-custom">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="flush-custom-heading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-custom-one" aria-expanded="false" aria-controls="flush-collapseOne">
+                  Coffin Style  <!--change to input field-->
+                </button>
+              </h2>
+              <div id="flush-custom-one" class="accordion-collapse collapse" aria-labelledby="flush-custom-heading" data-bs-parent="#accordion-custom">
+                <div class="accordion-body">
+                  <table class="table table-hover table-responsive">
+                    <thead>
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>De barra Metal</th><!--change to input field-->
+                        <td>metal na lungon</td><!--change to input field-->
+                        <td>1</td><!--change to input field-->
+                        <td>20,000</td><!--change to input field-->
+                      </tr>
+                      <tr>
+                        <th>De Barra Wood</th>
+                        <td>Wood na lungon</td>
+                        <td>1</td>
+                        <td>20,000</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                   <div class="m-3" >
+                    <a href="#" class="btn-edit btn-lg mt-4">
+                      <i class="bi bi-plus-square"></i>
+                      <span>Add Variety</span> <!--triggers another row in table-->
+                  </a>
+                </div>
+                 
+              
+              </div>
+              </div>
+              
+            </div>
+            <div class="m-3" >
+              <a href="#" class="btn-edit btn-lg mt-4">
+                <i class="bi bi-plus-square"></i>
+                <span>Add Category</span> <!--triggers another row in table-->
+            </a>
+          </div>
+           </div>
+        </div>
+        </div>
 
 <?= element( 'footer' ) ?>
         

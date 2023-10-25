@@ -131,33 +131,23 @@ function all_records( $name ) {
 }
 
 function add_record( $name, $fields = [] ) {
-    global $DB;
-  
-    if( ( isset( $name ) && isset( $fields ) ) && !empty( $name ) && !empty( $fields ) && is_array( $fields ) ) {
-      // Check if the business code exists in the business table.
-      $business_code = $fields['businessCode'];
-      $sql = "SELECT COUNT(*) FROM business WHERE businessCode = '$business_code'";
-      $result = $DB->query( $sql );
-      $rows = $result->num_rows;
-      if( $rows > 0 ) {
-        // The business code exists, so we can insert the user record.
-        $cols = implode( " , ", array_keys( $fields ) );
-        $x = [];
-        foreach( array_values( $fields) as $a) {
-          $x[] = $DB->real_escape_string($a);
-        }
-        $vals = "'" . implode( "' , '", array_values( $x)) . "'";
-        $sql = "INSERT INTO $name ( $cols ) VALUES( $vals )";
-        $DB->query( $sql );
-        return $DB->insert_id;
-      } else {
-        // The business code does not exist, so we cannot insert the user record.
-        return false;
-      }
-    } else {
-      return false;
-    }
-  }
+	global $DB;
+
+	if( ( isset( $name ) && isset( $fields ) ) && !empty( $name ) && !empty( $fields ) && is_array( $fields ) ) {
+		$cols = implode( " , ", array_keys( $fields ) );
+		$x = [];
+		foreach( array_values( $fields) as $a) {
+			$x[] = $DB->real_escape_string($a);
+		}
+		$vals = "'" . implode( "' , '", array_values( $x)) . "'";
+		$sql = "INSERT INTO $name ( $cols ) VALUES( $vals )";
+		//echo $sql; exit;
+		$DB->query( $sql );
+		return $DB->insert_id;
+	} else {
+		return false;
+	}
+}
   
 
 // sample

@@ -43,6 +43,8 @@
                         <li><a class="dropdown-item" href="<?php echo SITE_URL ?>/?page=client_profile">Profile</a></li>
                     <?php } elseif ($_SESSION[AUTH_TYPE] === 'business owner') { ?>
                         <li><a class="dropdown-item" href="<?php echo SITE_URL ?>/?page=owner_profile">Profile</a></li>
+                    <?php } elseif ($_SESSION[AUTH_TYPE] === 'admin') { ?>
+                        <li><a class="dropdown-item" href="<?php echo SITE_URL ?>/?page=admin_profile">Profile</a></li>
                     <?php } ?>
                     <li><a class="dropdown-item" href="<?php echo SITE_URL ?>/?action=logout">Logout</a></li>
                 </ul>

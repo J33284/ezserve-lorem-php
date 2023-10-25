@@ -39,29 +39,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['update'])) {
 }
 
 
-
-//register business
-if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
-
 if (isset($_POST['data'])) {
-   
-    $allowedBusinesstypes = ['1', '2', '3'];
-    if (in_array($_POST['data']['busType'], $allowedBusinesstypes)) {
-        if (add_record("business", $_POST['data'])) {
-            set_message("Thank you for your registration.", "Please wait for confirmation");
-            // Redirect to the login page after successful registration.
-            header("Location: " . SITE_URL . "/?page=login");
-            exit(); // Make sure to exit after redirection.
+    // Check if the user is logged in (you may have your own logic for this)
+    if (isset($_SESSION['userID'])) {
+        $userID = $_SESSION['userID'];
+        $businessData = $_POST['data'];
+        $businessData['userID'] = $userID; // Add the user ID to the business data.
+
+        $allowedBusinesstypes = ['1', '2', '3'];
+        if (in_array($businessData['busType'], $allowedBusinesstypes)) {
+            if (add_record("business", $businessData)) {
+                set_message("Thank you for your registration.", "Please wait for confirmation");
+                // Redirect to a page where the user can view their business details or perform other actions.
+                header("Location: " . SITE_URL . "/?page=admin");
+                exit(); // Make sure to exit after redirection.
+            } else {
+                set_message("Failed to register.", "danger");
+            }
         } else {
-            set_message("Failed to register.", "danger");
+            // Handle the case where an invalid usertype was selected.
+            set_message("Invalid usertype selected.", "danger");
         }
     } else {
-        // Handle the case where an invalid usertype was selected.
-        set_message("Invalid usertype selected.", "danger");
+        redirect();
+       
     }
 }
 
-redirect();
+
+
+
 
 
 
