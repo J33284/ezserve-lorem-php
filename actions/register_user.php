@@ -2,6 +2,7 @@
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
 if (isset($_POST['data'])) {
+    
     $_POST['data']['password'] = md5($_POST['data']['password']);
     // Check if usertype is set to "client" or "business owner."
     $allowedUsertypes = ['client', 'business owner'];

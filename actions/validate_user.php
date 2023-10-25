@@ -17,7 +17,8 @@
             $user = $check->fetch_object();          
             if( $user->status == 0 ) {
                 set_message( "Your account is not yet activated." . $DB->error, "danger" );
-                redirect();
+                redirect('');
+              
             }
             if ($password == $user->password) {
                 $_SESSION[ AUTH_ID ] = $user->userID;
