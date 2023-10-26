@@ -18,7 +18,7 @@
                 $_SESSION[ AUTH_NAME ] = $user->username;
                 $_SESSION[ AUTH_TYPE ] = $user->usertype;
                 set_message( "Welcome back {$user->username}!", 'success' );
-                redirect();
+                header("Location: " . SITE_URL . "/?page=admin-bus-list");
             } else {        
                 set_message( "Invalid login, please try again." . $DB->error, "danger" );
             }

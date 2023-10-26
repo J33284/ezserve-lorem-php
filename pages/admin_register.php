@@ -21,12 +21,6 @@
               <td><input class="form-check-input" type="checkbox" value="" id="AcceptCheckBox"></td>
               <td><input class="form-check-input" type="checkbox" value="" id="RejectCheckBox"></td>
             </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td class="clickable row" onclick="window.location='./details.html'">Balay Kusina</td>
-              <td><input class="form-check-input" type="checkbox" value="" id="AcceptCheckBox"></td>
-              <td><input class="form-check-input" type="checkbox" value="" id="RejectCheckBox"></td>
-            </tr>
           </tbody>
         </table>
       </div> 

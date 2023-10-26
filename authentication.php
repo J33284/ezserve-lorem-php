@@ -8,18 +8,15 @@ define('AUTH_TYPE', 'usertype');
 define('AUTH_TOKEN', 'token');
 
 // Default page to redirect after login
-define('LOGIN_REDIRECT', 'email_verify');
+//define('LOGIN_REDIRECT', 'email_verifyy');
 
-$restricted_pages['client']['access'] = ['default', 'client_profile'];
+$restricted_pages['client']['access'] = ['default', 'client_form'];
 $restricted_pages['client']['default_page'] = 'default';
 
 $restricted_pages['business owner']['access'] = ['default', 'owner_business', 'owner_profile'];
 $restricted_pages['business owner']['default_page'] = 'default';
 
-$restricted_pages['admin']['access'] = ['default', 'admin_profile'];
-$restricted_pages['admin']['default_page'] = 'default';
-
-$restricted_pages['default']['access'] = ['default', 'login', 'register', 'owner_profile'];
+$restricted_pages['default']['access'] = ['default', 'login', 'register'];
 $restricted_pages['default']['default_page'] = 'default';
 
 has_access(true);

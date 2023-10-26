@@ -1,7 +1,9 @@
 <?php
 // Function to update profile 
-function update($userID, $updatedData) {
+function update($userID, $userType, $updatedData) {
     global $DB;
+
+    $table = ($userType === 'client') ? 'client' : 'owner';
 
     $updates = [];
     foreach ($updatedData as $key => $value) {
@@ -9,7 +11,7 @@ function update($userID, $updatedData) {
     }
 
     $updatesStr = implode(', ', $updates);
-    $sql = "UPDATE users SET $updatesStr WHERE userID = $userID";
+    $sql = "UPDATE $table SET $updatesStr WHERE " . (($userType === 'client') ? 'clientID' : 'ownerID') . " = $userID";
     $DB->query($sql);
 
     return $DB->affected_rows > 0;
@@ -26,12 +28,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['update'])) {
         'username' => $_POST['username']
     );
 
-    $userID = $_SESSION['userID'];
+    $userID = $_SESSION[AUTH_ID]; // Use the appropriate AUTH_ID based on user type
+    $userType = $_SESSION[AUTH_TYPE]; // Get the user type from the session
 
-    if (update($userID, $updatedData)) {
+    if (update($userID, $userType, $updatedData)) {
         // Update successful
-        set_message( "Changes Saved Successfully" );
-        
+        set_message("Changes Saved Successfully");
     } else {
         // Update failed
         echo "Error updating record";
@@ -39,12 +41,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['update'])) {
 }
 
 
+//
 if (isset($_POST['data'])) {
     // Check if the user is logged in (you may have your own logic for this)
-    if (isset($_SESSION['userID'])) {
-        $userID = $_SESSION['userID'];
+    if (isset($_SESSION['ownerID'])) {
+        $ownerID = $_SESSION['ownerID'];
         $businessData = $_POST['data'];
-        $businessData['userID'] = $userID; // Add the user ID to the business data.
+        $businessData['ownerID'] = $ownerID; // Add the user ID to the business data.
 
         $allowedBusinesstypes = ['1', '2', '3'];
         if (in_array($businessData['busType'], $allowedBusinesstypes)) {

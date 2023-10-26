@@ -19,7 +19,17 @@ if (!defined('ACCESS')) {
 function viewUser($userID) {
     global $DB;
 
-    $query = $DB->prepare("SELECT * FROM users WHERE userID = ?");
+    $usertype = $_SESSION[AUTH_TYPE]; // Get the user type from the session
+
+    if ($usertype === 'client') {
+        $query = $DB->prepare("SELECT * FROM client WHERE clientID = ?");
+    } elseif ($usertype === 'business owner') {
+        $query = $DB->prepare("SELECT * FROM business_owner WHERE ownerID = ?");
+    } else {
+        // Handle other user types or errors as needed
+        return null;
+    }
+
     $query->bind_param("i", $userID);
 
     $query->execute();
@@ -28,15 +38,15 @@ function viewUser($userID) {
     $user = $result->fetch_object();
 
     return $user;
-
 }
+
 
 function add_business($name, $fields = []) {
     global $DB;
 
     if (
         (isset($name) && isset($fields) && !empty($name) && is_array($fields)) &&
-        isset($fields['user_id']) // Ensure user ID is provided in the fields
+        isset($fields['ownerID']) // Ensure user ID is provided in the fields
     ) {
         $cols = implode(", ", array_keys($fields));
         $x = [];

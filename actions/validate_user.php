@@ -1,40 +1,50 @@
-<?php if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
+<?php
+if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
-    if( !empty( $_POST[ 'username' ] ) && !empty( $_POST[ 'password' ] ) ) {
+if (!empty($_POST['username']) && !empty($_POST['password'])) {
+    validate_csrf();
 
-        validate_csrf();
+    $username = $_POST['username'];
+    $password = md5($_POST['password']);
+    $userID = null; // Initialize the user ID
 
-        $username = $_POST[ 'username' ];
-        $password = md5($_POST[ 'password' ]);
+    //Check the "business_owner" table
+    $ownerQuery = "SELECT ownerID AS ID, username, 'business owner' AS usertype FROM business_owner WHERE username = ? AND password = ? AND status = 1 LIMIT 1";
+    $ownerStmt = $DB->prepare($ownerQuery);
+    $ownerStmt->bind_param("ss", $username, $password);
+    $ownerStmt->execute();
+    $ownerResult = $ownerStmt->get_result();
 
-        $q = "SELECT * FROM users WHERE username = ? LIMIT 1";
-        $stmt = $DB->prepare($q);
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $check = $stmt->get_result();
+    //Check the "client" table
+    $clientQuery = "SELECT clientID AS ID, username, 'client' AS usertype FROM client WHERE username = ? AND password = ? AND status = 1 LIMIT 1";
+    $clientStmt = $DB->prepare($clientQuery);
+    $clientStmt->bind_param("ss", $username, $password);
+    $clientStmt->execute();
+    $clientResult = $clientStmt->get_result();
 
-        if( $check && $check->num_rows ) {
-            $user = $check->fetch_object();          
-            if( $user->status == 0 ) {
-                set_message( "Your account is not yet activated." . $DB->error, "danger" );
-                redirect('');
-              
-            }
-            if ($password == $user->password) {
-                $_SESSION[ AUTH_ID ] = $user->userID;
-                $_SESSION[ AUTH_NAME ] = $user->username;
-                $_SESSION[ AUTH_TYPE ] = $user->usertype;
-                $_SESSION[ AUTH_TOKEN ] = $user->token;
-                set_message( "Welcome back {$user->fname}!", 'success' );
-                redirect();
-            } else {        
-                set_message( "Invalid login, please try again." . $DB->error, "danger" );
-            }
-                    
-        } else {        
-            set_message( "Invalid login, please try again." . $DB->error, "danger" );
-        }
-    } else {        
-        set_message( "You must specify the username and password." . $DB->error, "danger" );
+ 
+    if ($ownerResult->num_rows) {
+        $user = $ownerResult->fetch_object();
+        $userID = $user->ID;
     }
+
+    if ($clientResult->num_rows) {
+        $user = $clientResult->fetch_object();
+        $userID = $user->ID;
+    } 
+    
+ 
+    if (!is_null($userID)) {
+        $_SESSION[AUTH_ID] = $userID;
+        $_SESSION[AUTH_NAME] = $user->username;
+        $_SESSION[AUTH_TYPE] = $user->usertype;
+        $_SESSION[AUTH_TOKEN] = $user->token;
+        set_message("Welcome back {$user->username}!", 'success');
+        redirect();
+    } else {
+        set_message("Invalid login, please try again.", "danger");
+    }
+} else {
+    set_message("You must specify the username and password.", "danger");
+}
 ?>
