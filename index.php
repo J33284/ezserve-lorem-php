@@ -25,6 +25,7 @@
 	
 	if( $DB )
 	$DB->close();
+	//var_dump($_SESSION);
 
 
 	

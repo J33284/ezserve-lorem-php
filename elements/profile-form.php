@@ -22,21 +22,48 @@ $password = $userData->password;
   </div>
 
   <form id="profileForm" method="POST">
-  <?= csrf_token()?>
-  <input type="hidden" name="action" value="usersAction">
-  <div class="form">
-    <div class="row g-3 p-4">
-      <input type="text" class="form-control" name="fname" placeholder="First Name" required readonly value="<?php echo $fname; ?>">
-      <input type="text" class="form-control" name="lname" placeholder="Last Name" required readonly value="<?php echo $lname; ?>">
-      <input type="date" class="date form-control" name="birthday" placeholder="Birthday" required readonly value="<?php echo $birthday; ?>">
-      <input type="email" class="form-control" name="email" placeholder="Email Address" required readonly value="<?php echo $email; ?>">
-      <input type="text" class="form-control" name="number" placeholder="Mobile Number" required readonly value="<?php echo $number; ?>">
-      <input type="text" class="form-control" name="username" placeholder="Username" required readonly value="<?php echo $username; ?>">
-      <div class="d-flex justify-content-end p-3" id="buttons">
-      <button type="submit" name="update" id="updateButton" class="btn-update btn btn-primary me-2" style="display: none">Update</button>
-      <button type="button" name="cancel" id="cancelButton" class="btn-cancel btn btn-secondary" style="display: none" onclick="cancelEdit()">Cancel</button>
-    </div>
-  </div>
-</form>
+        <?= csrf_token() ?>
+        <input type="hidden" name="action" value="usersAction">
+        <div class="form">
+            <div class="row g-3 p-4">
+                <div class="mb-3">
+                    <label for="fname">First Name</label>
+                    <input type="text" class="form-control" name="fname" id="fname" placeholder="First Name" required readonly
+                        value="<?php echo $fname; ?>">
+                </div>
+                <div class="mb-3">
+                    <label for="lname">Last Name</label>
+                    <input type="text" class="form-control" name="lname" id="lname" placeholder="Last Name" required readonly
+                        value="<?php echo $lname; ?>">
+                </div>
+                <div class="mb-3">
+                    <label for="birthday">Birthday</label>
+                    <input type="date" class="date form-control" name="birthday" id="birthday" placeholder="Birthday" required readonly
+                        value="<?php echo $birthday; ?>">
+                </div>
+                <div class="mb-3">
+                    <label for="email">Email Address</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" required readonly
+                        value="<?php echo $email; ?>">
+                </div>
+                <div class="mb-3">
+                    <label for="number">Mobile Number</label>
+                    <input type="text" class="form-control" name="number" id="number" placeholder="Mobile Number" required readonly
+                        value="<?php echo $number; ?>">
+                </div>
+                <div class="mb-3">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Username" required readonly
+                        value="<?php echo $username; ?>">
+                </div>
+                <div class="d-flex justify-content-end p-3" id="buttons">
+                    <button type="submit" name="update" id="updateButton" class="btn-update btn btn-primary me-2"
+                        style="display: none">Update</button>
+                    <button type="button" name="cancel" id="cancelButton" class="btn-cancel btn btn-secondary"
+                        style="display: none" onclick="cancelEdit()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </form>
 </body>
 </html>

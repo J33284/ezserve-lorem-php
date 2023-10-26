@@ -2,8 +2,10 @@
 
     if( !empty( $_POST[ 'username' ] ) && !empty( $_POST[ 'password' ] ) ) {
 
+        validate_csrf();
+
         $username = $_POST[ 'username' ];
-        $password = $_POST[ 'password' ];
+        $password = md5($_POST[ 'password' ]);
 
         $q = "SELECT * FROM admin WHERE username = ? LIMIT 1";
         $stmt = $DB->prepare($q);
@@ -13,12 +15,18 @@
 
         if( $check && $check->num_rows ) {
             $user = $check->fetch_object();          
+            if( $user->status == 0 ) {
+                set_message( "Your account is not yet activated." . $DB->error, "danger" );
+                redirect('');
+              
+            }
             if ($password == $user->password) {
-                $_SESSION[ AUTH_ID ] = $user->userID;
+                $_SESSION[ AUTH_ID ] = $user->adminID;
                 $_SESSION[ AUTH_NAME ] = $user->username;
                 $_SESSION[ AUTH_TYPE ] = $user->usertype;
+                $_SESSION[ AUTH_TOKEN ] = $user->token;
                 set_message( "Welcome back {$user->username}!", 'success' );
-                header("Location: " . SITE_URL . "/?page=admin-bus-list");
+                redirect();
             } else {        
                 set_message( "Invalid login, please try again." . $DB->error, "danger" );
             }

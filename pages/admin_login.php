@@ -11,6 +11,7 @@
                     <h1>Admin Login</h1>
                     <hr>
                     <form method="post">
+                    <?= csrf_token()?>
                     <input type="hidden" name="action" value="admin">
                         <div class="row p-3">
                             <input type="text" class="form-control mb-3" name="username" required placeholder="Username or Email Address">
