@@ -1,29 +1,73 @@
-<?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); ?>
+<?php
+if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
-<?= element( 'header' ) ?>
+// Query the database to fetch businesses with a status of 0
+// Replace this with your actual database query
+$businesses = $DB->query("SELECT * FROM business WHERE status = 0");
 
-<?= element( 'admin-side-nav' ) ?>
+?>
+<?= element('header') ?>
 
-<div id= "admin-reg" class="admin-reg">
-        <table class="table table-hover table-responsive">
-          <thead>
+<?= element('admin-side-nav') ?>
+
+<div id="admin-reg" class="admin-reg">
+    <table class="table table-hover table-responsive">
+        <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">Business Name</th>
-              <th scope="col">Accept</th>
-              <th scope="col">Reject</th>
+                <th scope="col">#</th>
+                <th scope="col">Business Name</th>
+                <th scope="col">Accept</th>
+                <th scope="col">Reject</th>
             </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td class="clickable-row" onclick="window.location='./details.html'">Puga Funeral Parlor</td>
-              <td><input class="form-check-input" type="checkbox" value="" id="AcceptCheckBox"></td>
-              <td><input class="form-check-input" type="checkbox" value="" id="RejectCheckBox"></td>
-            </tr>
-          </tbody>
-        </table>
-      </div> 
+        </thead>
+        <tbody>
+            <?php foreach ($businesses as $key => $business) : ?>
+                <tr>
+                    <th scope="row"><?= $key + 1 ?></th>
+                    <td class="clickable-row" data-id="<?= $business['businessCode'] ?>">
+                        <?= $business['busName'] ?>
+                    </td>
+                    <td>
+                        <input class="form-check-input accept-checkbox" type="checkbox" value="<?= $business['businessCode'] ?>" id="AcceptCheckBox">
+                    </td>
+                    <td>
+                        <input class="form-check-input reject-checkbox" type="checkbox" value="<?= $business['businessCode'] ?>" id="RejectCheckBox">
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
 
-<?= element( 'footer' ) ?>
-        
+<script>
+document.querySelectorAll('.accept-checkbox').forEach(function (checkbox) {
+    checkbox.addEventListener('change', function () {
+        const businessCode = this.value;
+        if (this.checked) {
+            updateStatusToAccepted(businessCode);
+        }
+    });
+});
+
+function updateStatusToAccepted(businessCode) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'adminFunction', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            if (response.success) {
+                alert('Business status updated to Accepted.');
+            } else {
+                alert('Failed to update status. Please try again.');
+            }
+        }
+    };
+    
+    const data = `businessCode=${businessCode}`;
+    xhr.send(data);
+}
+
+</script>
+
+<?= element('footer') ?>

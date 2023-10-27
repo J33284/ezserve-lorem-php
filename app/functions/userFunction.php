@@ -41,26 +41,6 @@ function viewUser($userID) {
 }
 
 
-function add_business($name, $fields = []) {
-    global $DB;
-
-    if (
-        (isset($name) && isset($fields) && !empty($name) && is_array($fields)) &&
-        isset($fields['ownerID']) // Ensure user ID is provided in the fields
-    ) {
-        $cols = implode(", ", array_keys($fields));
-        $x = [];
-        foreach (array_values($fields) as $a) {
-            $x[] = $DB->real_escape_string($a);
-        }
-        $vals = "'" . implode("', '", array_values($x)) . "'";
-        $sql = "INSERT INTO $name ($cols) VALUES ($vals)";
-        $DB->query($sql);
-        return $DB->insert_id;
-    } else {
-        return false;
-    }
-}
 
   
 /*

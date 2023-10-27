@@ -17,7 +17,7 @@ $username = $userData->username;
 ?>
 
   <form id="profileForm" method="POST">
-    <input type="hidden" name="action" value="">
+    <input type="hidden" name="action" value="adminFunction">
     <div class="form">
       <div class="row g-3 p-4">
         <div class="mb-3">

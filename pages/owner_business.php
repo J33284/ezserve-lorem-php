@@ -115,7 +115,7 @@
         </div>
         </div> <!--end of branch info-->
 </div>
-
+<!--
 <div id= "owner-edit-pack"class="owner-edit-pack mb-3 row d-flex">
         <div class="col-5 card py-5 mx-4 px-4">
           <h2>Pre-made Packages</h2>
@@ -124,12 +124,12 @@
             <div class="accordion-item">
               <h2 class="accordion-header" id="flush-headingOne">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                  Package No. 1  <!--change to input field-->
+                  Package No. 1  
                 </button>
               </h2>
               <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                 <div class="accordion-body">
-                  <!-- inner accordion -->
+                  
                   <table class="table table-hover table-responsive">
                     <thead>
                       <tr>
@@ -141,10 +141,10 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <th>De barra Metal</th> <!--change to input field-->
-                        <td>metal na lungon</td><!--change to input field-->
-                        <td>1</td><!--change to input field-->
-                        <td>20,000</td><!--change to input field-->
+                        <th>De barra Metal</th> 
+                        <td>metal na lungon</td>
+                        <td>1</td>
+                        <td>20,000</td>
                       </tr>
                       <tr>
                         <th>Barong Tagalog</th>
@@ -158,7 +158,7 @@
                   <div class="m-3" >
                     <a href="#" class="btn-edit btn-lg mt-4">
                       <i class="bi bi-plus-square"></i>
-                      <span>Add Item</span> <!--triggers another row in table-->
+                      <span>Add Item</span> 
                   </a>
                 </div></div>
               </div>
@@ -168,7 +168,7 @@
             <div class="m-3" >
               <a href="#" class="btn-edit btn-lg mt-4">
                 <i class="bi bi-plus-square"></i>
-                <span>Add Another Package</span> <!--triggers another accordion-->
+                <span>Add Another Package</span> 
             </a>
 
             
@@ -181,7 +181,7 @@
             <div class="accordion-item">
               <h2 class="accordion-header" id="flush-custom-heading">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-custom-one" aria-expanded="false" aria-controls="flush-collapseOne">
-                  Coffin Style  <!--change to input field-->
+                  Coffin Style  
                 </button>
               </h2>
               <div id="flush-custom-one" class="accordion-collapse collapse" aria-labelledby="flush-custom-heading" data-bs-parent="#accordion-custom">
@@ -197,10 +197,10 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <th>De barra Metal</th><!--change to input field-->
-                        <td>metal na lungon</td><!--change to input field-->
-                        <td>1</td><!--change to input field-->
-                        <td>20,000</td><!--change to input field-->
+                        <th>De barra Metal</th>
+                        <td>metal na lungon</td>
+                        <td>1</td>
+                        <td>20,000</td>
                       </tr>
                       <tr>
                         <th>De Barra Wood</th>
@@ -213,7 +213,7 @@
                    <div class="m-3" >
                     <a href="#" class="btn-edit btn-lg mt-4">
                       <i class="bi bi-plus-square"></i>
-                      <span>Add Variety</span> <!--triggers another row in table-->
+                      <span>Add Variety</span> 
                   </a>
                 </div>
                  
@@ -225,12 +225,12 @@
             <div class="m-3" >
               <a href="#" class="btn-edit btn-lg mt-4">
                 <i class="bi bi-plus-square"></i>
-                <span>Add Category</span> <!--triggers another row in table-->
-            </a>
+                <span>Add Category</span> 
           </div>
            </div>
         </div>
         </div>
+-->
 
 <?= element( 'footer' ) ?>
         
