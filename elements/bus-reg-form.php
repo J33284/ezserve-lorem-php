@@ -1,9 +1,10 @@
 <div class="bus-reg container row justify-content-center align-items-center">
-    <div class="card justify-content-between border-0 shadow p-3 mb-5 bg-white rounded">
+    <div id="reg-form" class="card justify-content-between border-0 shadow p-3 mb-5 bg-white rounded">
         <div class="card-body">
             <h1>Business Registration</h1>
             <hr>
             <form method="post" enctype="multipart/form-data"> <!-- Add enctype attribute for file upload -->
+                <input type="hidden" name="action" value="usersAction">
                 <input type="hidden" name="action" value="usersAction">
                 <div class="row g-3 p-3">
                     <h5>Owner Information</h5>
@@ -12,7 +13,7 @@
                     <h5>Business Information</h5>
                     <input type="text" class="form-control" name="data[busName]" id="busName" placeholder="Business Name">
                     <div class="row pt-3">
-                        <p class="col-sm-4">Business Activity</p>
+                        <p class="col-sm-4">Business Type</p>
                         <select class="select col-sm-4 mb-3" name="data[busType]" required>
                             <option value="" selected disabled>Select</option>
                             <option value="1">Funeral Services</option>

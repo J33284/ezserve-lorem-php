@@ -2,17 +2,20 @@
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
 // Query the database to fetch businesses with a status of 0
-// Replace this with your actual database query
+
 $businesses = $DB->query("SELECT * FROM business WHERE status = 0");
 
+
 ?>
+
 <?= element('header') ?>
 
 <?= element('admin-side-nav') ?>
 
-<div id="admin-reg" class="admin-reg">
-    <table class="table table-hover table-responsive">
-        <thead>
+
+<div id="admin-reg" class="admin-reg overflow-auto">
+    <table class="table table-hover table-responsive ">
+        <thead >
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Business Name</th>
@@ -22,9 +25,9 @@ $businesses = $DB->query("SELECT * FROM business WHERE status = 0");
         </thead>
         <tbody>
             <?php foreach ($businesses as $key => $business) : ?>
-                <tr>
+                <tr class="sticky-top mt-3">
                     <th scope="row"><?= $key + 1 ?></th>
-                    <td class="clickable-row" data-id="<?= $business['businessCode'] ?>">
+                    <td data-bs-toggle="collapse" data-bs-target="#demo1" class="accordion-toggle" data-id="<?= $business['businessCode'] ?>">
                         <?= $business['busName'] ?>
                     </td>
                     <td>
@@ -33,6 +36,12 @@ $businesses = $DB->query("SELECT * FROM business WHERE status = 0");
                     <td>
                         <input class="form-check-input reject-checkbox" type="checkbox" value="<?= $business['businessCode'] ?>" id="RejectCheckBox">
                     </td>
+                </tr>
+                <tr >
+                     <td colspan="6" class="hidden ">
+                        <div class="accordian-body collapse" id="demo1"> 
+                        <?= element('admin-bus-form') ?>
+                        </div> </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

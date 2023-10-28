@@ -18,9 +18,7 @@ h1{
   background-color: #ffa630;
   border: none;
 }
-h2{
-  color: #fff;
-}
+
 .message{
  z-index: 999;
 }
@@ -286,9 +284,7 @@ a{
   width: 75vw;
   height: 100vh;
 }
-.page-title{
-  color: white;
-}
+
 /*
 profile page*/
 h1{
