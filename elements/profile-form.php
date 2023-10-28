@@ -57,7 +57,7 @@ $password = $userData->password;
                         value="<?php echo $username; ?>">
                 </div>
                 <div class="d-flex justify-content-end p-3" id="buttons">
-                    <button type="submit" name="update" id="updateButton" class="btn-update btn btn-primary me-2"
+                    <button type="submit" name="updateProfile" id="updateButton" class="btn-update btn btn-primary me-2"
                         style="display: none">Update</button>
                     <button type="button" name="cancel" id="cancelButton" class="btn-cancel btn btn-secondary"
                         style="display: none" onclick="cancelEdit()">Cancel</button>

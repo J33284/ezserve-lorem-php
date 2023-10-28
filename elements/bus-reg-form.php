@@ -4,8 +4,7 @@
             <h1>Business Registration</h1>
             <hr>
             <form method="post" enctype="multipart/form-data"> <!-- Add enctype attribute for file upload -->
-                <input type="hidden" name="action" value="usersAction">
-                <input type="hidden" name="action" value="usersAction">
+                <input type="hidden" name="action" value="ownerAction">
                 <div class="row g-3 p-3">
                     <h5>Owner Information</h5>
                     <input type="text" class="form-control" name="data[ownerName]" id="ownerName" placeholder="Owner Name">
