@@ -1,4 +1,12 @@
-<?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); ?>
+<?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); 
+
+$businesses = $DB->query("SELECT b.*, bo.* FROM business b
+    JOIN business_owner bo ON b.ownerID = bo.ownerID
+    WHERE b.status = 1");
+
+
+
+?>
 
 <?= element( 'header' ) ?>
 
@@ -23,12 +31,21 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="clickable-row" onclick="window.location='./details.html'">
-              <th scope="row">1</th>
-              <td>Puga Funeral Parlor</td>
-              <td>Jose Puga</td>
-              <td>Funeral Service</td>
-            </tr>
+          <?php foreach ($businesses as $key => $business) : ?>
+          <tr class="sticky-top mt-3">
+                    <th scope="row"><?= $key + 1 ?></th>
+                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample<?= $business['businessCode'] ?>" role="button">
+                        <?= $business['busName'] ?>  
+                    </td>
+                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample<?= $business['businessCode'] ?>" role="button">
+                        <?= $business['fname'] . ' ' . $business['lname'] ?>
+
+                    </td>
+                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample<?= $business['businessCode'] ?>" role="button">
+                        <?= $business['busType'] ?>  
+                    </td>
+          </tr>
+          <?php endforeach; ?>
           </tbody>
         </table>
       </div> 

@@ -40,112 +40,78 @@ function cancelEdit() {
     pencilIcon.classList.add('bi-pencil-fill');
 }
 
-//owner_business page
-//===============================================================================================
 
-function toggleDivision1() {
-    var division1 = document.getElementById('division1');
-    var division2 = document.getElementById('division2');
-    var registerButton = document.getElementById('registerButton');
-    
-    division1.style.display = 'block';
-    division2.style.display = 'none';
-    registerButton.innerHTML = '<i class="bi bi-arrow-left"></i><span> Back</span>';
-    registerButton.setAttribute('onclick', 'toggleRegisterButton()');
-}
 
-function toggleDivision2() {
-    var division1 = document.getElementById('division1');
-    var division2 = document.getElementById('division2');
-    
-    division1.style.display = 'block';
-    division2.style.display = 'block';
-}
-/*
-function toggleRegisterButton() {
-    var division1 = document.getElementById('division1');
-    var registerButton = document.getElementById('registerButton');
-    
-    division1.style.display = 'none';
-    division2.style.display = 'none';
-    registerButton.innerHTML = '<i class="bi bi-plus-square"></i><span> Register your business here!</span>';
-    registerButton.setAttribute('onclick', 'toggleDivision1()');
-}*/
 
-function toggleEditBusiness() {
-    var inputs = document.querySelectorAll('#division1 input');
-    var editButton = document.getElementById('editButton');
-    var saveButton = document.getElementById('saveButton');
-    var cancelButton = document.getElementById('cancelButton');
-    
-    for (var i = 0; i < inputs.length; i++) {
-        inputs[i].readOnly = !inputs[i].readOnly;
+
+
+
+
+
+
+
+
+function toggleBusinessInfo() {
+    // Hide the list of businesses
+    document.getElementById("businessList").style.display = "none";
+    // Show the business info section
+    document.getElementById("division1").style.display = "block";
+    // Change the text of the "Register" button to "Back"
+    document.getElementById("registerButton").style.display = "none";
+    document.getElementById("backButton").style.display = "block";
+  }
+
+  function toggleBack() {
+    // Show the list of businesses
+    document.getElementById("businessList").style.display = "block";
+    // Hide the business info section
+    document.getElementById("division1").style.display = "none";
+    // Change the text of the "Back" button to "Register your business"
+    document.getElementById("registerButton").style.display = "block";
+    document.getElementById("backButton").style.display = "none";
+  }
+
+  function toggleEditable() {
+        // Toggle the readonly attribute on input fields
+        toggleInputEditable("busName");
+        toggleInputEditable("street");
+        toggleInputEditable("phone");
+        toggleButtonVisibility("saveButton");
+        toggleButtonVisibility("cancelButton");
+
+        var editButton = document.getElementById("editButton");
+        editButton.style.display = editButton.style.display === "none" ? "block" : "none";
     }
-    
-    editButton.style.display = 'none';
-    saveButton.style.display = 'block';
-    cancelButton.style.display = 'block';
-}
 
-
-function saveChanges() {
-    // Logic to save changes goes here
-    // For demo purposes, we'll just alert a message
-    // Toggle back to read-only mode and hide save and cancel buttons
-    toggleEditBusiness();
-    toggleEdit2();
-}
-
-function cancelEditBusiness() {
-    var inputs = document.querySelectorAll('#division1 input');
-    var editButton = document.getElementById('editButton');
-    var saveButton = document.getElementById('saveButton');
-    var cancelButton = document.getElementById('cancelButton');
-    
-    for (var i = 0; i < inputs.length; i++) {
-        inputs[i].readOnly = true;
+    function toggleInputEditable(inputId) {
+        var input = document.getElementById(inputId);
+        input.readOnly = !input.readOnly;
     }
-    
-    editButton.style.display = 'block';
-    saveButton.style.display = 'none';
-    cancelButton.style.display = 'none';
-}
 
-function toggleEdit2() {
-    var inputs = document.querySelectorAll('#division2 input');
-    var editButton = document.getElementById('editButton2');
-    var saveButton = document.getElementById('saveButton2');
-    var cancelButton = document.getElementById('cancelButton2');
-    
-    for (var i = 0; i < inputs.length; i++) {
-        inputs[i].readOnly = !inputs[i].readOnly;
+
+    function toggleButtonVisibility(buttonId) {
+        var button = document.getElementById(buttonId);
+        button.style.display = button.style.display === "none" ? "block" : "none";
     }
-    
-    editButton.style.display = 'none';
-    saveButton.style.display = 'block';
-    cancelButton.style.display = 'block';
-}
 
-function saveChanges2() {
-    // Logic to save changes goes here
-    
-    // For demo purposes, we'll just alert a message 
-    // Toggle back to read-only mode and hide save and cancel buttons
-    toggleEdit2();
-}
+    //Onwer Business Script
+    document.querySelectorAll('.view-business').forEach(function (button) {
+        button.addEventListener('click', function (e) {
+            e.preventDefault(); // Prevent default link behavior
+            var businessCode = button.getAttribute('data-businesscode');
+            // Hide the business list
+            document.getElementById('businessList').style.display = 'none';
 
-function cancelEdit2() {
-    var inputs = document.querySelectorAll('#division2 input');
-    var editButton = document.getElementById('editButton2');
-    var saveButton = document.getElementById('saveButton2');
-    var cancelButton = document.getElementById('cancelButton2');
-    
-    for (var i = 0; i < inputs.length; i++) {
-        inputs[i].readOnly = true;
-    }
-    
-    editButton.style.display = 'block';
-    saveButton.style.display = 'none';
-    cancelButton.style.display = 'none';
-}
+            // Display the business details
+            var detailsForm = document.getElementById('detailsForm');
+            detailsForm.style.display = 'block';
 
+            // Hide all business details and show the one corresponding to the clicked button
+            document.querySelectorAll('.business-details').forEach(function (details) {
+                details.style.display = 'none';
+            });
+            var businessDetails = document.getElementById('businessDetails' + businessCode);
+            businessDetails.style.display = 'block';
+            detailsForm.innerHTML = businessDetails.innerHTML;
+        });
+    });

@@ -7,7 +7,12 @@
                 <input type="hidden" name="action" value="ownerAction">
                 <div class="row g-3 p-3">
                     <h5>Owner Information</h5>
-                    <input type="text" class="form-control" name="data[ownerName]" id="ownerName" placeholder="Owner Name">
+                    <?php
+                        $userData = viewUser($_SESSION['userID']);
+                        $fname = $userData->fname;
+                        $lname = $userData->lname;
+                    ?>
+                    <input type="text" class="form-control" name="fname" id="fname" placeholder="First Name" required readonly value="<?php echo $fname," ", $lname; ?>">
                     <input type="text" class="form-control" name="data[ownerAddress]" id="ownerAddress" placeholder="Owner's Address">
                     <h5>Business Information</h5>
                     <input type="text" class="form-control" name="data[busName]" id="busName" placeholder="Business Name">
@@ -15,9 +20,9 @@
                         <p class="col-sm-4">Business Type</p>
                         <select class="select col-sm-4 mb-3" name="data[busType]" required>
                             <option value="" selected disabled>Select</option>
-                            <option value="1">Funeral Services</option>
-                            <option value="2">Catering</option>
-                            <option value="3">Photography</option>
+                            <option value="Funeral Services">Funeral Services</option>
+                            <option value="Catering">Catering</option>
+                            <option value="Photography">Photography</option>
                         </select>
                     </div>
                     <h6 class="page-title">Business Address</h6>

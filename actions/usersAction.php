@@ -3,7 +3,7 @@
 function update($userID, $userType, $updatedData) {
     global $DB;
 
-    $table = ($userType === 'client') ? 'client' : 'owner';
+    $table = ($userType === 'client') ? 'client' : 'business_owner';
 
     $updates = [];
     foreach ($updatedData as $key => $value) {

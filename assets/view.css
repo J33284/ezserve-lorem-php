@@ -488,3 +488,24 @@ h1{
   padding: 20px 20px 0px 20px;
   background-color: #ffff;
 }
+
+/*=======================================*/
+.business-form-background {
+  background-color: #ffffff;  
+  padding: 30px;
+  border-radius: 10px; 
+}
+
+.black-text {
+  color: black;
+}
+
+.bi bi-plus-square black-text{
+  color: black;
+}
+
+
+
+
+
+

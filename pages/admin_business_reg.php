@@ -1,17 +1,10 @@
-
-<!-- old file for reveiwing purposes only hehe -->
-
-
-
 <?php
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
 // Query the database to fetch businesses with a status of 0
-
 $businesses = $DB->query("SELECT b.*, bo.* FROM business b
     JOIN business_owner bo ON b.ownerID = bo.ownerID
     WHERE b.status = 0");
-
 
 ?>
 
@@ -19,33 +12,37 @@ $businesses = $DB->query("SELECT b.*, bo.* FROM business b
 
 <?= element('admin-side-nav') ?>
 
-
 <div id="admin-reg" class="admin-reg overflow-auto">
-    <table class="table table-hover table-responsive ">
-        <thead >
+    <table class="table table-hover table-responsive">
+        <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Business Name</th>
-                <th scope="col">Accept</th>
-                <th scope="col">Reject</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($businesses as $key => $business) : ?>
-                <tr class="sticky-top mt-3 " >
+                <tr class="sticky-top mt-3">
                     <th scope="row"><?= $key + 1 ?></th>
-                    <td data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" data-id="<?= $business['businessCode'] ?>">
+                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample<?= $business['businessCode'] ?>" role="button">
                         <?= $business['busName'] ?>
                     </td>
                     <td>
-                        <input class="form-check-input accept-checkbox" type="checkbox" value="<?= $business['businessCode'] ?>" id="AcceptCheckBox">
-                    </td>
-                    <td>
-                        <input class="form-check-input reject-checkbox" type="checkbox" value="<?= $business['businessCode'] ?>" id="RejectCheckBox">
-                    </td>
+                    <div class="btn-group">
+                    <button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample<?= $business['businessCode'] ?>">View</button>
+                    <form method="post" action="?action=update_status">
+                        <input type="hidden" name="business_Code" value="<?= $business['businessCode'] ?>">
+                        <button class="btn btn-success" type="submit" name="accept_business">Accept</button>
+                        <button class="btn btn-danger" type="submit" name="reject_business">Reject</button>
+                    </form>
+                    </div>
+
                 </tr>
-                <tr class="hidden" data-id="<?= $business['businessCode'] ?>">
-                <form class="business-details-form" id="form_<?= $business['businessCode'] ?>">
+                
+                <div class="offcanvas offcanvas-top overflow-auto p-3" style="width: 50vw; height: 100vh; margin-left: 25vw;" tabindex="-1" id="offcanvasExample<?= $business['businessCode'] ?>">
+                <div id="reg-form" class="card justify-content-between border-0 shadow p-3 mb-5 bg-white rounded">
+
                             <div class="card-body">
                             <h1>Business Registration</h1>
                             <hr>
@@ -109,46 +106,12 @@ $businesses = $DB->query("SELECT b.*, bo.* FROM business b
 
                             <h6 class="text-light bg-info">Business Permits</h6>
                             <input class="form-control mt-3" name="permits" type="file" id="formFile" readonly>
-                        </form>                
-                        
-                        
-                        
-                        
                         </div> 
-                </tr>
+                </div>
             <?php endforeach; ?>
         </tbody>
     </table>
 </div>
 
-<script>
-    document.querySelectorAll('.accept-checkbox').forEach(function (checkbox) {
-        checkbox.addEventListener('change', function () {
-            const businessCode = this.value;
-            if (this.checked) {
-                updateStatusToAccepted(businessCode);
-            }
-        });
-    });
-
-    function updateStatusToAccepted(businessCode) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'adminFunction', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                const response = JSON.parse(xhr.responseText);
-                if (response.success) {
-                    alert('Business status updated to Accepted.');
-                } else {
-                    alert('Failed to update status. Please try again.');
-                }
-            }
-        };
-
-        const data = 'businessCode=' + businessCode;
-        xhr.send(data);
-    }
-</script>
 
 <?= element('footer') ?>
