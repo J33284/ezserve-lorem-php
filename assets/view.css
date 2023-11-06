@@ -272,13 +272,15 @@ a{
 }
 /*profile pages main content*/
 .profile, .purchase, .voucher,
-.own-bus, .own_vouch, .admin-reg, .owner-order-list{
+.own_vouch, .admin-reg, .owner-order-list, .own-bus{
   margin: 120px 10px 50px 280px;
   width: 75vw;
   scroll-margin-top:100px;
   height: 100vh;
 
 }
+
+
 .admin-bus-list{
   margin: 120px 10px 50px 150px;
   width: 75vw;

@@ -15,10 +15,10 @@ $result = $DB->query($sql);
 <?php if ($result->num_rows > 0): ?>
     <div id="own-bus" class="own-bus">
         <div class="d-flex justify-content-between p-3">
-            <h1>My Business</h1>
+            <h1 class="text-light">My Business</h1>
             <a href="?page=bus-register" id="registerButton">
                 <i class="bi bi-plus-square black-text"></i>
-                <span class="black-text">Register your business here!</span>
+                <span class="black-text text-light">Register your business here!</span>
             </a>
             <a href="#" id="backButton" class="btn-back float-start mt-4" onclick="toggleBack()" style="display: none;">
                 <i class="bi bi-arrow-left"></i>
@@ -26,7 +26,7 @@ $result = $DB->query($sql);
             </a>
         </div>
 
-        <div id="businessList">
+        <div id="businessList" style = " width: 75vw; margin-top: 50px;">
             <table class="table table-hover table-responsive">
                 <thead>
                     <tr>
@@ -55,13 +55,14 @@ $result = $DB->query($sql);
                 </tbody>
             </table>
         </div>
-    </div>
+    
 
-    <?php $result->data_seek(0); // Reset the result set pointer to the beginning for displaying details ?>
+<?php $result->data_seek(0); // Reset the result set pointer to the beginning for displaying details ?>
 
-    <?php while ($row = $result->fetch_assoc()): ?>
-        <div id="detailsForm" class="bus-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded" style="display: none; position: absolute; top: 80%; left: 60%; transform: translate(-50%, -50%); width: 70%;">
-            <div class="business-details d-flex justify-content-between p-3" id="businessDetails<?= $row['businessCode'] ?>" style="display: none;">
+<?php while ($row = $result->fetch_assoc()): ?>
+        
+<div id="detailsForm" class="detailsForm card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded" style = "width: 75vw; display:none;">
+            <div class="business-details d-flex justify-content-between p-3" id="businessDetails<?= $row['businessCode'] ?>" style="display: none;" >
                 <!-- Include business details here -->
                 <h2>Business Information</h2>
                 <div class="d-flex" style="position: absolute; top: 5%; right: 5%;">
@@ -112,80 +113,78 @@ $result = $DB->query($sql);
                             <i class="bi bi-plus-square"></i>
                             <span>Add Branch</span>
                         </a>
-
                 </form>
             </div>
-        </div>
-
-        <!-- ADD BRANCH DETAILS -->
-        <?php
-        // Fetch branch details from the branches table based on business code
-        $businessCode = $row['businessCode'];
-        $branchQuery = "SELECT * FROM branches WHERE businessCode = $businessCode";
-        $branchResult = $DB->query($branchQuery);
-        if ($branchResult->num_rows > 0) {
-            $branchData = $branchResult->fetch_assoc();
-        }
-        ?>
-   <?php while ($branchData = $branchResult->fetch_assoc()): ?>
+        </div> <!--end of detailsForm-->
     
-        <div class="branch-details" id="branchDetails<?= $row['businessCode'] ?>" style="display: none;">
-            <div class="bus-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded" 
-            style="position: absolute; top: 160%; left: 60%; transform: translate(-50%, -50%); width: 70%;">
-                <div class="d-flex justify-content-between p-4">
-                    <h2>Branch Information</h2>
-                    <a href="#" id="editButton2" class="btn-edit float-end mt-4" onclick="toggleEditBranch()">
-                        <i class="bi bi-pencil-fill"></i>
+        <?php
+            $businessCode = $row['businessCode'];
+
+            // Fetch branch details from the branches table based on the businessCode
+            $branchQuery = "SELECT * FROM branches WHERE businessCode = $businessCode";
+            $branchResult = $DB->query($branchQuery);
+            ?>
+
+        <div class="branch-details" id="branchDetails<?= $businessCode ?>" style="display: none;">
+        
+            <?php while ($branchData = $branchResult->fetch_assoc()): ?>
+                <div class="branch-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded">       
+                    <div class="d-flex justify-content-between p-4">
+                        <h2>Branch Information</h2>
+                        <a href="#" id="editButton2" class="btn-edit float-end mt-4" onclick="toggleEdit2()">
+                            <i class="bi bi-pencil-fill"></i>
                         <span>Edit</span>
-                    </a>
-                </div>
-                <div class="column d-flex row justify-content-between">
-                    <div class="col-md-7 flex-column">
-                        <!-- Include form fields for branch details -->
-                        <form method="post" action="">
-                            <input type="hidden" name="businessCode" value="">
-                            <!-- Add fields for branchName, address, and coordinates here -->
-                            <label for="branchName">Branch Name:</label>
-                            <input type="text" class="form-control" name="branchName" id="branchName" placeholder="Branch Name" value='<?= $branchData['branchName'] ?>' readonly>
-                            <label for="address">Address:</label>
-                            <input type="text" class="form-control" name="address" id="address" placeholder="Address" value='<?= $branchData['address'] ?>' readonly>
-                            <label for="coordinates">Coordinates:</label>
-                            <input type="text" class="form-control" name="coordinates" id="coordinates" placeholder="Coordinates" value='<?= $branchData['coordinates'] ?>' readonly>
-                            <div class="d-flex" >
-                                <button type="submit" class="btn btn-primary" name="updateBranch" id="saveButton2" style="display: none;" onclick="toggleEditBranch()">Save</button>
-                                <button type="button" class="btn btn-secondary" id="cancelButton2" style="display: none;" onclick="toggleEditBranch()">Cancel</button>
-                            </div>
-                        
-                        </form>
+                        </a>
                     </div>
-               
-                <div class="col-md-5">
-                    <div>
-                        <div class="mb-4 d-flex justify-content-center">
-                            <img src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg" alt="example placeholder" />
+                        <div class="column d-flex row justify-content-between">
+                        <div class="col-md-7 flex-column">
+                        <h6>Branch Name</h6>
+                        <input type="text" class="about-field form-control" name="data[branchName]" id="branchName" placeholder="Tell something about your business" value="<?= $branchData['branchName'] ?>" readonly>
+                        <h6>Address</h6>
+                        <input type="text" class="about-field form-control" name="data[address]" id="address" placeholder="Tell something about your business" value="<?= $branchData['address'] ?>" readonly>
+                        <h6>Coordinates</h6>
+                        <input type="text" class="about-field form-control" name="data[coordinates]" id="coordinates" placeholder="Tell something about your business" value="<?= $branchData['coordinates'] ?>" readonly>
                         </div>
-                        <div class="d-flex justify-content-center">
-                            <div class="btn btn-primary btn-rounded">
-                                <label class="form-label text-white m-1" for="customFile1">Choose file</label>
-                                <input type="file" class="form-control d-none" id="customFile1" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </div>
-            </div>
+                        <div class="col-md-5">
+              <div>
+              <div class="mb-4 d-flex justify-content-center">
+                  <img src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+                  alt="example placeholder" />
+              </div>
+              <div class="d-flex justify-content-center">
+                  <div class="btn btn-primary btn-rounded">
+                      <label class="form-label text-white m-1" for="customFile1">Choose file</label>
+                      <input type="file" class="form-control d-none" id="customFile1" />
+                  </div>
+              </div>
+          </div>
+        
+
+        
+        <a href="./ownpack2.html" class="btn-add-branch align-items-center justify-content-center">
+          <i class="bi bi-plus-square"></i>
+          <span>Add Package</span>
+        </a>
+       </div>
+       <div class="mt-4 p-4">
+            <button class="btn btn-primary" id="saveButton2" style="display: none;" onclick="saveChanges2()">Save</button>
+            <button class="btn btn-secondary" id="cancelButton2" style="display: none;" onclick="cancelEdit2()">Cancel</button>
+        
         </div>
-       <?php endwhile; ?> 
+        </div> <!--end of branch info-->
+        </div> 
+
+        <?php endwhile; ?>
+        </div>             
     <?php endwhile; ?>
 <?php endif; ?>
-
-
+</div>
 
 
 <?php if ($result->num_rows == 0): ?>
       <div id="own-bus" class="own-bus">
       <h1>My Business</h1>
-      <div class="d-flex justify-content-center align-items-center p-3" style="height: 100vh;">
+      <div class="d-flex justify-content-center align-items-center p-3" style="height: 50vh;">
           <div class="business-form-background">
               <a href="?page=bus-register">
                   <i class="bi bi-plus-square"></i>
@@ -277,13 +276,16 @@ $result = $DB->query($sql);
     
 }
 
-
 function toggleViewBranch(button) {
-        const businessCode = button.getAttribute('data-businesscode');
-        const branchDetails = document.getElementById(`branchDetails${businessCode}`);
-        branchDetails.style.display = 'block';
-        
+    const businessCode = button.getAttribute("data-businesscode");
+    const branchDetails = document.querySelector("#branchDetails" + businessCode);
+    branchDetails.style.display = branchDetails.style.display === "none" ? "block" : "none";
 }
+
+const viewBranchButtons = document.querySelectorAll(".view-branch-button");
+viewBranchButtons.forEach(button => {
+    button.addEventListener("click", () => toggleViewBranch(button));
+});
 
 function toggleEditBranch() {
         // Toggle the readonly attribute on input fields
