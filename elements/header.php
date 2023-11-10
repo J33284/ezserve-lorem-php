@@ -30,7 +30,7 @@
         <nav class="d-flex justify-content-between align-items-center">
         <ul class="d-flex align-items-center justify-content-between">
             <li><a href="<?php echo SITE_URL ?>/?page=default">Home</a></li>
-            <li><a href="<?php echo SITE_URL ?>/?page=service">Service</a></li>
+            <li><a href="<?php echo SITE_URL ?>/?page=services">Service</a></li>
             <li><a href="<?php echo SITE_URL ?>/?page=about">About</a></li>
         
             <?php if (isset($_SESSION[AUTH_ID])) { ?>

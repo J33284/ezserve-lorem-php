@@ -224,7 +224,7 @@ function previewImage(input) {
             // Update the image source and display it
             document.getElementById('imagePreview').src = e.target.result;
             document.getElementById('imagePreview').style.display = 'block';
-            document.getElementById('imageDefault').style.display = 'none';
+            
         };
 
         // Read the file as a data URL
@@ -233,19 +233,4 @@ function previewImage(input) {
 }
 //PACKAGE
 
-function toggleViewPackage(button) {
-    var branchCode = button.getAttribute('data-branchcode');
-    var packageDetails = document.getElementById('packageDetails' + branchCode);
 
-    // Check if packageDetails is not null before accessing its properties
-    if (packageDetails) {
-        // Toggle the display of the package details
-        if (packageDetails.style.display === 'none') {
-            packageDetails.style.display = 'block';
-        } else {
-            packageDetails.style.display = 'none';
-        }
-    } else {
-        console.error('Element with ID "packageDetails' + branchCode + '" not found.');
-    }
-}

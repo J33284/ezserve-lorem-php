@@ -13,6 +13,7 @@ $result = $DB->query($sql);
 ?>
 
 <?php if ($result->num_rows > 0): ?>
+    
     <div id="own-bus" class="own-bus">
         <div class="d-flex justify-content-between p-3">
             <h1 class="text-light">My Business</h1>

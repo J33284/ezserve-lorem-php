@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['createBranch'])) {
     $coordinates = $_POST['data']['coordinates'];
 
     // File handling
-    $uploadDirectory = 'assests/uploads/branches'; // Define your upload directory path
+    $uploadDirectory = 'assets/uploads/branches'; // Define your upload directory path
     $uploadedFile = $_FILES['branchImage'];
 
     // Initialize $uniqueFilename outside the if block
@@ -99,4 +99,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['createBranch'])) {
     $stmt->close();
 }
 ?>
+
 

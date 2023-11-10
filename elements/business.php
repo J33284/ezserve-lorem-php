@@ -62,7 +62,7 @@ $branchResult = $DB->query($branchQuery);
         <div class="d-flex justify-content-between p-4">
             <h2>Branch Information</h2>
         </div>
-        <form method="post" action="?action=businessAction">
+        <form method="post" action="?action=businessAction" enctype="multipart/form-data">
             <input type="hidden" name="add_branch" value="<?= $row['businessCode'] ?>">
             <div class="column d-flex row justify-content-between">
                 <div class="col-md-7 flex-column" style="height: 300px;">
@@ -122,7 +122,22 @@ $branchResult = $DB->query($branchQuery);
                     <div class="col-md-5">
                         <div>
                             <div class="mb-4 d-flex justify-content-center">
+                            <?php
+                            $imageFile = $branchData['imageFile'];
+                            $imagePath = "assets/uploads/branches/{$imageFile}";
+                            
+                            // Check if the image file exists
+                            if (file_exists($imagePath)) {
+                                ?>
+                                <img src="<?= $imagePath ?>" alt="Branch Image" />
+                                <?php
+                            } else {
+                                ?>
                                 <img src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg" alt="example placeholder" />
+                                <?php
+                            }
+                            ?>
+
                             </div>
                             <div class="d-flex justify-content-center">
                                 <div class="btn btn-primary btn-rounded">
@@ -134,14 +149,9 @@ $branchResult = $DB->query($branchQuery);
                     </div>
 
                     <div>
-                        <a href="#package" id="ViewPackage" class="btn-view-package align-items-center justify-content-center view-package-button" data-branchcode="<?= $branchData['branchCode'] ?>" onclick="toggleViewPackage(this)">
+                        <a href="?page=package&branchcode=<?= $branchData['branchCode'] ?>" class="btn-add-branch align-items-center justify-content-center view-package-button" id="ViewPackage">
                             <i class="bi bi-eye"></i>
-                            <span>View Package</span>
-                        </a>
-                        <br>
-                        <a href="#package" id="AddPackage" class="btn-add-branch align-items-center justify-content-center add-package-button" data-branchCode="<?= $branchData['branchCode'] ?>" onclick="toggleAddPackage(this)">
-                            <i class="bi bi-eye"></i>
-                            <span>Add Package</span>
+                            <span>View/Add Package</span>
                         </a>
                     </div>
 
@@ -152,45 +162,6 @@ $branchResult = $DB->query($branchQuery);
                 </div>
             </form>
         </div>
+       
     <?php endwhile; ?>
 </div> <!-- end of branch info -->
-
-
-<!-- View Package -->
-<div class="package-details" id="packageDetails<?= $businessCode ?>" style="display: none;">
-    <?php while ($branchData = $branchResult->fetch_assoc()): ?>
-        <?php
-        $branchCode = $branchData['branchCode'];
-        $packageQuery = "SELECT * FROM package WHERE branchCode = $branchCode";
-        $packageResult = $DB->query($packageQuery);
-        ?>
-
-        <div class="package-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded">
-            <div class="d-flex justify-content-between p-4">
-                <h2>Package Information</h2>
-            </div>
-
-            <table class="table table-hover table-responsive">
-                <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($packageData = $packageResult->fetch_assoc()): ?>
-                        <tr>
-                            <td><?= $packageData['name'] ?></td>
-                            <td><?= $packageData['description'] ?></td>
-                            <td><?= $packageData['quantity'] ?></td>
-                            <td><?= $packageData['price'] ?></td>
-                        </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
-        </div>
-
-    <?php endwhile; ?>
-</div>
