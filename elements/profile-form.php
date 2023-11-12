@@ -8,7 +8,7 @@ $email = $userData->email;
 $number = $userData->number;
 $username = $userData->username;
 $password = $userData->password;
-
+$ownerAddress = $userData->ownerAddress;
 
 ?>
 
@@ -55,6 +55,11 @@ $password = $userData->password;
                     <label class="mb-2 text-light" for="username">Username</label>
                     <input type="text" class="form-control" name="username" id="username" placeholder="Username" required readonly
                         value="<?php echo $username; ?>">
+                </div>
+                <div class="mb-2">
+                    <label class="mb-2 text-light" for="ownerAddress">Address</label>
+                    <input type="text" class="form-control" name="ownerAddress" id="ownerAddress" placeholder="Address"  readonly
+                        value="<?php echo $ownerAddress; ?>">
                 </div>
                 <div class="d-flex justify-content-end p-3" id="buttons">
                     <button type="submit" name="updateProfile" id="updateButton" class="btn-update btn btn-primary me-2"

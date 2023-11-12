@@ -25,7 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['updateProfile'])) {
         'birthday' => $_POST['birthday'],
         'email' => $_POST['email'],
         'number' => $_POST['number'],
-        'username' => $_POST['username']
+        'username' => $_POST['username'],
+        'ownerAddress' => $_POST['ownerAddress']
     );
 
     $userID = $_SESSION[AUTH_ID]; // Use the appropriate AUTH_ID based on user type

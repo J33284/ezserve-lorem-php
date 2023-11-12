@@ -1,6 +1,6 @@
 <?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); 
 
-$businesses = $DB->query("SELECT * FROM business WHERE statuS ='1'");
+$businesses = $DB->query("SELECT * FROM business WHERE status ='1'");
 
 ?>
 
@@ -27,8 +27,10 @@ $businesses = $DB->query("SELECT * FROM business WHERE statuS ='1'");
         <div class="card-body">
             <h5 class="card-title"><?= $business['busName'] ?></h5>
             <p class="card-text"><?= $business['street'] . ', ' . $business['city_municipality'] ?></p>
-            <button class="btn btn-primary view-business" onclick="redirectToBusinessDetails('<?= $business['businessCode'] ?>')">View</button>
-        </div>
+            <form action="?page=client_business_details" method="post">
+            <input type="hidden" name="businessCode" value="<?= $business['businessCode'] ?>">
+            <button type="submit" class="btn btn-primary view-business" data-business-code="<?= $business['businessCode'] ?>">View</button>
+          </form></div>
     </div>
 
      <?php endforeach; ?>
@@ -38,9 +40,7 @@ $businesses = $DB->query("SELECT * FROM business WHERE statuS ='1'");
   <script >
     
         
-        function redirectToBusinessDetails(businessCode) {
-            window.location.href = 'client-business-details.php?businessCode=' + businessCode;
-        }
+
     
     
   </script> 

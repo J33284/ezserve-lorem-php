@@ -11,9 +11,10 @@
                         $userData = viewUser($_SESSION['userID']);
                         $fname = $userData->fname;
                         $lname = $userData->lname;
+                        $ownerAddress = $userData->ownerAddress;
                     ?>
-                    <input type="text" class="form-control" name="fname" id="fname" placeholder="First Name" required readonly value="<?php echo $fname," ", $lname; ?>">
-                    <input type="text" class="form-control" name="data[ownerAddress]" id="ownerAddress" placeholder="Owner's Address">
+                    <input type="text" class="form-control" name="fname" id="fname" placeholder="First Name"  readonly value="<?php echo $fname," ", $lname; ?>">
+                    <input type="text" class="form-control" name="data[ownerAddress]" id="ownerAddress" placeholder="Owner's Address" readonly value="<?php echo $ownerAddress;?>">
                     <h5>Business Information</h5>
                     <input type="text" class="form-control" name="data[busName]" id="busName" placeholder="Business Name">
                     <div class="row pt-3">

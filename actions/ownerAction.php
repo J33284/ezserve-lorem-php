@@ -5,7 +5,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
     $userID = $_SESSION['userID']; 
 
     // Collect form data
-    $ownerAddress = mysqli_real_escape_string($DB, $_POST["data"]["ownerAddress"]);
     $busName = mysqli_real_escape_string($DB, $_POST["data"]["busName"]);
     $busType = mysqli_real_escape_string($DB, $_POST["data"]["busType"]);
     $house_building = mysqli_real_escape_string($DB, $_POST["data"]["house_building"]);

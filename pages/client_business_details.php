@@ -1,9 +1,19 @@
 <?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); 
 
 //$businesses = $DB->query("SELECT * FROM business LIMIT 1");
-$businesses = $DB->query("SELECT b.*, br.* FROM business b
-    JOIN branches br ON b.businessCode = br.businessCode
-    LIMIT 1");
+
+
+//$businesses = $DB->query("SELECT b.*, br.* FROM business b
+  //  JOIN branches br ON b.businessCode = br.businessCode
+    //LIMIT 1");
+
+    $businessCode = $_POST['businessCode'];
+
+    $businesses = $DB->query("SELECT b.*, br.* FROM business b
+        JOIN branches br ON b.businessCode = br.businessCode
+        WHERE b.businessCode = '$businessCode'
+        LIMIT 1");
+
 ?>
 
 
@@ -11,19 +21,19 @@ $businesses = $DB->query("SELECT b.*, br.* FROM business b
     
     <div class="bus-details" >
         <?php foreach ($businesses as $business) : ?>
-      <div class=" container shadow mb-5 bg-white rounded details sticky-top " style="padding: 30px 0px 0px 20px;">
-        <div class="row">
-          <h1 class=" d-flex justify-content-start align-items-center"> <?= $business['busName'] ?></h1>
-          
-          </div>    
+          <div class=" container shadow mb-5 bg-white rounded details sticky-top " style="padding: 30px 0px 0px 20px;">
+            <div class="row">
+              <h1 class=" d-flex justify-content-start align-items-center"> <?= $business['busName'] ?></h1>
+              
+              </div>    
         
-        <div class="links border-top ">
-          <ul class=" d-flex justify-content-start align-items-center">
-            <li class="nav-item"><a class="nav-link" href="#About"> About Us </a></li>
-            <li class="nav-item"><a class="nav-link" href="#Branches"> Branches </a></li>
-            
-          </ul>
-        </div>
+                  <div class="links border-top ">
+                    <ul class=" d-flex justify-content-start align-items-center">
+                      <li class="nav-item"><a class="nav-link" href="#About"> About Us </a></li>
+                      <li class="nav-item"><a class="nav-link" href="#Branches"> Branches </a></li>
+                      
+                    </ul>
+                  </div>
      
       </div>         
      
