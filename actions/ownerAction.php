@@ -15,7 +15,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
     $region = mysqli_real_escape_string($DB, $_POST["data"]["region"]);
     $phone = mysqli_real_escape_string($DB, $_POST["data"]["phone"]);
     $mobile = mysqli_real_escape_string($DB, $_POST["data"]["mobile"]);
-    $coordinates = mysqli_real_escape_string($DB, $_POST["data"]["coordinates"]);
     $permits = $_FILES["permits"];
 
     // Check if a file was uploaded
@@ -28,12 +27,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
         }
 
         if (move_uploaded_file($permits['tmp_name'], $targetFile)) {
-            $sql = "INSERT INTO business (ownerID, ownerAddress, busName, busType, house_building, street, barangay, city_municipality, province, region, phone, mobile, coordinates, permits)
-                    VALUES ('$userID', '$ownerAddress', '$busName', '$busType', '$house_building', '$street', '$barangay', '$city_municipality', '$province', '$region', '$phone', '$mobile', '$coordinates', '$targetFile')";
+            $sql = "INSERT INTO business (ownerID, busName, busType, house_building, street, barangay, city_municipality, province, region, phone, mobile, coordinates, permits)
+                    VALUES ('$userID', '$busName', '$busType', '$house_building', '$street', '$barangay', '$city_municipality', '$province', '$region', '$phone', '$mobile', '$targetFile')";
 
             if ($DB->query($sql) === TRUE) {
                 set_message("Thank you for your registration. Please wait for Confirmation");
-                redirect();
+                redirect('?page=owner_business');
             } else {
                 set_message("Failed Registration: " . $DB->error);
             }

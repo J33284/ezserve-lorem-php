@@ -61,9 +61,6 @@
                                 <input type="text" class="form-control col" name="data[mobile]" id="mobile" placeholder="Mobile Number" required>
                             </div>
                         </div>
-                        <div class="mt-2">
-                            <input type="text" class="form-control col" name="data[coordinates]" id="coordinates" placeholder="Coordinates">
-                        </div>
                     </div>
                     <div class="p-0">
                         <h6 class="page-title">Upload Business Permits</h6>

@@ -99,10 +99,6 @@ $businesses = $DB->query("SELECT b.*, bo.* FROM business b
                             <label class="col-4" for="mobile">Mobile Number</label>
                             <input type="text" class="form-control col" name="data[mobile]" id="mobile" value="<?= $business['mobile'] ?>" readonly>
                         </div>
-                        <div class="row mb-2">
-                            <label class="col-4" for="coordinates">Coordinates</label>
-                            <input type="text" class="form-control col" name="data[coordinates]" id="coordinates" value="<?= $business['coordinates'] ?>" readonly>
-                        </div>
 
                             <h6 class="text-light bg-info">Business Permits</h6>
                             <input class="form-control mt-3" name="permits" type="file" id="formFile" readonly>

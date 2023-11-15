@@ -5,7 +5,7 @@
           <h1>Welcome To WebWorks! </h1>
           <br>
           <p class="lh-base text-justify"> Get ready to embark on a journey of discovery as you explore our extensive range of services. We've got it all whether you're seeking convenience, creativity, or expertise. Take your time, dive in, and uncover the possibilities that await. Your one-stop destination for all your service needs is right here. Start exploring today and experience the endless opportunities that await you!</p>
-          <a href="services.php" class="btn-sign-up d-inline-flex">
+          <a href="?page=services" class="btn-sign-up d-inline-flex">
             <span>Explore</span>
             <i class="bi bi-arrow-right"></i> 
           </a>

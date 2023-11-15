@@ -20,6 +20,7 @@ $businesses = $DB->query("SELECT * FROM business WHERE status ='1'");
     </div>
      
     <div class="mx-5 p-5">
+      
     <?php foreach ($businesses as $business) : ?>
       <!-- main code -->
       <div class="card flex-row shadow-sm p-3 mb-5 bg-white rounded" style="width: 85vw;">
