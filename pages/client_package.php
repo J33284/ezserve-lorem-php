@@ -22,12 +22,15 @@ if ($branchesQ) {
     }
 </style>
 
+
 <?= element('header') ?>
+
+<?php if ($branchesQ->num_rows > 0): ?>
 <div class="mb-5" style="height: 100vh">
 
     <div class=" container pack-head sticky-top card p-3">
         <div class=" row d-flex justify-content-center align-items-center">
-            <a href="" class=" col-lg-1 col-sm-1 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
+            <a href="?page=services" class=" col-lg-1 col-sm-1 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
                 <i class="bi bi-arrow-left"></i></a>
             <h1 class="col-lg-6 col-sm-6 d-flex justify-content-start "> <?= $branch['branchName'] ?></h1>
 
@@ -76,24 +79,24 @@ if ($branchesQ) {
                                 <h5 class="card-title"> <?= $package['packName'] ?> </h5>
                                 <?php
                                   // Fetch services for the selected branch
-                                  $packCode = $package['packCode'];
+                                  $categoryCode = $category['categoryCode'];
 
-                                  $categoryQ = $DB->query("SELECT p.*, c.*
-                                      FROM package p
-                                      JOIN category c ON p.packCode = c.packCode
-                                      WHERE p.packCode = '$packCode' LIMIT 1");
+                                  $serviceQ = $DB->query("SELECT c.*, s.*
+                                      FROM category c
+                                      JOIN service s ON c.categoryCode = s.categoryCode
+                                      WHERE c.categoryCode = '$categoryCode' LIMIT 1");
 
                                   // Check if the query was successful before trying to fetch data
-                                  if ($categoryQ) {
-                                      $category = $categoryQ->fetch_assoc();
+                                  if ($serviceQ) {
+                                      $service = $serviceQ->fetch_assoc();
 
                                       // The rest of your code remains unchanged
                                   }
 
                                 ?>
-                                <p class="card-text"> <?= $category['categoryName'] ?></p>
-                                <a href="" class="btn btn-primary">View</a>
                                 
+                                <a href="?page=client_view_package&packCode=<?= $package['packCode'] ?>" class="btn btn-primary">View</a>
+
                             </div>
                         </div>
                     </div>
@@ -122,6 +125,21 @@ if ($branchesQ) {
     </div>
 
 </div>
+<?php endif; ?>
+
+<?php if ($branchesQ->num_rows == 0): ?>
+    
+    
+    <div class="d-flex justify-content-center align-items-center p-3" style="height: 50vh;">
+          <div class="business-form-background">
+                  <i class="bi bi-plus-square"></i>
+                  <span >No Packages Available Yet!!</span>
+              </a>
+          </div>
+      </div>
+  </div>
+
+    
+<?php endif; ?>
 
 
-        

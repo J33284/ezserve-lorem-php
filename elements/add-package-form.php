@@ -1,9 +1,8 @@
-
+<?php
+$branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
+?>
     <div class="container form-container">
-        <form method="post" action="add_packageAction.php">
-            <label for="packageName">Package Name:</label>
-            <input type="text" name="packageName" id="packageName" class="form-control" required>
-
+        <form method="post" action="?action=add_packageAction">
             <h2 style ="margin-left: 170px; margin-top:100px;">Add A Package</h2>
             <table class="table table-hover table-responsive" style="width: 90%; height: 100px; margin-top:150px; margin-left: 170px;">
                 <thead>
@@ -19,10 +18,10 @@
                 </thead>
                 <tbody>
                     <tr>
-                        
+                        <input type="hidden" name="branchcode" value="<?= $branchCode ?>">
                         <td><input type="text" name="packName" class="form-control" required></td>
                         <td><input type="text" name="categoryName" class="form-control" required></td>
-                        <td><input type="text" name="seviceName" class="form-control" required></td>
+                        <td><input type="text" name="serviceName" class="form-control" required></td>
                         <td><input type="text" name="Description" class="form-control" required></td>
                         <td><input type="number" name="quantity" class="form-control" required></td>
                         <td><input type="text" name="color" class="form-control" required></td>
@@ -31,7 +30,7 @@
                 </tbody>
             </table>
             <div>
-            <button type="submit" class="btn btn-primary" style ="margin-left: 170px;">Save Package</button>
+            <button type="submit"  class="btn btn-primary" style ="margin-left: 170px;">Save Package</button>
         </div>
         </form>
     </div>

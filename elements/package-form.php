@@ -1,7 +1,7 @@
 <?php
 global $DB;
 $branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
-$packageQuery = "SELECT package.packCode, package.packName, category.categoryName, service.seviceName, service.Description, service.quantity, service.color, service.price
+$packageQuery = "SELECT package.packCode, package.packName, category.categoryName, service.serviceName, service.Description, service.quantity, service.color, service.price
 FROM package
 JOIN category ON package.packCode = category.packCode
 JOIN service ON category.categoryCode = service.categoryCode
@@ -66,7 +66,7 @@ $packageResult = $DB->query($packageQuery);
             // Display the category details for the current package
             echo '<tr>
                     <td>' . $row['categoryName'] . '</td>
-                    <td>' . $row['seviceName'] . '</td>
+                    <td>' . $row['serviceName'] . '</td>
                     <td>' . $row['Description'] . '</td>
                     <td>' . $row['quantity'] . '</td>
                     <td>' . $row['color'] . '</td>
@@ -93,7 +93,7 @@ $packageResult = $DB->query($packageQuery);
           ?>
           <!-- Add Package button outside the loop -->
         <div class="m-3">
-          <a href="?page=add_package" class="btn-edit btn-lg mt-4">
+          <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
                     <i class="bi bi-plus-square"></i>
                     <span>Add Package</span>
                 </a>
@@ -118,7 +118,7 @@ $packageResult = $DB->query($packageQuery);
         <div class="accordion" id="accordionFlushExample">
 
         <div class="m-3">
-          <a href="?page=add_package" class="btn-edit btn-lg mt-4">
+          <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
                     <i class="bi bi-plus-square"></i>
                     <span>Add Package</span>
                 </a>

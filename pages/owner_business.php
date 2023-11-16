@@ -15,6 +15,7 @@ $result = $DB->query($sql);
 <?php if ($result->num_rows > 0): ?>
     
     <div id="own-bus" class="own-bus">
+      
         <div class="d-flex justify-content-between p-3">
             <h1 class="text-light">My Business</h1>
             <a href="?page=bus-register" id="registerButton">
@@ -82,3 +83,35 @@ $result = $DB->query($sql);
   <?php endif; ?>
 
   <script src="assets/js/user.js"></script>  
+
+  <style>
+
+.table thead th {
+        background-color: #F6982E; 
+        color: white; 
+    }
+    
+    .table {
+        border-radius: 20px; /* Adjust the value as needed */
+        overflow: hidden; /* Hide overflow content from rounded corners */
+    }
+
+    .table thead th:first-child {
+        border-top-left-radius: 10px; /* Adjust the value as needed */
+    }
+
+    .table thead th:last-child {
+        border-top-right-radius: 10px; /* Adjust the value as needed */
+    }
+
+    .table tbody tr:last-child td:first-child {
+        border-bottom-left-radius: 10px; /* Adjust the value as needed */
+    }
+
+    .table tbody tr:last-child td:last-child {
+        border-bottom-right-radius: 10px; /* Adjust the value as needed */
+    }
+
+</style>
+
+

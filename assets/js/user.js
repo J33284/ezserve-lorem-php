@@ -99,6 +99,7 @@ function toggleBusinessInfo() {
 
     }
 
+    
     function toggleEditable() {
         // Toggle the readonly attribute on input fields
         toggleInputEditable("busName");
@@ -146,7 +147,11 @@ function toggleBusinessInfo() {
         const businessCode = button.getAttribute("data-businesscode");
         const branchDetails = document.querySelector("#branchDetails" + businessCode);
         branchDetails.style.display = branchDetails.style.display === "none" ? "block" : "none";
+
+
+        
     }
+ 
 
     const viewBranchButtons = document.querySelectorAll(".view-branch-button");
     viewBranchButtons.forEach(button => {
@@ -201,8 +206,8 @@ function toggleBusinessInfo() {
         });
     }
     
-       
-//ADD BRANCH    
+           
+// ADD BRANCH
 function toggleAddBranch(button) {
     const businessCode = button.getAttribute("data-businesscode");
     const branchDetails = document.querySelector("#branch" + businessCode);
@@ -211,8 +216,9 @@ function toggleAddBranch(button) {
 
 const addBranchButtons = document.querySelectorAll(".add-branch-button");
 addBranchButtons.forEach(button => {
-    button.addEventListener("click", () => toggleaddBranch(button));
+    button.addEventListener("click", () => toggleAddBranch(button)); // <-- Corrected function name here
 });
+
 
 
 function previewImage(input) {

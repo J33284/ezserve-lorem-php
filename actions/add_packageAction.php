@@ -4,43 +4,65 @@ global $DB;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve and sanitize form data
-    $packCode = isset($_GET['packCode']) ? $_GET['packCode'] : '';
+    $branchCode = isset($_POST['branchcode']) ? $_POST['branchcode'] : '';
     $packName = $_POST["packName"];
     $categoryName = $_POST["categoryName"];
-    $seviceName = $_POST["seviceName"];
+    $serviceName = $_POST["serviceName"];
     $Description = $_POST["Description"];
     $quantity = $_POST["quantity"];
     $color = $_POST["color"];
     $price = $_POST["price"];
 
-    // Insert data into the 'package' table
-    $insertPackageQuery = "INSERT INTO package (packCode, packName) VALUES ('$packCode', '$packName')";
-    $DB->query($insertPackageQuery);
+    try {
+        // Start a database transaction
+        $DB->begin_transaction();
 
-    // Get the last inserted packageCode (assuming it's an auto-incremented primary key)
-    $packageCode = $DB->insert_id;
+        // Insert into package table
+        $stmt = $DB->prepare("INSERT INTO package (branchCode, packName) VALUES (?, ?)");
+        $stmt->bind_param("ss", $branchCode, $packName);
+        $stmt->execute();
 
-    // Insert data into the 'category' table
-    $insertCategoryQuery = "INSERT INTO category (packCode, categoryName) VALUES ('$packCode', '$categoryName')";
-    $DB->query($insertCategoryQuery);
+        // Get the auto-incremented packCode
+        $packCode = $DB->insert_id;
 
-    // Get the last inserted categoryCode
-    $categoryCode = $DB->insert_id;
+        // Insert into category table
+        $stmt = $DB->prepare("INSERT INTO category (packCode, categoryName) VALUES (?, ?)");
+        $stmt->bind_param("is", $packCode, $categoryName);
+        $stmt->execute();
 
-    // Insert data into the 'service' table
-    $insertServiceQuery = "INSERT INTO service (categoryCode, serviceName) VALUES ('$categoryCode', '$productName')";
-    $DB->query($insertServiceQuery);
+        // Get the auto-incremented categoryCode
+        $categoryCode = $DB->insert_id;
 
-    // Get the last inserted serviceCode
-    $serviceCode = $DB->insert_id;
+        // Insert into service table
+        $stmt = $DB->prepare("INSERT INTO service (categoryCode, serviceName, Description, color, quantity, price) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("isssii", $categoryCode, $serviceName, $Description, $color, $quantity, $price);
+        $stmt->execute();
 
-    // Continue with any additional processing or redirect as needed
-    if ($serviceCode) {
-        // Data inserted successfully
-        header (location: "?page=package");
-    } else {
-        // Error handling
-        echo "Error adding package: " . $DB->error;
+        // Commit the transaction if all queries were successful
+        $DB->commit();
+
+        // Set a flag for successful insertion
+        $insertionSuccess = true;
+
+    } catch (Exception $e) {
+        // Rollback the transaction if any query fails
+        $DB->rollback();
+
+        // Set the flag for unsuccessful insertion
+        $insertionSuccess = false;
+
+        // Output the error message
+        echo "Error: " . $e->getMessage();
     }
+}
+
+// Check if the insertion was successful
+if ($insertionSuccess) {
+    // Redirect to ?page=package
+    header('Location: ?page=package&branchcode=' . urlencode($branchCode));
+    exit(); // Make sure to exit after the header to prevent further execution
+} else {
+    // Handle the case where insertion failed
+    echo "Insertion failed. Please try again.";
 }
 ?>

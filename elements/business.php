@@ -55,6 +55,11 @@ $businessCode = $row['businessCode'];
 // Fetch branch details from the branches table based on the businessCode
 $branchQuery = "SELECT * FROM branches WHERE businessCode = $businessCode";
 $branchResult = $DB->query($branchQuery);
+
+if ($branchResult->num_rows == 0);
+{
+    
+}
 ?>
 
 <div class="add-branch" id="branch<?= $businessCode ?>" style="display: none;">
@@ -96,6 +101,9 @@ $branchResult = $DB->query($branchQuery);
     </div>
 </div>
 
+
+
+<?php if ($branchResult->num_rows > 0): ?>
 <!-- View Branch -->
 <div class="branch-details" id="branchDetails<?= $businessCode ?>" style="display: none;">
     <?php while ($branchData = $branchResult->fetch_assoc()): ?>
@@ -165,3 +173,6 @@ $branchResult = $DB->query($branchQuery);
        
     <?php endwhile; ?>
 </div> <!-- end of branch info -->
+<?php endif; ?>
+
+

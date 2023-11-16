@@ -63,7 +63,7 @@
                         </div>
                     </div>
                     <div class="p-0">
-                        <h6 class="page-title">Upload Business Permits</h6>
+                        <h6 class="page-title">Upload Business Permits <br> (Allowed File Types: pdf, jpeg, jpg, png)</h6>
                         <input class="form-control mt-3" name="permits" type="file" id="formFile"> <!-- Modify the name attribute to "permits" -->
                     </div>
 

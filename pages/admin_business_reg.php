@@ -100,14 +100,42 @@ $businesses = $DB->query("SELECT b.*, bo.* FROM business b
                             <input type="text" class="form-control col" name="data[mobile]" id="mobile" value="<?= $business['mobile'] ?>" readonly>
                         </div>
 
-                            <h6 class="text-light bg-info">Business Permits</h6>
-                            <input class="form-control mt-3" name="permits" type="file" id="formFile" readonly>
-                        </div> 
+                        <h5 class="text-light bg-info">Business Permit</h5>
+                        <?php
+                        $filePath = $business['permits']; // Assuming the file path is stored in the 'permits' field
+                        if (file_exists($filePath)) {
+                            $fileInfo = pathinfo($filePath);
+                            $fileName = $fileInfo['basename'];
+
+                            echo "<p><strong>File Name:</strong> $fileName</p>";
+
+                            // Display file content for images
+                            $allowedImageFormats = array("jpg", "jpeg", "png");
+                            if (in_array(strtolower($fileInfo['extension']), $allowedImageFormats)) {
+                                echo "<img src='$filePath' alt='Uploaded Image' class='img-fluid'>";
+                            } else {
+                                // Display file content for other file types using appropriate tags
+                                if ($fileInfo['extension'] === 'pdf') {
+                                    // Example: Use an <a> tag with target="_blank" for PDF files
+                                    echo "<a href='$filePath' target='_blank'>View PDF</a>";
+                                } else {
+                                    // Add handling for other file types here
+                                    echo "<p>Unable to display this file type.</p>";
+                                }
+                            }
+                        } else {
+                            echo "<p>No file uploaded.</p>";
+                        }
+                        ?>
+
+
                 </div>
             <?php endforeach; ?>
         </tbody>
     </table>
 </div>
+
+
 
 
 <?= element('footer') ?>

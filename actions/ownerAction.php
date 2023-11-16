@@ -18,32 +18,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
     $permits = $_FILES["permits"];
 
     // Check if a file was uploaded
-    if ($permits['error'] == 0) {
+    if ($permits['error'] != 0) {
+        set_message("File upload error: " . $permits['error']);
+        // Handle the error or redirect accordingly
+    } else {
         $targetDirectory = 'assets/uploads';
         $targetFile = $targetDirectory . '/' . basename($permits['name']);
 
+        // Create the target directory if it doesn't exist
         if (!file_exists($targetDirectory)) {
             mkdir($targetDirectory, 0755, true);
         }
 
-        if (move_uploaded_file($permits['tmp_name'], $targetFile)) {
-            $sql = "INSERT INTO business (ownerID, busName, busType, house_building, street, barangay, city_municipality, province, region, phone, mobile, coordinates, permits)
-                    VALUES ('$userID', '$busName', '$busType', '$house_building', '$street', '$barangay', '$city_municipality', '$province', '$region', '$phone', '$mobile', '$targetFile')";
+        // Validate file type and size
+        $allowedFormats = array("pdf", "jpeg", "jpg", "png");
+        $maxFileSize = 5242880; // 5 MB
 
-            if ($DB->query($sql) === TRUE) {
-                set_message("Thank you for your registration. Please wait for Confirmation");
-                redirect('?page=owner_business');
-            } else {
-                set_message("Failed Registration: " . $DB->error);
-            }
+        if (!in_array(pathinfo($permits['name'], PATHINFO_EXTENSION), $allowedFormats) || $permits['size'] > $maxFileSize) {
+            set_message("Invalid file format or size.");
+            // Handle the error or redirect accordingly
         } else {
-            set_message("Failed to upload file.");
+            // Move the file to the specified directory
+            if (move_uploaded_file($permits['tmp_name'], $targetFile)) {
+                // Use prepared statements to prevent SQL injection
+                $stmt = $DB->prepare("INSERT INTO business (ownerID, busName, busType, house_building, street, barangay, city_municipality, province, region, phone, mobile, permits) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+                $stmt->bind_param("ssssssssssss", $userID, $busName, $busType, $house_building, $street, $barangay, $city_municipality, $province, $region, $phone, $mobile, $targetFile);
+
+                if ($stmt->execute()) {
+                    set_message("Thank you for your registration. Please wait for Confirmation");
+                    redirect('?page=owner_business');
+                } else {
+                    set_message("Failed Registration: " . $stmt->error);
+                }
+
+                $stmt->close();
+            } else {
+                set_message("Failed to upload file.");
+            }
         }
     }
 }
-
 ?>
-
-
-
-
