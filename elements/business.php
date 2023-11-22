@@ -2,20 +2,34 @@
     <div class="business-details d-flex justify-content-between p-3" id="businessDetails<?= $row['businessCode'] ?>" style="display: none;">
         <h2>Business Information</h2>
         <div class="d-flex" style="position: absolute; top: 5%; right: 5%;">
-            <a href="#" id="editButton" class="btn-edit float-end mt-4" onclick="toggleEditable()"></a>
+            <a href="#" id="editButton" class="btn-edit float-end mt-4" onclick="toggleEditable()">
+            <i class="bi bi-pencil-fill"></i>
+                    <span>Edit</span>
+            </a>
         </div>
         <br>
         <!-- 2 columns for details and pic -->
-        <form method="post" action="?action=businessAction">
+        <form method="post" action="?action=businessAction" enctype="multipart/form-data" >
             <input type="hidden" name="business_Code" value="<?= $row['businessCode'] ?>">
+            <input type="hidden" name="data[prevImage]" value="<?= $row['busImage'] ?>">
+
             <div class="column d-flex row justify-content-between">
                 <div class="col-md-7 flex-column">
-                    <h6>About Us</h6>
-                    <input type="text" class="bus-Name-field form-control" name="data[busName]" id="busName" placeholder="Business Name" value="<?= $row['busName'] ?>" readonly>
-                    <h6>About Us</h6>
-                    <input type="text" class="about-field form-control" name="data[about]" id="about" placeholder="Tell something about your business" value="<?= $row['about'] ?>" readonly>
-                    <h6>Contact Us</h6>
-                    <input type="text" class="contact-field form-control" name="data[phone]" id="phone" placeholder="(e.g. Links, Contact Numbers, Websites)" value="<?= $row['phone'] ?>" readonly>
+                    <!-- Business Name -->
+                    <h6 id="busNameHeader"><b>Business Name</b></h6>
+                    <p id="busNameInput" style="display: block;"><?= $row['busName'] ?></p>
+                    <input type="text" class="bus-Name-field form-control" name="data[busName]" id="busName" placeholder="Business Name" value="<?= $row['busName'] ?>" style="display: none;">
+
+                    <!-- About Us -->
+                    <h6 id="aboutHeader"><b>About Us</b></h6>
+                    <p id="aboutInput" style="display: block;"><?= $row['about'] ?></p>
+                    <input type="text" class="about-field form-control" name="data[about]" id="about" placeholder="Tell something about your business" value="<?= $row['about'] ?>" style="display: none;">
+
+                    <!-- Contact Us -->
+                    <h6 id="contactHeader"><b>Contact Us</b></h6>
+                    <p id="contactInput" style="display: block;"><?= $row['phone'] ?></p>
+                    <input type="text" class="contact-field form-control" name="data[phone]" id="phone" placeholder="(e.g. Links, Contact Numbers, Websites)" value="<?= $row['phone'] ?>" style="display: none;">
+                    
                     <div class="d-flex">
                         <button type="submit" class="btn btn-primary" name="updateBusiness" id="saveBusiness" style="display: none;" onclick="toggleEditable()">Save</button>
                         <button type="button" class="btn btn-secondary" id="cancelBusiness" style="display: none;" onclick="toggleEditable()">Cancel</button>
@@ -25,42 +39,47 @@
                 <div class="col-md-5">
                     <div>
                         <div class="mb-4 d-flex justify-content-center">
-                            <img src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg" alt="example placeholder" />
+                            <img id="imagePreview" src="<?= $row['busImage'] ? $row['busImage'] : 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg' ?>" alt="business image" style="max-width: 100%; max-height: 200px;">
                         </div>
+
                         <div class="d-flex justify-content-center">
-                            <div class="btn btn-primary btn-rounded">
-                                <label class="form-label text-white m-1" for="customFile1">Choose file</label>
-                                <input type="file" class="form-control d-none" id="customFile1" />
+                            <div id= "filelabel1" class="btn btn-primary btn-rounded" style ="display: none;">
+                                <label class="form-label text-white m-1" for="busImage">Choose file</label>
+                                <input type="file" class="form-control d-none" id="busImage" name="busImage" accept="image/*" onchange="previewImage(this)">
                             </div>
                         </div>
                     </div>
                     <br>
                 </div>
-            </div>
-            <a href="#branch-details" id="ViewBranch" class="btn-view-branches align-items-center justify-content-center view-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleViewBranch(this)">
-                <i class="bi bi-eye"></i>
-                <span>View Branch</span>
-            </a>
-            <br>
-            <a href="#add-branch" id="AddBranch" class="btn-add-branch align-items-center justify-content-center add-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleAddBranch(this)">
-                <i class="bi bi-plus-square"></i>
-                <span>Add Branch</span>
-            </a>
+                <?php
+                $businessCode = $row['businessCode'];
+                // Fetch branch details from the branches table based on the businessCode
+                $branchQuery = "SELECT * FROM branches WHERE businessCode = $businessCode";
+                $branchResult = $DB->query($branchQuery);
+
+                if ($branchResult->num_rows == 0);
+                {
+                    
+                }
+                ?>
+
+                </div>
+                <?php if ($branchResult->num_rows > 0): ?>
+                    <a href="#branch-details" id="ViewBranch" class="btn-view-branches align-items-center justify-content-center view-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleViewBranch(this)">
+                        <i class="bi bi-eye"></i>
+                        <span>View Branch</span>
+                    </a>
+                <?php endif; ?>
+
+                <br>
+                <a href="#add-branch" id="AddBranch" class="btn-add-branch align-items-center justify-content-center add-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleAddBranch(this)">
+                    <i class="bi bi-plus-square"></i>
+                    <span>Add Branch</span>
+                </a>
         </form>
     </div>
 </div>
 
-<?php
-$businessCode = $row['businessCode'];
-// Fetch branch details from the branches table based on the businessCode
-$branchQuery = "SELECT * FROM branches WHERE businessCode = $businessCode";
-$branchResult = $DB->query($branchQuery);
-
-if ($branchResult->num_rows == 0);
-{
-    
-}
-?>
 
 <div class="add-branch" id="branch<?= $businessCode ?>" style="display: none;">
     <div class="branch-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded">
@@ -141,7 +160,7 @@ if ($branchResult->num_rows == 0);
                                 <?php
                             } else {
                                 ?>
-                                <img src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg" alt="example placeholder" />
+                               <img id="imagePreview" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg" alt="example placeholder" style="max-width: 100%; max-height: 200px;">
                                 <?php
                             }
                             ?>
@@ -149,8 +168,8 @@ if ($branchResult->num_rows == 0);
                             </div>
                             <div class="d-flex justify-content-center">
                                 <div class="btn btn-primary btn-rounded">
-                                    <label class="form-label text-white m-1" for="customFile1">Choose file</label>
-                                    <input type="file" class="form-control d-none" name="branchImage" id="customFile1" />
+                                    <label class="form-label text-white m-1" for="busImage">Choose file</label>
+                                    <input type="file" class="form-control d-none" id="busImage" name="busImage" accept="image/*" onchange="previewImage(this)" />
                                 </div>
                             </div>
                         </div>
@@ -174,5 +193,29 @@ if ($branchResult->num_rows == 0);
     <?php endwhile; ?>
 </div> <!-- end of branch info -->
 <?php endif; ?>
+
+
+<script>
+    function previewImage(input) {
+        console.log('Function called');
+        var preview = document.getElementById('imagePreview');
+        console.log('File:', input.files);
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onloadend = function () {
+                console.log('Read successful');
+                preview.src = reader.result;
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            console.log('No file selected or no files support');
+            preview.src = "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg";
+        }
+    }
+</script>
+
 
 

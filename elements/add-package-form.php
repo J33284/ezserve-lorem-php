@@ -1,38 +1,74 @@
-<?php
-$branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
-?>
-    <div class="container form-container">
-        <form method="post" action="?action=add_packageAction">
-            <h2 style ="margin-left: 170px; margin-top:100px;">Add A Package</h2>
-            <table class="table table-hover table-responsive" style="width: 90%; height: 100px; margin-top:150px; margin-left: 170px;">
-                <thead>
-                    <tr>
-                        <th scope="col">Package Name</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Service</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Color</th>
-                        <th scope="col">Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <input type="hidden" name="branchcode" value="<?= $branchCode ?>">
-                        <td><input type="text" name="packName" class="form-control" required></td>
-                        <td><input type="text" name="categoryName" class="form-control" required></td>
-                        <td><input type="text" name="serviceName" class="form-control" required></td>
-                        <td><input type="text" name="Description" class="form-control" required></td>
-                        <td><input type="number" name="quantity" class="form-control" required></td>
-                        <td><input type="text" name="color" class="form-control" required></td>
-                        <td><input type="number" name="price" class="form-control" step="0.01" required></td>
-                    </tr>
-                </tbody>
-            </table>
-            <div>
-            <button type="submit"  class="btn btn-primary" style ="margin-left: 170px;">Save Package</button>
-        </div>
-        </form>
-    </div>
+<div class="form-container">
+  <form method="post" action="?action=add_packageAction">
+    <h2>Add A Package</h2>
+    <table class="table table-hover table-responsive">
+      <tbody>
+        <tr>
+          <td>Package Name:</td>
+          <td colspan="3"><input type="text" name="packName" class="form-control" required></td>
+        </tr>
+        <tr>
+          <td>Category:</td>
+          <td><input type="text" name="categoryName" class="form-control" required></td>
+          <td>Service:</td>
+          <td><input type="text" name="serviceName" class="form-control" required></td>
+        </tr>
+        <tr>
+          <td>Description:</td>
+          <td colspan="3"><input type="text" name="Description" class="form-control" required></td>
+        </tr>
+        <tr>
+          <td>Quantity:</td>
+          <td><input type="number" name="quantity" class="form-control" required></td>
+          <td>Color:</td>
+          <td><input type="text" name="color" class="form-control" required></td>
+        </tr>
+        <tr>
+          <td>Price:</td>
+          <td colspan="3"><input type="number" name="price" class="form-control" step="0.01" required></td>
+        </tr>
+        <tr>
+          <td colspan="4"><input type="hidden" name="branchcode" value="<?= $branchCode ?>"></td>
+        </tr>
+        <tr>
+          <td colspan="4" style="text-align: center;">
+            <button type="submit" class="btn btn-primary">Save Package</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
 
 
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin-left: 250px;
+    
+  }
+
+  .form-container {
+    width: 50%;
+    padding: 20px;
+    background-color: #f8f9fa;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+
+  .form-container h2 {
+    text-align: center;
+  }
+
+  .table {
+    width: 100%;
+    .table th,
+    .table td {
+    width: 150px;
+    }
+
+  }
+</style>

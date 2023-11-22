@@ -31,10 +31,10 @@
                     <div class="overflow-hidden">
                         <div class="row g-3">
                             <div class="col">
-                                <input type="text" class="form-control" name="data[house_building]" id="house_building" placeholder="House/Building No. & Name" required>
+                                <input type="text" class="form-control" name="data[house_building]" id="house_building" placeholder="House/Building No. & Name" >
                             </div>
                             <div class="col">
-                                <input type text class="form-control" name="data[street]" id="street" placeholder="Street">
+                                <input type text class="form-control" name="data[street]" id="street" placeholder="Street" >
                             </div>
                         </div>
                         <div class="row g-3">
@@ -55,10 +55,10 @@
                         </div>
                         <div class="row g-3">
                             <div class="col">
-                                <input type="text" class="form-control col" name="data[phone]" id="phone" placeholder="Phone Number" required>
+                                <input type="text" class="form-control col" name="data[phone]" id="phone" placeholder="Phone Number" >
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control col" name="data[mobile]" id="mobile" placeholder="Mobile Number" required>
+                                <input type="text" class="form-control col" name="data[mobile]" id="mobile" placeholder="Mobile Number" >
                             </div>
                         </div>
                     </div>

@@ -23,28 +23,35 @@ if ($packageDetailsQ) {
 }
 
 ?>
+
 <div class="container mt-5">
-    <?php if ($packageDetails): ?>
-        <h2><?= $packageDetails['packName'] ?> Details</h2>
-        <table class="table">
-            <tr>
-                <th>Category</th>
-                <td><?= $packageDetails['categoryName'] ?></td>
-            </tr>
-            <tr>
-                <th>Service</th>
-                <td><?= $packageDetails['serviceName'] ?></td>
-            </tr>
-            <tr>
-                <th>Price</th>
-                <td><?= $packageDetails['price'] ?></td>
-            </tr>
-            <!-- Add more details as needed -->
-        </table>
-    <?php else: ?>
-        <p>No details found for the specified package.</p>
-    <?php endif; ?>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <?php if ($packageDetails): ?>
+                <h2 class="text-center"><?= $packageDetails['packName'] ?> Details</h2>
+                <form class="mx-auto">
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <input type="text" class="form-control" id="category" value="<?= $packageDetails['categoryName'] ?>" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="service">Service</label>
+                        <input type="text" class="form-control" id="service" value="<?= $packageDetails['serviceName'] ?>" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input type="text" class="form-control" id="price" value="<?= $packageDetails['price'] ?>" readonly>
+                    </div>
+                </form>
+            <?php else: ?>
+                <p class="text-center">No details found for the specified package.</p>
+            <?php endif; ?>
+        </div>
+    </div>
 </div>
+
+
+
 
 
 </body>

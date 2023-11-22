@@ -498,12 +498,12 @@ h1{
   border-radius: 10px; 
 }
 
-.black-text {
-  color: black;
+.white-text {
+  color: rgb(236, 223, 223);
 }
 
-.bi bi-plus-square black-text{
-  color: black;
+.bi bi-plus-square white-text{
+  color: rgb(255, 255, 255);
 }
 
 
@@ -516,3 +516,15 @@ h1{
 
 
 
+.add-branch {
+  /* Adjust the styling as needed */
+  position: absolute;
+  z-index: 1; /* Ensure it doesn't cover the branch image */
+}
+
+/* or */
+
+.add-branch {
+  /* Temporarily hide the add-branch division */
+  display: none;
+}

@@ -100,7 +100,7 @@ $businesses = $DB->query("SELECT b.*, bo.* FROM business b
                             <input type="text" class="form-control col" name="data[mobile]" id="mobile" value="<?= $business['mobile'] ?>" readonly>
                         </div>
 
-                        <h5 class="text-light bg-info">Business Permit</h5>
+                        <h5 class="text-light bg-info">Business Permit</h5>      
                         <?php
                         $filePath = $business['permits']; // Assuming the file path is stored in the 'permits' field
                         if (file_exists($filePath)) {
@@ -127,6 +127,7 @@ $businesses = $DB->query("SELECT b.*, bo.* FROM business b
                             echo "<p>No file uploaded.</p>";
                         }
                         ?>
+                        <button class = "btn-primary"> View </button>
 
 
                 </div>

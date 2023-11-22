@@ -6,6 +6,7 @@
 
 <?php
 global $DB;
+
 $ownerID = $_SESSION['userID'];
 
 $sql = "SELECT * FROM business WHERE ownerID = $ownerID AND status = 1";
@@ -19,12 +20,7 @@ $result = $DB->query($sql);
         <div class="d-flex justify-content-between p-3">
             <h1 class="text-light">My Business</h1>
             <a href="?page=bus-register" id="registerButton">
-                <i class="bi bi-plus-square black-text"></i>
-                <span class="black-text text-light">Register your business here!</span>
-            </a>
-            <a href="#" id="backButton" class="btn-back float-start mt-4" onclick="toggleBack()" style="display: none;">
-                <i class="bi bi-arrow-left"></i>
-                <span>Back</span>
+                <i class="bi bi-plus-square white-text">Register your business here!</i>
             </a>
         </div>
 
@@ -49,22 +45,15 @@ $result = $DB->query($sql);
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <button class="btn btn-primary view-business" onclick="toggleView()" data-businesscode="<?= $row['businessCode'] ?>">View</button>
+                                <a href="?page=branches&businesscode=<?= $row['businessCode'] ?>" class="btn btn-primary" >View</a>
+
                                 </div>
                             </td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
             </table>
-        </div>
-    
-
-<?php $result->data_seek(0); // Reset the result set pointer to the beginning for displaying details ?>
-
-<?php while ($row = $result->fetch_assoc()): ?>
-    <?php include('elements/business.php'); ?>
-    <?php endwhile; ?>
-    
+        </div>    
 <?php endif; ?>
 </div> <!-- end of own-bus-->
 
@@ -81,6 +70,7 @@ $result = $DB->query($sql);
       </div>
   </div>
   <?php endif; ?>
+  
 
   <script src="assets/js/user.js"></script>  
 
