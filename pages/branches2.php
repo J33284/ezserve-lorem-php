@@ -207,7 +207,7 @@ $result = $DB->query($sql);
                     <div>
                         <a href="?page=package&branchcode=<?= $branchData['branchCode'] ?>" class="btn-add-branch align-items-center justify-content-center view-package-button" id="ViewPackage">
                             <i class="bi bi-eye"></i>
-                            <span>View/Add Package</span>
+                            <span>Add/View Package</span>
                         </a>
                     </div>
 

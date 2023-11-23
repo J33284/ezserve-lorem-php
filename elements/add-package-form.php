@@ -8,6 +8,10 @@
           <td colspan="3"><input type="text" name="packName" class="form-control" required></td>
         </tr>
         <tr>
+          <td>Add Items</td></td>
+          <td colspan="3">
+        </tr>
+        <tr>
           <td>Category:</td>
           <td><input type="text" name="categoryName" class="form-control" required></td>
           <td>Service:</td>

@@ -209,3 +209,53 @@ if (isset($_GET['action']) && $_GET['action'] == 'deleteBranch') {
     }
 }
 ?>
+
+
+
+<?php
+// Check if the action is to delete a branch
+if (isset($_GET['action']) && $_GET['action'] == 'deleteBranch') {
+    global $DB;
+
+    // Sanitize and validate the input data as needed
+    $branchCodeToDelete = mysqli_real_escape_string($DB, $_GET['branchCode']);
+
+    // Perform the deletion in the database
+    $sql = "DELETE FROM branches WHERE branchCode = '$branchCodeToDelete'";
+
+    if ($DB->query($sql) === true) {
+        // Successful deletion, you can redirect to a specific page or perform other actions
+        header("Location: ?page=branches&businesscode=$businessCode");
+        exit();
+    } else {
+        // Handle the deletion failure
+        echo "Error deleting branch: " . $DB->error;
+    }
+}
+?>
+
+<?php
+global $DB;
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['AddType'])) {
+    // Get the business type from the form
+    $businessType = $_POST["businessType"];
+
+    // Validate the input (you may add more validation as needed)
+    if (empty($businessType)) {
+        $error = "Business Type is required.";
+    } else {
+        // Insert the business type into the database
+        $sql = "INSERT INTO businesstypes (typeName) VALUES ('$businessType')";
+
+        if ($DB->query($sql) === TRUE) {
+            header("Location: ?page=admin_settings");
+            exit(); // Ensure no further code execution after redirection
+        } else {
+            $error = "Error: " . $sql . "<br>" . $DB->error;
+            header("Location: ?page=admin_profile");
+            exit(); // Ensure no further code execution after redirection
+        }
+    }
+}
+?>

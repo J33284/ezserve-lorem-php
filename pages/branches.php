@@ -4,6 +4,10 @@
 
 <?= element( 'owner-side-nav' ) ?>
 
+<!-- Add this in the head section of your HTML -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 <?php
 global $DB;
 $businessCode = isset($_GET['businesscode']) ? $_GET['businesscode'] : '';
@@ -110,21 +114,31 @@ $result = $DB->query($sql);
 
 
 <div class="add-branch" id="branch<?= $businessCode ?>" style="display: none;">
-    <div class="branch-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded">
+    <div class="branch-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded" style="height: auto">
         <div class="d-flex justify-content-between p-4">
             <h2>Branch Information</h2>
         </div>
         <form method="post" action="?action=businessAction" enctype="multipart/form-data">
             <input type="hidden" name="add_branch" value="<?= $row['businessCode'] ?>">
             <div class="column d-flex row justify-content-between">
-                <div class="col-md-7 flex-column" style="height: 300px;">
+                <div class="col-md-7 flex-column" >
                     <h6>Branch Name</h6>
                     <input type="text" class="about-field form-control" name="data[branchName]" placeholder="Tell something about your business" required>
                     <h6>Address</h6>
                     <input type="text" class="about-field form-control" name="data[address]" placeholder="Bldg No., Street, Brgy., City/Province"required>
-                    <h6>Coordinates</h6>
-                    <input type="text" class="about-field form-control" name="data[coordinates]" placeholder="Enter Branch Map Location"required onclick="showMap()">
+                    <!-- Add this inside the div with class "col-md-7" -->
+                    <div style="height: 500px;">
+                        <h6>Coordinates</h6>
+                        <div >
+                            <input type="text" class="about-field form-control" name="data[coordinates]" id="coordinatesInput" placeholder="Enter Branch Map Location" required> 
+                            <button type="button" class="btn btn-primary mt-2" onclick="openMap()">Browse Map</button>
+                            <div id="map">
+                            <input type="text" class="about-field form-control" id="Map" placeholder="Map Location" style="height: 300px;" style = "display: none;" > 
+                            </div>                     
+                        </div>
+                    </div>
                 </div>
+            
                 <div class="col-md-5">
                     <div class="mb-4 d-flex justify-content-center">
                         <img id="imageAddBranch" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg" alt="business image" style="max-width: 100%; max-height: 200px;">
@@ -144,6 +158,7 @@ $result = $DB->query($sql);
                     <button type="button" button class="btn btn-secondary" name=cancelCreate id="cancelCreate<?= $branchData['branchCode'] ?>" onclick="hideAddBranch('<?= $businessCode ?>')">Cancel</button>
                 </div>
             </div>
+                
         </form>
     </div>
 </div>
@@ -231,3 +246,40 @@ $result = $DB->query($sql);
 
 
 <script src="assets/js/user.js"></script>  
+<!-- Add this script at the end of your HTML body or in a separate script file -->
+<script>
+    var map;
+
+    function openMap() {
+        map = L.map('map').setView([0, 0], 2); // Initial coordinates and zoom level
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        map.on('click', function (e) {
+            updateCoordinatesInput(e.latlng.lat, e.latlng.lng);
+            map.setView(e.latlng, map.getZoom()); // Center the map on the clicked location
+        });
+
+        
+        // Get the map element
+        var mapElement = document.getElementById("Map");
+
+        // Toggle the display property to show/hide the map
+        if (mapElement.style.display === "none") {
+            mapElement.style.display = "block";
+        } else {
+            mapElement.style.display = "none";
+        }
+    
+    }
+
+    function updateCoordinatesInput(lat, lng) {
+        document.getElementById('coordinatesInput').value = lat + ', ' + lng;
+    }
+
+
+    
+</script>
+

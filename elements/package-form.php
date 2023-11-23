@@ -11,7 +11,7 @@ $packageResult = $DB->query($packageQuery);
 
 <?php if ($packageResult->num_rows > 0): ?>
   <div class="package-details" id="packageDetails<?= $branchCode ?>" style="display: block;">
-    <div class="d-flex align-items-center" style="height: 200px; margin-top:300px; margin-left: 400px; width: 150%;">
+    <div class="d-flex align-items-center" style="height: 200px; margin-top: 300px; margin-left: 400px; width: 150%;">
       <div class="package-details col-5 card py-5 mx-4 px-4">
         <h2>Pre-made Packages</h2>
         <h6>This section lets you create pre-made packages for your customers.</h6>
@@ -23,9 +23,8 @@ $packageResult = $DB->query($packageQuery);
           while ($row = $packageResult->fetch_assoc()) {
             // Check if the package code has changed
             if ($row['packCode'] !== $currentPackageCode) {
-              // If yes, start a new accordion item
+              // If yes, close the previous accordion item
               if ($currentPackageCode !== null) {
-                // Close the previous accordion item if it's not the first one
                 ?>
                 </tbody></table>
                 <div class="text-end"><strong>Total:</strong></div>
@@ -75,7 +74,7 @@ $packageResult = $DB->query($packageQuery);
               <td><?= $row['Description'] ?></td>
               <td><?= $row['quantity'] ?></td>
               <td><?= $row['color'] ?></td>
-              <td><?= $row['price'] * $row['quantity'] ?></td>
+              <td><?= $row['price']?></td>
             </tr>
             <?php
 
@@ -100,12 +99,12 @@ $packageResult = $DB->query($packageQuery);
           }
           ?>
           <!-- Add Package button outside the loop -->
-        <div class="m-3">
-          <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
-            <i class="bi bi-plus-square"></i>
-            <span>Add Package</span>
-          </a>
-        </div>
+          <div class="m-3">
+            <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
+              <i class="bi bi-plus-square"></i>
+              <span>Add Package</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
