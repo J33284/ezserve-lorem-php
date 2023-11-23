@@ -516,15 +516,3 @@ h1{
 
 
 
-.add-branch {
-  /* Adjust the styling as needed */
-  position: absolute;
-  z-index: 1; /* Ensure it doesn't cover the branch image */
-}
-
-/* or */
-
-.add-branch {
-  /* Temporarily hide the add-branch division */
-  display: none;
-}

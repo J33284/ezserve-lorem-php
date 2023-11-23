@@ -1,11 +1,25 @@
+<?php
+global $DB;
+$branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
+$packageQuery = "SELECT package.packCode, package.packName, category.categoryName, service.serviceName, service.Description, service.quantity, service.color, service.price
+FROM package
+JOIN category ON package.packCode = category.packCode
+JOIN service ON category.categoryCode = service.categoryCode
+WHERE package.branchCode = $branchCode;";
+$packageResult = $DB->query($packageQuery);
+$row = $packageResult->fetch_assoc();
+?>
+
+
+
 <div class="form-container">
   <form method="post" action="?action=add_packageAction">
-    <h2>Add A Package</h2>
+    <h2>Add Package Item </h2>
     <table class="table table-hover table-responsive">
       <tbody>
         <tr>
           <td>Package Name:</td>
-          <td colspan="3"><input type="text" name="packName" class="form-control" required></td>
+          <td colspan="3"><input type="text" name="packName" class="form-control" required><?= $row['packName'] ?></td>
         </tr>
         <tr>
           <td>Category:</td>

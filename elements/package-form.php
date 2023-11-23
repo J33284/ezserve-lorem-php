@@ -30,11 +30,11 @@ $packageResult = $DB->query($packageQuery);
                 echo '<div class="text-end"><strong>Total:</strong></div>';
                 echo '<div class="text-end">' . $totalPrice . '</div>';
                 echo '<div class="m-3">
-                        <a href="#" class="btn-edit btn-lg mt-4">
-                          <i class="bi bi-plus-square"></i>
-                          <span>Add Item</span>
-                        </a>
-                      </div>';
+                <a href="?page=add_item&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
+                    <i class="bi bi-plus-square"></i>
+                    <span>Add Item</span>
+                </a>
+            </div>';
                 echo '</div></div></div>';
               }
               // Start a new accordion item
@@ -83,7 +83,7 @@ $packageResult = $DB->query($packageQuery);
             echo '<div class="text-end"><strong>Total:</strong></div>';
             echo '<div class="text-end">' . $totalPrice . '</div>';
             echo '<div class="m-3">
-                    <a href="#" class="btn-edit btn-lg mt-4">
+                    <a href="?page=add_item&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
                       <i class="bi bi-plus-square"></i>
                       <span>Add Item</span>
                     </a>

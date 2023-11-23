@@ -153,7 +153,7 @@ $result = $DB->query($sql);
 
 <?php if ($branchResult->num_rows > 0): ?>
 <!-- View Branch -->
-<div class="branch-details" id="branchDetails<?= $businessCode ?>" style="display: none;">
+<div class="branch-details" id="branchDetails<?= $businessCode ?>" style="display: block;">
     <?php while ($branchData = $branchResult->fetch_assoc()): ?>
         <div class="branch-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded" id="branchDetails_<?= $branchData['branchCode'] ?>">
             <div class="d-flex justify-content-between p-4">
@@ -207,7 +207,7 @@ $result = $DB->query($sql);
                     <div>
                         <a href="?page=package&branchcode=<?= $branchData['branchCode'] ?>" class="btn-add-branch align-items-center justify-content-center view-package-button" id="ViewPackage">
                             <i class="bi bi-eye"></i>
-                            <span>Add/View Package</span>
+                            <span>View/Add Package</span>
                         </a>
                     </div>
 

@@ -113,7 +113,7 @@ if ($branchesQ) {
                 <br> With our custom package builder, you can choose exactly what you want, from the number of services
                 to the types of services. We'll even work with you to create a custom price that fits your budget.</p>
             <br>
-            <form action="?page=customize" method="post">
+            <form action="?page=Client_custom" method="post">
                 <input type="hidden" name="branchCode" value="<?= $branch['branchCode'] ?>">
                 <button type="submit" class="btn " data-bs-business-code="<?= $branch['branchCode'] ?>">
                     <i class="bi bi-plus-square text-light"></i>

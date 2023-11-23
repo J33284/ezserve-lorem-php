@@ -63,6 +63,7 @@ if (isset($_POST['updateBranch'])) {
     global $DB;
 
     // Sanitize and validate the input data as needed
+    $businessCode = $_POST['branch'];
     $branchCode = $_POST['branch_Code'];
     $branchName = mysqli_real_escape_string($DB, $_POST['data']['branchName']);
     $address = mysqli_real_escape_string($DB, $_POST['data']['address']);
@@ -108,15 +109,21 @@ if (isset($_POST['updateBranch'])) {
     $sql = "UPDATE branches SET branchName = '$branchName', address = '$address', coordinates = '$coordinates', branchImage = '$imagePathBranch' WHERE branchCode = '$branchCode'";
 
     if ($DB->query($sql) === true) {
-        header("Location: ?page=owner_business");
+        header("Location: ?page=branches2&businesscode=$businessCode#branchDetails_$branchCode");
+        
     } else {
         // Handle the update failure
         echo "Error updating business information: " . $DB->error;
     }
+    
 }
 ?>
 
+// ...
 <?php
+
+// ...
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['createBranch'])) {
    
     global $DB;
@@ -130,30 +137,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['createBranch'])) {
     $uploadDirectory = 'assets/uploads/branches/'; // Define your upload directory path
     $uploadedFile = $_FILES['addBranchImage'];
 
-    // Initialize $uniqueFilename outside the if block
-    $uniqueFilename = "";
+    // Use the original filename
+    $originalFilename = $uploadedFile['name'];
 
     if ($uploadedFile['error'] === UPLOAD_ERR_OK){
-        // Generate a unique filename
-        $uniqueFilename = uniqid() . '_' . $uploadedFile['name'];
-
         // Check if the file is a valid image
         $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
         $fileInfo = getimagesize($uploadedFile['tmp_name']);
 
-        if ($fileInfo && in_array($fileInfo['mime'], $allowedMimeTypes)) {
+        // Check if the image dimensions are within the allowed limit
+        $maxWidth = 800; // Set your maximum width
+        $maxHeight = 600; // Set your maximum height
+
+        list($width, $height) = getimagesize($uploadedFile['tmp_name']);
+
+        if ($width > $maxWidth || $height > $maxHeight) {
+            echo "Error: Image dimensions exceed the allowed limit. Maximum dimensions are {$maxWidth}x{$maxHeight} pixels.";
+        } else {
             // Move the uploaded file to the desired directory
-            if (is_uploaded_file($uploadedFile['tmp_name']) && move_uploaded_file($uploadedFile['tmp_name'], $uploadDirectory . $uniqueFilename)) {
+            if (is_uploaded_file($uploadedFile['tmp_name']) && move_uploaded_file($uploadedFile['tmp_name'], $uploadDirectory . $originalFilename)) {
                 // File was successfully uploaded
-                // You can store $uniqueFilename in the database as a reference to the uploaded file.
+                // You can store $originalFilename in the database as a reference to the uploaded file.
             } else {
                 // Handle file upload error
                 echo "File upload failed.";
             }
-        } else {
-            // Invalid file type
-            echo "Invalid file type. Please upload a JPEG, PNG, or GIF image.";
         }
+    } else {
+        // Invalid file type or upload error
+        echo "Error uploading file.";
     }
 
     // SQL query to insert branch data into the branches table
@@ -161,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['createBranch'])) {
 
     // Prepare the statement
     $stmt = $DB->prepare($sql);
-    $stmt->bind_param("issss", $businessCode, $branchName, $address, $coordinates, $uniqueFilename);
+    $stmt->bind_param("issss", $businessCode, $branchName, $address, $coordinates, $originalFilename);
     
     // Execute the statement
     if ($stmt->execute()) {
@@ -173,5 +185,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['createBranch'])) {
     }
 
     $stmt->close();
+}
+?>
+
+<?php
+// Check if the action is to delete a branch
+if (isset($_GET['action']) && $_GET['action'] == 'deleteBranch') {
+    global $DB;
+
+    // Sanitize and validate the input data as needed
+    $branchCodeToDelete = mysqli_real_escape_string($DB, $_GET['branchCode']);
+
+    // Perform the deletion in the database
+    $sql = "DELETE FROM branches WHERE branchCode = '$branchCodeToDelete'";
+
+    if ($DB->query($sql) === true) {
+        // Successful deletion, you can redirect to a specific page or perform other actions
+        header("Location: ?page=branches&businesscode=$businessCode");
+        exit();
+    } else {
+        // Handle the deletion failure
+        echo "Error deleting branch: " . $DB->error;
+    }
 }
 ?>

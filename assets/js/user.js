@@ -1,242 +1,175 @@
-function toggleBusinessInfo() {
-    // Hide the list of businesses
-    document.getElementById("businessList").style.display = "none";
-    // Show the business info section
-    document.getElementById("division1").style.display = "block";
-    // Change the text of the "Register" button to "Back"
-    document.getElementById("registerButton").style.display = "none";
-    document.getElementById("backButton").style.display = "block";
-  }
 
-  function toggleBack() {
-    // Show the list of businesses
-    document.getElementById("businessList").style.display = "block";
-    // Hide the business info section
-    document.getElementById("division1").style.display = "none";
-    // Change the text of the "Back" button to "Register your business"
-    document.getElementById("registerButton").style.display = "block";
-    document.getElementById("backButton").style.display = "none";
-  }
-
-
-    function toggleInputEditable(inputId) {
-        var input = document.getElementById(inputId);
-        input.readOnly = !input.readOnly;
-    }
-
-
-    function toggleButtonVisibility(buttonId) {
-        var button = document.getElementById(buttonId);
-        button.style.display = button.style.display === "none" ? "block" : "none";
-    }
-
-    //Onwer Business Script
-    document.querySelectorAll('.view-business').forEach(function (button) {
-        button.addEventListener('click', function (e) {
-            e.preventDefault(); // Prevent default link behavior
-            var businessCode = button.getAttribute('data-businesscode');
-            // Hide the business list
-            document.getElementById('businessList').style.display = 'none';
-
-            // Display the business details
-            var detailsForm = document.getElementById('detailsForm');
-            detailsForm.style.display = 'block';
-
-            // Hide all business details and show the one corresponding to the clicked button
-            document.querySelectorAll('.business-details').forEach(function (details) {
-                details.style.display = 'none';
-            });
-            var businessDetails = document.getElementById('businessDetails' + businessCode);
-            businessDetails.style.display = 'block';
-            detailsForm.innerHTML = businessDetails.innerHTML;
-        });
-    });
-
-
-    //BRANCH SCRIPT
-    document.querySelectorAll('.view-business').forEach(function (button) {
-        button.addEventListener('click', function (e) {
-            e.preventDefault(); // Prevent default link behavior
-            var businessCode = button.getAttribute('data-businesscode');
-            // Hide the business list
-            document.getElementById('businessList').style.display = 'none';
-
-            // Display the business details
-            var detailsForm = document.getElementById('detailsForm');
-            detailsForm.style.display = 'block';
-
-            // Hide all business details and show the one corresponding to the clicked button
-            document.querySelectorAll('.business-details').forEach(function (details) {
-                details.style.display = 'none';
-            });
-            var businessDetails = document.getElementById('businessDetails' + businessCode);
-            businessDetails.style.display = 'block';
-            detailsForm.innerHTML = businessDetails.innerHTML;
-        });
-    });
-
-    //BUTTONS SCRIPT
-   function toggleBack() {
-        // Show the list of businesses
-        document.getElementById("businessList").style.display = "block";
-        // Hide the business info section
-        document.getElementById("detailsForm").style.display = "none";
-        // Change the text of the "Back" button to "Register your business"
-        document.getElementById("registerButton").style.display = "block";
-        document.getElementById("backButton").style.display = "none";
-
-        location.reload();
-   }
-
-    function toggleView() {
-        // Show the list of businesses
-        document.getElementById("businessList").style.display = "block";
-        // Hide the business info section
-        document.getElementById("detailsForm").style.display = "none";
-        // Change the text of the "Back" button to "Register your business"
-        document.getElementById("registerButton").style.display = "none";
-        document.getElementById("backButton").style.display = "block";
-
-    }
+function toggleButtonVisibility(buttonId) {
+    var button = document.getElementById(buttonId);
+    button.style.display = button.style.display === "none" ? "block" : "none";
+}
 
     
+///Business=========================================================
+
     function toggleEditable() {
+        
         // Toggle the readonly attribute on input fields
-        toggleInputEditable("busName");
-        toggleInputEditable("about");
-        toggleInputEditable("phone");
         toggleButtonVisibility("saveBusiness");
         toggleButtonVisibility("cancelBusiness");
         toggleButtonVisibility("ViewBranch");
         toggleButtonVisibility("AddBranch");
+        toggleButtonVisibility("filelabel1");
+    
+        // Toggle visibility of h6 and input fields
+        toggleVisibility("busNameInput");
+        toggleVisibility("aboutInput");
+        toggleVisibility("contactInput");
+        toggleVisibility("busName");
+        toggleVisibility("about");
+        toggleVisibility("phone");
+
     
         var editButton = document.getElementById("editButton");
         editButton.style.display = editButton.style.display === "none" ? "block" : "none";
-        
-        // Store the initial values of the input fields
-        var initialBusNameValue = document.getElementById("busName").value;
-        var initialAboutValue = document.getElementById("about").value;
-        var initialPhoneValue = document.getElementById("phone").value;
+
     
-        // Add an event listener to hide the "Cancel" button when it's clicked
-        document.getElementById("cancelBusiness").addEventListener('click', function () {
-            var busNameInput = document.getElementById("busName");
-            var aboutInput = document.getElementById("about");
-            var phoneInput = document.getElementById("phone");
-    
-            // Set the input field values to their initial values (clearing any changes)
-            busNameInput.value = initialBusNameValue;
-            aboutInput.value = initialAboutValue;
-            phoneInput.value = initialPhoneValue;
-    
-            toggleInputEditable("busName");
-            toggleInputEditable("about");
-            toggleInputEditable("phone");
-            toggleButtonVisibility("ViewBranch");
-            toggleButtonVisibility("AddBranch");
-            editButton.style.display = "block"; // Show the "Edit" button again
-        });
     }
     
-
-
-//=====================BRANCH==============================
-
-//VIEW
-    function toggleViewBranch(button) {
-        const businessCode = button.getAttribute("data-businesscode");
-        const branchDetails = document.querySelector("#branchDetails" + businessCode);
-        branchDetails.style.display = branchDetails.style.display === "none" ? "block" : "none";
-
-
-        
-    }
- 
-
-    const viewBranchButtons = document.querySelectorAll(".view-branch-button");
-    viewBranchButtons.forEach(button => {
-        button.addEventListener("click", () => toggleViewBranch(button));
-    });
-
-    function toggleEditBranch(branchCode) {
-        // Find the input fields within the branch details section
-        var branchNameInput = document.getElementById('branchName' + branchCode);
-        var addressInput = document.getElementById('address' + branchCode);
-        var coordinatesInput = document.getElementById('coordinates' + branchCode);
-    
-        // Make the input fields editable
-        branchNameInput.removeAttribute('readonly');
-        addressInput.removeAttribute('readonly');
-        coordinatesInput.removeAttribute('readonly');
-    
-        // Show the "Save" and "Cancel" buttons for this specific branch
-        var saveButton = document.getElementById('updateBranch' + branchCode);
-        var cancelButton = document.getElementById('cancelBranch' + branchCode);
-    
-        // Show the "Cancel" button
-        cancelButton.style.display = 'block';
-        saveButton.style.display = 'block';
-
-        // Hide the "Edit" button for this branch
-        var editButton = document.getElementById('editBranch' + branchCode);
-        editButton.style.display = 'none';
-
-        var initialBranchNameValue = branchNameInput.value;
-        var initialAddressValue = addressInput.value;
-        var initialCoordinatesValue = coordinatesInput.value;
-    
-        // Add an event listener to the "Cancel" button to make fields non-editable and hide buttons
-        cancelButton.addEventListener('click', function () {
-            // Make the input fields read-only
-            branchNameInput.readOnly = true;
-            addressInput.readOnly = true;
-            coordinatesInput.readOnly = true;
-            
-    
-            // Hide the "Save" and "Cancel" buttons
-            saveButton.style.display = 'none';
-            cancelButton.style.display = 'none';
-    
-            // Show the "Edit" button again
-            editButton.style.display = 'block';
-
-            branchNameInput.value = initialBranchNameValue;
-            addressInput.value = initialAddressValue;
-            coordinatesInput.value = initialCoordinatesValue;
-        });
+    function toggleVisibility(elementId) {
+        var element = document.getElementById(elementId);
+        element.style.display = element.style.display === "none" ? "block" : "none";
     }
     
-           
-// ADD BRANCH
-function toggleAddBranch(button) {
+    
+    
+    function previewImage(input) {
+        console.log('Function called');
+        var preview = document.getElementById('imagePreview');
+        console.log('File:', input.files);
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onloadend = function () {
+                console.log('Read successful');
+                preview.src = reader.result;
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            console.log('No file selected or no files support');
+            preview.src = "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg";
+        }
+    }
+
+
+//Branch=============================================
+function toggleAddBranch(event) {
+    const button = event.currentTarget;
     const businessCode = button.getAttribute("data-businesscode");
     const branchDetails = document.querySelector("#branch" + businessCode);
     branchDetails.style.display = branchDetails.style.display === "none" ? "block" : "none";
 }
 
-const addBranchButtons = document.querySelectorAll(".add-branch-button");
-addBranchButtons.forEach(button => {
-    button.addEventListener("click", () => toggleAddBranch(button)); // <-- Corrected function name here
+document.addEventListener("DOMContentLoaded", function() {
+    const addBranchButtons = document.querySelectorAll(".add-branch-button");
+    addBranchButtons.forEach(button => {
+        button.addEventListener("click", function(event) {
+            toggleAddBranch(event);
+        });
+    });
 });
 
+function hideAddBranch(branchId) {
+    document.getElementById('branch' + branchId).style.display = 'none';
+}
 
 
-function previewImage(input) {
-    // Check if a file is selected
+function previewAddBranch(input) {
+    var preview = document.getElementById('imageAddBranch');
+    var file = input.files[0];
+    var reader = new FileReader();
+
+    reader.onloadend = function () {
+        preview.src = reader.result;
+        preview.style.display = 'block';
+    };
+
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = "";
+        preview.style.display = null;
+    }
+}
+
+
+
+function toggleViewBranch(event) {
+    const button = event.currentTarget;
+    const businessCode = button.getAttribute("data-businesscode");
+    const branchDetails = document.querySelector("#branchDetails" + businessCode);
+    branchDetails.style.display = branchDetails.style.display === "none" ? "block" : "none";
+    
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    const viewBranchButtons = document.querySelectorAll(".view-branch-button");
+    viewBranchButtons.forEach(button => {
+        button.addEventListener("click", function(event) {
+            toggleViewBranch(event);
+        });
+    });
+});
+
+function toggleEditBranch(branchCode) {
+    // Toggle the readonly attribute on input fields
+    toggleButtonVisibility(`saveBranch_${branchCode}`);
+    toggleButtonVisibility(`deleteBranch${branchCode}`);
+    toggleButtonVisibility(`cancelBranch_${branchCode}`);
+    toggleButtonVisibility("ViewPackage");
+    toggleButtonVisibility(`filelabel2_${branchCode}`);
+    
+
+    // Toggle visibility of h6 and input fields for the specific branch
+    toggleVisibility(`branchNameInput_${branchCode}`);
+    toggleVisibility(`addressInput_${branchCode}`);
+    toggleVisibility(`coordinatesInput_${branchCode}`);
+    toggleVisibility(`branchName_${branchCode}`);
+    toggleVisibility(`address_${branchCode}`);
+    toggleVisibility(`coordinates_${branchCode}`);
+
+    var editBranch = document.getElementById(`editBranch_${branchCode}`);
+    editBranch.style.display = editBranch.style.display === "none" ? "block" : "none";
+}
+
+
+            
+function previewBranch(input, branchCode) {
+    console.log('previewBranch function called');
+    var previewBr = input.closest('.branch-details').querySelector('.imageBranchPreview_' + branchCode);
+
+    console.log('File:', input.files);
+
     if (input.files && input.files[0]) {
         var reader = new FileReader();
 
-        reader.onload = function (e) {
-            // Update the image source and display it
-            document.getElementById('imagePreview').src = e.target.result;
-            document.getElementById('imagePreview').style.display = 'block';
-            
-        };
+        reader.onloadend = function () {
+            console.log('Read successful');
+            previewBr.src = reader.result;
+        }
 
-        // Read the file as a data URL
         reader.readAsDataURL(input.files[0]);
+    } else {
+        console.log('No file selected or no files support');
+        previewBr.src = "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg";
     }
 }
-//PACKAGE
+
+
+/*function confirmDelete(branchCode) {
+    var confirmation = confirm('Are you sure you want to delete this branch?');
+
+    if (confirmation) {
+        // If the user confirms, submit the form for deletion
+        document.getElementById('deleteBranch' + branchCode).form.submit();
+    }
+}*/
 
 

@@ -36,14 +36,11 @@ $business = $businesses->fetch_assoc();
                     <p><?= $business['about'] ?></p>
                 </div>
                
-                <div id="Branches" class="card p-3 shadow p-3 mb-5 bg-white rounded border-0">
+                <div id="Branches" class="card p-3 shadow p-3 mb-5 bg-white rounded border-0 d-flex">
                     <h2> Branches </h2>
                     <hr>
-                    
-                    <?php foreach ($businesses as $business) : ?>
-                    <br>
                     <img class="d-flex justify-content-center align-items-center" src="assets/images/sampleMaps.jpg" alt="Google Map">
-                    <br>
+                    <?php foreach ($businesses as $business) : ?>
                     <form action="?page=client_package" method="post">
                         <input type="hidden" name="branchCode" value="<?= $business['branchCode'] ?>">
                         <button type="submit" class="btn btn-primary view-package" data-business-code="<?= $business['branchCode'] ?>">
