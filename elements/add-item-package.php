@@ -19,7 +19,7 @@ $row = $packageResult->fetch_assoc();
       <tbody>
         <tr>
           <td>Package Name:</td>
-          <td colspan="3"><input type="text" name="packName" class="form-control" required><?= $row['packName'] ?></td>
+          <td colspan="3"><input type="text" name="packName" class="form-control" readonly value="<?= $row['packName'] ?>"></td>
         </tr>
         <tr>
           <td>Category:</td>

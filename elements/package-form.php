@@ -26,52 +26,58 @@ $packageResult = $DB->query($packageQuery);
               // If yes, start a new accordion item
               if ($currentPackageCode !== null) {
                 // Close the previous accordion item if it's not the first one
-                echo '</tbody></table>';
-                echo '<div class="text-end"><strong>Total:</strong></div>';
-                echo '<div class="text-end">' . $totalPrice . '</div>';
-                echo '<div class="m-3">
-                <a href="?page=add_item&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
+                ?>
+                </tbody></table>
+                <div class="text-end"><strong>Total:</strong></div>
+                <div class="text-end"><?= $totalPrice ?></div>
+                <div class="m-3">
+                  <a href="?page=add_item&branchcode=<?= $branchCode ?>&packagecode=<?= $currentPackageCode ?>" class="btn-edit btn-lg mt-4">
                     <i class="bi bi-plus-square"></i>
                     <span>Add Item</span>
-                </a>
-            </div>';
-                echo '</div></div></div>';
+                  </a>
+                </div>
+                </div></div></div>
+                <?php
               }
               // Start a new accordion item
-              echo '<div class="accordion-item" id="accordionItem' . $row['packCode'] . '">
-                      <h2 class="accordion-header" id="flush-heading' . $row['packCode'] . '">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse' . $row['packCode'] . '" aria-expanded="false" aria-controls="flush-collapse' . $row['packCode'] . '">
-                          ' . $row['packName'] . '
-                        </button>
-                      </h2>
-                      <div id="flush-collapse' . $row['packCode'] . '" class="accordion-collapse collapse" aria-labelledby="flush-heading' . $row['packCode'] . '" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">
-                          <table class="table table-hover table-responsive">
-                            <thead>
-                              <tr>
-                                <th scope="col">Category</th>
-                                <th scope="col">Service</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Color</th>
-                                <th scope="col">Price</th>
-                              </tr>
-                            </thead>
-                            <tbody>';
+              ?>
+              <div class="accordion-item" id="accordionItem<?= $row['packCode'] ?>">
+                <h2 class="accordion-header" id="flush-heading<?= $row['packCode'] ?>">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?= $row['packCode'] ?>" aria-expanded="false" aria-controls="flush-collapse<?= $row['packCode'] ?>">
+                    <?= $row['packName'] ?>
+                  </button>
+                </h2>
+                <div id="flush-collapse<?= $row['packCode'] ?>" class="accordion-collapse collapse" aria-labelledby="flush-heading<?= $row['packCode'] ?>" data-bs-parent="#accordionFlushExample">
+                  <div class="accordion-body">
+                    <table class="table table-hover table-responsive">
+                      <thead>
+                        <tr>
+                          <th scope="col">Category</th>
+                          <th scope="col">Service</th>
+                          <th scope="col">Description</th>
+                          <th scope="col">Quantity</th>
+                          <th scope="col">Color</th>
+                          <th scope="col">Price</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+              <?php
               // Set the current package code to the current row's package code
               $currentPackageCode = $row['packCode'];
               $totalPrice = 0; // Reset total price for the new package
             }
 
             // Display the category details for the current package
-            echo '<tr>
-                    <td>' . $row['categoryName'] . '</td>
-                    <td>' . $row['serviceName'] . '</td>
-                    <td>' . $row['Description'] . '</td>
-                    <td>' . $row['quantity'] . '</td>
-                    <td>' . $row['color'] . '</td>
-                    <td>' . ($row['price'] * $row['quantity']) . '</td>
-                  </tr>';
+            ?>
+            <tr>
+              <td><?= $row['categoryName'] ?></td>
+              <td><?= $row['serviceName'] ?></td>
+              <td><?= $row['Description'] ?></td>
+              <td><?= $row['quantity'] ?></td>
+              <td><?= $row['color'] ?></td>
+              <td><?= $row['price'] * $row['quantity'] ?></td>
+            </tr>
+            <?php
 
             // Update the total price for the current package
             $totalPrice += $row['price'] * $row['quantity'];
@@ -79,35 +85,33 @@ $packageResult = $DB->query($packageQuery);
 
           // Close the last accordion item
           if ($currentPackageCode !== null) {
-            echo '</tbody></table>';
-            echo '<div class="text-end"><strong>Total:</strong></div>';
-            echo '<div class="text-end">' . $totalPrice . '</div>';
-            echo '<div class="m-3">
-                    <a href="?page=add_item&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
-                      <i class="bi bi-plus-square"></i>
-                      <span>Add Item</span>
-                    </a>
-                  </div>';
-            echo '</div></div></div>';
+            ?>
+            </tbody></table>
+            <div class="text-end"><strong>Total:</strong></div>
+            <div class="text-end"><?= $totalPrice ?></div>
+            <div class="m-3">
+              <a href="?page=add_item&branchcode=<?= $branchCode ?>&packagecode=<?= $currentPackageCode ?>" class="btn-edit btn-lg mt-4">
+                <i class="bi bi-plus-square"></i>
+                <span>Add Item</span>
+              </a>
+            </div>
+            </div></div></div>
+            <?php
           }
           ?>
           <!-- Add Package button outside the loop -->
         <div class="m-3">
           <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
-                    <i class="bi bi-plus-square"></i>
-                    <span>Add Package</span>
-                </a>
-          </div>
+            <i class="bi bi-plus-square"></i>
+            <span>Add Package</span>
+          </a>
+        </div>
         </div>
       </div>
     </div>
   </div>
 
-
-  
 <?php endif; ?>
-
-
 
 <?php if ($packageResult->num_rows == 0): ?>
   <div class="package-details" id="packageDetails<?= $branchCode ?>" style="display: block;">
@@ -116,11 +120,14 @@ $packageResult = $DB->query($packageQuery);
         <h2>Pre-made Packages</h2>
         <h6>This section lets you create pre-made packages for your customers.</h6>
         <div class="accordion" id="accordionFlushExample">
-
-        <div class="m-3">
-          <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
-                    <i class="bi bi-plus-square"></i>
-                    <span>Add Package</span>
-                </a>
+          <div class="m-3">
+            <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
+              <i class="bi bi-plus-square"></i>
+              <span>Add Package</span>
+            </a>
           </div>
-  <?php endif; ?>
+        </div>
+      </div>
+    </div>
+  </div>
+<?php endif; ?>
