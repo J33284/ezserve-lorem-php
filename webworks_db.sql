@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2023 at 07:08 AM
+-- Generation Time: Nov 23, 2023 at 03:01 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -57,18 +57,17 @@ CREATE TABLE `branches` (
   `branchName` varchar(100) NOT NULL,
   `address` varchar(100) NOT NULL,
   `coordinates` varchar(100) NOT NULL,
-  `imageFile` blob NOT NULL
+  `branchImage` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `branches`
 --
 
-INSERT INTO `branches` (`branchCode`, `businessCode`, `branchName`, `address`, `coordinates`, `imageFile`) VALUES
-(6, 5, 'Mina Branch', 'Mina Iloilo Province', '', 0x363534643337316362353836325f66316638376566623162616538656630376162383437396465626664363837642e706e67),
-(9, 12, 'Mandurriao Branch', '20, Hibao-an Iloilo', '10.71726102925748', ''),
-(10, 11, 'Jereos Branch', 'Jereos Lapaz', '4234234234.234324234', ''),
-(11, 5, 'Janiuay Branch', 'Janiuay Iloilo', '4234234234.234324234', '');
+INSERT INTO `branches` (`branchCode`, `businessCode`, `branchName`, `address`, `coordinates`, `branchImage`) VALUES
+(6, 5, 'Mina Branch', 'Mina Iloilo', '9789678587.979868', 0x6173736574732f75706c6f6164732f6272616e636865732f756b692e6a7067),
+(10, 11, 'Jereos Branch', 'Jereos Lapaz', '4234234234.234324234', 0x6173736574732f75706c6f6164732f6272616e636865732f52756e6e6572205b31393230c397313038305d2e6a666966),
+(11, 5, 'Janiuay Branches', 'Janiuay Iloilo Province', '4234234234.234324234', 0x6173736574732f75706c6f6164732f6272616e636865732f52756e6e6572205b31393230c397313038305d2e6a666966);
 
 -- --------------------------------------------------------
 
@@ -90,7 +89,8 @@ CREATE TABLE `business` (
   `region` varchar(100) NOT NULL,
   `phone` varchar(100) NOT NULL,
   `mobile` varchar(100) NOT NULL,
-  `permits` mediumblob NOT NULL,
+  `permits` longblob NOT NULL,
+  `busImage` longblob NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -98,12 +98,20 @@ CREATE TABLE `business` (
 -- Dumping data for table `business`
 --
 
-INSERT INTO `business` (`businessCode`, `ownerID`, `busName`, `about`, `busType`, `house_building`, `street`, `barangay`, `city_municipality`, `province`, `region`, `phone`, `mobile`, `permits`, `status`) VALUES
-(5, 2, 'Puga Funeral', 'Funeral Services ', 'Funeral Services', '12', 'JEREOS', 'Jereos', 'ILOILO CITY (CAPITAL)', 'ILOILO', '6', '09452781051', '09452781051', 0x6173736574732f75706c6f6164732f62616a616a2e706e67, 1),
-(6, 3, 'Jireh\'s Catering', '', 'Catering', '20', 'Lapuz', 'Alalasan', 'Iloilo City', 'Iloilo', 'IV', '3202918', '09203633104', 0x6173736574732f75706c6f6164732f4b4147415741442e706e67, 0),
-(8, 3, 'Jireh\'s Photography', '', 'Photography', '20', 'ILOILO', 'Alalasan', 'iloilo', 'ILOILO', '6', '09452781051', '09374683434', 0x6173736574732f75706c6f6164732f5461736b2d312e646f6378, 0),
-(11, 2, 'Alisah Photography', 'Premium Photography', 'Photography', '45', 'Bulong', 'Norte', 'Iloilo', 'Iloilo', '6', '09647384763', '09837465327', 0x6173736574732f75706c6f6164732f52756e6e6572205b31393230c397313038305d2e6a666966, 1),
-(12, 4, 'Kevin Eatery', '', 'Catering', '20', 'Jereos Street', 'Hibao-an', 'Iloilo', 'Iloilo', '6', '+639203633104', '09675486784', 0x6173736574732f75706c6f6164732f5461736b2d312e646f6378, 1);
+INSERT INTO `business` (`businessCode`, `ownerID`, `busName`, `about`, `busType`, `house_building`, `street`, `barangay`, `city_municipality`, `province`, `region`, `phone`, `mobile`, `permits`, `busImage`, `status`) VALUES
+(5, 2, 'Puga Funeral Services', 'Funeral Services', 'Funeral Services', '12', 'JEREOS', 'Jereos', 'ILOILO CITY (CAPITAL)', 'ILOILO', '6', '09452781052', '09452781051', 0x6173736574732f75706c6f6164732f62616a616a2e706e67, 0x6173736574732f75706c6f6164732f627573696e6573732f5f66616e6172745f5f315f796561725f616e6e69766572736172795f62795f616b656d6f6e6f5f6466357462336e2d333530742e6a7067, 1),
+(11, 2, 'Alisah Photography Services', 'Premium Photography', 'Photography', '45', 'Bulong', 'Norte', 'Iloilo', 'Iloilo', '6', '09647384566', '09837465327', 0x6173736574732f75706c6f6164732f52756e6e6572205b31393230c397313038305d2e6a666966, 0x6173736574732f75706c6f6164732f627573696e6573732f756b692e6a7067, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `businesstypes`
+--
+
+CREATE TABLE `businesstypes` (
+  `typeCode` int(11) NOT NULL,
+  `typeName` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -132,9 +140,7 @@ CREATE TABLE `business_owner` (
 --
 
 INSERT INTO `business_owner` (`ownerID`, `fname`, `lname`, `birthday`, `email`, `number`, `ownerAddress`, `username`, `password`, `usertype`, `status`, `created`, `updated`) VALUES
-(2, 'Alisah Mae', 'Bolivar', '0001-01-07', 'bvrlisah@gmail.com', '09452781051', '28 Dayot Subdivision Jereos Street La Paz, Iloilo City', 'Owner', '827ccb0eea8a706c4c34a16891f84e7b', 'business owner', 1, '2023-10-26 09:03:03', '2023-10-26 09:03:03'),
-(3, 'Jireh', 'Nieves', '2001-02-13', 'jireh@gmail.com', '09203633104', '', 'Owner2', '827ccb0eea8a706c4c34a16891f84e7b', 'business owner', 1, '2023-10-27 00:45:59', '2023-10-27 00:45:59'),
-(4, 'Kevin', 'Santos', '2001-09-27', 'bvrlisah@gmail.com', '09452781051', 'Hibao-an Mandurriao Iloilo', 'Kevin', '827ccb0eea8a706c4c34a16891f84e7b', 'business owner', 1, '2023-11-12 08:32:46', '2023-11-12 08:32:46');
+(2, 'Alisah Mae', 'Bolivar', '0001-01-07', 'bvrlisah@gmail.com', '09452781051', '28 Dayot Subdivision Jereos Street La Paz, Iloilo City', 'Owner', '827ccb0eea8a706c4c34a16891f84e7b', 'business owner', 1, '2023-10-26 09:03:03', '2023-10-26 09:03:03');
 
 -- --------------------------------------------------------
 
@@ -153,9 +159,7 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`categoryCode`, `packCode`, `categoryName`) VALUES
-(1, 1, 'Coffin Style'),
-(3, 1, 'Clothes'),
-(5, 3, 'Coffin Style');
+(37, 26, 'exo');
 
 -- --------------------------------------------------------
 
@@ -190,6 +194,23 @@ INSERT INTO `client` (`clientID`, `fname`, `lname`, `birthday`, `email`, `number
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `custom_package`
+--
+
+CREATE TABLE `custom_package` (
+  `customCode` int(11) NOT NULL,
+  `clientID` int(11) NOT NULL,
+  `categoryName` varchar(100) NOT NULL,
+  `serviceName` varchar(100) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  `quantity` int(100) NOT NULL,
+  `color` varchar(100) NOT NULL,
+  `price` bigint(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `email_verify`
 --
 
@@ -217,8 +238,7 @@ CREATE TABLE `package` (
 --
 
 INSERT INTO `package` (`packCode`, `packName`, `branchCode`) VALUES
-(1, 'Basic Package', 6),
-(3, 'Normal Package', 6);
+(26, 'Eden Package', 6);
 
 -- --------------------------------------------------------
 
@@ -241,9 +261,7 @@ CREATE TABLE `service` (
 --
 
 INSERT INTO `service` (`serviceCode`, `categoryCode`, `serviceName`, `Description`, `quantity`, `color`, `price`) VALUES
-(1, 1, 'De Barra', 'Metal ', 1, 'Blue and White', 150000),
-(2, 3, 'Barong', 'Barong with Pants', 1, 'White', 2000),
-(5, 5, 'De Barra', 'Wood', 1, 'Brown', 100000);
+(25, 37, 'exo', 'exo', 1, 'exo', 2000);
 
 --
 -- Indexes for dumped tables
@@ -270,6 +288,12 @@ ALTER TABLE `business`
   ADD KEY `ownerID` (`ownerID`);
 
 --
+-- Indexes for table `businesstypes`
+--
+ALTER TABLE `businesstypes`
+  ADD PRIMARY KEY (`typeCode`);
+
+--
 -- Indexes for table `business_owner`
 --
 ALTER TABLE `business_owner`
@@ -287,6 +311,13 @@ ALTER TABLE `category`
 --
 ALTER TABLE `client`
   ADD PRIMARY KEY (`clientID`);
+
+--
+-- Indexes for table `custom_package`
+--
+ALTER TABLE `custom_package`
+  ADD PRIMARY KEY (`customCode`),
+  ADD KEY `clientID` (`clientID`);
 
 --
 -- Indexes for table `package`
@@ -315,25 +346,31 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `branches`
 --
 ALTER TABLE `branches`
-  MODIFY `branchCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `branchCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `business`
 --
 ALTER TABLE `business`
-  MODIFY `businessCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `businessCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `businesstypes`
+--
+ALTER TABLE `businesstypes`
+  MODIFY `typeCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `business_owner`
 --
 ALTER TABLE `business_owner`
-  MODIFY `ownerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ownerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `categoryCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `categoryCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `client`
@@ -342,16 +379,22 @@ ALTER TABLE `client`
   MODIFY `clientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `custom_package`
+--
+ALTER TABLE `custom_package`
+  MODIFY `customCode` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `package`
 --
 ALTER TABLE `package`
-  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `serviceCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `serviceCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Constraints for dumped tables
@@ -374,6 +417,12 @@ ALTER TABLE `business`
 --
 ALTER TABLE `category`
   ADD CONSTRAINT `packCode` FOREIGN KEY (`packCode`) REFERENCES `package` (`packCode`);
+
+--
+-- Constraints for table `custom_package`
+--
+ALTER TABLE `custom_package`
+  ADD CONSTRAINT `clientID` FOREIGN KEY (`clientID`) REFERENCES `client` (`clientID`);
 
 --
 -- Constraints for table `package`
