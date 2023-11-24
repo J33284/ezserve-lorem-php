@@ -123,9 +123,9 @@ $packageResult = $DB->query($packageQuery);
 <?php endif; ?>
 
 <?php if ($packageResult->num_rows == 0): ?>
-  <div class="package-details" id="packageDetails<?= $branchCode ?>" style="display: block;">
-    <div class="d-flex align-items-center" style="height: 200px; margin-top:300px; margin-left: 390px; width: 140%;">
-      <div class="package-details col-5 card py-5 mx-4 px-4">
+  <div class="package-details " id="packageDetails<?= $branchCode ?>" >
+    <div class="d-flex align-items-center" style="height: 80vh; ">
+      <div class="package-details overflow-auto col-5 card py-5 mx-4 px-4" style="height: 100vh">
         <h2>Pre-made Packages</h2>
         <h6>This section lets you create pre-made packages for your customers.</h6>
         <div class="accordion" id="accordionFlushExample">

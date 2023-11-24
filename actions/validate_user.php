@@ -34,8 +34,9 @@ if (!empty($_POST['username']) && !empty($_POST['password'])) {
 
     if (!is_null($userID)) {
         if ($user->status == 0) {
-            set_message("Your account is inactive. Email not verified.", 'danger');
-            redirect(LOGIN_REDIRECT); // You can specify the redirection URL here
+            header("Location: ?page=profile.php");
+            /*set_message("Your account is inactive. Email not verified.", 'danger');
+            redirect(LOGIN_REDIRECT); // You can specify the redirection URL here*/
         } else {
             $_SESSION[AUTH_ID] = $userID;
             $_SESSION[AUTH_NAME] = $user->username;

@@ -115,6 +115,7 @@ if ($branchesQ) {
             <br>
             <form action="?page=Client_custom" method="post">
                 <input type="hidden" name="branchCode" value="<?= $branch['branchCode'] ?>">
+                <input type="hidden" name="packageCode" value="<?= $branch['packCode'] ?>">
                 <button type="submit" class="btn " data-bs-business-code="<?= $branch['branchCode'] ?>">
                     <i class="bi bi-plus-square text-light"></i>
                     <span class="text-light">create your own package!</span>
