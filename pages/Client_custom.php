@@ -39,7 +39,7 @@ if ($branchesQ) {
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="ServiceOne">
                                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#service-details-one" aria-bs-expanded="false" aria-controls="service-details-one">
-                                            <input type="checkbox" class="accord-check form-check-input" id="email">
+                                            
                                             <?= $row['serviceName'] ?>
                                         </button>
                                     </h2>
@@ -88,7 +88,7 @@ if ($branchesQ) {
                     <div class="total row d-flex sticky-bottom">
                         <h3 class="col-7"> Total</h3>
                         <h4 class="col-5"> heeehee</h4> <!--calculation formula-->
-                        <form action="?page=check-out" method="post">
+                        <form action="?page=checkout" method="post">
                             <input type="hidden" name="businessCode" value="">
                             <button type="submit" class="btn btn-primary" style="width:100%" data-bs-business-code="">
                                 Check Out
