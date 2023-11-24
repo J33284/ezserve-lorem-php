@@ -4,6 +4,7 @@ global $DB;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve and sanitize form data
+    $branchCode = isset($_POST['branchcode']) ? $_POST['branchcode'] : '';
     $packCode = isset($_POST['packagecode']) ? $_POST['packagecode'] : '';
     $categoryName = $_POST["categoryName"];
     $serviceName = $_POST["serviceName"];
@@ -50,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Check if the insertion was successful
 if ($insertionSuccess) {
     // Redirect to the previous page with the correct branchcode and packagecode
-    header('Location: ?page=owner_business');
+    header('Location: ?page=package&branchcode=' . urlencode($branchCode));
     exit(); // Make sure to exit after the header to prevent further execution
 } else {
     // Handle the case where insertion failed

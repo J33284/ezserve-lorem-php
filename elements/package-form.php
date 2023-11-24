@@ -57,6 +57,7 @@ $packageResult = $DB->query($packageQuery);
                           <th scope="col">Quantity</th>
                           <th scope="col">Color</th>
                           <th scope="col">Price</th>
+                          <th scope="col">Edit</th> <!-- Add Edit column header -->
                         </tr>
                       </thead>
                       <tbody>
@@ -75,6 +76,15 @@ $packageResult = $DB->query($packageQuery);
               <td><?= $row['quantity'] ?></td>
               <td><?= $row['color'] ?></td>
               <td><?= $row['price']?></td>
+              <td>
+                <i class="bi bi-pencil"></i>
+                  <span>Edit</span>
+          </td>
+                  <td>
+                  <i class="bi bi-trash">Delete</i>
+                  <span></span>
+                </a>
+              </td>
             </tr>
             <?php
 

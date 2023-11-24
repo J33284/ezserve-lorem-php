@@ -1,13 +1,19 @@
-<?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); 
+<?php
+if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
-  $businessCode = $_POST['branchCode'];
+$branchCode = $_POST['branchCode'];
 
-    $businesses = $DB->query("SELECT br.*, p.* FROM branches br
-      JOIN package p ON p.branchCode = br.branchCode
-     WHERE br.branchCode = '$businessCode'
-      LIMIT 1");
+// Retrieve all branches for the given business
+$branchesQ = $DB->query("SELECT br.*, p.*
+  FROM branches br
+  JOIN package p ON br.branchCode = p.branchCode
+  WHERE br.branchCode = '$branchCode'");
 
-
+// Check if the query was successful before trying to fetch data
+if ($branchesQ) {
+    // Fetch the first row (branch) from the result set
+    $branch = $branchesQ->fetch_assoc();
+}
 ?>
 
 <?= element( 'header' ) ?>
@@ -15,7 +21,7 @@
 <div id="client-custom "class="client-custom">
       <div class=" container pack-head " style=" top: 50px;">
         <div class="container row">
-          <a href="./details.html" class=" col-xl-1 btn-back btn-lg float-end ">
+          <a href="?page=client_package" class=" col-xl-1 btn-back btn-lg float-end ">
             <i class="bi bi-arrow-left"></i></a>
           <h1 class="col-xl-7 d-flex justify-content-start text-light">Package Customization</h1>
          

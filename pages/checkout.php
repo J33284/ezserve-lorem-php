@@ -2,10 +2,10 @@
 
   //$businessCode = $_POST['branchCode'];
 
-    //$businesses = $DB->query("SELECT br.*, p.* FROM branches br
-//      JOIN package p ON p.branchCode = br.branchCode
-  //   WHERE br.branchCode = '$businessCode'
-    //  LIMIT 1");
+    $businesses = $DB->query("SELECT br.*, p.* FROM branches br
+    JOIN package p ON p.branchCode = br.branchCode
+   WHERE br.branchCode = '$businessCode'
+      LIMIT 1");
 
 
 ?>
@@ -15,7 +15,7 @@
 <div id="client-custom "class="client-custom" style="margin-top: 90px ">
       <div class=" container pack-head " style=" top: 50px;">
         <div class="container row">
-          <a href="./details.html" class=" col-xl-1 btn-back btn-lg float-end ">
+          <a href="?page=client_view_package&packCode=27" class=" col-xl-1 btn-back btn-lg float-end ">
             <i class="bi bi-arrow-left"></i></a>
           <h1 class="col-xl-7 d-flex justify-content-start text-light">Check Out</h1>
          

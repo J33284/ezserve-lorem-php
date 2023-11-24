@@ -1,3 +1,10 @@
+<?php
+global $DB;
+$businessesResult = $DB->query("SELECT * FROM businesstypes");
+
+?>
+
+
 <div class="bus-reg container row justify-content-center align-items-center">
     <div id="reg-form" class="card justify-content-between border-0 shadow p-3 mb-5 bg-white rounded">
         <div class="card-body">
@@ -18,12 +25,12 @@
                     <h5>Business Information</h5>
                     <input type="text" class="form-control" name="data[busName]" id="busName" placeholder="Business Name">
                     <div class="row pt-3">
-                        <p class="col-sm-4">Business Type</p>
+                    <p class="col-sm-4">Business Type</p>
                         <select class="select col-sm-4 mb-3" name="data[busType]" required>
                             <option value="" selected disabled>Select</option>
-                            <option value="Funeral Services">Funeral Services</option>
-                            <option value="Catering">Catering</option>
-                            <option value="Photography">Photography</option>
+                            <?php while ($businessType = $businessesResult->fetch_assoc()) : ?>
+                                <option value="<?= $businessType['typeName'] ?>"><?= $businessType['typeName'] ?></option>
+                            <?php endwhile; ?>
                         </select>
                     </div>
                     <h6 class="page-title">Business Address</h6>

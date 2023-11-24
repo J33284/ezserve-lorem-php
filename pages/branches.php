@@ -79,7 +79,7 @@ $result = $DB->query($sql);
                         </div>
 
                         <div class="d-flex justify-content-center">
-                            <div id="filelabel1" class="btn btn-primary btn-rounded" style="display: none;">
+                            <div id="filelabel1" class="btn" style="display: none;">
                                 <label class="form-label text-white m-1" for="busImage">Choose File</label>
                                 <input type="file" class="form-control d-none" id="busImage" name="busImage" accept="image/*" onchange="previewImage(this)">
                             </div>
@@ -113,6 +113,7 @@ $result = $DB->query($sql);
     </div>
 
 
+<!-- Add this in the "add-branch" section -->
 <div class="add-branch" id="branch<?= $businessCode ?>" style="display: none;">
     <div class="branch-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded" style="height: auto">
         <div class="d-flex justify-content-between p-4">
@@ -121,24 +122,21 @@ $result = $DB->query($sql);
         <form method="post" action="?action=businessAction" enctype="multipart/form-data">
             <input type="hidden" name="add_branch" value="<?= $row['businessCode'] ?>">
             <div class="column d-flex row justify-content-between">
-                <div class="col-md-7 flex-column" >
+                <div class="col-md-7 flex-column">
                     <h6>Branch Name</h6>
                     <input type="text" class="about-field form-control" name="data[branchName]" placeholder="Tell something about your business" required>
                     <h6>Address</h6>
-                    <input type="text" class="about-field form-control" name="data[address]" placeholder="Bldg No., Street, Brgy., City/Province"required>
-                    <!-- Add this inside the div with class "col-md-7" -->
-                    <div style="height: 500px;">
-                        <h6>Coordinates</h6>
-                        <div >
-                            <input type="text" class="about-field form-control" name="data[coordinates]" id="coordinatesInput" placeholder="Enter Branch Map Location" required> 
-                            <button type="button" class="btn btn-primary mt-2" onclick="openMap()">Browse Map</button>
-                            <div id="map">
-                            <input type="text" class="about-field form-control" id="Map" placeholder="Map Location" style="height: 300px;" style = "display: none;" > 
-                            </div>                     
-                        </div>
+                    <input type="text" class="about-field form-control" name="data[address]" placeholder="Bldg No., Street, Brgy., City/Province" required>
+
+                    <!-- Coordinates -->
+                    <h6>Coordinates</h6>
+                    <div>
+                        <input type="text" class="about-field form-control" name="data[coordinates]" id="coordinatesInputAddBranch" placeholder="Enter Branch Map Location" required>
+                        <button type="button" class="btn btn-primary mt-2" onclick="openMapInAddBranch()">Browse Map</button>
+                        <div id="mapAddBranch" style="display: none; height: 400px; width: 700px;"></div>
                     </div>
                 </div>
-            
+
                 <div class="col-md-5">
                     <div class="mb-4 d-flex justify-content-center">
                         <img id="imageAddBranch" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg" alt="business image" style="max-width: 100%; max-height: 200px;">
@@ -154,11 +152,10 @@ $result = $DB->query($sql);
                 </div>
 
                 <div class="mt-4 p-4 d-flex">
-                    <button type="submit" button class="btn btn-primary" name=createBranch id="createBranch<?= $branchData['branchCode'] ?>" >Create Branch</button>
+                    <button type="submit" button class="btn btn-primary" name=createBranch id="createBranch<?= $branchData['branchCode'] ?>">Create Branch</button>
                     <button type="button" button class="btn btn-secondary" name=cancelCreate id="cancelCreate<?= $branchData['branchCode'] ?>" onclick="hideAddBranch('<?= $businessCode ?>')">Cancel</button>
                 </div>
             </div>
-                
         </form>
     </div>
 </div>
@@ -198,10 +195,16 @@ $result = $DB->query($sql);
                         <p id="addressInput_<?= $branchData['branchCode'] ?>" style="display: block;"><?= $branchData['address'] ?> </p>
                         <input type="text" class="about-field form-control" name="data[address]" id="address_<?= $branchData['branchCode'] ?>" placeholder="Tell something about your business" value="<?= $branchData['address'] ?>" style="display: none;">
 
-                        <!-- Coordinates -->
+                       <!-- Coordinates -->
                         <h6 id="coordinatesHeader"><b>Coordinates (Latitude, Longitude)</b></h6>
                         <p id="coordinatesInput_<?= $branchData['branchCode'] ?>" style="display: block;"><?= $branchData['coordinates'] ?> </p>
-                        <input type="text" class="about-field form-control" name="data[coordinates]" id="coordinates_<?= $branchData['branchCode'] ?>" placeholder="Tell something about your business" value="<?= $branchData['coordinates'] ?>"style="display: none;" >
+                        <input type="text" class="about-field form-control" name="data[coordinates]" id="coordinates_<?= $branchData['branchCode'] ?>" placeholder="Enter Branch Map Location" value="<?= $branchData['coordinates'] ?>" style="display: none;">
+
+                        <button type="button" class="btn btn-primary mt-2" id="browseMapButton_<?= $branchData['branchCode'] ?>" style="display: none;" onclick="openMapInBranchDetails('<?= $branchData['branchCode'] ?>')">Browse Map</button>
+
+
+                        <div id="mapBranchDetails_<?= $branchData['branchCode'] ?>" style="display: none; height: 400px; width: 700px;"></div>
+
                     </div>
 
                     <div class="col-md-5">
@@ -212,7 +215,7 @@ $result = $DB->query($sql);
                         </div>
 
                         <div class="d-flex justify-content-center">
-                            <div id="filelabel2_<?= $branchData['branchCode'] ?>" class="btn btn-primary btn-rounded" style="display: none;">
+                            <div id="filelabel2_<?= $branchData['branchCode'] ?>" class="btn btn-rounded" style="display: none;">
                                 <label class="form-label text-white m-1" for="branchImage"></label>
                                 <input type="file" class="form-control branchImageInput" name="branchImage" accept="image/*" onchange="previewBranch(this, '<?= $branchData['branchCode'] ?>')">
 
@@ -246,40 +249,68 @@ $result = $DB->query($sql);
 
 
 <script src="assets/js/user.js"></script>  
-<!-- Add this script at the end of your HTML body or in a separate script file -->
-<script>
-    var map;
 
-    function openMap() {
-        map = L.map('map').setView([0, 0], 2); // Initial coordinates and zoom level
+<script>
+    var mapAddBranch;
+
+    function openMapInAddBranch() {
+        if (!mapAddBranch) {
+            mapAddBranch = L.map('mapAddBranch').setView([10.7202, 122.5621], 14);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(mapAddBranch);
+
+            mapAddBranch.on('click', function (e) {
+                updateCoordinatesInputAddBranch(e.latlng.lat, e.latlng.lng);
+            });
+        }
+
+        var mapDiv = document.getElementById("mapAddBranch");
+        mapDiv.style.display = "block";
+
+        mapAddBranch.invalidateSize();
+    }
+
+    function closeMapInAddBranch() {
+        var mapDiv = document.getElementById("mapAddBranch");
+        mapDiv.style.display = "none";
+    }
+
+    function updateCoordinatesInputAddBranch(lat, lng) {
+        document.getElementById('coordinatesInputAddBranch').value = lat + ', ' + lng;
+    }
+
+    var mapBranchDetails = {};
+
+function openMapInBranchDetails(branchCode) {
+    if (!mapBranchDetails[branchCode]) {
+        mapBranchDetails[branchCode] = L.map('mapBranchDetails_' + branchCode).setView([10.7202, 122.5621], 14);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+        }).addTo(mapBranchDetails[branchCode]);
 
-        map.on('click', function (e) {
-            updateCoordinatesInput(e.latlng.lat, e.latlng.lng);
-            map.setView(e.latlng, map.getZoom()); // Center the map on the clicked location
+        mapBranchDetails[branchCode].on('click', function (e) {
+            updateCoordinatesInputBranchDetails(branchCode, e.latlng.lat, e.latlng.lng);
         });
-
-        
-        // Get the map element
-        var mapElement = document.getElementById("Map");
-
-        // Toggle the display property to show/hide the map
-        if (mapElement.style.display === "none") {
-            mapElement.style.display = "block";
-        } else {
-            mapElement.style.display = "none";
-        }
-    
     }
 
-    function updateCoordinatesInput(lat, lng) {
-        document.getElementById('coordinatesInput').value = lat + ', ' + lng;
-    }
+    var mapDiv = document.getElementById("mapBranchDetails_" + branchCode);
+    mapDiv.style.display = "block";
 
+    mapBranchDetails[branchCode].invalidateSize();
+}
 
-    
+function closeMapInBranchDetails(branchCode) {
+    var mapDiv = document.getElementById("mapBranchDetails_" + branchCode);
+    mapDiv.style.display = "none";
+}
+
+function updateCoordinatesInputBranchDetails(branchCode, lat, lng) {
+    var coordinatesInput = document.getElementById('coordinates_' + branchCode);
+    coordinatesInput.value = lat + ', ' + lng;
+}
+
 </script>
 

@@ -125,6 +125,10 @@ function toggleEditBranch(branchCode) {
     toggleButtonVisibility(`cancelBranch_${branchCode}`);
     toggleButtonVisibility("ViewPackage");
     toggleButtonVisibility(`filelabel2_${branchCode}`);
+    var browseMapButton = document.getElementById('browseMapButton_' + branchCode);
+    if (browseMapButton) {
+        browseMapButton.style.display = (browseMapButton.style.display === 'none') ? 'block' : 'none';
+    }
     
 
     // Toggle visibility of h6 and input fields for the specific branch

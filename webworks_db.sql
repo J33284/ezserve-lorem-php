@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 23, 2023 at 03:01 PM
+-- Generation Time: Nov 24, 2023 at 03:39 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -65,9 +65,9 @@ CREATE TABLE `branches` (
 --
 
 INSERT INTO `branches` (`branchCode`, `businessCode`, `branchName`, `address`, `coordinates`, `branchImage`) VALUES
-(6, 5, 'Mina Branch', 'Mina Iloilo', '9789678587.979868', 0x6173736574732f75706c6f6164732f6272616e636865732f756b692e6a7067),
-(10, 11, 'Jereos Branch', 'Jereos Lapaz', '4234234234.234324234', 0x6173736574732f75706c6f6164732f6272616e636865732f52756e6e6572205b31393230c397313038305d2e6a666966),
-(11, 5, 'Janiuay Branches', 'Janiuay Iloilo Province', '4234234234.234324234', 0x6173736574732f75706c6f6164732f6272616e636865732f52756e6e6572205b31393230c397313038305d2e6a666966);
+(6, 5, 'Puga Funeral (Mina Branch)', 'Mina,Iloilo', '10.93010757608374, 122.57405593125402', 0x6173736574732f75706c6f6164732f6272616e636865732f5757372e706e67),
+(10, 11, 'Jereos Branch', 'Jereos Lapaz', '10.723704105713022, 122.57359924027696', 0x6173736574732f75706c6f6164732f6272616e636865732f52756e6e6572205b31393230c397313038305d2e6a666966),
+(11, 5, 'Janiuay Branches', 'Janiuay Iloilo Province', '10.999772093429714, 122.4238781447832', 0x6173736574732f75706c6f6164732f6272616e636865732f5757372e706e67);
 
 -- --------------------------------------------------------
 
@@ -79,7 +79,7 @@ CREATE TABLE `business` (
   `businessCode` int(11) NOT NULL,
   `ownerID` int(11) NOT NULL,
   `busName` varchar(100) NOT NULL,
-  `about` varchar(255) NOT NULL,
+  `about` varchar(500) NOT NULL,
   `busType` varchar(100) NOT NULL,
   `house_building` varchar(100) NOT NULL,
   `street` varchar(100) NOT NULL,
@@ -99,8 +99,8 @@ CREATE TABLE `business` (
 --
 
 INSERT INTO `business` (`businessCode`, `ownerID`, `busName`, `about`, `busType`, `house_building`, `street`, `barangay`, `city_municipality`, `province`, `region`, `phone`, `mobile`, `permits`, `busImage`, `status`) VALUES
-(5, 2, 'Puga Funeral Services', 'Funeral Services', 'Funeral Services', '12', 'JEREOS', 'Jereos', 'ILOILO CITY (CAPITAL)', 'ILOILO', '6', '09452781052', '09452781051', 0x6173736574732f75706c6f6164732f62616a616a2e706e67, 0x6173736574732f75706c6f6164732f627573696e6573732f5f66616e6172745f5f315f796561725f616e6e69766572736172795f62795f616b656d6f6e6f5f6466357462336e2d333530742e6a7067, 1),
-(11, 2, 'Alisah Photography Services', 'Premium Photography', 'Photography', '45', 'Bulong', 'Norte', 'Iloilo', 'Iloilo', '6', '09647384566', '09837465327', 0x6173736574732f75706c6f6164732f52756e6e6572205b31393230c397313038305d2e6a666966, 0x6173736574732f75706c6f6164732f627573696e6573732f756b692e6a7067, 1);
+(5, 2, 'Puga Funeral Services', 'Puga Funeral Parlor: Honoring Lives, Supporting Families  At Puga Funeral Parlor, we understand the delicate and emotional nature of saying farewell to a loved one. With a legacy of compassion and professionalism, we stand as a pillar of support for grieving families during their most challenging times.', 'Funeral Services', '12', 'JEREOS', 'Jereos', 'ILOILO CITY (CAPITAL)', 'ILOILO', '6', '09452781052', '09452781051', 0x6173736574732f75706c6f6164732f62616a616a2e706e67, 0x6173736574732f75706c6f6164732f627573696e6573732f5757372e706e67, 1),
+(11, 2, 'Alisah Photography Services', 'Premium Photography', 'Photography', '45', 'Bulong', 'Norte', 'Iloilo', 'Iloilo', '6', '09647384566', '09837465327', 0x6173736574732f75706c6f6164732f52756e6e6572205b31393230c397313038305d2e6a666966, 0x6173736574732f75706c6f6164732f627573696e6573732f3336305f465f3536323939333132325f653770476b655938794d66584a63526d636c736f496a744f6f56444467496c682e6a7067, 1);
 
 -- --------------------------------------------------------
 
@@ -112,6 +112,16 @@ CREATE TABLE `businesstypes` (
   `typeCode` int(11) NOT NULL,
   `typeName` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `businesstypes`
+--
+
+INSERT INTO `businesstypes` (`typeCode`, `typeName`) VALUES
+(7, 'Photography'),
+(8, 'Catering'),
+(9, 'Funeral Services'),
+(10, 'Flower Shop');
 
 -- --------------------------------------------------------
 
@@ -159,7 +169,9 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`categoryCode`, `packCode`, `categoryName`) VALUES
-(37, 26, 'exo');
+(38, 27, 'Casket'),
+(39, 27, 'Floral Arrangements'),
+(44, 27, 'Transportation');
 
 -- --------------------------------------------------------
 
@@ -238,7 +250,7 @@ CREATE TABLE `package` (
 --
 
 INSERT INTO `package` (`packCode`, `packName`, `branchCode`) VALUES
-(26, 'Eden Package', 6);
+(27, 'Funeral Package: \"Basic Services\"', 6);
 
 -- --------------------------------------------------------
 
@@ -261,7 +273,9 @@ CREATE TABLE `service` (
 --
 
 INSERT INTO `service` (`serviceCode`, `categoryCode`, `serviceName`, `Description`, `quantity`, `color`, `price`) VALUES
-(25, 37, 'exo', 'exo', 1, 'exo', 2000);
+(26, 38, 'Premium Solid Wood Casket', ' Handcrafted from mahogany, lined with satin, and adorned with elegant brass handles.', 1, 'Mahogany', 120000),
+(27, 39, 'Full Floral Package', 'A selection of fresh flowers including lilies, roses, and carnations for casket adornment and venue ', 1, 'Assorted', 5000),
+(32, 44, ' Hearse Rental', 'Elegant and well-maintained hearse for dignified transportation to the final resting place.', 1, 'Black', 10000);
 
 --
 -- Indexes for dumped tables
@@ -346,19 +360,19 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `branches`
 --
 ALTER TABLE `branches`
-  MODIFY `branchCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `branchCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `business`
 --
 ALTER TABLE `business`
-  MODIFY `businessCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `businessCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `businesstypes`
 --
 ALTER TABLE `businesstypes`
-  MODIFY `typeCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `typeCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `business_owner`
@@ -370,7 +384,7 @@ ALTER TABLE `business_owner`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `categoryCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `categoryCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `client`
@@ -388,13 +402,13 @@ ALTER TABLE `custom_package`
 -- AUTO_INCREMENT for table `package`
 --
 ALTER TABLE `package`
-  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `serviceCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `serviceCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Constraints for dumped tables

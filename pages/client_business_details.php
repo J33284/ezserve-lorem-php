@@ -13,6 +13,9 @@ $business = $businesses->fetch_assoc();
 
 <?= element('header') ?>
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 <div class="bus-details">
     
         <div class="container shadow mb-5 bg-white rounded details sticky-top" style="padding: 30px 0px 0px 20px;">
@@ -37,21 +40,43 @@ $business = $businesses->fetch_assoc();
                 </div>
                
                 <div id="Branches" class="card p-3 shadow p-3 mb-5 bg-white rounded border-0 d-flex">
-                    <h2> Branches </h2>
-                    <hr>
-                    <img class="d-flex justify-content-center align-items-center" src="assets/images/sampleMaps.jpg" alt="Google Map">
-                    <?php foreach ($businesses as $business) : ?>
-                    <form action="?page=client_package" method="post">
-                        <input type="hidden" name="branchCode" value="<?= $business['branchCode'] ?>">
-                        <button type="submit" class="btn btn-primary view-package" data-business-code="<?= $business['branchCode'] ?>">
-                            <?= $business['branchName'] ?>
-                        </button>
-                    </form>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        </div>
-    
+    <h2> Branches </h2>
+    <hr>
+    <div id="map" class="card p-3 shadow p-3 mb-5 bg-white rounded border-0" style="width: 80vw; height: 80vh;"></div>
+
+    <?php foreach ($businesses as $branch) : ?>
+        <form action="?page=client_package" method="post">
+            <input type="hidden" name="branchCode" value="<?= $branch['branchCode'] ?>">
+         
+            <br>
+            <button type="submit" class="btn btn-primary view-package" data-business-code="<?= $branch['branchCode'] ?>">
+                <?= $branch['branchName'] ?>
+            </button>
+        </form>
+<!-- Move the map initialization outside the loop -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var map = L.map('map').setView([<?= $business['coordinates'] ?>], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        <?php foreach ($businesses as $branch) : ?>
+            // Get the coordinates from PHP for each branch
+            var branchCoordinates = <?= json_encode($branch['coordinates']) ?>;
+
+            // Split the coordinates into latitude and longitude
+            var [branchLat, branchLng] = branchCoordinates.split(',');
+
+            // Add a marker for each branch location
+            L.marker([branchLat, branchLng]).addTo(map)
+                .bindPopup('<b><?= $business['busName'] ?></b><br><?= $branch['branchName'] ?>');
+        <?php endforeach; ?>
+    });
+</script>
+
+
+
+
+    <?php endforeach; ?>
 </div>
 
 <?= element('footer') ?>
