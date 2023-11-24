@@ -10,9 +10,9 @@ $packageResult = $DB->query($packageQuery);
 ?>
 
 <?php if ($packageResult->num_rows > 0): ?>
-  <div class="package-details" id="packageDetails<?= $branchCode ?>" style="display: block;">
+  <div class="package-details " id="packageDetails<?= $branchCode ?>" style="display: block; height: 80vh">
     <div class="d-flex align-items-center" style="height: 200px; margin-top: 300px; margin-left: 400px; width: 150%;">
-      <div class="package-details col-5 card py-5 mx-4 px-4">
+      <div class="package-details col-5 card py-5 mx-4 px-4" style=" height: 80vh" >
         <h2>Pre-made Packages</h2>
         <h6>This section lets you create pre-made packages for your customers.</h6>
         <div class="accordion" id="accordionFlushExample">
@@ -40,14 +40,14 @@ $packageResult = $DB->query($packageQuery);
               }
               // Start a new accordion item
               ?>
-              <div class="accordion-item" id="accordionItem<?= $row['packCode'] ?>">
+              <div class="accordion-item overflow-auto" id="accordionItem<?= $row['packCode'] ?>">
                 <h2 class="accordion-header" id="flush-heading<?= $row['packCode'] ?>">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?= $row['packCode'] ?>" aria-expanded="false" aria-controls="flush-collapse<?= $row['packCode'] ?>">
                     <?= $row['packName'] ?>
                   </button>
                 </h2>
                 <div id="flush-collapse<?= $row['packCode'] ?>" class="accordion-collapse collapse" aria-labelledby="flush-heading<?= $row['packCode'] ?>" data-bs-parent="#accordionFlushExample">
-                  <div class="accordion-body">
+                  <div class="accordion-body ">
                     <table class="table table-hover table-responsive">
                       <thead>
                         <tr>
@@ -123,9 +123,9 @@ $packageResult = $DB->query($packageQuery);
 <?php endif; ?>
 
 <?php if ($packageResult->num_rows == 0): ?>
-  <div class="package-details " id="packageDetails<?= $branchCode ?>" >
-    <div class="d-flex align-items-center" style="height: 80vh; ">
-      <div class="package-details overflow-auto col-5 card py-5 mx-4 px-4" style="height: 100vh">
+  <div class="package-details" id="packageDetails<?= $branchCode ?>" style="display: block;">
+    <div class="d-flex align-items-center" style="height: 200px; margin-top:300px; margin-left: 390px; width: 140%;">
+      <div class="package-details col-5 card py-5 mx-4 px-4">
         <h2>Pre-made Packages</h2>
         <h6>This section lets you create pre-made packages for your customers.</h6>
         <div class="accordion" id="accordionFlushExample">
