@@ -19,8 +19,10 @@ if (isset($_POST['data'])) {
         } elseif ($_POST['data']['usertype'] === 'business owner') {
             if (add_record("business_owner", $_POST['data'])) {
                 set_message("Thank you for your registration.", "success");
+                
                 // Redirect to the login page after successful registration.
-                header("Location: " . SITE_URL . "/?page=login");
+                header("Location: " . SITE_URL . "?page=email_verification" . urlencode($_POST['data']['email']) . "&code=" . $_POST['data']['verification_code']);
+exit();
                 exit(); // Make sure to exit after redirection.
             } else {
                 set_message("Failed to register.", "danger");

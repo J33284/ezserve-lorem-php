@@ -126,7 +126,7 @@
               <div class="total row d-flex sticky-bottom">
                 <h3 class="col-7"> Total</h3>
                 <h4 class="col-5"> heeehee</h4> <!--calculation formula-->
-                <div class="border-top border-bottom voucher-btn row justify-content-center align-items-center"  style="height: 60px" href="client-voucher.php">
+                <div class="border-top border-bottom voucher-btn row justify-content-center align-items-center"  style="height: 60px" href="?page=client_voucher">
                   <h6  class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
                   <i class="bi bi-chevron-right float end col-2"></i>
                 </div>

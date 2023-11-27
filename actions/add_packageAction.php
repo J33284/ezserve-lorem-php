@@ -6,12 +6,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve and sanitize form data
     $branchCode = isset($_POST['branchcode']) ? $_POST['branchcode'] : '';
     $packName = $_POST["packName"];
-    $categoryName = $_POST["categoryName"];
-    $serviceName = $_POST["serviceName"];
-    $Description = $_POST["Description"];
-    $quantity = $_POST["quantity"];
-    $color = $_POST["color"];
-    $price = $_POST["price"];
+    $categoryNames = $_POST["categoryName"];
+    $serviceNames = $_POST["serviceName"];
+    $descriptions = $_POST["Description"];
+    $quantities = $_POST["quantity"];
+    $colors = $_POST["color"];
+    $prices = $_POST["price"];
 
     try {
         // Start a database transaction
@@ -25,18 +25,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Get the auto-incremented packCode
         $packCode = $DB->insert_id;
 
-        // Insert into category table
-        $stmt = $DB->prepare("INSERT INTO category (packCode, categoryName) VALUES (?, ?)");
-        $stmt->bind_param("is", $packCode, $categoryName);
-        $stmt->execute();
+        // Loop through the items and insert into the database
+        for ($i = 0; $i < count($categoryNames); $i++) {
+            // Insert into category table
+            $stmt = $DB->prepare("INSERT INTO category (packCode, categoryName) VALUES (?, ?)");
+            $stmt->bind_param("ss", $packCode, $categoryNames[$i]);
+            $stmt->execute();
 
-        // Get the auto-incremented categoryCode
-        $categoryCode = $DB->insert_id;
+            // Get the auto-incremented categoryCode
+            $categoryCode = $DB->insert_id;
 
-        // Insert into service table
-        $stmt = $DB->prepare("INSERT INTO service (categoryCode, serviceName, Description, color, quantity, price) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("isssii", $categoryCode, $serviceName, $Description, $color, $quantity, $price);
-        $stmt->execute();
+            // Insert into service table
+            $stmt = $DB->prepare("INSERT INTO service (categoryCode, serviceName, Description, color, quantity, price) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssssss", $categoryCode, $serviceNames[$i], $descriptions[$i], $colors[$i], $quantities[$i], $prices[$i]);
+            $stmt->execute();
+        }
 
         // Commit the transaction if all queries were successful
         $DB->commit();

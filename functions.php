@@ -152,8 +152,16 @@ function add_record( $name, $fields = [] ) {
 
 // sample
 // update_record( "persons", [ 'key' => 'id', 'val' => $_POST[ 'id' ] ], $_POST[ 'data' ] )
+
+function generate_verification_code() {
+    // Generate a random verification code, for example:
+    return mt_rand(100000, 999999);
+}
+
 function update_record( $name, $id, $fields = [] ) {
 	global $DB;
+    $verification_code = generate_verification_code();
+    $_POST['data']['verification_code'] = $verification_code;
 
 	if( ( isset( $name ) && isset( $fields ) ) && !empty( $name ) && !empty( $fields ) && is_array( $fields ) ) {
 

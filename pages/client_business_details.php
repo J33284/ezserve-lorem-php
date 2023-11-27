@@ -18,65 +18,70 @@ $business = $businesses->fetch_assoc();
 
 <div class="bus-details">
     
-        <div class="container shadow mb-5 bg-white rounded details sticky-top" style="padding: 30px 0px 0px 20px;">
-            <div class="row">
-                <h1 class="d-flex justify-content-start align-items-center"><?= $business['busName'] ?></h1>
-            </div>
-
-            <div class="links border-top">
-                <ul class="d-flex justify-content-start align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="#About"> About Us </a></li>
-                    <li class="nav-item"><a class="nav-link" href="#Branches"> Branches </a></li>
-                </ul>
-            </div>
+    <div class="container shadow mb-5 bg-white rounded details sticky-top" style="padding: 30px 0px 0px 20px;">
+        <div class="row">
+            <h1 class="d-flex justify-content-start align-items-center"><?= $business['busName'] ?></h1>
         </div>
 
-        <div class="info container d-flex justify-content-center align-items-center">
-            <div>
-                <div id="About" class="card p-3 shadow p-3 mb-5 bg-white rounded border-0" style="width: 80vw; height: 30vh;">
-                    <h2>About Us</h2>
-                    <hr>
-                    <p><?= $business['about'] ?></p>
-                </div>
-               
-                <div id="Branches" class="card p-3 shadow p-3 mb-5 bg-white rounded border-0 d-flex">
-    <h2> Branches </h2>
-    <hr>
-    <div id="map" class="card p-3 shadow p-3 mb-5 bg-white rounded border-0" style="width: 80vw; height: 80vh;"></div>
+        <div class="links border-top">
+            <ul class="d-flex justify-content-start align-items-center">
+                <li class="nav-item"><a class="nav-link" href="#About"> About Us </a></li>
+                <li class="nav-item"><a class="nav-link" href="#Branches"> Branches </a></li>
+            </ul>
+        </div>
+    </div>
 
-    <?php foreach ($businesses as $branch) : ?>
+    <div class="info container d-flex justify-content-center align-items-center">
+        <div>
+            <div id="About" class="card p-3 shadow p-3 mb-5 bg-white rounded border-0" style="width: 80vw; height: 30vh;">
+                <h2>About Us</h2>
+                <hr>
+                <p><?= $business['about'] ?></p>
+            </div>
+           
+            <div id="Branches" class="card p-3 shadow p-3 mb-5 bg-white rounded border-0 d-flex">
+                <h2> Branches </h2>
+                <hr>
+                <div id="map" class="card p-3 shadow p-3 mb-5 bg-white rounded border-0" style="width: 80vw; height: 80vh;"></div>
+
+                <?php foreach ($businesses as $branch) : ?>
+    <div style="display: flex; align-items: center;">
+        <p style="flex: 2; margin-right: 10px;"><?= $branch['branchName'] ?></p>
         <form action="?page=client_package" method="post">
             <input type="hidden" name="branchCode" value="<?= $branch['branchCode'] ?>">
-         
-            <br>
-            <button type="submit" class="btn btn-primary view-package" data-business-code="<?= $branch['branchCode'] ?>">
-                <?= $branch['branchName'] ?>
+            <button type="submit" class="btn btn-primary view-package" data-business-code="<?= $branch['branchCode'] ?>" style="background-color: #007bff; color: #ffffff; border: none; padding: 10px 24px; border-radius: 5px; cursor: pointer;">
+                View Package and Services
             </button>
         </form>
-<!-- Move the map initialization outside the loop -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var map = L.map('map').setView([<?= $business['coordinates'] ?>], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-        <?php foreach ($businesses as $branch) : ?>
-            // Get the coordinates from PHP for each branch
-            var branchCoordinates = <?= json_encode($branch['coordinates']) ?>;
-
-            // Split the coordinates into latitude and longitude
-            var [branchLat, branchLng] = branchCoordinates.split(',');
-
-            // Add a marker for each branch location
-            L.marker([branchLat, branchLng]).addTo(map)
-                .bindPopup('<b><?= $business['busName'] ?></b><br><?= $branch['branchName'] ?>');
-        <?php endforeach; ?>
-    });
-</script>
+    </div>
+    <hr>
+<?php endforeach; ?>
 
 
 
 
-    <?php endforeach; ?>
+                <!-- Move the map initialization outside the loop -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var map = L.map('map').setView([<?= $business['coordinates'] ?>], 13);
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+                        <?php foreach ($businesses as $branch) : ?>
+                            // Get the coordinates from PHP for each branch
+                            var branchCoordinates = <?= json_encode($branch['coordinates']) ?>;
+
+                            // Split the coordinates into latitude and longitude
+                            var [branchLat, branchLng] = branchCoordinates.split(',');
+
+                            // Add a marker for each branch location
+                            L.marker([branchLat, branchLng]).addTo(map)
+                                .bindPopup('<b><?= $branch['branchName'] ?></b><br><?= $branch['coordinates'] ?>');
+                        <?php endforeach; ?>
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
 </div>
 
 <?= element('footer') ?>
