@@ -1,5 +1,4 @@
 <?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); 
-
 $clientID = $_SESSION['userID'];
 $clientType =  $_SESSION['usertype'];
 
@@ -16,7 +15,7 @@ if ($client) {
 <div id="client-custom "class="client-custom" style="margin-top: 90px ">
       <div class=" container pack-head " style=" top: 50px;">
         <div class="container row">
-          <a href="./details.html" class=" col-xl-1 btn-back btn-lg float-end ">
+          <a href="?page=client_view_package&packCode=<?= $packCode = $_POST['packCode']; ?>" class=" col-xl-1 btn-back btn-lg float-end ">
             <i class="bi bi-arrow-left"></i></a>
           <h1 class="col-xl-7 d-flex justify-content-start text-light">Check Out</h1>
          
@@ -100,7 +99,17 @@ if ($client) {
                 
           </div>
           </div>
+          <?php
+            $packCode = $_POST['packCode'];
 
+            $packageDetailsQ = $DB->query("SELECT p.*, c.*, s.*
+            FROM package p
+            JOIN category c ON p.packCode = c.packCode
+            JOIN service s ON c.categoryCode = s.categoryCode
+            WHERE p.packCode = '$packCode'");
+
+            $grandTotal = 0;
+          ?>
           <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" style="height: auto" >
             <h3 class="order-header sticky-top p-3">Order List</h3>
             <hr class="m-0">
@@ -108,42 +117,50 @@ if ($client) {
               <hr>
               <table class="table">
                 <thead>
-                  <tr class="sticky-top">
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Price</th>
-                  </tr>
+                    <tr class="sticky-top">
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Price</th>
+                    </tr>
                 </thead>
                 <tbody>
-                    <?php //while ($row = $result->fetch_assoc()) { ?>
+                    <?php while ($packageDetails = $packageDetailsQ->fetch_assoc()): ?>
                         <tr>
-                        <td><?php //echo $row['quantity']; ?></td>
-                        <td><?php //echo $row['ServiceName']; ?></td>
-                        <td><?php //echo $row['price']; ?></td>
+                            <td><?php echo $packageDetails['quantity']; ?></td>
+                            <td><?php echo $packageDetails['serviceName']; ?></td>
+                            <td><?php echo $packageDetails['price']; ?></td>
                         </tr>
-                    <?php //} ?>
-                </tbody>
-              </table>
-              <div class="total row d-flex sticky-bottom">
-                <h3 class="col-7"> Total</h3>
-                <h4 class="col-5"> heeehee</h4> <!--calculation formula-->
-                <div class="border-top border-bottom voucher-btn row justify-content-center align-items-center"  style="height: 60px" href="client-voucher.php">
-                  <h6  class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
-                  <i class="bi bi-chevron-right float end col-2"></i>
-                </div>
-                <form action="?page=check-out" method="post" >
-                  <input type="hidden" name="businessCode" value="<? //$businness['cutomCode']?>">
-                  <button type="submit" class="btn btn-primary" style="width:100%" data-bs-business-code="<? //$businness['cutomCode']?>">
-                  Place Order
-                  </button>
-            </form>
-              </div>
-            </div>
-            </div>
-                    </div>
-                    </div>
-                    </div>
-      </div>
-    </div>
 
-    <?= element( 'footer' ) ?>
+                        <?php
+                        // Calculate total for the current item and add to grand total
+                        $total = $packageDetails['quantity'] * $packageDetails['price'];
+                        $grandTotal += $total;
+                        ?>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+
+            <div class="total row d-flex sticky-bottom">
+                <h3 class="col-7"> Total</h3>
+                <h4 class="col-5"><?= $grandTotal ?></h4>
+            <!--calculation formula-->
+                            <div class="border-top border-bottom voucher-btn row justify-content-center align-items-center"  style="height: 60px" href="client-voucher.php">
+                            <h6  class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
+                            <i class="bi bi-chevron-right float end col-2"></i>
+                            </div>
+                            <form action="?page=check-out" method="post" >
+                            <input type="hidden" name="businessCode" value="<? //$businness['cutomCode']?>">
+                            <button type="submit" class="btn btn-primary" style="width:100%" data-bs-business-code="<? //$businness['cutomCode']?>">
+                            Place Order
+                            </button>
+                        </form>
+                        </div>
+                        </div>
+                        </div>
+                                </div>
+                                </div>
+                                </div>
+                </div>
+                </div>
+            
+                <?= element( 'footer' ) ?>

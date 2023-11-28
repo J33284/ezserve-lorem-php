@@ -15,9 +15,7 @@ $packageDetailsQ = $DB->query("SELECT p.*, c.*, s.*
 
 if ($packageDetailsQ) {
     $packageDetails = $packageDetailsQ->fetch_assoc();
-} else {
-    echo "Error executing the query.";
-}
+} 
 ?>
 
 <div id="package-view" class="package-view h-100 " style="margin-top:120px">
@@ -69,11 +67,13 @@ if ($packageDetailsQ) {
                     <h3 class="col-7"> Total:</h3>
                     <h4 class="col-5"><?= $grandTotal ?></h4>
                     <form action="?page=checkout" method="post">
-                        <input type="hidden" name="businessCode" value="">
-                        <button type="submit" class="btn btn-primary" style="width:100%" data-bs-business-code="">
-                            Check Out
-                        </button>
-                    </form>
+                    <input type="hidden" name="packCode" value="<?= $packCode ?>">
+                    <!-- Other form elements can be added here if needed -->
+                    <button type="submit" class="btn btn-primary" style="width:100%">
+                        Check Out
+                    </button>
+                </form>
+
                 </div>
             </div>
         </div>
