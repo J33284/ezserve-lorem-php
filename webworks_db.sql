@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 24, 2023 at 03:39 AM
+-- Generation Time: Nov 28, 2023 at 03:32 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -67,7 +67,7 @@ CREATE TABLE `branches` (
 INSERT INTO `branches` (`branchCode`, `businessCode`, `branchName`, `address`, `coordinates`, `branchImage`) VALUES
 (6, 5, 'Puga Funeral (Mina Branch)', 'Mina,Iloilo', '10.93010757608374, 122.57405593125402', 0x6173736574732f75706c6f6164732f6272616e636865732f5757372e706e67),
 (10, 11, 'Jereos Branch', 'Jereos Lapaz', '10.723704105713022, 122.57359924027696', 0x6173736574732f75706c6f6164732f6272616e636865732f52756e6e6572205b31393230c397313038305d2e6a666966),
-(11, 5, 'Janiuay Branches', 'Janiuay Iloilo Province', '10.999772093429714, 122.4238781447832', 0x6173736574732f75706c6f6164732f6272616e636865732f5757372e706e67);
+(11, 5, 'Janiuay Branch', 'Janiuay Iloilo Province', '10.999772093429714, 122.4238781447832', 0x6173736574732f75706c6f6164732f6272616e636865732f5757372e706e67);
 
 -- --------------------------------------------------------
 
@@ -135,6 +135,7 @@ CREATE TABLE `business_owner` (
   `lname` varchar(50) NOT NULL,
   `birthday` date NOT NULL,
   `email` varchar(50) NOT NULL,
+  `verification_code` varchar(100) NOT NULL,
   `number` varchar(30) NOT NULL,
   `ownerAddress` varchar(255) NOT NULL,
   `username` varchar(100) NOT NULL,
@@ -149,8 +150,10 @@ CREATE TABLE `business_owner` (
 -- Dumping data for table `business_owner`
 --
 
-INSERT INTO `business_owner` (`ownerID`, `fname`, `lname`, `birthday`, `email`, `number`, `ownerAddress`, `username`, `password`, `usertype`, `status`, `created`, `updated`) VALUES
-(2, 'Alisah Mae', 'Bolivar', '0001-01-07', 'bvrlisah@gmail.com', '09452781051', '28 Dayot Subdivision Jereos Street La Paz, Iloilo City', 'Owner', '827ccb0eea8a706c4c34a16891f84e7b', 'business owner', 1, '2023-10-26 09:03:03', '2023-10-26 09:03:03');
+INSERT INTO `business_owner` (`ownerID`, `fname`, `lname`, `birthday`, `email`, `verification_code`, `number`, `ownerAddress`, `username`, `password`, `usertype`, `status`, `created`, `updated`) VALUES
+(2, 'Alisah Mae', 'Bolivar', '0001-01-07', 'bvrlisah@gmail.com', '', '09452781051', '28 Dayot Subdivision Jereos Street La Paz, Iloilo City', 'Owner', '827ccb0eea8a706c4c34a16891f84e7b', 'business owner', 1, '2023-10-26 09:03:03', '2023-10-26 09:03:03'),
+(7, 'Alisah', 'Mae', '2001-09-02', 'bvrlisah@gmail.com', '', '09452781051', '', 'hernie', '827ccb0eea8a706c4c34a16891f84e7b', 'business owner', 0, '2023-11-27 08:59:01', '2023-11-27 08:59:01'),
+(8, 'mae', 'mae', '2001-08-12', 'bvrlisah@gmail.com', '', '09452781051', '', 'mae', '827ccb0eea8a706c4c34a16891f84e7b', 'business owner', 0, '2023-11-27 10:38:14', '2023-11-27 10:38:14');
 
 -- --------------------------------------------------------
 
@@ -223,19 +226,6 @@ CREATE TABLE `custom_package` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `email_verify`
---
-
-CREATE TABLE `email_verify` (
-  `id` int(11) NOT NULL,
-  `username` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `verification_code` int(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `package`
 --
 
@@ -264,6 +254,7 @@ CREATE TABLE `service` (
   `serviceName` varchar(100) NOT NULL,
   `Description` varchar(100) NOT NULL,
   `quantity` int(100) NOT NULL,
+  `size` varchar(100) NOT NULL,
   `color` varchar(100) NOT NULL,
   `price` bigint(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -272,10 +263,25 @@ CREATE TABLE `service` (
 -- Dumping data for table `service`
 --
 
-INSERT INTO `service` (`serviceCode`, `categoryCode`, `serviceName`, `Description`, `quantity`, `color`, `price`) VALUES
-(26, 38, 'Premium Solid Wood Casket', ' Handcrafted from mahogany, lined with satin, and adorned with elegant brass handles.', 1, 'Mahogany', 120000),
-(27, 39, 'Full Floral Package', 'A selection of fresh flowers including lilies, roses, and carnations for casket adornment and venue ', 1, 'Assorted', 5000),
-(32, 44, ' Hearse Rental', 'Elegant and well-maintained hearse for dignified transportation to the final resting place.', 1, 'Black', 10000);
+INSERT INTO `service` (`serviceCode`, `categoryCode`, `serviceName`, `Description`, `quantity`, `size`, `color`, `price`) VALUES
+(26, 38, 'Premium Solid Wood Casket', ' Handcrafted from mahogany, lined with satin, and adorned with elegant brass handles.', 1, '', 'Mahogany', 120000),
+(27, 39, 'Full Floral Package', 'A selection of fresh flowers including lilies, roses, and carnations for casket adornment and venue ', 1, '', 'Assorted', 5000),
+(32, 44, ' Hearse Rental', 'Elegant and well-maintained hearse for dignified transportation to the final resting place.', 1, '', 'Black', 10000);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vouchers`
+--
+
+CREATE TABLE `vouchers` (
+  `codeName` int(11) NOT NULL,
+  `amount` mediumint(9) NOT NULL,
+  `startDate` date NOT NULL,
+  `endDate` date NOT NULL,
+  `cond` varchar(255) NOT NULL,
+  `businessCode` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -347,6 +353,12 @@ ALTER TABLE `service`
   ADD PRIMARY KEY (`serviceCode`);
 
 --
+-- Indexes for table `vouchers`
+--
+ALTER TABLE `vouchers`
+  ADD PRIMARY KEY (`codeName`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -378,13 +390,13 @@ ALTER TABLE `businesstypes`
 -- AUTO_INCREMENT for table `business_owner`
 --
 ALTER TABLE `business_owner`
-  MODIFY `ownerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ownerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `categoryCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `categoryCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `client`
@@ -402,13 +414,19 @@ ALTER TABLE `custom_package`
 -- AUTO_INCREMENT for table `package`
 --
 ALTER TABLE `package`
-  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `serviceCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `serviceCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+
+--
+-- AUTO_INCREMENT for table `vouchers`
+--
+ALTER TABLE `vouchers`
+  MODIFY `codeName` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables

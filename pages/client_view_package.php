@@ -3,6 +3,9 @@
 <?php
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
+$clientID = $_SESSION['userID'];
+$clientType = $_SESSION['usertype'];
+
 // Get the package code from the URL
 $packCode = $_GET['packCode'];
 
@@ -15,6 +18,8 @@ $packageDetailsQ = $DB->query("SELECT p.*, c.*, s.*
 
 if ($packageDetailsQ) {
     $packageDetails = $packageDetailsQ->fetch_assoc();
+
+
 } 
 ?>
 
