@@ -22,17 +22,23 @@ $businesses = $DB->query("SELECT * FROM business WHERE status ='1'");
     <div class="mx-5 p-5">
       
     <?php foreach ($businesses as $business) : ?>
-      <!-- main code -->
-      <div class="card flex-row shadow-sm p-3 mb-5 bg-white rounded" style="width: 85vw;">
-        <img class="card-img" src="assets/images/jh.jpg" alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title"><?= $business['busName'] ?></h5>
-            <p class="card-text"><?= $business['street'] . ', ' . $business['city_municipality'] ?></p>
-            <form action="?page=client_business_details" method="post">
-            <input type="hidden" name="businessCode" value="<?= $business['businessCode'] ?>">
-            <button type="submit" class="btn btn-primary view-business" data-business-code="<?= $business['businessCode'] ?>">View</button>
-          </form></div>
-    </div>
+        <!-- main code -->
+        <div class="card flex-row shadow-sm p-3 mb-5 bg-white rounded" style="width: 85vw;">
+            <?php
+            // Check if the business has an image
+            $imagePath = !empty($business['busImage']) ? $business['busImage'] : 'assets/images/default.jpg';
+            ?>
+            <img class="card-img" src="<?= $imagePath ?>" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title"><?= $business['busName'] ?></h5>
+                <p class="card-text"><?= $business['street'] . ', ' . $business['city_municipality'] ?></p>
+                <form action="?page=client_business_details" method="post">
+                    <input type="hidden" name="businessCode" value="<?= $business['businessCode'] ?>">
+                    <button type="submit" class="btn btn-primary view-business" data-business-code="<?= $business['businessCode'] ?>">View</button>
+                </form>
+            </div>
+        </div>
+
 
      <?php endforeach; ?>
      
