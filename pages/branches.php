@@ -79,7 +79,7 @@ $result = $DB->query($sql);
                         </div>
 
                         <div class="d-flex justify-content-center">
-                            <div id="filelabel1" class="btn" style="display: none;">
+                            <div id="filelabel1" class="btn-primary" style="display: none;">
                                 <label class="form-label text-white m-1" for="busImage">Choose File</label>
                                 <input type="file" class="form-control d-none" id="busImage" name="busImage" accept="image/*" onchange="previewImage(this)">
                             </div>
@@ -143,10 +143,10 @@ $result = $DB->query($sql);
                     </div>
 
                     <div class="d-flex justify-content-center">
-                        <div class="btn btn-primary btn-rounded">
+                        
                             <label class="form-label text-white m-1" for="addBranchImage"></label>
                             <input type="file" class="form-control" id="addBranchImage" name="addBranchImage" accept="image/*" onchange="previewAddBranch(this)">
-                        </div>
+                        
                     </div>
                     <br>
                 </div>

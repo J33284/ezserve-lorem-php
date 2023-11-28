@@ -1,3 +1,10 @@
+<style>
+html{
+  scroll-padding-top: 250px;
+}
+    </style>
+
+
 <?php
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 

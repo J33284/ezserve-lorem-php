@@ -141,6 +141,8 @@ function toggleEditBranch(branchCode) {
 
     var editBranch = document.getElementById(`editBranch_${branchCode}`);
     editBranch.style.display = editBranch.style.display === "none" ? "block" : "none";
+
+    closeMapInBranchDetails(branchCode);
 }
 
 
