@@ -104,7 +104,7 @@ if ($branchesQ) {
                         <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
                         <i class="bi bi-chevron-right float end col-2"></i>
                     </div>
-                    <form action="?page=checkout" method="post">
+                    <form action="?page=custom_checkout" method="post">
                         <!-- Add hidden input fields to store order details -->
                         <input type="hidden" name="orderDetails" id="orderDetails" value="">
                         <button type="submit" class="btn btn-primary" style="width:100%" data-bs-business-code="">
