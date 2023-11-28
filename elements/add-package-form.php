@@ -7,17 +7,13 @@
             margin: 0;
         }
 
-        .card-container {
-            width: 700px;
-            margin-left: 200px;
-        }
+     
 
         .card {
             border: 0;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             background-color: #f8f9fa;
-            padding: 20px;
             margin-bottom: 20px;
         }
 
@@ -31,15 +27,15 @@
         }
 
         #items-container {
-            max-height: 200px; 
+            max-height: 70vh; 
             overflow-y: auto; 
         }
     </style>
 </head>
 <body>
 
-<div class="card-container">
-    <div class="card">
+<div class="card-container" style="width: 70vw; margin: 90px 0 0 15%; height: 100vh">
+    <div class="card pt-4" style="height: 100vh; margin-top: 120px">
         <form action="?action=add_packageAction" method="post">
             <h2>Add A Package</h2>
             <table class="table table-hover table-responsive">
@@ -54,17 +50,17 @@
             <div id="items-container">
             </div>
 
-            <div style="text-align: center;">
-                <button type="button" class="btn btn-secondary" onclick="addItemForm()">Add Item</button>
-                <button button id="save-package-btn" type="submit" class="btn btn-primary">Save Package</button>
+            <div class="mt-3" style="text-align: center;">
+                <button type="button" class="btn btn-primary" onclick="addItemForm()">Add Item</button>
+                <button button id="save-package-btn" type="submit" class="btn btn-secondary">Save Package</button>
             </div>
         </form>
     
 
     <!-- Item Form Template -->
     <div id="item-form-template" class="item-form" style="display: none;">
-        <hr>
-        <h2>Add Item</h2>
+       
+        <h2 class="pt-2" style="border-top: 3px solid #fb7e00;">Add Item</h2>
         <table class="table table-hover table-responsive">
             
             <tbody>

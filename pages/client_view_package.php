@@ -31,9 +31,9 @@ if ($packageDetailsQ) {
             <h1 class="col-lg-6 col-sm-6 d-flex justify-content-start text-light"> <?= $packageDetails['packName'] ?> Details </h1>
         </div>
    
-        <div class="container card mt-5 w-75 justify-content-center align-items-center d-flex">
+        <div class="container card mt-5 w-75 justify-content-center align-items-center d-flex py-3">
             <table class="table table-hover table-responsive">
-                <thead>
+                <thead style="border-bottom: 3px solid #fb7e00;">
                     <tr>
                         <th scope="col">Category</th>
                         <th scope="col">Services</th>
