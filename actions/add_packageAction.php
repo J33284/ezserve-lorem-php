@@ -10,6 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $serviceNames = $_POST["serviceName"];
     $descriptions = $_POST["Description"];
     $quantities = $_POST["quantity"];
+    $sizes = $_POST["size"];
     $colors = $_POST["color"];
     $prices = $_POST["price"];
 
@@ -36,8 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $categoryCode = $DB->insert_id;
 
             // Insert into service table
-            $stmt = $DB->prepare("INSERT INTO service (categoryCode, serviceName, Description, color, quantity, price) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssss", $categoryCode, $serviceNames[$i], $descriptions[$i], $colors[$i], $quantities[$i], $prices[$i]);
+            $stmt = $DB->prepare("INSERT INTO service (categoryCode, serviceName, Description, color, quantity, size, price) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssssss", $categoryCode, $serviceNames[$i], $descriptions[$i], $colors[$i], $quantities[$i], $sizes[$i], $prices[$i]);
             $stmt->execute();
         }
 

@@ -39,40 +39,50 @@ if ($branchesQ) {
             <div class="accords">
                 <div>
                     <div class="accordion" id="<?= $branch['categoryCode'] ?>">
-                        <?php while ($row = $servicesQ->fetch_assoc()) : ?>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="Service<?= $row['serviceCode'] ?>">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#service-details-<?= $row['serviceCode'] ?>" aria-expanded="false"
-                                            aria-controls="service-details-<?= $row['serviceCode'] ?>">
-                                        <input type="checkbox" class="form-check-input service-checkbox"
-                                               id="service-<?= $row['serviceCode'] ?>" data-service-id="<?= $row['serviceCode'] ?>">
-                                        <input type="number" class="form-control quantity-input" value="1" min="1">
-                                        <?= $row['serviceName'] ?>
-                                    </button>
-                                </h2>
-                                <div id="service-details-<?= $row['serviceCode'] ?>" class="accordion-collapse collapse"
-                                     aria-labelledby="Service<?= $row['serviceCode'] ?>"
-                                     data-bs-parent="#<?= $branch['categoryCode'] ?>">
-                                    <div class="accordion-body">
-                                        <div class="row justify-content-center align-items-center">
-                                            <div class="col-6 justify-content-center align-items-start d-flex flex-column">
-                                                <h6><?= $row['price'] ?></h6>
-                                            </div>
-                                            <img src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
-                                                 class="col-5" alt="example placeholder"/>
+                    <?php while ($row = $servicesQ->fetch_assoc()) : ?>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="Service<?= $row['serviceCode'] ?>">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#service-details-<?= $row['serviceCode'] ?>" aria-expanded="false"
+                                        aria-controls="service-details-<?= $row['serviceCode'] ?>">
+                                    <?= $row['serviceName'] ?>
+                                </button>
+                            </h2>
+                            <div id="service-details-<?= $row['serviceCode'] ?>" class="accordion-collapse collapse"
+                                aria-labelledby="Service<?= $row['serviceCode'] ?>"
+                                data-bs-parent="#<?= $branch['categoryCode'] ?>">
+                                <div class="accordion-body">
+                                    <div class="d-flex">
+                                        <input type="checkbox" style="width: 5%;" class="form-check-input service-checkbox"
+                                            id="service-<?= $row['serviceCode'] ?>" data-service-id="<?= $row['serviceCode'] ?>">
+                                        <label for="service-<?= $row['serviceCode'] ?>">Select Service</label>
+                                        <input type="number" class="form-control quantity-input" value="1" min="1" style="width:30%;">
+                                        <label>Quantity</label>
+                                    </div>
+                                    <hr>
+                                    <!-- Rest of the accordion content goes here -->
+                                    <div class="row justify-content-center align-items-center">
+                                        <div class="col-6 justify-content-center align-items-start d-flex flex-column">
+                                            <label>Price:</label>
+                                            <h6><?= $row['price'] ?></h6>
+
+                                            <label>Description:</label>
+                                            <h6><?= $row['Description'] ?></h6>
                                         </div>
+                                        <img src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+                                            class="col-5" alt="example placeholder"/>
                                     </div>
                                 </div>
                             </div>
-                        <?php endwhile; ?>
+                        </div>
+                    <?php endwhile; ?>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded">
-            <h3 class="order-header sticky-top">Order List</h3>
+        <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" style="height: auto">
+            <h3 class="order-header sticky-top p-3">Order List</h3>
             <hr class="m-0">
             <div class="order justify-content-center px-4 overflow-scroll">
                 <hr>
@@ -88,10 +98,15 @@ if ($branchesQ) {
                     </tbody>
                 </table>
                 <div class="total row d-flex sticky-bottom">
-                    <h3 class="col-4">Total</h3>
-                    <h4 class="col-6 total-price">0.00</h4>
+                    <h3 class="col-7">Total</h3>
+                    <h4 class="col-5 total-price">0.00</h4>
+                    <div class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px" href="?page=client_voucher">
+                        <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
+                        <i class="bi bi-chevron-right float end col-2"></i>
+                    </div>
                     <form action="?page=checkout" method="post">
-                        <input type="hidden" name="businessCode" value="">
+                        <!-- Add hidden input fields to store order details -->
+                        <input type="hidden" name="orderDetails" id="orderDetails" value="">
                         <button type="submit" class="btn btn-primary" style="width:100%" data-bs-business-code="">
                             Check Out
                         </button>
@@ -106,7 +121,7 @@ if ($branchesQ) {
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     $(document).ready(function () {
-        $('.service-checkbox').change(function () {
+        $('.service-checkbox, .quantity-input').change(function () {
             updateOrderList();
         });
 
@@ -117,9 +132,12 @@ if ($branchesQ) {
             // Calculate total price
             var totalPrice = 0;
 
+            // Create an array to store order details
+            var orderDetails = [];
+
             // Loop through each checked checkbox
             $('.service-checkbox:checked').each(function () {
-                var quantity = $(this).siblings('.quantity-input').val();
+                var quantity = $(this).closest('.accordion-body').find('.quantity-input').val();
                 var serviceName = $(this).closest('.accordion-item').find('.accordion-button').text();
                 var price = parseFloat($(this).closest('.accordion-item').find('.accordion-body h6').text().replace('₱', '').trim());
 
@@ -131,10 +149,20 @@ if ($branchesQ) {
 
                 // Update total price
                 totalPrice += serviceTotal;
+
+                // Store order details in the array
+                orderDetails.push({
+                    quantity: quantity,
+                    serviceName: serviceName,
+                    price: price
+                });
             });
 
             // Update the total in the order list
             $('.total-price').text('₱' + totalPrice.toFixed(2));
+
+            // Store order details in the hidden input field
+            $('#orderDetails').val(JSON.stringify(orderDetails));
         }
     });
 </script>

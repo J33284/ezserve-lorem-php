@@ -1,13 +1,17 @@
 <?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); 
 
-  //$businessCode = $_POST['branchCode'];
+$clientID = $_SESSION['userID'];
 
-    $businesses = $DB->query("SELECT br.*, p.* FROM branches br
-    JOIN package p ON p.branchCode = br.branchCode
-   WHERE br.branchCode = '$businessCode'
-      LIMIT 1");
+$client = $DB->query("SELECT * FROM client WHERE clientID = '$clientID'");
 
+if ($client) {
+    // Fetch the client information
+    $clientInfo = $client->fetch_assoc();
+}
 
+// Retrieve order details from the session
+$orderDetailsJson = $_POST['orderDetails'];
+$orderDetails = json_decode($orderDetailsJson, true);
 ?>
 
 <?= element( 'header' ) ?>
@@ -28,15 +32,15 @@
             <h4 class=" p-3 mb-4" style=" border-bottom: 3px solid #fb7e00;"> 1. Customer Information </h4>
             <div class="row d-flex align-items-center mb-2">
                 <label class="mb-2 " for="clientName">Client's Name</label>
-                <input type="text" class="form-control "   name="data[cientName]" id="fname" value="<?= $business['fname'] . ' ' . $business['lname'] ?>" readonly>
+                <input type="text" class="form-control "   name="data[cientName]" id="fname" value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>" readonly>
             </div>
             <div class="row d-flex align-items-center mb-2">
                 <label class="mb-2 " for="mobileNumber">Mobile Number</label>
-                <input type="text" class="form-control " name="data[mobileNumber]" id="mobileNumber" value="<?= $business['mobileNumber'] ?>" readonly>
+                <input type="text" class="form-control " name="data[mobileNumber]" id="mobileNumber" value="<?= $clientInfo['number'] ?>" readonly>
             </div>
             <div class="row d-flex align-items-center mb-2">
                 <label class="mb-2 " for="email">Email</label>
-                <input type="text" class="form-control " name="data[email]" id="email" value="<?= $business['email'] ?>" readonly>
+                <input type="text" class="form-control " name="data[email]" id="email" value="<?= $clientInfo['email'] ?>" readonly>
             </div>
           </div>
           <div class="delivery mb-3">
@@ -100,49 +104,56 @@
           </div>
           </div>
 
-          <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" style="height: auto" >
+          <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" style="height: auto">
             <h3 class="order-header sticky-top p-3">Order List</h3>
             <hr class="m-0">
-            <div class=" order justify-content-center px-4 overflow-scroll">
-              <hr>
-              <table class="table">
-                <thead>
-                  <tr class="sticky-top">
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    <?php //while ($row = $result->fetch_assoc()) { ?>
+            <div class="order justify-content-center px-4 overflow-scroll">
+                <hr>
+                <table class="table">
+                    <thead>
+                    <tr class="sticky-top">
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    // Loop through the order details and display them in the table
+                    foreach ($orderDetails as $item) {
+                        $quantity = $item['quantity'];
+                        $serviceName = $item['serviceName'];
+                        $price = $item['price'];
+                        ?>
                         <tr>
-                        <td><?php //echo $row['quantity']; ?></td>
-                        <td><?php //echo $row['ServiceName']; ?></td>
-                        <td><?php //echo $row['price']; ?></td>
+                            <td><?= $quantity ?></td>
+                            <td><?= $serviceName ?></td>
+                            <td><?= $price ?></td>
                         </tr>
-                    <?php //} ?>
-                </tbody>
-              </table>
-              <div class="total row d-flex sticky-bottom">
-                <h3 class="col-7"> Total</h3>
-                <h4 class="col-5"> heeehee</h4> <!--calculation formula-->
-                <div class="border-top border-bottom voucher-btn row justify-content-center align-items-center"  style="height: 60px" href="?page=client_voucher">
-                  <h6  class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
-                  <i class="bi bi-chevron-right float end col-2"></i>
+                        <?php
+                    }
+                    ?>
+                    </tbody>
+                </table>
+                <div class="total row d-flex sticky-bottom">
+                    <h3 class="col-7">Total</h3>
+                    <h4 class="col-5">heeehee</h4> <!-- calculation formula -->
+                    <div class="border-top border-bottom voucher-btn row justify-content-center align-items-center"
+                         style="height: 60px" href="?page=client_voucher">
+                        <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
+                        <i class="bi bi-chevron-right float end col-2"></i>
+                    </div>
+                    <form action="?page=check-out" method="post">
+                        <input type="hidden" name="businessCode" value="<? //$business['cutomCode']?>">
+                        <button type="submit" class="btn btn-primary" style="width:100%"
+                                data-bs-business-code="<? //$business['cutomCode']?>">
+                            Place Order
+                        </button>
+                    </form>
                 </div>
-                <form action="?page=check-out" method="post" >
-                  <input type="hidden" name="businessCode" value="<? //$businness['cutomCode']?>">
-                  <button type="submit" class="btn btn-primary" style="width:100%" data-bs-business-code="<? //$businness['cutomCode']?>">
-                  Place Order
-                  </button>
-            </form>
-              </div>
             </div>
-            </div>
-                    </div>
-                    </div>
-                    </div>
-      </div>
+        </div>
     </div>
+</div>
 
-    <?= element( 'footer' ) ?>
+<?= element('footer') ?>
