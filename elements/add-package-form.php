@@ -85,6 +85,7 @@
                 <tr>
                     <td>Size:</td>
                     <td><input type="text" name="size[]" class="form-control" required></td>
+                    
                     <td>Price:</td>
                     <td colspan="2"><input type="number" name="price[]" class="form-control" step="0.01" required></td>
                 </tr>

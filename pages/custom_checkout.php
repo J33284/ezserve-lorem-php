@@ -20,7 +20,7 @@ $orderDetails = json_decode($orderDetailsJson, true);
 <div id="client-custom "class="client-custom" style="margin-top: 90px ">
       <div class=" container pack-head " style=" top: 50px;">
         <div class="container row">
-          <a href="?page=Client_custom" class=" col-xl-1 btn-back btn-lg float-end ">
+          <a href="?page=services" class=" col-xl-1 btn-back btn-lg float-end ">
             <i class="bi bi-arrow-left"></i></a>
           <h1 class="col-xl-7 d-flex justify-content-start text-light">Check Out</h1>
          
