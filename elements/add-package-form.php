@@ -118,6 +118,8 @@
         document.getElementById('items-container').appendChild(clone);
 
         document.getElementById('save-package-btn').disabled = false;
+        document.getElementById('save-package-btn').classList.remove('btn-secondary');
+        document.getElementById('save-package-btn').classList.add('btn-primary');
     }
 
     function resetForm(form) {
