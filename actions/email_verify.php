@@ -1,40 +1,35 @@
 <?php
-global $DB;
+// verify.php
 
-if (!isset($_GET['email']) || !isset($_GET['code'])) {
-    // Handle invalid or missing parameters.
-    echo "Invalid or missing parameters.";
-    exit();
-}
+require 'vendor/autoload.php'; // Include PHPMailer autoloader
 
-$email = $_GET['email'];
-$code = $_GET['code'];
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-// Query the database to get the stored verification code for the user with this email.
-$sql = "SELECT verification_code FROM business_owner WHERE email = '$email'";
-$result = $DB->query($sql);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    global $DB;
+    $entered_code = $_POST["verification_code"];
 
-if ($result && $result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $stored_code = $row['verification_code'];
 
-    // Compare $code with the stored verification code.
-    if ($code == $stored_code) {
-        // Codes match, update the user's status to verified.
-        $update_sql = "UPDATE business_owner SET status = '1' WHERE email = '$email'";
+    if ($DB->connect_error) {
+        die("Connection failed: " . $DB->connect_error);
+    }
+
+    $sql = "SELECT * FROM business_owner WHERE verification_code = '$entered_code'";
+    $result = $DB->query($sql);
+    
+    if ($result->num_rows > 0) {
+        // Update user as verified
+        $user = $result->fetch_assoc();
+        $user_id = $user['ownerID'];
+        $update_sql = "UPDATE business_owner SET status = 1 WHERE ownerID = $user_id";
         $DB->query($update_sql);
 
-        // Redirect to the login page.
-        header("Location: " . SITE_URL . "/?page=login");
-        exit();
+        set_message ("Email successfully verified. You can now log in.");
+        header ("Location: ?page=login");
     } else {
-        echo "Invalid verification code.";
+        set_message ("Invalid Verification Code");
+
     }
-} else {
-    echo "User not found.";
 }
-
-// Close the database connection
-$DB->close();
 ?>
-

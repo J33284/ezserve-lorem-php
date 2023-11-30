@@ -18,36 +18,38 @@ $row = $packageResult->fetch_assoc();
       <tbody>
         <tr>
           <td>Package Name:</td>
-          <td colspan="3"><input type="text" name="packName" class="form-control" readonly value="<?= $row['packName'] ?>"></td>
+          <td colspan="5"><input type="text" name="packName" class="form-control" readonly value="<?= $row['packName'] ?>"></td>
         </tr>
         <tr>
           <td>Category:</td>
-          <td><input type="text" name="categoryName" class="form-control" required></td>
+          <td colspan ="2"><input type="text" name="categoryName" class="form-control" required></td>
           <td>Service:</td>
-          <td><input type="text" name="serviceName" class="form-control" required></td>
+          <td colspan ="2"><input type="text" name="serviceName" class="form-control" required></td>
         </tr>
         <tr>
           <td>Description:</td>
-          <td colspan="3"><input type="text" name="Description" class="form-control" required></td>
+          <td colspan ="5"><input type="text" name="Description" class="form-control" required></td>
         </tr>
         <tr>
           <td>Quantity:</td>
           <td><input type="number" name="quantity" class="form-control" required></td>
+          <td>Unit:</td>
+          <td><input type="text" name="unit" class="form-control"></td>
           <td>Color:</td>
           <td><input type="text" name="color" class="form-control" required></td>
         </tr>
         <tr>
+          <td>Size:</td>
+          <td colspan ="2"><input type="text" name="size" class="form-control" required></td>
           <td>Price:</td>
-          <td colspan="3"><input type="number" name="price" class="form-control" step="0.01" required></td>
+          <td colspan ="2"><input type="number" name="price" class="form-control" step="0.01" placeholder="price per unit" required></td>
         </tr>
         <tr>
-          <td colspan="4"><input type="hidden" name="branchcode" value="<?= isset($_GET['branchcode']) ? $_GET['branchcode'] : ''; ?>"></td>
+          <td colspan="5"><input type="hidden" name="branchcode" value="<?= isset($_GET['branchcode']) ? $_GET['branchcode'] : ''; ?>"></td>
+          <td><input type="hidden" name="packagecode" value="<?= $row['packCode'] ?>"></td>
         </tr>
         <tr>
-          <td colspan="4"><input type="hidden" name="packagecode" value="<?= $row['packCode'] ?>"></td>
-        </tr>
-        <tr>
-          <td colspan="4" style="text-align: center;">
+          <td colspan="6" style="text-align: center;">
             <button type="submit" class="btn btn-primary">Save Item</button>
           </td>
         </tr>
@@ -66,8 +68,8 @@ $row = $packageResult->fetch_assoc();
   }
 
   .form-container {
-    width: 50%;
-    padding: 20px;
+    width: 70%;
+    padding: 10px;
     background-color: #f8f9fa;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
@@ -75,14 +77,5 @@ $row = $packageResult->fetch_assoc();
 
   .form-container h2 {
     text-align: center;
-  }
-
-  .table {
-    width: 100%;
-  }
-
-  .table th,
-  .table td {
-    width: 150px;
   }
 </style>

@@ -1,8 +1,7 @@
 <?php
 global $DB;
 $branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
-$packageQuery = "SELECT package.packCode, package.packName, category.categoryName, service.serviceName, service.Description, service.quantity, service.color, service.price
-FROM package
+$packageQuery = "SELECT * FROM package
 JOIN category ON package.packCode = category.packCode
 JOIN service ON category.categoryCode = service.categoryCode
 WHERE package.branchCode = $branchCode;";
@@ -56,8 +55,9 @@ $packageResult = $DB->query($packageQuery);
                           <th scope="col">Description</th>
                           <th scope="col">Quantity</th>
                           <th scope="col">Color</th>
+                          <th scope="col">Size</th>
                           <th scope="col">Price</th>
-                          <th scope="col">Edit</th> <!-- Add Edit column header -->
+                          <th scope="colspan =2">Action</th> <!-- Add Edit column header -->
                         </tr>
                       </thead>
                       <tbody>
@@ -73,8 +73,9 @@ $packageResult = $DB->query($packageQuery);
               <td><?= $row['categoryName'] ?></td>
               <td><?= $row['serviceName'] ?></td>
               <td><?= $row['Description'] ?></td>
-              <td><?= $row['quantity'] ?></td>
+              <td><?= $row['quantity'] ?><?= $row['unit'] ?></td>
               <td><?= $row['color'] ?></td>
+              <td><?= $row['size'] ?></td>
               <td><?= $row['price']?></td>
               <td>
                 <i class="bi bi-pencil"></i>

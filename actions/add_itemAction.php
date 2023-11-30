@@ -10,7 +10,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $serviceName = $_POST["serviceName"];
     $Description = $_POST["Description"];
     $quantity = $_POST["quantity"];
+    $unit = $_POST["unit"];
     $color = $_POST["color"];
+    $size = $_POST["size"];
     $price = $_POST["price"];
 
     try {
@@ -26,8 +28,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $categoryCode = $DB->insert_id;
 
         // Insert into service table
-        $stmt = $DB->prepare("INSERT INTO service (categoryCode, serviceName, Description, color, quantity, price) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("isssii", $categoryCode, $serviceName, $Description, $color, $quantity, $price);
+        $stmt = $DB->prepare("INSERT INTO service (categoryCode, serviceName, Description, quantity, unit, color, size, price) VALUES (?, ?, ?, ?, ?, ?,?,?)");
+        $stmt->bind_param("ssssssss", $categoryCode, $serviceName, $Description, $quantity, $unit, $color, $size, $price);
         $stmt->execute();
 
         // Commit the transaction if all queries were successful

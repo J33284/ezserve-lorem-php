@@ -6,9 +6,6 @@
             height: 100vh;
             margin: 0;
         }
-
-     
-
         .card {
             border: 0;
             border-radius: 5px;
@@ -72,22 +69,26 @@
                 </tr>
                 <tr>
                     <td>Description:</td>
-                    <td colspan="3"><input type="text" name="Description[]" class="form-control" required></td>
+                    <td><input type="text" name="Description[]" class="form-control" required></td>
+                    <td>Color:</td>
+                    <td><input type="text" name="color[]" class="form-control" required></td>
                 </tr>
                 <tr>
                     <td>Quantity:</td>
                     <td>
-                        <input type="number" name="quantity[]" class="form-control" placeholder="by piece" required>
+                        <input type="number" min="1" name="quantity[]" class="form-control" required>
                     </td>
-                    <td>Color:</td>
-                    <td><input type="text" name="color[]" class="form-control" required></td>
+                    <td>Unit:</td>
+                    <td>
+                        <input type="text" name="unit[]" class="form-control" placeholder="" required>
+                    </td>
                 </tr>
                 <tr>
                     <td>Size:</td>
                     <td><input type="text" name="size[]" class="form-control" required></td>
                     
                     <td>Price:</td>
-                    <td colspan="2"><input type="number" name="price[]" class="form-control" step="0.01" required></td>
+                    <td colspan="2"><input type="number" name="price[]" class="form-control" step="0.01" placeholder="price per unit" required></td>
                 </tr>
                 <tr>
                     <td colspan="4"><input type="hidden" name="branchcode" value="<?= isset($_GET['branchcode']) ? $_GET['branchcode'] : ''; ?>"></td>
@@ -100,7 +101,11 @@
 <script>
   document.getElementById('save-package-btn').disabled = true;
   
+  var itemCount = 0;
+
     function addItemForm() {
+
+        itemCount++;
         // Clone the item form template
         var template = document.getElementById('item-form-template');
         var clone = template.cloneNode(true);
@@ -111,8 +116,10 @@
         // Make the clone visible
         clone.style.display = 'block';
 
+        clone.querySelector('h2').innerText = 'Add Item #' + itemCount;
         // Reset values in the cloned form
         resetForm(clone);
+
 
         // Append the clone to the items container
         document.getElementById('items-container').appendChild(clone);
