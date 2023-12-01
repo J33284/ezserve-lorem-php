@@ -1,3 +1,6 @@
+
+
+
 <?php
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
@@ -15,7 +18,8 @@ if (isset($_POST['data'])) {
     if (in_array($_POST['data']['usertype'], $allowedUsertypes)) {
         if ($_POST['data']['usertype'] === 'client') {
             if (add_record("client", $_POST['data'])) {
-                
+                add_verification_code_to_database($verification_code);
+
                 $mail = new PHPMailer(true);
 
                 try {
@@ -52,7 +56,7 @@ if (isset($_POST['data'])) {
             }
         } elseif ($_POST['data']['usertype'] === 'business owner') {
             if (add_record("business_owner", $_POST['data'])) {
-
+                add_verification_code_to_database($verification_code);
                 $mail = new PHPMailer(true);
 
                 try {
@@ -92,4 +96,23 @@ if (isset($_POST['data'])) {
 }
 
 redirect();
+?>
+
+<?php
+function add_verification_code_to_database($verification_code) {
+    // Assuming you have a mysqli connection established earlier in your code
+    global $DB;
+
+    // Replace 'business_owner' and adjust column names as needed
+    $sql = "INSERT INTO business_owner (verification_code) VALUES ('$verification_code')";
+
+    // Perform the query
+    if (mysqli_query($DB, $sql)) {
+        // Query successful
+        echo "Verification code added to business_owner table successfully.";
+    } else {
+        // Query failed
+        echo "Error: " . sql($DB);
+    }
+}
 ?>

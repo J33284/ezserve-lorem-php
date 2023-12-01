@@ -80,7 +80,17 @@
                     </td>
                     <td>Unit:</td>
                     <td>
-                        <input type="text" name="unit[]" class="form-control" placeholder="" required>
+                    <select name="unit[]" class="form-control" required>
+                        <option value="units">Unit/s</option>
+                        <option value="set">Set/s</option>
+                        <option value="bundle">Bundle</option>
+                        <option value="pair">Pair/s</option>
+                        <option value="kg">kg</option>
+                        <option value="hours">Hours</option>
+                        <option value="servings">Servings</option>
+                        <option value="kg">Kilograms (kg)</option>
+                        <option value="lb">Pounds (lb)</option>
+                    </select>
                     </td>
                 </tr>
                 <tr>
