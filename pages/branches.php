@@ -94,13 +94,14 @@ $result = $DB->query($sql);
                 $branchQuery = "SELECT * FROM branches WHERE businessCode = $businessCode";
                 $branchResult = $DB->query($branchQuery);
 
-                if ($branchResult->num_rows > 0):
                 ?>
+                
+               <!--php if ($branchResult->num_rows > 0): -->
                 <a href="#branch-details" id="ViewBranch" class="btn-view-branches align-items-center justify-content-center view-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleViewBranch(this, event)">
                     <i class="bi bi-eye"></i>
                     <span>View Branch</span>
                 </a>
-                <?php endif; ?>
+                <!--php endif; -->
 
                 <br>
                 <a href="#add-branch" id="AddBranch" class="btn-add-branch align-items-center justify-content-center add-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleAddBranch(this, event)">

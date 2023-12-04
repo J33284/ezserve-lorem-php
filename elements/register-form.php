@@ -1,6 +1,3 @@
-
-
-
 <div class="login container row justify-content-center align-items-center">
     <div class="logimg col-xl-7 d-flex justify-content-center align-items-center">
         <img src="./assets/images/webworks-logo(with name).png" alt="Webworks Logo">

@@ -127,7 +127,7 @@ $businesses = $DB->query("SELECT b.*, bo.* FROM business b
                             echo "<p>No file uploaded.</p>";
                         }
                         ?>
-                        <button class = "btn-primary"> View </button>
+                      
 
 
                 </div>

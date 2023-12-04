@@ -59,9 +59,9 @@ if ($packageDetailsQ) {
                             <td><?= $row['categoryName'] ?></td>
                             <td><?= $row['serviceName'] ?></td>
                             <td><?= $row['Description'] ?></td>
-                            <td><?= $row['quantity'] ?></td>
-                            <td><?= $row['price'] ?></td>
-                            <td><?= $total ?></td>
+                            <td><?= $row['quantity'] . ' ' . $row['unit'] ?> </td>
+                            <td>₱<?= number_format ($row['price']) ?></td>
+                            <td>₱<?=number_format($total) ?></td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
@@ -70,7 +70,7 @@ if ($packageDetailsQ) {
             <div class="float-end">
                 <div class="total row d-flex sticky-bottom m-5">
                     <h3 class="col-7"> Total:</h3>
-                    <h4 class="col-5"><?= $grandTotal ?></h4>
+                    <h4 class="col-5">₱<?= number_format ($grandTotal) ?></h4>
                     <form action="?page=checkout" method="post">
                     <input type="hidden" name="packCode" value="<?= $packCode ?>">
                     <!-- Other form elements can be added here if needed -->

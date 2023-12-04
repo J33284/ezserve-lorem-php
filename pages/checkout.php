@@ -1,4 +1,5 @@
-<?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); 
+<?php
+
 $clientID = $_SESSION['userID'];
 $clientType =  $_SESSION['usertype'];
 
@@ -28,15 +29,15 @@ if ($client) {
             <h4 class=" p-3 mb-4" style=" border-bottom: 3px solid #fb7e00;"> 1. Customer Information </h4>
             <div class="row d-flex align-items-center mb-2">
                 <label class="mb-2 " for="clientName">Client's Name</label>
-                <input type="text" class="form-control "   name="data[cientName]" id="fname" value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>" readonly>
+                <input type="text" class="form-control "   name="clientName" id="fname" value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>" readonly>
             </div>
             <div class="row d-flex align-items-center mb-2">
                 <label class="mb-2 " for="mobileNumber">Mobile Number</label>
-                <input type="text" class="form-control " name="data[mobileNumber]" id="mobileNumber" value="<?= $clientInfo['number'] ?>" readonly>
+                <input type="text" class="form-control " name="mobileNumber" id="mobileNumber" value="<?= $clientInfo['number'] ?>" readonly>
             </div>
             <div class="row d-flex align-items-center mb-2">
                 <label class="mb-2 " for="email">Email</label>
-                <input type="text" class="form-control " name="data[email]" id="email" value="<?= $clientInfo['email'] ?>" readonly>
+                <input type="text" class="form-control " name="email" id="email" value="<?= $clientInfo['email'] ?>" readonly>
             </div>
           </div>
           <div class="delivery mb-3">
@@ -49,7 +50,7 @@ if ($client) {
                       <label class="form-check-label" for="flexCheckDefault">Pick-up</label> <!--set na if pick-up, pick.up date lg ang accessible-->
                     </div>
                     <div class="col-5">
-                       <input type="date" class="form-control"  name="data[pick-up]" id="pick-up" value="<?= $business['pick-up'] ?>" >
+                       <input type="date" class="form-control"  name="pick-up" id="pick-up" value="<?= $business['pick-up'] ?>" >
                     </div>
                   </div>
                   <div class="form-check">
@@ -60,15 +61,17 @@ if ($client) {
               <hr>
                 <div class="row d-flex align-items-center mb-2"> <!-- triggered only kung delivery mode -->
                     <label class="mb-2 " for="address">Delivery Address</label>
-                    <input type="text" class="form-control "   name="data[address]" id="address"  >
+                    <input type="text" class="form-control "   name="address" id="address"  >
                 </div>
                 <div class="row d-flex align-items-center mb-2">
                     <label class="mb-2 " for="deliveryDate">Delivery Date</label>
-                    <input type="date" class="form-control " name="data[deliveryDate]" id="deliveryDate"  >
+                    <input type="date" class="form-control " name="deliveryDate" id="deliveryDate"  >
                 </div>
                
                 
-          </div>
+       
+
+
           <div class="payment">
               <h4 class=" p-3 mb-4" style=" border-bottom: 3px solid #fb7e00;"> 3. Payment </h4>
               <h6> Mode of Payment </h6>
@@ -81,24 +84,10 @@ if ($client) {
                       <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                       <label class="form-check-label" for="flexCheckDefault">Online Payment</label>
                   </div>
-                  <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                      <label class="form-check-label" for="flexCheckDefault">Bank</label>
-                  </div>
-              </div>
-              <hr>
-                <div class="row d-flex align-items-center mb-2"> <!-- triggered only if bank ang mode-->
-                    <label class="mb-2 " for="address">Card Holder's Name</label>
-                    <input type="text" class="form-control "   name="data[address]" id="address" placeholder="First Name, Middle Initial, Last Name" >
-                </div>
-                <div class="row d-flex align-items-center mb-2">
-                    <label class="mb-2 " for="deliveryDate">Card Number</label>
-                    <input type="text" class="form-control " name="data[deliveryDate]" id="deliveryDate" placeholder="XXXX-XXXX-XXXX">
-                </div>
-               
-                
           </div>
-          </div>
+        </div> 
+    </div> 
+</div>
           <?php
             $packCode = $_POST['packCode'];
 
@@ -108,10 +97,12 @@ if ($client) {
             JOIN service s ON c.categoryCode = s.categoryCode
             WHERE p.packCode = '$packCode'");
 
+            $packName = $packageDetailsQ->fetch_assoc();
             $grandTotal = 0;
           ?>
           <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" style="height: auto" >
             <h3 class="order-header sticky-top p-3">Order List</h3>
+            <h4 class="order-header sticky-top p-3"><?php echo $packName['packName']; ?></h4>
             <hr class="m-0">
             <div class=" order justify-content-center px-4 overflow-scroll">
               <hr>
@@ -124,11 +115,12 @@ if ($client) {
                     </tr>
                 </thead>
                 <tbody>
+                    <?php $packageDetailsQ->data_seek(0);?>
                     <?php while ($packageDetails = $packageDetailsQ->fetch_assoc()): ?>
                         <tr>
                             <td><?php echo $packageDetails['quantity']; ?></td>
                             <td><?php echo $packageDetails['serviceName']; ?></td>
-                            <td><?php echo $packageDetails['price']; ?></td>
+                            <td>₱<?php echo number_format($packageDetails['price']); ?></td>
                         </tr>
 
                         <?php
@@ -142,17 +134,17 @@ if ($client) {
 
             <div class="total row d-flex sticky-bottom">
                 <h3 class="col-7"> Total</h3>
-                <h4 class="col-5"><?= $grandTotal ?></h4>
+                <h4 class="col-5">₱<?= number_format($grandTotal) ?></h4>
             <!--calculation formula-->
-                            <div class="border-top border-bottom voucher-btn row justify-content-center align-items-center"  style="height: 60px" href="client-voucher.php">
-                            <h6  class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
+                        <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px" href="?page=voucher">
+                            <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
                             <i class="bi bi-chevron-right float end col-2"></i>
-                            </div>
-                            <form action="?page=check-out" method="post" >
-                            <input type="hidden" name="businessCode" value="<? //$businness['cutomCode']?>">
-                            <button type="submit" class="btn btn-primary" style="width:100%" data-bs-business-code="<? //$businness['cutomCode']?>">
+                        </a>
+                        <form action="?action=payMongo" method="post" >
+                            <input type="hidden" name="packCode" value="<?= $packCode ?>">
+                        <button type="submit" class="btn btn-primary" style="width:100%">
                             Place Order
-                            </button>
+                        </button>
                         </form>
                         </div>
                         </div>
