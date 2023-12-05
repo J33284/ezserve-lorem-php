@@ -9,6 +9,7 @@ require 'vendor/autoload.php'; // Include PHPMailer autoloader
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+
 if (isset($_POST['data'])) {
     $email = $_POST["data"]["email"];
     $_POST['data']['password'] = md5($_POST['data']['password']);
@@ -102,9 +103,9 @@ redirect();
 function add_verification_code_to_database($verification_code) {
     // Assuming you have a mysqli connection established earlier in your code
     global $DB;
-
+    $email = $_POST["data"]["email"];
     // Replace 'business_owner' and adjust column names as needed
-    $sql = "INSERT INTO business_owner (verification_code) VALUES ('$verification_code')";
+    $sql = "UPDATE business_owner SET verification_code = '$verification_code' WHERE email = '$email'";
 
     // Perform the query
     if (mysqli_query($DB, $sql)) {
