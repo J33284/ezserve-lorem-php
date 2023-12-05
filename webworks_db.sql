@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2023 at 03:32 AM
+-- Generation Time: Dec 05, 2023 at 03:27 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -65,9 +65,7 @@ CREATE TABLE `branches` (
 --
 
 INSERT INTO `branches` (`branchCode`, `businessCode`, `branchName`, `address`, `coordinates`, `branchImage`) VALUES
-(6, 5, 'Puga Funeral (Mina Branch)', 'Mina,Iloilo', '10.93010757608374, 122.57405593125402', 0x6173736574732f75706c6f6164732f6272616e636865732f5757372e706e67),
-(10, 11, 'Jereos Branch', 'Jereos Lapaz', '10.723704105713022, 122.57359924027696', 0x6173736574732f75706c6f6164732f6272616e636865732f52756e6e6572205b31393230c397313038305d2e6a666966),
-(11, 5, 'Janiuay Branch', 'Janiuay Iloilo Province', '10.999772093429714, 122.4238781447832', 0x6173736574732f75706c6f6164732f6272616e636865732f5757372e706e67);
+(31, 20, 'Mina Branch', 'Mina Province', '10.722376679524237, 122.56210416206152', 0x6173736574732f75706c6f6164732f6272616e636865732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567);
 
 -- --------------------------------------------------------
 
@@ -99,8 +97,8 @@ CREATE TABLE `business` (
 --
 
 INSERT INTO `business` (`businessCode`, `ownerID`, `busName`, `about`, `busType`, `house_building`, `street`, `barangay`, `city_municipality`, `province`, `region`, `phone`, `mobile`, `permits`, `busImage`, `status`) VALUES
-(5, 2, 'Puga Funeral Services', 'Puga Funeral Parlor: Honoring Lives, Supporting Families  At Puga Funeral Parlor, we understand the delicate and emotional nature of saying farewell to a loved one. With a legacy of compassion and professionalism, we stand as a pillar of support for grieving families during their most challenging times.', 'Funeral Services', '12', 'JEREOS', 'Jereos', 'ILOILO CITY (CAPITAL)', 'ILOILO', '6', '09452781052', '09452781051', 0x6173736574732f75706c6f6164732f62616a616a2e706e67, 0x6173736574732f75706c6f6164732f627573696e6573732f5757372e706e67, 1),
-(11, 2, 'Alisah Photography Services', 'Premium Photography', 'Photography', '45', 'Bulong', 'Norte', 'Iloilo', 'Iloilo', '6', '09647384566', '09837465327', 0x6173736574732f75706c6f6164732f52756e6e6572205b31393230c397313038305d2e6a666966, 0x6173736574732f75706c6f6164732f627573696e6573732f3336305f465f3536323939333132325f653770476b655938794d66584a63526d636c736f496a744f6f56444467496c682e6a7067, 1);
+(20, 2, 'Puga Funeral Business', 'At Puga Funeral Business, our mission is to guide you through the intricate process of saying goodbye to a cherished family member or friend. We offer a range of comprehensive funeral services designed to meet the diverse needs of our community, blending traditional values with contemporary approaches.', 'Funeral Services', '', '', '', 'Mina', 'Iloilo', '6', '330-2904', '09847637822', 0x6173736574732f75706c6f6164732f426f6c697661725f526567697374726174696f6e2e706466, 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 1),
+(21, 2, 'Jireh\\\'s Photography', '', 'Photography', '20', 'JEREOS', 'Jereos', 'ILOILO CITY ', 'ILOILO', '6', '330-6753', '097543256786', 0x6173736574732f75706c6f6164732f426f6c697661725f526567697374726174696f6e2e706466, '', 0);
 
 -- --------------------------------------------------------
 
@@ -135,7 +133,7 @@ CREATE TABLE `business_owner` (
   `lname` varchar(50) NOT NULL,
   `birthday` date NOT NULL,
   `email` varchar(50) NOT NULL,
-  `verification_code` varchar(100) NOT NULL,
+  `verification_code` varchar(200) NOT NULL,
   `number` varchar(30) NOT NULL,
   `ownerAddress` varchar(255) NOT NULL,
   `username` varchar(100) NOT NULL,
@@ -151,9 +149,7 @@ CREATE TABLE `business_owner` (
 --
 
 INSERT INTO `business_owner` (`ownerID`, `fname`, `lname`, `birthday`, `email`, `verification_code`, `number`, `ownerAddress`, `username`, `password`, `usertype`, `status`, `created`, `updated`) VALUES
-(2, 'Alisah Mae', 'Bolivar', '0001-01-07', 'bvrlisah@gmail.com', '', '09452781051', '28 Dayot Subdivision Jereos Street La Paz, Iloilo City', 'Owner', '827ccb0eea8a706c4c34a16891f84e7b', 'business owner', 1, '2023-10-26 09:03:03', '2023-10-26 09:03:03'),
-(7, 'Alisah', 'Mae', '2001-09-02', 'bvrlisah@gmail.com', '', '09452781051', '', 'hernie', '827ccb0eea8a706c4c34a16891f84e7b', 'business owner', 0, '2023-11-27 08:59:01', '2023-11-27 08:59:01'),
-(8, 'mae', 'mae', '2001-08-12', 'bvrlisah@gmail.com', '', '09452781051', '', 'mae', '827ccb0eea8a706c4c34a16891f84e7b', 'business owner', 0, '2023-11-27 10:38:14', '2023-11-27 10:38:14');
+(2, 'Alisah Mae', 'Bolivar', '0001-01-07', 'bvrlisah@gmail.com', '', '09452781051', '28 Dayot Subdivision Jereos Street La Paz, Iloilo City', 'Owner', '827ccb0eea8a706c4c34a16891f84e7b', 'business owner', 1, '2023-10-26 09:03:03', '2023-10-26 09:03:03');
 
 -- --------------------------------------------------------
 
@@ -172,9 +168,9 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`categoryCode`, `packCode`, `categoryName`) VALUES
-(38, 27, 'Casket'),
-(39, 27, 'Floral Arrangements'),
-(44, 27, 'Transportation');
+(62, 53, 'Casket'),
+(63, 53, 'Flowers'),
+(64, 53, 'Stationary');
 
 -- --------------------------------------------------------
 
@@ -203,7 +199,6 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`clientID`, `fname`, `lname`, `birthday`, `email`, `number`, `ownerAddress`, `username`, `password`, `usertype`, `status`, `created`, `updated`) VALUES
-(1, 'Jireh', 'NIevs', '2001-12-01', 'lalalaamb@gmail.com', '09452781051', '', 'jireh', '827ccb0eea8a706c4c34a16891f84e7b', 'client', 0, '2023-10-25 08:51:53', '2023-10-25 08:51:53'),
 (2, 'Jireh  Antonette', 'Nieves', '2001-12-02', 'jirehsevein@gmail.com', '09452781052', 'Lapuz', 'User', '827ccb0eea8a706c4c34a16891f84e7b', 'client', 1, '2023-10-25 08:59:20', '2023-10-25 08:59:20');
 
 -- --------------------------------------------------------
@@ -240,7 +235,7 @@ CREATE TABLE `package` (
 --
 
 INSERT INTO `package` (`packCode`, `packName`, `branchCode`) VALUES
-(27, 'Funeral Package: \"Basic Services\"', 6);
+(53, 'Puga Funeral \"Basic Services\"', 31);
 
 -- --------------------------------------------------------
 
@@ -254,29 +249,32 @@ CREATE TABLE `service` (
   `serviceName` varchar(100) NOT NULL,
   `Description` varchar(100) NOT NULL,
   `quantity` int(100) NOT NULL,
+  `unit` varchar(100) NOT NULL,
   `size` varchar(100) NOT NULL,
   `color` varchar(100) NOT NULL,
-  `price` bigint(255) NOT NULL
+  `price` bigint(255) NOT NULL,
+  `stocks` int(255) NOT NULL,
+  `itemImage` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `service`
 --
 
-INSERT INTO `service` (`serviceCode`, `categoryCode`, `serviceName`, `Description`, `quantity`, `size`, `color`, `price`) VALUES
-(26, 38, 'Premium Solid Wood Casket', ' Handcrafted from mahogany, lined with satin, and adorned with elegant brass handles.', 1, '', 'Mahogany', 120000),
-(27, 39, 'Full Floral Package', 'A selection of fresh flowers including lilies, roses, and carnations for casket adornment and venue ', 1, '', 'Assorted', 5000),
-(32, 44, ' Hearse Rental', 'Elegant and well-maintained hearse for dignified transportation to the final resting place.', 1, '', 'Black', 10000);
+INSERT INTO `service` (`serviceCode`, `categoryCode`, `serviceName`, `Description`, `quantity`, `unit`, `size`, `color`, `price`, `stocks`, `itemImage`) VALUES
+(50, 62, 'Premium Casket', 'Solid mahogany casket with satin interior', 1, 'units', 'Standard', 'Mahogany Brown', 120000, 0, ''),
+(51, 63, 'Floral Arrangement', 'White lilies and roses bouquet', 1, 'set', 'Standard', 'White', 2000, 0, ''),
+(52, 64, 'Memorial Cards', 'Customized cards with the deceased\'s details', 50, 'set', 'Standard', 'Ivory', 15, 0, '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `vouchers`
+-- Table structure for table `voucher`
 --
 
-CREATE TABLE `vouchers` (
-  `codeName` int(11) NOT NULL,
-  `amount` mediumint(9) NOT NULL,
+CREATE TABLE `voucher` (
+  `codeName` varchar(255) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
   `startDate` date NOT NULL,
   `endDate` date NOT NULL,
   `cond` varchar(255) NOT NULL,
@@ -353,10 +351,11 @@ ALTER TABLE `service`
   ADD PRIMARY KEY (`serviceCode`);
 
 --
--- Indexes for table `vouchers`
+-- Indexes for table `voucher`
 --
-ALTER TABLE `vouchers`
-  ADD PRIMARY KEY (`codeName`);
+ALTER TABLE `voucher`
+  ADD PRIMARY KEY (`codeName`),
+  ADD KEY `businessCode` (`businessCode`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -372,13 +371,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `branches`
 --
 ALTER TABLE `branches`
-  MODIFY `branchCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `branchCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `business`
 --
 ALTER TABLE `business`
-  MODIFY `businessCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `businessCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `businesstypes`
@@ -390,13 +389,13 @@ ALTER TABLE `businesstypes`
 -- AUTO_INCREMENT for table `business_owner`
 --
 ALTER TABLE `business_owner`
-  MODIFY `ownerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ownerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `categoryCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `categoryCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `client`
@@ -414,19 +413,13 @@ ALTER TABLE `custom_package`
 -- AUTO_INCREMENT for table `package`
 --
 ALTER TABLE `package`
-  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
-  MODIFY `serviceCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
-
---
--- AUTO_INCREMENT for table `vouchers`
---
-ALTER TABLE `vouchers`
-  MODIFY `codeName` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `serviceCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- Constraints for dumped tables
@@ -461,6 +454,12 @@ ALTER TABLE `custom_package`
 --
 ALTER TABLE `package`
   ADD CONSTRAINT `branchCode` FOREIGN KEY (`branchCode`) REFERENCES `branches` (`branchCode`);
+
+--
+-- Constraints for table `voucher`
+--
+ALTER TABLE `voucher`
+  ADD CONSTRAINT `voucher_ibfk_1` FOREIGN KEY (`businessCode`) REFERENCES `business` (`businessCode`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

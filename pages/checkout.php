@@ -112,6 +112,7 @@ if ($client) {
                         <th scope="col">Quantity</th>
                         <th scope="col">Description</th>
                         <th scope="col">Price</th>
+                        <th scope="col">Total</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -121,6 +122,14 @@ if ($client) {
                             <td><?php echo $packageDetails['quantity']; ?></td>
                             <td><?php echo $packageDetails['serviceName']; ?></td>
                             <td>₱<?php echo number_format($packageDetails['price']); ?></td>
+                            <td>
+                            <?php
+                            $total = $packageDetails['quantity'] * $packageDetails['price'];
+                            echo '₱' . number_format($total);
+                            
+                            ?>
+                        </td>
+
                         </tr>
 
                         <?php

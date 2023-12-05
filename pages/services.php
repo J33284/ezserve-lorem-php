@@ -31,7 +31,7 @@ $businesses = $DB->query("SELECT * FROM business WHERE status ='1'");
             <img class="card-img" src="<?= $imagePath ?>" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title"><?= $business['busName'] ?></h5>
-                <p class="card-text"><?= $business['street'] . ', ' . $business['city_municipality'] ?></p>
+                <p class="card-text"><?= $business['street'] . ' ' . $business['city_municipality'] ?></p>
                 <form action="?page=client_business_details" method="post">
                     <input type="hidden" name="businessCode" value="<?= $business['businessCode'] ?>">
                     <button type="submit" class="btn btn-primary view-business" data-business-code="<?= $business['businessCode'] ?>">View</button>
