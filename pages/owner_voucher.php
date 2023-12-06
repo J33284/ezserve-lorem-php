@@ -4,6 +4,6 @@
 
 <?= element( 'owner-side-nav' ) ?>
 
-<?= element( 'vouch-list' ) ?>    
+<?= element( 'owner-vouch-list' ) ?>    
 
 <?= element( 'footer' ) ?>
