@@ -23,27 +23,30 @@ $result = $DB->query($sql);
 
 <?php while ($row = $result->fetch_assoc()): ?>
 <div id="own-bus" class="own-bus">
-    <div class="d-flex justify-content-between p-3">
-        <h1 class="text-light">My Business</h1>
-        <a href="?page=bus-register" id="registerButton">
+    <div class=" row d-flex justify-content-center align-items-center p-3">
+        <a href="?page=owner_business" id="backButton" class=" col-1 btn-back">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+        <h1 class=" col text-light">My Business</h1>
+        <a class="col" href="?page=bus-register" id="registerButton">
             <i class="bi bi-plus-square white-text">Register your business here!</i>
         </a>
         <div>
-            <a href="?page=owner_business" id="backButton" class="btn-back float-start mt-4" style="display: block;">
-                <i class="bi bi-arrow-left"></i>
-                <span>Back</span>
-            </a>
+           
         </div>
     </div>
 
     <div id="detailsForm" class="bus-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded">
         <div class="business-details justify-content-between p-4" id="businessDetails<?= $row['businessCode'] ?>">
-            <a href="#" id="editButton" class="btn-edit float-end mt-4" onclick="toggleEditable()">
-                <i class="bi bi-pencil-fill"></i>
-                <span>Edit</span>
-            </a>
-            <h2>Business Information</h2>
-
+            <div class="row">
+                
+                <h2 class=" col-10 bus-info-header">Business Information</h2>
+                <a href="#" id="editButton" class=" col-2 btn-edit float-end mt-2" onclick="toggleEditable()">
+                    <i class="bi bi-pencil-fill"></i>
+                    <span>Edit</span>
+                </a>
+            </div>
+            <br>
             <!-- 2 columns for details and pic -->
             <form method="post" action="?action=businessAction" enctype="multipart/form-data">
                 <input type="hidden" name="business_Code" value="<?= $row['businessCode'] ?>">
@@ -52,23 +55,23 @@ $result = $DB->query($sql);
                 <div class="column d-flex row justify-content-between">
                     <div class="col-md-7 flex-column">
                         <!-- Business Name -->
-                        <h6 id="busNameHeader"><b>Business Name</b></h6>
+                        <h6 id="busNameHeader" class="busNameHeader"><b>Business Name</b></h6>
                         <p id="busNameInput" style="display: block;"><?= $row['busName'] ?></p>
                         <input type="text" class="bus-Name-field form-control" name="data[busName]" id="busName" placeholder="Business Name" value="<?= $row['busName'] ?>" style="display: none;">
 
                         <!-- About Us -->
-                        <h6 id="aboutHeader"><b>About Us</b></h6>
+                        <h6 id="aboutHeader" class="aboutHeader"><b>About Us</b></h6>
                         <p id="aboutInput" style="display: block;"><?= $row['about'] ?></p>
                         <input type="text" class="about-field form-control" name="data[about]" id="about" placeholder="Tell something about your business" value="<?= $row['about'] ?>" style="display: none;">
 
                         <!-- Contact Us -->
-                        <h6 id="contactHeader"><b>Contact Us</b></h6>
+                        <h6 id="contactHeader" class="contactHeader"><b>Contact Us</b></h6>
                         <p id="contactInput" style="display: block;"><?= $row['phone'] ?></p>
                         <input type="text" class="contact-field form-control" name="data[phone]" id="phone" placeholder="(e.g. Links, Contact Numbers, Websites)" value="<?= $row['phone'] ?>" style="display: none;">
 
-                        <div class="d-flex">
-                            <button type="submit" class="btn btn-primary" name="updateBusiness" id="saveBusiness" style="display: none;" onclick="toggleEditable()">Save</button>
-                            <button type="button" class="btn btn-secondary" id="cancelBusiness" style="display: none;" onclick="toggleEditable()">Cancel</button>
+                        <div class="d-flex mt-4">
+                            <button type="submit" class="btn btn-primary mx-2" name="updateBusiness" id="saveBusiness" style="display: none;" onclick="toggleEditable()">Save</button>
+                            <button type="button" class="btn btn-secondary mx-2" id="cancelBusiness" style="display: none;" onclick="toggleEditable()">Cancel</button>
                         </div>
                     </div>
 
@@ -146,15 +149,15 @@ $result = $DB->query($sql);
                     <div class="d-flex justify-content-center">
                         
                             <label class="form-label text-white m-1" for="addBranchImage"></label>
-                            <input type="file" class="form-control" id="addBranchImage" name="addBranchImage" accept="image/*" onchange="previewAddBranch(this)">
+                            <input type="file" class="form-control w-50" id="addBranchImage" name="addBranchImage" accept="image/*" onchange="previewAddBranch(this)">
                         
                     </div>
                     <br>
                 </div>
 
-                <div class="mt-4 p-4 d-flex">
+                <div class="mt-4 p-4 d-flex ">
                     <button type="submit" button class="btn btn-primary" name=createBranch id="createBranch<?= $branchData['branchCode'] ?>">Create Branch</button>
-                    <button type="button" button class="btn btn-secondary" name=cancelCreate id="cancelCreate<?= $branchData['branchCode'] ?>" onclick="hideAddBranch('<?= $businessCode ?>')">Cancel</button>
+                    <button type="button" button class="btn btn-secondary mx-3" name=cancelCreate id="cancelCreate<?= $branchData['branchCode'] ?>" onclick="hideAddBranch('<?= $businessCode ?>')">Cancel</button>
                 </div>
             </div>
         </form>

@@ -52,12 +52,12 @@ $business = $businesses->fetch_assoc();
                 <div id="map" class="card p-3 shadow p-3 mb-5 bg-white rounded border-0" style="width: 80vw; height: 80vh;"></div>
 
                 <?php foreach ($businesses as $branch) : ?>
-    <div style="display: flex; align-items: center;">
-        <p style="flex: 2; margin-right: 10px;"><?= $branch['branchName'] ?></p>
+    <div class="d-flex justify-content-between align-items-center mx-5">
+        <h4><?= $branch['branchName'] ?></h4>
         <form action="?page=client_package" method="post">
             <input type="hidden" name="branchCode" value="<?= $branch['branchCode'] ?>">
-            <button type="submit" class="btn btn-primary view-package" data-business-code="<?= $branch['branchCode'] ?>" style="background-color: #007bff; color: #ffffff; border: none; padding: 10px 24px; border-radius: 5px; cursor: pointer;">
-                View Package and Services
+            <button type="submit" class="btn btn-primary view-package m-2" data-business-code="<?= $branch['branchCode'] ?>" >
+                View
             </button>
         </form>
     </div>

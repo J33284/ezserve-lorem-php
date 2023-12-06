@@ -23,7 +23,7 @@
 
     <header class="header container-fluid align-items-center justify-content-center fixed-top">
     <div class="container header-nav d-flex justify-content-between align-items-center">
-        <div>
+        <div class="logo-area">
             <img class="logo" src="assets/images/webworks-logo(white).png">
             <span><b>WEBWORKS</b></span>
         </div>
@@ -36,7 +36,7 @@
             <?php if (isset($_SESSION[AUTH_ID])) { ?>
             <li class="dropdown">
                 <a class="" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi-person-fill"></i>
+                    <i class=" profile-logo bi-person-fill"></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <?php if ($_SESSION[AUTH_TYPE] === 'client') { ?>
@@ -51,7 +51,7 @@
             </li>
         <?php } else { ?>
             <a class="" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi-person-fill"></i>
+                    <i class="profile-logo bi-person-fill"></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="<?php echo SITE_URL ?>/?page=login">Login</a></li><br>
