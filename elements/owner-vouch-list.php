@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $DB->query($insertQuery);
 }
 
+
 ?>
 
 <div id="vouch-list" class="vouch-list" style="width: 75vw; margin: 100px 0px 0px 300px; height: 100vh;">
@@ -60,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <td><?= $voucher['busName'] ?></td>
             <td><?= $voucher['code'] ?></td>
             <td><?= $voucher['cond'] ?></td>
-            <td><?= $voucher['discount'] ?></td>
+            <td><?= $voucher['discount'] ?>%</td>
             <td><?= $voucher['startDate'] ?></td>
             <td><?= $voucher['endDate'] ?></td>
           </tr>
@@ -116,14 +117,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Submit the form
     document.getElementById('saveForm').submit();
 
-    // Reset the form and hide the new row
-    document.getElementById('newRow').style.display = 'none';
-    document.getElementById('addRowBtn').style.display = 'block';
-    document.getElementById('saveBtn').style.display = 'none';
+   
   });
 </script>
 
-<!-- Add a hidden form to submit data without AJAX -->
 <form id="saveForm" method="post" style="display: none;">
   <input type="hidden" name="newBusiness" id="newBusinessInput">
   <input type="hidden" name="newCode" id="newCodeInput">

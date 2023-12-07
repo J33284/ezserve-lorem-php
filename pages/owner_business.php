@@ -11,6 +11,8 @@ $ownerID = $_SESSION['userID'];
 
 $sql = "SELECT * FROM business WHERE ownerID = $ownerID AND status = 1";
 $result = $DB->query($sql);
+
+
 ?>
 
 <?php if ($result->num_rows > 0): ?>

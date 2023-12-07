@@ -145,12 +145,14 @@ if ($client) {
                 <h3 class="col-7"> Total</h3>
                 <h4 class="col-5">₱<?= number_format($grandTotal) ?></h4>
             <!--calculation formula-->
-                        <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px" href="?page=voucher">
-                            <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
-                            <i class="bi bi-chevron-right float end col-2"></i>
-                        </a>
+            <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px" href="?page=voucher&grandTotal=<?= $grandTotal ?>">
+    <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
+    <i class="bi bi-chevron-right float end col-2"></i>
+</a>
+
                         <form action="?action=payMongo" method="post" >
                             <input type="hidden" name="packCode" value="<?= $packCode ?>">
+                            
                         <button type="submit" class="btn btn-primary" style="width:100%">
                             Place Order
                         </button>

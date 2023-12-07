@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2023 at 03:27 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Dec 07, 2023 at 08:39 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -98,7 +98,7 @@ CREATE TABLE `business` (
 
 INSERT INTO `business` (`businessCode`, `ownerID`, `busName`, `about`, `busType`, `house_building`, `street`, `barangay`, `city_municipality`, `province`, `region`, `phone`, `mobile`, `permits`, `busImage`, `status`) VALUES
 (20, 2, 'Puga Funeral Business', 'At Puga Funeral Business, our mission is to guide you through the intricate process of saying goodbye to a cherished family member or friend. We offer a range of comprehensive funeral services designed to meet the diverse needs of our community, blending traditional values with contemporary approaches.', 'Funeral Services', '', '', '', 'Mina', 'Iloilo', '6', '330-2904', '09847637822', 0x6173736574732f75706c6f6164732f426f6c697661725f526567697374726174696f6e2e706466, 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 1),
-(21, 2, 'Jireh\\\'s Photography', '', 'Photography', '20', 'JEREOS', 'Jereos', 'ILOILO CITY ', 'ILOILO', '6', '330-6753', '097543256786', 0x6173736574732f75706c6f6164732f426f6c697661725f526567697374726174696f6e2e706466, '', 0);
+(21, 2, 'Jireh\nPhotography', '', 'Photography', '20', 'JEREOS', 'Jereos', 'ILOILO CITY ', 'ILOILO', '6', '330-6753', '097543256786', 0x6173736574732f75706c6f6164732f426f6c697661725f526567697374726174696f6e2e706466, '', 1);
 
 -- --------------------------------------------------------
 
@@ -273,13 +273,22 @@ INSERT INTO `service` (`serviceCode`, `categoryCode`, `serviceName`, `Descriptio
 --
 
 CREATE TABLE `voucher` (
-  `codeName` varchar(255) NOT NULL,
-  `amount` decimal(10,2) NOT NULL,
+  `voucherID` int(255) NOT NULL,
+  `businessCode` int(11) NOT NULL,
+  `code` varchar(200) NOT NULL,
+  `discount` int(100) NOT NULL,
   `startDate` date NOT NULL,
   `endDate` date NOT NULL,
-  `cond` varchar(255) NOT NULL,
-  `businessCode` int(11) NOT NULL
+  `cond` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `voucher`
+--
+
+INSERT INTO `voucher` (`voucherID`, `businessCode`, `code`, `discount`, `startDate`, `endDate`, `cond`) VALUES
+(64, 20, 'PugaBasic10', 10, '2023-12-05', '2023-12-25', '1000'),
+(70, 21, 'Jireh10', 20, '2023-12-05', '2023-12-31', '2000');
 
 --
 -- Indexes for dumped tables
@@ -354,7 +363,7 @@ ALTER TABLE `service`
 -- Indexes for table `voucher`
 --
 ALTER TABLE `voucher`
-  ADD PRIMARY KEY (`codeName`),
+  ADD PRIMARY KEY (`voucherID`),
   ADD KEY `businessCode` (`businessCode`);
 
 --
@@ -420,6 +429,12 @@ ALTER TABLE `package`
 --
 ALTER TABLE `service`
   MODIFY `serviceCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+
+--
+-- AUTO_INCREMENT for table `voucher`
+--
+ALTER TABLE `voucher`
+  MODIFY `voucherID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
 
 --
 -- Constraints for dumped tables

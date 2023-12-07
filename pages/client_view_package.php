@@ -71,7 +71,7 @@ if ($packageDetailsQ) {
                 <div class="total row d-flex sticky-bottom m-5">
                     <h3 class="col-7"> Total:</h3>
                     <h4 class="col-5">₱<?= number_format ($grandTotal) ?></h4>
-                    <form action="?page=checkout" method="post">
+                    <form action="?page=checkout&packCode=<?= $packCode ?>" method="post">
                     <input type="hidden" name="packCode" value="<?= $packCode ?>">
                     <!-- Other form elements can be added here if needed -->
                     <button type="submit" class="btn btn-primary" style="width:100%">

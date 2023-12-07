@@ -1,14 +1,37 @@
+<?= element( 'header' ) ?>
+
+
 <?php
+$ownerID = $_SESSION['userID'];
+global $DB;
 
-// Sample voucher data
-$vouchers = [
-    ['code' => 'VoucherA', 'condition' => 'Total >= $1000', 'discountPercentage' => 15, 'startDate' => '2023-01-01', 'endDate' => '2023-12-31'],
-    ['code' => 'VoucherB', 'condition' => 'Total >= $2000', 'discountPercentage' => 20, 'startDate' => '2023-02-01', 'endDate' => '2023-12-30'],
-    ['code' => 'VoucherC', 'condition' => 'Total >= $3000', 'discountPercentage' => 25, 'startDate' => '2023-03-01', 'endDate' => '2023-12-31'],
-];
+// Fetch existing businesses for the dropdown
+$queryBusiness = "SELECT * FROM business WHERE ownerID = $ownerID";
+$businesses = $DB->query($queryBusiness);
 
-// Default total amount
-$totalAmount = 3000;
+// Fetch existing vouchers
+$queryVouchers = "SELECT business.busName, voucher.code, voucher.cond, voucher.discount, voucher.startDate, voucher.endDate
+                  FROM voucher
+                  JOIN business ON voucher.businessCode = business.businessCode
+                  WHERE business.ownerID = $ownerID";
+$vouch = $DB->query($queryVouchers);
+
+// Initialize $vouchers array
+$vouchers = [];
+
+// Loop through each voucher and append it to the $vouchers array
+foreach ($vouch as $voucher) {
+    $vouchers[] = [
+        'code' => $voucher['code'],
+        'condition' => $voucher['cond'],
+        'discountPercentage' => $voucher['discount'],
+        'startDate' => $voucher['startDate'],
+        'endDate' => $voucher['endDate'],
+    ];
+}
+
+
+$totalAmount = $_GET['grandTotal'];;
 
 // Initialize variables
 $selectedVoucher = null;
@@ -42,6 +65,7 @@ function checkDateConditions($startDate, $endDate) {
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,6 +87,7 @@ function checkDateConditions($startDate, $endDate) {
             <?php endif; ?>
         <?php endforeach; ?>
     </select>
+    <input type="hidden" name="discountedTotal" value="<?php $discountedTotal; ?>">
     <button type="submit">Apply</button>
 </form>
 
@@ -70,3 +95,26 @@ function checkDateConditions($startDate, $endDate) {
 
 </body>
 </html>
+
+<style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+    </style>
+
