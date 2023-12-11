@@ -1,19 +1,15 @@
-<?= element( 'header' ) ?>
-
+<?= element('header') ?>
 
 <?php
-$ownerID = $_SESSION['userID'];
+
 global $DB;
+$ownerID = $_SESSION['userID'];
 
-// Fetch existing businesses for the dropdown
-$queryBusiness = "SELECT * FROM business WHERE ownerID = $ownerID";
-$businesses = $DB->query($queryBusiness);
-
-// Fetch existing vouchers
 $queryVouchers = "SELECT business.busName, voucher.code, voucher.cond, voucher.discount, voucher.startDate, voucher.endDate
                   FROM voucher
                   JOIN business ON voucher.businessCode = business.businessCode
                   WHERE business.ownerID = $ownerID";
+
 $vouch = $DB->query($queryVouchers);
 
 // Initialize $vouchers array
@@ -30,8 +26,8 @@ foreach ($vouch as $voucher) {
     ];
 }
 
-
-$totalAmount = $_GET['grandTotal'];;
+$totalAmount = $_GET['grandTotal'];
+$packCode = $_GET['packCode'];
 
 // Initialize variables
 $selectedVoucher = null;
@@ -50,71 +46,92 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Check date conditions
+    // Check date conditions and apply discount if a voucher is selected and date conditions are met
     if ($selectedVoucher && checkDateConditions($selectedVoucher['startDate'], $selectedVoucher['endDate'])) {
-        // Apply discount if a voucher is selected and date conditions are met
         $discountedTotal = $totalAmount - ($totalAmount * $selectedVoucher['discountPercentage'] / 100);
     }
 }
 
 // Function to check date conditions
-function checkDateConditions($startDate, $endDate) {
+function checkDateConditions($startDate, $endDate)
+{
     $currentDate = date('Y-m-d');
     return ($currentDate >= $startDate && $currentDate <= $endDate);
 }
 
 ?>
 
+<h1 style>Total Amount: <?php echo number_format($totalAmount, 2);?></h1>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voucher Application</title>
-</head>
-<body>
+<div class="card-deck">
+    <?php foreach ($vouchers as $voucher): ?>
+        <?php if (checkDateConditions($voucher['startDate'], $voucher['endDate'])): ?>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-text">Voucher Code: <?php echo $voucher['code']; ?></h5>
+                    <p class="card-text">Minimum Spend: <?php echo $voucher['condition']; ?></p>
+                    <p class="card-text">Duration: <?php echo $voucher['startDate']; ?> to <?php echo $voucher['endDate']; ?></p>
+              
+                    <form method="post">
+                        <input type="hidden" name="voucher" value="<?php echo $voucher['code']; ?>">
+                        <input type="hidden" name="discountedTotal" value="<?php echo $discountedTotal; ?>">
+                        <button type="submit" class="btn btn-primary">Choose Voucher</button>
+                    </form>
+                    <?php if ($selectedVoucher && $selectedVoucher['code'] == $voucher['code']): ?>
+                        <form method="post" action="?page=checkout&packCode=<?= $packCode ?>">
+                            <input type="hidden" name="discountedTotal" value="<?php echo $discountedTotal; ?>">
+                            <button type="submit" class="btn btn-success mt-2">Use Voucher</button>
+                        </form>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</div>
 
-<h1>Total Amount: $<?php echo number_format($totalAmount, 2); ?></h1>
-
-<form method="post">
-    <label for="voucher">Select Voucher:</label>
-    <select name="voucher" id="voucher">
-        <option value="" selected disabled>Select a voucher</option>
-        <?php foreach ($vouchers as $voucher): ?>
-            <?php if (checkDateConditions($voucher['startDate'], $voucher['endDate'])): ?>
-                <option value="<?php echo $voucher['code']; ?>"><?php echo $voucher['code']; ?> - <?php echo $voucher['condition']; ?></option>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </select>
-    <input type="hidden" name="discountedTotal" value="<?php $discountedTotal; ?>">
-    <button type="submit">Apply</button>
-</form>
-
-<h2>Discounted Total: $<?php echo number_format($discountedTotal, 2); ?></h2>
-
-</body>
-</html>
+<h2 style>Discounted Total: <?php echo number_format($discountedTotal, 2); ?></h2>
 
 <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 120vh;
+        margin: 0;
+    }
 
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
+    h1,
+    h2 {
+        text-align: center;
+    }
 
-        h1, h2 {
-            text-align: center;
-        }
-    </style>
+    .card-deck {
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        
+    }
 
+    .card {
+   
+        margin-bottom: 20px;
+        width: 120vh;
+    }
+</style>
+
+<script>
+    // Add JavaScript for highlighting selected card
+    document.addEventListener('DOMContentLoaded', function () {
+        let cards = document.querySelectorAll('.card');
+        cards.forEach(function (card) {
+            card.addEventListener('click', function () {
+                cards.forEach(function (c) {
+                    c.classList.remove('bg-primary', 'text-white');
+                });
+                card.classList.add('bg-primary', 'text-white');
+            });
+        });
+    });
+</script>

@@ -9,123 +9,153 @@ $queryBusiness = "SELECT * FROM business WHERE ownerID = $ownerID";
 $businesses = $DB->query($queryBusiness);
 
 // Fetch existing vouchers
-$queryVouchers = "SELECT business.busName, voucher.code, voucher.cond, voucher.discount, voucher.startDate, voucher.endDate
+$queryVouchers = "SELECT *
                   FROM voucher
                   JOIN business ON voucher.businessCode = business.businessCode
                   WHERE business.ownerID = $ownerID";
 $vouchers = $DB->query($queryVouchers);
-
-// Handle form submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Validate and sanitize user input (add your validation logic here)
-    $businessCode = $_POST['newBusiness'];
-    $code = htmlspecialchars($_POST['newCode']);
-    $cond = htmlspecialchars($_POST['newCond']);
-    $discount = htmlspecialchars($_POST['newDiscount']);
-    $startDate = $_POST['newStartDate'];
-    $endDate = $_POST['newEndDate'];
-
-    // Insert new voucher into the database
-    $insertQuery = "INSERT INTO voucher (businessCode, code, cond, discount, startDate, endDate) 
-                    VALUES ('$businessCode', '$code', '$cond', '$discount', '$startDate', '$endDate')";
-    $DB->query($insertQuery);
-}
-
-
 ?>
 
 <div id="vouch-list" class="vouch-list" style="width: 75vw; margin: 100px 0px 0px 300px; height: 100vh;">
   <div class="d-flex justify-content-between p-3">
     <h1 class="text-light">Vouchers</h1>
-    <a href="#" class="btn-edit btn-lg float-end mt-4 text-light">
-      <i class="bi bi-pencil-fill"></i> Edit
-    </a>
   </div>
   <br>
 
   <div class="voucher-tbl" style="height: 80vh; overflow-y: auto;">
-    <table id="voucherTable" class="table table-hover table-responsive">
-      <thead>
-        <tr>
-          <th scope="col">Business Name</th>
-          <th scope="col">Voucher Code</th>
-          <th scope="col">Condition</th>
-          <th scope="col">Discount</th>
-          <th scope="col">Start Date</th>
-          <th scope="col">End Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php foreach ($vouchers as $voucher) : ?>
+    <form id="voucherForm" action="?action=save_voucher" method="post">
+      <table id="voucherTable" class="table table-hover table-responsive">
+        <thead  style="border-bottom: 3px solid #FFA500;">
           <tr>
-            <td><?= $voucher['busName'] ?></td>
-            <td><?= $voucher['code'] ?></td>
-            <td><?= $voucher['cond'] ?></td>
-            <td><?= $voucher['discount'] ?>%</td>
-            <td><?= $voucher['startDate'] ?></td>
-            <td><?= $voucher['endDate'] ?></td>
+            <th scope="col">Business Name</th>
+            <th scope="col" style="border-right: 1px solid #ddd;">Voucher Code</th>
+            <th scope="col" style="border-right: 1px solid #ddd;">Minimum Spend</th>
+            <th scope="col" style="border-right: 1px solid #ddd;">Discount</th>
+            <th scope="col" style="border-right: 1px solid #ddd;">Start Date</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Actions</th>
           </tr>
-        <?php endforeach; ?>
-        <!-- Add a row for user input -->
-        <tr id="newRow" style="display: none;">
-          <td>
-            <select name="newBusiness" id="newBusiness">
-              <?php foreach ($businesses as $business) : ?>
-                <option value="<?= $business['businessCode'] ?>"><?= $business['busName'] ?></option>
-              <?php endforeach; ?>
-            </select>
-          </td>
-          <td><input type="text" name="newCode"></td>
-          <td><input type="text" name="newCond"></td>
-          <td><input type="text" name="newDiscount"></td>
-          <td><input type="date" name="newStartDate"></td>
-          <td><input type="date" name="newEndDate"></td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- Button to add a new row -->
-    <button id="addRowBtn" class="btn btn-primary">Add Row</button>
-    <!-- Button to save new rows to the database -->
-    <button id="saveBtn" class="btn btn-success" style="display: none;">Save</button>
+        </thead>
+        <tbody>
+          <?php foreach ($vouchers as $voucher) : ?>
+            <tr>
+              <td><?= $voucher['busName'] ?></td>
+              <td><?= $voucher['code'] ?></td>
+              <td><?= $voucher['cond'] ?></td>
+              <td><?= $voucher['discount'] ?>%</td>
+              <td><?= $voucher['startDate'] ?></td>
+              <td><?= $voucher['endDate'] ?></td>
+              <td>
+                <button class="btn btn-sm btn-warning btn-edit" data-voucher-id="<?= $voucher['voucherID'] ?>">
+                  Edit
+                </button>
+                <button class="btn btn-sm btn-danger btn-delete" data-voucher-code="<?= $voucher['code'] ?>">
+                  Delete
+                </button>
+                <button class="btn btn-sm btn-success btn-save" style="display: none;">
+                    Save
+                </button>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+          <tr id="newRow" class="table table-hover table-responsive" style="display: none;">
+            <td>
+              <select class="business-dropdown" name="newBusinessCode" required>
+                <option value="" selected disabled>Select a business</option>
+                <?php foreach ($businesses as $business) : ?>
+                  <option value="<?= $business['businessCode'] ?>"><?= $business['busName'] ?> </option>
+                <?php endforeach; ?>
+              </select>
+            </td>
+            <td><input type="text" name="newVoucherCode" required></td>
+            <td><input type="text" name="newCondition" required></td>
+            <td><input type="text" name="newDiscount" required></td>
+            <td><input type="date" name="newStartDate" required></td>
+            <td><input type="date" name="newEndDate" required></td>
+          </tr>
+        </tbody>
+      </table>
+      <button id="addRowBtn" class="btn btn-primary mt-3">Add Row</button>
+      <button id="saveBtn" class="btn btn-success mt-3" style="display: none;">Save</button>
+    </form>
   </div>
 </div>
 
 <script>
-  document.getElementById('addRowBtn').addEventListener('click', function() {
-    document.getElementById('newRow').style.display = 'table-row';
-    document.getElementById('addRowBtn').style.display = 'none';
-    document.getElementById('saveBtn').style.display = 'block';
+  document.getElementById("addRowBtn").addEventListener("click", function (event) {
+    event.preventDefault();
+
+    newRow.style.display = "table-row";
+    document.getElementById("voucherTable").getElementsByTagName('tbody')[0].appendChild(newRow);
+
+    document.getElementById("addRowBtn").style.display = "none";
+    document.getElementById("saveBtn").style.display = "inline-block";
   });
 
-  document.getElementById('saveBtn').addEventListener('click', function() {
-    // Fetch values from the input fields
-    var businessCode = document.getElementById('newBusiness').value;
-    var code = document.getElementsByName('newCode')[0].value;
-    var cond = document.getElementsByName('newCond')[0].value;
-    var discount = document.getElementsByName('newDiscount')[0].value;
-    var startDate = document.getElementsByName('newStartDate')[0].value;
-    var endDate = document.getElementsByName('newEndDate')[0].value;
+  // Add an event listener to each delete button
+  document.querySelectorAll('.btn-delete').forEach(function (button) {
+    button.addEventListener('click', function (event) {
+      event.preventDefault();
+      // Perform actions when delete button is clicked, e.g., confirm deletion and send a request to delete
+      // You can access the data attribute for the voucher code using:
+      // var voucherCode = button.getAttribute('data-voucher-code');
+    });
+  });
 
-    // Set the form values to be submitted
-    document.getElementById('newBusinessInput').value = businessCode;
-    document.getElementById('newCodeInput').value = code;
-    document.getElementById('newCondInput').value = cond;
-    document.getElementById('newDiscountInput').value = discount;
-    document.getElementById('newStartDateInput').value = startDate;
-    document.getElementById('newEndDateInput').value = endDate;
+  // Add an event listener to each edit button
+  document.querySelectorAll('.btn-edit').forEach(function (button) {
+    button.addEventListener('click', function (event) {
+      event.preventDefault();
+      var row = button.closest('tr');
 
-    // Submit the form
-    document.getElementById('saveForm').submit();
+      // Make the row editable
+      row.querySelectorAll('td:not(:last-child)').forEach(function (cell) {
+        var input = document.createElement('input');
+        input.value = cell.textContent.trim();
+        cell.innerHTML = '';
+        cell.appendChild(input);
+      });
 
-   
+      // Show the save button for this row
+      row.querySelector('.btn-save').style.display = 'inline-block';
+      // Hide the edit and delete buttons
+     // Hide the edit and delete buttons
+     row.querySelector('.btn-edit').style.display = 'none';
+    row.querySelector('.btn-delete').style.display = 'none';
+    });
+  });
+
+  // Add an event listener to each save button
+  document.querySelectorAll('.btn-save').forEach(function (button) {
+    button.addEventListener('click', function (event) {
+      event.preventDefault();
+      var row = button.closest('tr');
+
+      // Collect data from the editable inputs
+      var formData = {
+        voucherID: row.querySelector('button.btn-edit').getAttribute('data-voucher-id'),
+        businessCode: row.querySelector('td:nth-child(1) input').value,
+        voucherCode: row.querySelector('td:nth-child(2) input').value,
+        condition: row.querySelector('td:nth-child(3) input').value,
+        discount: row.querySelector('td:nth-child(4) input').value,
+        startDate: row.querySelector('td:nth-child(5) input').value,
+        endDate: row.querySelector('td:nth-child(6) input').value
+      };
+
+      // Perform a form submission
+      document.getElementById('voucherForm').action = '?action=update_voucher';
+      // Set the form action to the URL where the update should be handled
+      // Use formData to populate hidden input fields
+      for (var key in formData) {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = formData[key];
+        document.getElementById('voucherForm').appendChild(input);
+      }
+
+      // Submit the form
+      document.getElementById('voucherForm').submit();
+    });
   });
 </script>
-
-<form id="saveForm" method="post" style="display: none;">
-  <input type="hidden" name="newBusiness" id="newBusinessInput">
-  <input type="hidden" name="newCode" id="newCodeInput">
-  <input type="hidden" name="newCond" id="newCondInput">
-  <input type="hidden" name="newDiscount" id="newDiscountInput">
-  <input type="hidden" name="newStartDate" id="newStartDateInput">
-  <input type="hidden" name="newEndDate" id="newEndDateInput">
-</form>

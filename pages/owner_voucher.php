@@ -6,4 +6,3 @@
 
 <?= element( 'owner-vouch-list' ) ?>    
 
-<?= element( 'footer' ) ?>

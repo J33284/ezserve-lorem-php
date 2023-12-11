@@ -1,7 +1,7 @@
 <?php
 
 $clientID = $_SESSION['userID'];
-$clientType =  $_SESSION['usertype'];
+$clientType = $_SESSION['usertype'];
 
 $client = $DB->query("SELECT * FROM client WHERE clientID = '$clientID' and usertype= '$clientType'");
 
@@ -9,14 +9,24 @@ if ($client) {
     // Fetch the client information
     $clientInfo = $client->fetch_assoc();
 }
+
+// Get the discounted total from the voucher selection
+$discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] : null;
+
+
 ?>
+
+<?= element('header') ?>
+
+
+
 
 <?= element( 'header' ) ?>
 
 <div id="client-custom "class="client-custom" style="margin-top: 90px ">
       <div class=" container pack-head " style=" top: 50px;">
         <div class="container row">
-          <a href="?page=client_view_package&packCode=<?= $packCode = $_POST['packCode']; ?>" class=" col-xl-1 btn-back btn-lg float-end ">
+          <a href="?page=client_view_package&packCode=<?= $packCode = $_GET['packCode']; ?>" class=" col-xl-1 btn-back btn-lg float-end ">
             <i class="bi bi-arrow-left"></i></a>
           <h1 class="col-xl-7 d-flex justify-content-start text-light">Check Out</h1>
          
@@ -89,7 +99,7 @@ if ($client) {
     </div> 
 </div>
           <?php
-            $packCode = $_POST['packCode'];
+            $packCode = $_GET['packCode'];
 
             $packageDetailsQ = $DB->query("SELECT p.*, c.*, s.*
             FROM package p
@@ -136,6 +146,10 @@ if ($client) {
                         // Calculate total for the current item and add to grand total
                         $total = $packageDetails['quantity'] * $packageDetails['price'];
                         $grandTotal += $total;
+                        if (isset($discountedTotal) && is_numeric($discountedTotal)) {
+                            // Update total to discounted total
+                            $grandTotal = $discountedTotal;
+                        }
                         ?>
                     <?php endwhile; ?>
                 </tbody>
@@ -145,25 +159,18 @@ if ($client) {
                 <h3 class="col-7"> Total</h3>
                 <h4 class="col-5">₱<?= number_format($grandTotal) ?></h4>
             <!--calculation formula-->
-            <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px" href="?page=voucher&grandTotal=<?= $grandTotal ?>">
-    <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
-    <i class="bi bi-chevron-right float end col-2"></i>
-</a>
+            <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"
+            href="?page=voucher&grandTotal=<?= $grandTotal ?>&packCode=<?= $packCode ?>">
+                <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
+                <i class="bi bi-chevron-right float end col-2"></i>
+            </a>
 
-                        <form action="?action=payMongo" method="post" >
-                            <input type="hidden" name="packCode" value="<?= $packCode ?>">
-                            
-                        <button type="submit" class="btn btn-primary" style="width:100%">
-                            Place Order
-                        </button>
-                        </form>
-                        </div>
-                        </div>
-                        </div>
-                                </div>
-                                </div>
-                                </div>
-                </div>
-                </div>
-            
-                <?= element( 'footer' ) ?>
+
+<form action="?action=payMongo" method="post">
+    <input type="hidden" name="packCode" value="<?= $packCode ?>">
+    <input type="hidden" name="grandTotal" value="<?= $grandTotal ?>">
+    <button type="submit" class="btn btn-primary" style="width:100%">
+        Place Order
+    </button>
+</form>
+

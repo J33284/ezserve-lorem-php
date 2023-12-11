@@ -54,8 +54,9 @@ $business = $businesses->fetch_assoc();
                 <?php foreach ($businesses as $branch) : ?>
     <div class="d-flex justify-content-between align-items-center mx-5">
         <h4><?= $branch['branchName'] ?></h4>
-        <form action="?page=client_package" method="post">
+        <form action="?page=client_package&businessCode=<?= $business['businessCode'] ?>&branchCode=<?= $branch['branchCode'] ?>" method="post">
             <input type="hidden" name="branchCode" value="<?= $branch['branchCode'] ?>">
+            <input type="hidden" name="businessCode" value="<?= $business['businessCode'] ?>">
             <button type="submit" class="btn btn-primary view-package m-2" data-business-code="<?= $branch['branchCode'] ?>" >
                 View
             </button>

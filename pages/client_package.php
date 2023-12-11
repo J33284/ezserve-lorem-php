@@ -30,7 +30,7 @@ if ($branchesQ) {
 
     <div class=" container pack-head sticky-top card p-3">
         <div class=" row d-flex justify-content-center align-items-center">
-            <a href="?page=services" class=" col-lg-1 col-sm-1 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
+            <a href="?page=client_business_details&businessCode=<?= $business['businessCode'] ?>" class=" col-lg-1 col-sm-1 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
                 <i class="bi bi-arrow-left"></i></a>
             <h1 class="col-lg-6 col-sm-6 d-flex justify-content-start "> <?= $branch['branchName'] ?></h1>
 
