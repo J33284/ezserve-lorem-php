@@ -1,21 +1,25 @@
 <?= element('header') ?>
+<!-- Assuming `element` is a function that includes the specified header -->
 
 <?php
-
+// Global database object
 global $DB;
+// Get the owner ID from the session
 $ownerID = $_SESSION['userID'];
 
+// Query to fetch vouchers associated with the owner
 $queryVouchers = "SELECT business.busName, voucher.code, voucher.cond, voucher.discount, voucher.startDate, voucher.endDate
                   FROM voucher
                   JOIN business ON voucher.businessCode = business.businessCode
                   WHERE business.ownerID = $ownerID";
 
+// Execute the query and get the result set
 $vouch = $DB->query($queryVouchers);
 
 // Initialize $vouchers array
 $vouchers = [];
 
-// Loop through each voucher and append it to the $vouchers array
+// Loop through each voucher and structure data into $vouchers array
 foreach ($vouch as $voucher) {
     $vouchers[] = [
         'code' => $voucher['code'],
@@ -26,6 +30,7 @@ foreach ($vouch as $voucher) {
     ];
 }
 
+// Get total amount, package code from the GET parameters
 $totalAmount = $_GET['grandTotal'];
 $packCode = $_GET['packCode'];
 
@@ -35,10 +40,10 @@ $discountedTotal = $totalAmount;
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get selected voucher code
+    // Get selected voucher code from the form submission
     $selectedVoucherCode = $_POST["voucher"];
 
-    // Find the selected voucher
+    // Find the selected voucher from the available vouchers
     foreach ($vouchers as $voucher) {
         if ($voucher['code'] == $selectedVoucherCode) {
             $selectedVoucher = $voucher;
@@ -58,40 +63,50 @@ function checkDateConditions($startDate, $endDate)
     $currentDate = date('Y-m-d');
     return ($currentDate >= $startDate && $currentDate <= $endDate);
 }
-
 ?>
 
+<!-- Display total amount -->
 <h1 style>Total Amount: <?php echo number_format($totalAmount, 2);?></h1>
 
+<!-- Display vouchers in a card deck -->
+<!-- Display vouchers in a card deck -->
 <div class="card-deck">
     <?php foreach ($vouchers as $voucher): ?>
         <?php if (checkDateConditions($voucher['startDate'], $voucher['endDate'])): ?>
+            <!-- Display voucher details in a card -->
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-text">Voucher Code: <?php echo $voucher['code']; ?></h5>
                     <p class="card-text">Minimum Spend: <?php echo $voucher['condition']; ?></p>
                     <p class="card-text">Duration: <?php echo $voucher['startDate']; ?> to <?php echo $voucher['endDate']; ?></p>
-              
-                    <form method="post">
+
+                    <!-- Form to select a voucher -->
+                    <form class="voucherForm" method="post">
                         <input type="hidden" name="voucher" value="<?php echo $voucher['code']; ?>">
                         <input type="hidden" name="discountedTotal" value="<?php echo $discountedTotal; ?>">
-                        <button type="submit" class="btn btn-primary">Choose Voucher</button>
+                        <input type="checkbox" class="chooseVoucherCheckbox btn btn-primary" <?php echo (isset($_POST['voucher']) && $_POST['voucher'] == $voucher['code']) ? 'checked' : ''; ?>>
                     </form>
-                    <?php if ($selectedVoucher && $selectedVoucher['code'] == $voucher['code']): ?>
+
+                    <!-- Display a button to use the selected voucher if applicable -->
+                    <div class="useVoucherButton" style="display: <?php echo (isset($_POST['voucher']) && $_POST['voucher'] == $voucher['code']) ? 'block' : 'none'; ?>;">
                         <form method="post" action="?page=checkout&packCode=<?= $packCode ?>">
                             <input type="hidden" name="discountedTotal" value="<?php echo $discountedTotal; ?>">
                             <button type="submit" class="btn btn-success mt-2">Use Voucher</button>
                         </form>
-                    <?php endif; ?>
+                    </div>
                 </div>
             </div>
         <?php endif; ?>
     <?php endforeach; ?>
 </div>
 
+
+
+<!-- Display discounted total amount -->
 <h2 style>Discounted Total: <?php echo number_format($discountedTotal, 2); ?></h2>
 
 <style>
+    <!-- Some inline CSS styles for styling purposes -->
     body {
         display: flex;
         flex-direction: column;
@@ -111,27 +126,46 @@ function checkDateConditions($startDate, $endDate)
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
-        
     }
 
     .card {
-   
         margin-bottom: 20px;
         width: 120vh;
     }
 </style>
 
 <script>
-    // Add JavaScript for highlighting selected card
     document.addEventListener('DOMContentLoaded', function () {
-        let cards = document.querySelectorAll('.card');
-        cards.forEach(function (card) {
-            card.addEventListener('click', function () {
-                cards.forEach(function (c) {
-                    c.classList.remove('bg-primary', 'text-white');
+        let voucherCheckboxes = document.querySelectorAll('.chooseVoucherCheckbox');
+        let voucherForms = document.querySelectorAll('.voucherForm');
+        let useVoucherButtons = document.querySelectorAll('.useVoucherButton');
+
+        voucherCheckboxes.forEach(function (checkbox, index) {
+            checkbox.addEventListener('change', function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                // Uncheck all checkboxes except the selected one
+                voucherCheckboxes.forEach(function (otherCheckbox, otherIndex) {
+                    if (otherIndex !== index) {
+                        otherCheckbox.checked = false;
+                        useVoucherButtons[otherIndex].style.display = 'none';
+                    }
                 });
-                card.classList.add('bg-primary', 'text-white');
+
+                // Show the "Use Voucher" button for the selected voucher
+                useVoucherButtons[index].style.display = checkbox.checked ? 'block' : 'none';
+
+             
+
+                // Submit the corresponding form
+                voucherForms[index].submit();
             });
+
+            // Set the checked state based on local storage
+            if (localStorage.getItem('selectedVoucher') === checkbox.value) {
+                checkbox.checked = true;
+                useVoucherButtons[index].style.display = 'block';
+            }
         });
     });
 </script>
