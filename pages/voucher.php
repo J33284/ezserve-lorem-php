@@ -1,17 +1,17 @@
 <?= element('header') ?>
-<!-- Assuming `element` is a function that includes the specified header -->
+
 
 <?php
-// Global database object
+
 global $DB;
-// Get the owner ID from the session
+
 $ownerID = $_SESSION['userID'];
 
 // Query to fetch vouchers associated with the owner
 $queryVouchers = "SELECT business.busName, voucher.code, voucher.cond, voucher.discount, voucher.startDate, voucher.endDate
                   FROM voucher
                   JOIN business ON voucher.businessCode = business.businessCode
-                  WHERE business.ownerID = $ownerID";
+                  WHERE business.ownerID = $ownerID" ;
 
 // Execute the query and get the result set
 $vouch = $DB->query($queryVouchers);
@@ -65,10 +65,8 @@ function checkDateConditions($startDate, $endDate)
 }
 ?>
 
-<!-- Display total amount -->
-<h1 style>Total Amount: <?php echo number_format($totalAmount, 2);?></h1>
 
-<!-- Display vouchers in a card deck -->
+
 <!-- Display vouchers in a card deck -->
 <div class="card-deck">
     <?php foreach ($vouchers as $voucher): ?>
@@ -101,10 +99,6 @@ function checkDateConditions($startDate, $endDate)
 </div>
 
 
-
-<!-- Display discounted total amount -->
-<h2 style>Discounted Total: <?php echo number_format($discountedTotal, 2); ?></h2>
-
 <style>
     <!-- Some inline CSS styles for styling purposes -->
     body {
@@ -122,7 +116,7 @@ function checkDateConditions($startDate, $endDate)
     }
 
     .card-deck {
-        margin-top: 20px;
+        margin-top: 100px;
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;

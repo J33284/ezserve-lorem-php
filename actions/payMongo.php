@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         'line_items' => $lineItems,
                         'payment_method_types' => ['card', 'gcash'],
                         'description' => $description,
-                        'success_url' => 'http://localhost/webworks-lorem-php/?page=client_package', // Replace with your success URL
+                        'success_url' => 'http://localhost/webworks-lorem-php/?page=client_purchase&checkout_session_id=' . $responseData['data']['id'],
                         'cancel_url' => 'https://your-website.com/cancel',   // Replace with your cancel URL
                     ],
                 ],
@@ -76,3 +76,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
