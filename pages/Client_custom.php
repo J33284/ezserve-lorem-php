@@ -25,9 +25,9 @@ if ($branchesQ) {
 <?= element('header') ?>
 
 <div id="client-custom" class="client-custom">
-    <div class="container pack-head" style="top: 50px;">
+    <div class="container pack-head" style="top: 100px;">
         <div class="container row">
-            <a href="?page=services" class="col-xl-1 btn-back btn-lg float-end">
+            <a href="?page=client_package" class="col-xl-1 btn-back btn-lg float-end">
                 <i class="bi bi-arrow-left"></i>
             </a>
             <h1 class="col-xl-7 d-flex justify-content-start text-light">Package Customization</h1>
@@ -35,7 +35,7 @@ if ($branchesQ) {
     </div>
 
     <div class="row d-flex p-5 g-5">
-        <div id="package-info" class="package-info col-4" style="width: 50vw; height: 65vh; margin: 50px 0 0 80px;">
+        <div id="package-info" class="package-info col-4" style="width: 50vw; height: 65vh; margin: 100px 0 0 80px;">
             <div class="accords">
                 <div>
                     <div class="accordion" id="<?= $branch['categoryCode'] ?>">
@@ -81,12 +81,12 @@ if ($branchesQ) {
             </div>
         </div>
 
-        <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" style="height: auto">
+        <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded overflow-auto" style="height: 80vh">
             <h3 class="order-header sticky-top p-3">Order List</h3>
             <hr class="m-0">
             <div class="order justify-content-center px-4 overflow-scroll">
                 <hr>
-                <table class="table">
+                <table class="table" style="height:80rem">
                     <thead>
                     <tr class="sticky-top">
                         <th scope="col">Quantity</th>
