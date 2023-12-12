@@ -29,15 +29,57 @@ $businesses = $DB->query("SELECT b.*, bo.* FROM business b
                         <?= $business['busName'] ?>
                     </td>
                     <td>
-                    <div class="btn-group">
-                    <button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample<?= $business['businessCode'] ?>">View</button>
-                    <form method="post" action="?action=update_status">
-                        <input type="hidden" name="business_Code" value="<?= $business['businessCode'] ?>">
-                        <button class="btn btn-success" type="submit" name="accept_business">Accept</button>
-                        <button class="btn btn-danger" type="submit" name="reject_business">Reject</button>
-                    </form>
-                    </div>
+                    <div class="d-flex float-end">
+                        <button class="btn btn-primary " data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample<?= $business['businessCode'] ?>">View</button>
+                        <form method="post">
+                            <input type="hidden" name="business_Code" value="<?= $business['businessCode'] ?>">
+                            <button class="btn btn-success mx-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccept<?= $business['businessCode'] ?>">Accept</button>
+                        </form>
+                        <form method="post">
+                            <input type="hidden" name="business_Code" value="<?= $business['businessCode'] ?>">
+                            <button class="btn btn-danger" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasReject<?= $business['businessCode'] ?>">Reject</button>
+                        </form>
+                        
 
+                        <div class="offcanvas offcanvas-top rounded-3" tabindex="-1" id="offcanvasAccept<?= $business['businessCode'] ?>" style="width: 50vw; height: 50vh; margin: 150px 0 0 25vw;">
+                            <div class="offcanvas-header">
+                            <h3 class="offcanvas-title p-3">Confirmation</h3>
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+                            </div>
+                            <div class="offcanvas-body px-5">
+                            Are you sure you want to accept this business? This action cannot be undone.
+                            </div>
+                            <div class=" d-flex justify-content-end m-5">
+                                <button type="button" class="btn btn-secondary mx-3" data-bs-dismiss="offcanvas">Cancel</button>
+                                <form method="post" action="?action=update_status">
+                                    <input type="hidden" name="business_Code" value="<?= $business['businessCode'] ?>">
+                                    <button type="submit" name="accept_business" class="btn btn-success">Ok</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="offcanvas offcanvas-top rounded-3" tabindex="-1" id="offcanvasReject<?= $business['businessCode'] ?>" style="width: 50vw; height: 50vh; margin: 150px 0 0 25vw;">
+                            <div class="offcanvas-header">
+                            <h3 class="offcanvas-title p-3">Confirmation</h3>
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+                            </div>
+                            <div class="offcanvas-body px-5">
+                            Are you sure you want to reject this business? This action cannot be undone.
+                            </div>
+                            <div class=" d-flex justify-content-end m-5">
+                                <button type="button" class="btn btn-secondary mx-3" data-bs-dismiss="offcanvas">Cancel</button>
+                                <form method="post" action="?action=update_status">
+                                    <input type="hidden" name="business_Code" value="<?= $business['businessCode'] ?>">
+                                    <button type="submit" name="reject_business" class="btn btn-success">Ok</button>
+                                </form>
+                            </div>
+                        </div>
+                        </div>
+
+
+
+                        
+                     </td>
                 </tr>
                 
                 <div class="offcanvas offcanvas-top overflow-auto p-3" style="width: 50vw; height: 100vh; margin-left: 25vw;" tabindex="-1" id="offcanvasExample<?= $business['businessCode'] ?>">
@@ -140,3 +182,4 @@ $businesses = $DB->query("SELECT b.*, bo.* FROM business b
 
 
 <?= element('footer') ?>
+

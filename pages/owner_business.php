@@ -22,7 +22,7 @@ $result = $DB->query($sql);
         <div class="d-flex justify-content-between p-3">
             <h1 class="text-light">My Business</h1>
             <a href="?page=bus-register" id="registerButton">
-                <i class="bi bi-plus-square white-text">Register your business here!</i>
+                <i class="bi bi-plus-square text-light">Register your business here!</i>
             </a>
         </div>
 

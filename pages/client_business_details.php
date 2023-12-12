@@ -46,10 +46,10 @@ $business = $businesses->fetch_assoc();
                 <p><?= $business['about'] ?></p>
             </div>
            
-            <div id="Branches" class="card p-3 shadow p-3 mb-5 bg-white rounded border-0 d-flex">
+            <div id="Branches" class="card p-3 shadow p-3 mb-5 bg-white rounded border-0 d-flex" style="width:80vw;">
                 <h2> Branches </h2>
                 <hr>
-                <div id="map" class="card p-3 shadow p-3 mb-5 bg-white rounded border-0" style="width: 80vw; height: 80vh;"></div>
+                <div id="map" class="card p-3 shadow  mb-5 bg-white rounded border-0" style="width: 78vw; height: 80vh;"></div>
 
                 <?php foreach ($businesses as $branch) : ?>
     <div class="d-flex justify-content-between align-items-center mx-5">

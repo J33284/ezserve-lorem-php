@@ -29,7 +29,7 @@ $result = $DB->query($sql);
             </a>
         <h1 class=" col text-light">My Business</h1>
         <a class="col" href="?page=bus-register" id="registerButton">
-            <i class="bi bi-plus-square white-text">Register your business here!</i>
+            <i class="bi bi-plus-square text-light">Register your business here!</i>
         </a>
         <div>
            
@@ -77,8 +77,8 @@ $result = $DB->query($sql);
 
                     <!-- image preview -->
                     <div class="col-md-5">
-                        <div class="mb-4 d-flex justify-content-center">
-                            <img id="imagePreview" src="<?= $row['busImage'] ? $row['busImage'] : 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg' ?>" alt="business image" style="max-width: 100%; max-height: 200px;">
+                        <div class="mb-4 d-flex justify-content-center ">
+                            <img id="imagePreview"  class="rounded-4" src="<?= $row['busImage'] ? $row['busImage'] : 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg' ?>" alt="business image">
                         </div>
 
                         <div class="d-flex justify-content-center">
@@ -143,7 +143,7 @@ $result = $DB->query($sql);
 
                 <div class="col-md-5">
                     <div class="mb-4 d-flex justify-content-center">
-                        <img id="imageAddBranch" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg" alt="business image" style="max-width: 100%; max-height: 200px;">
+                        <img id="imageAddBranch"  class="rounded-4" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg" alt="business image" >
                     </div>
 
                     <div class="d-flex justify-content-center">
@@ -213,7 +213,7 @@ $result = $DB->query($sql);
 
                     <div class="col-md-5">
                         <div class="mb-4 d-flex justify-content-center">
-                        <img id="imageBranch_<?= $branchData['branchCode'] ?>" class="imageBranchPreview_<?= $branchData['branchCode'] ?>" src="<?= $branchData['branchImage'] ? $branchData['branchImage'] : 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg' ?>" alt="branch image" style="max-width: 100%; max-height: 200px;">
+                        <img id="imageBranch_<?= $branchData['branchCode'] ?>" class="imageBranchPreview_<?= $branchData['branchCode'] ?>  view-branch-pic rounded-4" src="<?= $branchData['branchImage'] ? $branchData['branchImage'] : 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg' ?>" alt="branch image" >
 
 
                         </div>
