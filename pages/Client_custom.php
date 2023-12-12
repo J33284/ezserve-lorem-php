@@ -55,7 +55,7 @@ if ($branchesQ) {
                                     <div class="d-flex">
                                         <input type="checkbox" style="width: 5%;" class="form-check-input service-checkbox"
                                             id="service-<?= $row['serviceCode'] ?>" data-service-id="<?= $row['serviceCode'] ?>">
-                                        <label for="service-<?= $row['serviceCode'] ?>">Select Service</label>
+                                        <label for="service-<?= $row['serviceCode'] ?>">Select Item</label>
                                         <input type="number" class="form-control quantity-input" value="1" min="1" style="width:30%;">
                                         <label>Quantity</label>
                                     </div>

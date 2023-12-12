@@ -1,5 +1,8 @@
 <?php
 
+$businessCode = $_GET['businessCode'];
+$branchCode = $_GET['branchCode'];
+
 $clientID = $_SESSION['userID'];
 $clientType = $_SESSION['usertype'];
 
@@ -16,17 +19,13 @@ $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] 
 
 ?>
 
-<?= element('header') ?>
-
-
-
 
 <?= element( 'header' ) ?>
 
 <div id="client-custom "class="client-custom" style="margin-top: 90px ">
       <div class=" container pack-head " style=" top: 50px;">
         <div class="container row">
-          <a href="?page=client_view_package&packCode=<?= $packCode = $_GET['packCode']; ?>" class=" col-xl-1 btn-back btn-lg float-end ">
+          <a href="?page=client_view_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode = $_GET['packCode']; ?>" class=" col-xl-1 btn-back btn-lg float-end ">
             <i class="bi bi-arrow-left"></i></a>
           <h1 class="col-xl-7 d-flex justify-content-start text-light">Check Out</h1>
          
@@ -60,7 +59,7 @@ $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] 
                       <label class="form-check-label" for="flexCheckDefault">Pick-up</label> <!--set na if pick-up, pick.up date lg ang accessible-->
                     </div>
                     <div class="col-5">
-                       <input type="date" class="form-control"  name="pick-up" id="pick-up" value="<?= $business['pick-up'] ?>" >
+                       <input type="date" class="form-control"  name="pick-up" id="pick-up">
                     </div>
                   </div>
                   <div class="form-check">
@@ -146,6 +145,7 @@ $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] 
                         // Calculate total for the current item and add to grand total
                         $total = $packageDetails['quantity'] * $packageDetails['price'];
                         $grandTotal += $total;
+                        
                         if (isset($discountedTotal) && is_numeric($discountedTotal)) {
                             // Update total to discounted total
                             $grandTotal = $discountedTotal;
@@ -160,17 +160,21 @@ $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] 
                 <h4 class="col-5">₱<?= number_format($grandTotal) ?></h4>
             <!--calculation formula-->
             <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"
-            href="?page=voucher&grandTotal=<?= $grandTotal ?>&packCode=<?= $packCode ?>">
+            href="?page=voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>&grandTotal=<?= $grandTotal ?>">
                 <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
                 <i class="bi bi-chevron-right float end col-2"></i>
             </a>
 
 
-<form action="?action=payMongo" method="post">
-    <input type="hidden" name="packCode" value="<?= $packCode ?>">
-    <input type="hidden" name="grandTotal" value="<?= $grandTotal ?>">
-    <button type="submit" class="btn btn-primary" style="width:100%">
-        Place Order
-    </button>
-</form>
+            <form action="?action=payMongo" method="post">
+                <input type="hidden" name="packCode" value="<?= $packCode ?>">
+                <input type="hidden" name="clientName"  value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>">
+                <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">
+                <input type="hidden" name="email" value="<?= $clientInfo['email'] ?>" >
+                <input type="hidden" name="grandTotal" value="<?= $grandTotal ?>">
+                <button type="submit" class="btn btn-primary" style="width:100%">
+                    Place Order
+                </button>
+            </form>
 
+            

@@ -3,6 +3,9 @@
 <?php
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
+$businessCode = $_GET['businessCode'];
+$branchCode = $_GET['branchCode'];
+
 $clientID = $_SESSION['userID'];
 $clientType = $_SESSION['usertype'];
 
@@ -26,7 +29,7 @@ if ($packageDetailsQ) {
 <div id="package-view" class="package-view h-100 " style="margin-top:120px">
     <?php if ($packageDetails): ?>
         <div class="row d-flex justify-content-start align-items-center" style="margin-left: 50px">
-            <a href="?page=services" class="col-lg-1 col-sm-1 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
+            <a href="?page=client_package&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class="col-lg-1 col-sm-1 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
                 <i class="text-light bi bi-arrow-left"></i></a>
             <h1 class="col-lg-6 col-sm-6 d-flex justify-content-start text-light"> <?= $packageDetails['packName'] ?> Details </h1>
         </div>
@@ -71,9 +74,8 @@ if ($packageDetailsQ) {
                 <div class="total row d-flex sticky-bottom m-5">
                     <h3 class="col-7"> Total:</h3>
                     <h4 class="col-5">₱<?= number_format ($grandTotal) ?></h4>
-                    <form action="?page=checkout&packCode=<?= $packCode ?>" method="post">
+                    <form action="?page=checkout&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode?>" method="post">
                     <input type="hidden" name="packCode" value="<?= $packCode ?>">
-                    <!-- Other form elements can be added here if needed -->
                     <button type="submit" class="btn btn-primary" style="width:100%">
                         Check Out
                     </button>

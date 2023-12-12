@@ -1,7 +1,8 @@
 <?php
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
-$branchCode = $_POST['branchCode'];
+$branchCode = $_GET['branchCode'];
+$businessCode = $_GET['businessCode'];
 
 // Retrieve all branches for the given business
 $branchesQ = $DB->query("SELECT br.*, p.*
@@ -30,7 +31,7 @@ if ($branchesQ) {
 
     <div class=" container pack-head sticky-top card p-3">
         <div class=" row d-flex justify-content-center align-items-center">
-            <a href="?page=client_business_details&businessCode=<?= $business['businessCode'] ?>" class=" col-lg-1 col-sm-1 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
+            <a href="?page=client_business_details&businessCode=<?= $businessCode ?>" class=" col-lg-1 col-sm-1 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
                 <i class="bi bi-arrow-left"></i></a>
             <h1 class="col-lg-6 col-sm-6 d-flex justify-content-start "> <?= $branch['branchName'] ?></h1>
 
@@ -98,7 +99,7 @@ if ($branchesQ) {
 
                                 ?>
                                 
-                                <a href="?page=client_view_package&packCode=<?= $package['packCode'] ?>" class="btn btn-primary">View</a>
+                                <a href="?page=client_view_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $package['packCode'] ?>" class="btn btn-primary">View</a>
 
                             </div>
                         </div>

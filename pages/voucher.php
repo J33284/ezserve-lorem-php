@@ -5,13 +5,13 @@
 
 global $DB;
 
-$ownerID = $_SESSION['userID'];
-
+$businessCode = $_GET['businessCode'];
+$branchCode = $_GET['branchCode'];
 // Query to fetch vouchers associated with the owner
 $queryVouchers = "SELECT business.busName, voucher.code, voucher.cond, voucher.discount, voucher.startDate, voucher.endDate
                   FROM voucher
                   JOIN business ON voucher.businessCode = business.businessCode
-                  WHERE business.ownerID = $ownerID" ;
+                  WHERE business.businessCode = $businessCode" ;
 
 // Execute the query and get the result set
 $vouch = $DB->query($queryVouchers);
@@ -87,7 +87,7 @@ function checkDateConditions($startDate, $endDate)
 
                     <!-- Display a button to use the selected voucher if applicable -->
                     <div class="useVoucherButton" style="display: <?php echo (isset($_POST['voucher']) && $_POST['voucher'] == $voucher['code']) ? 'block' : 'none'; ?>;">
-                        <form method="post" action="?page=checkout&packCode=<?= $packCode ?>">
+                        <form method="post" action="?page=checkout&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>">
                             <input type="hidden" name="discountedTotal" value="<?php echo $discountedTotal; ?>">
                             <button type="submit" class="btn btn-success mt-2">Use Voucher</button>
                         </form>

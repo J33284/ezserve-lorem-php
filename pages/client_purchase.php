@@ -1,48 +1,60 @@
 <?php
+
+$clientID = $_SESSION ['userID'];
+
 require_once('vendor/autoload.php');
 
-// Set your PayMongo secret key here
-$paymongoSecretKey = 'sk_test_McfYB6NLVEd3oYgQMsyXTW6d';
+$client = new \GuzzleHttp\Client();
 
-if (isset($_GET['checkout_session_id'])) {
-    $checkoutSessionId = $_GET['checkout_session_id'];
+$checkoutSessionID = $_SESSION['checkout_session_id'];
 
-    $client = new \GuzzleHttp\Client();
 
-    try {
-        // Retrieve the checkout session details from PayMongo
-        $response = $client->request('GET', 'https://api.paymongo.com/v1/checkout_sessions/' . $checkoutSessionId, [
-            'headers' => [
-                'accept' => 'application/json',
-                'Authorization' => 'Basic ' . base64_encode($paymongoSecretKey . ':'),
-            ],
-        ]);
+$response = $client->request('GET', 'https://api.paymongo.com/v1/checkout_sessions/' . $checkoutSessionID, [
+    'headers' => [
+      'accept' => 'application/json',
+      'authorization' => 'Basic c2tfdGVzdF9NY2ZZQjZOTFZFZDNvWWdRTXN5WFRXNmQ6',
+    ],
+  ]);
 
-        $statusCode = $response->getStatusCode();
-        $body = $response->getBody()->getContents();
+function saveToDatabase($amount) {
+    global $DB;
 
-        if ($statusCode >= 200 && $statusCode < 300) {
-            $responseData = json_decode($body, true);
+    // Insert data into the 'payment' table (customize this query based on your database structure)
+    $sql = "INSERT INTO payment (amount) VALUES ('$amount')";
 
-            // Extract relevant information from the PayMongo response
-            $paymentId = $responseData['data']['relationships']['payment']['data']['id'];
-            $amountPaid = $responseData['data']['attributes']['amount_paid'];
-            $currency = $responseData['data']['attributes']['currency'];
-
-            // Insert the transaction details into your database
-            // Modify this part based on your database structure and how you want to store the data
-            $DB->query("INSERT INTO transactions (paymentID, amountPaid, currency, checkout_session_id) VALUES ('$paymentId', '$amountPaid', '$currency', '$checkoutSessionId')");
-
-            // Redirect or display a success message to the user
-            header('Location: success.php');
-            exit;
-        } else {
-            echo 'Error: HTTP ' . $statusCode . ' - ' . $body;
-        }
-    } catch (\Exception $e) {
-        echo 'Error: ' . $e->getMessage();
+    if ($DB->query($sql) === TRUE) {
+        echo "Data saved successfully to the 'payment' table!";
+    } else {
+        echo "Error: " . $sql . "<br>" . $DB->error;
     }
-} else {
-    echo 'Invalid request. Missing checkout_session_id parameter.';
 }
+
+// Decode the JSON response
+$data = json_decode($response->getBody(), true);
+
+// Check if the 'data' key exists in the response
+if (isset($data['data'])) {
+    // Extract the amount value
+    $amount = $data['data']['attributes']['line_items'][0]['amount'];
+
+    // Display the amount in a table
+    echo '<table border="1">';
+    echo '<tr>';
+    echo '<th>Amount</th>';
+    echo '</tr>';
+    echo '<tr>';
+    echo '<td>' . htmlspecialchars($amount) . '</td>';
+    echo '</tr>';
+    echo '</table>';
+
+    // Save the amount to the 'payment' table
+    saveToDatabase($amount);
+} else {
+    echo 'No data received from the API.';
+}
+
+// Close the database connection
+$DB->close();
 ?>
+
+

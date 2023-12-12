@@ -8,7 +8,7 @@ html{
 <?php
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
-$businessCode = $_POST['businessCode'];
+$businessCode = $_GET['businessCode'];
 
 // Retrieve all branches for the given business
 $businesses = $DB->query("SELECT b.*, br.* FROM business b
@@ -52,18 +52,18 @@ $business = $businesses->fetch_assoc();
                 <div id="map" class="card p-3 shadow  mb-5 bg-white rounded border-0" style="width: 78vw; height: 80vh;"></div>
 
                 <?php foreach ($businesses as $branch) : ?>
-    <div class="d-flex justify-content-between align-items-center mx-5">
-        <h4><?= $branch['branchName'] ?></h4>
-        <form action="?page=client_package&businessCode=<?= $business['businessCode'] ?>&branchCode=<?= $branch['branchCode'] ?>" method="post">
-            <input type="hidden" name="branchCode" value="<?= $branch['branchCode'] ?>">
-            <input type="hidden" name="businessCode" value="<?= $business['businessCode'] ?>">
-            <button type="submit" class="btn btn-primary view-package m-2" data-business-code="<?= $branch['branchCode'] ?>" >
-                View
-            </button>
-        </form>
-    </div>
-    <hr>
-<?php endforeach; ?>
+                    <div class="d-flex justify-content-between align-items-center mx-5">
+                        <h4><?= $branch['branchName'] ?></h4>
+                        <form action="?page=client_package&businessCode=<?= $business['businessCode'] ?>&branchCode=<?= $branch['branchCode'] ?>" method="post">
+                            <input type="hidden" name="branchCode" value="<?= $branch['branchCode'] ?>">
+                            <input type="hidden" name="businessCode" value="<?= $business['businessCode'] ?>">
+                            <button type="submit" class="btn btn-primary view-package m-2" data-business-code="<?= $branch['branchCode'] ?>" >
+                                View
+                            </button>
+                        </form>
+                    </div>
+                    <hr>
+                <?php endforeach; ?>
 
 
 

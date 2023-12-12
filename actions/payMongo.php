@@ -1,79 +1,67 @@
 <?php
-require_once 'vendor/autoload.php';
+require_once('vendor/autoload.php');
+
+$client = new \GuzzleHttp\Client();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        $paymongoSecretKey = 'sk_test_McfYB6NLVEd3oYgQMsyXTW6d';
 
-        $packCode = $_POST['packCode'];
-        $grandTotal = $_POST['grandTotal']; 
+    $packCode = $_POST['packCode'];
+    $amount = intval($_POST['grandTotal']);
+    $name = $_POST['clientName'];
+    $email = $_POST['email'];
+    $phone = $_POST['mobileNumber'];
 
-        // Retrieve package details from the database
-        $packageDetailsQ = $DB->query("SELECT p.*, c.*, s.*
-            FROM package p
-            JOIN category c ON p.packCode = c.packCode
-            JOIN service s ON c.categoryCode = s.categoryCode
-            WHERE p.packCode = '$packCode'");
-
-        $lineItems = [];
-
-        while ($packageDetails = $packageDetailsQ->fetch_assoc()) {
-            $productName = $packageDetails['serviceName'];
-            $quantity = (int)$packageDetails['quantity'];
-            $amount = (int)$packageDetails['price'] * 100;
-            $description = $packageDetails['packName']; 
-
-            $lineItems[] = [
-                'name' => $productName,
-                'quantity' => $quantity,
-                'amount' => $amount,
-                'currency' => 'PHP',
-            ];
-        }
-
-        $client = new \GuzzleHttp\Client();
-
-        $response = $client->request('POST', 'https://api.paymongo.com/v1/checkout_sessions', [
-            'json' => [
-                'data' => [
-                    'attributes' => [
-                        'send_email_receipt' => true,
-                        'show_description' => true,
-                        'show_line_items' => true,
-                        'line_items' => $lineItems,
-                        'payment_method_types' => ['card', 'gcash'],
-                        'description' => $description,
-                        'success_url' => 'http://localhost/webworks-lorem-php/?page=client_purchase&checkout_session_id=' . $responseData['data']['id'],
-                        'cancel_url' => 'https://your-website.com/cancel',   // Replace with your cancel URL
+    $checkoutData = [
+        'data' => [
+            'attributes' => [
+                'cancel_url' => 'https://example.com/cancel',
+                'billing' => [
+                    'name' => $name,
+                    'email' => $email,
+                    'phone' => $phone,
+                ],
+                'description' => 'Order Description',
+                'line_items' => [
+                    [
+                        'amount' => $amount * 100, 
+                        'currency' => 'PHP',
+                        'name' => 'Product Name',
+                        'quantity' => 1,
                     ],
                 ],
+                'payment_method_types' => ['card', 'gcash'],
+                'reference_number' => 'Webworks',
+                'send_email_receipt' => true,
+                'show_description' => true,
+                'show_line_items' => true,
+                'success_url' => 'http://localhost/webworks-lorem-php/?page=client_purchase',
+                'statement_descriptor' => 'Payment Example',
             ],
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'accept' => 'application/json',
-                'Authorization' => 'Basic ' . base64_encode($paymongoSecretKey . ':'),
-            ],
-        ]);
+        ],
+    ];
 
-        $statusCode = $response->getStatusCode();
-        $body = $response->getBody()->getContents();
+    $response = $client->request('POST', 'https://api.paymongo.com/v1/checkout_sessions', [
+        'body' => json_encode($checkoutData),
+        'headers' => [
+            'Content-Type' => 'application/json',
+            'accept' => 'application/json',
+            'authorization' => 'Basic c2tfdGVzdF9NY2ZZQjZOTFZFZDNvWWdRTXN5WFRXNmQ6',
+        ],
+    ]);
 
-        if ($statusCode >= 200 && $statusCode < 300) {
-            $responseData = json_decode($body, true);
+    $responseData = json_decode($response->getBody(), true);
+    
+    $_SESSION['checkout_session_id'] = $responseData['data']['id'];
+    // Check if the 'data' key exists in the response
+    if (isset($responseData['data'])) {
+        $checkoutUrl = $responseData['data']['attributes']['checkout_url'];
 
-            // Redirect the user to the PayMongo checkout page
-            header('Location: ' . $responseData['data']['attributes']['checkout_url']);
-            exit; 
-        } else {
-            echo 'Error: HTTP ' . $statusCode . ' - ' . $body;
-        }
-    } catch (\Exception $e) {
-        echo 'Error: ' . $e->getMessage();
-
-        if ($e->hasResponse()) {
-            echo 'Response Body: ' . $e->getResponse()->getBody()->getContents();
-        }
+        // Redirect the user to the checkout URL
+        header("Location: $checkoutUrl");
+        exit();
+    } else {
+        // Handle the case where the 'data' key is not present in the response
+        echo "Error retrieving checkout URL.";
     }
 }
 ?>
-

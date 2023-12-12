@@ -1,5 +1,0 @@
-<?php
-
-// Initialize search variables
-
-
