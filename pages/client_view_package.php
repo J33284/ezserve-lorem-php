@@ -1,7 +1,11 @@
 <?= element('header') ?>
 
+
 <?php
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
+
+$clientID = $_SESSION['userID'];
+$client = $_SESSION['usertype'];
 
 $businessCode = $_GET['businessCode'];
 $branchCode = $_GET['branchCode'];
@@ -9,10 +13,8 @@ $branchCode = $_GET['branchCode'];
 $clientID = $_SESSION['userID'];
 $clientType = $_SESSION['usertype'];
 
-// Get the package code from the URL
 $packCode = $_GET['packCode'];
 
-// Retrieve package details from the database based on the package code
 $packageDetailsQ = $DB->query("SELECT p.*, c.*, s.*
     FROM package p
     JOIN category c ON p.packCode = c.packCode
@@ -76,9 +78,16 @@ if ($packageDetailsQ) {
                     <h4 class="col-5">₱<?= number_format ($grandTotal) ?></h4>
                     <form action="?page=checkout&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode?>" method="post">
                     <input type="hidden" name="packCode" value="<?= $packCode ?>">
-                    <button type="submit" class="btn btn-primary" style="width:100%">
-                        Check Out
-                    </button>
+                    <?php if ($clientType == 'client'): ?>
+                        <button type="submit" class="btn btn-primary" style="width:100%">
+                            Checkout
+                        </button>
+                    <?php else: ?>
+                        <button type="button" class="btn btn-secondary" style="width:100%" disabled>
+                            Checkout
+                        </button>
+                    <?php endif; ?>
+                </form>
                 </form>
 
                 </div>

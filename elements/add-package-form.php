@@ -15,7 +15,7 @@
         }
 
         form {
-            width: 100%;
+            width: 100%; 
             text-align: center;
         }
 
@@ -88,7 +88,6 @@
                         <option value="kg">kg</option>
                         <option value="hours">Hours</option>
                         <option value="servings">Servings</option>
-                        <option value="kg">Kilograms (kg)</option>
                         <option value="lb">Pounds (lb)</option>
                     </select>
                     </td>

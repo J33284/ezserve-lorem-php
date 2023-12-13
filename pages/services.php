@@ -42,7 +42,7 @@ else {
           <img class="card-img" src="<?= $imagePath ?>" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title"><?= $business['busName'] ?></h5>
-            <p class="card-text"><?= $business['street'] . ', ' . $business['city_municipality'] ?></p>
+            <p class="card-text"><?= $business['city_municipality'] . ' ' . $business['province'] ?></p>
             <form action="?page=client_business_details&businessCode=<?= $business['businessCode'] ?>" method="post">
               <input type="hidden" name="businessCode" value="<?= $business['businessCode'] ?>">
               <button type="submit" class="btn btn-primary view-business">View</button>
@@ -59,7 +59,6 @@ else {
 
 </div>
   </div>
-<?= element('footer') ?>
 
 <script>
 const searchButton = document.getElementById('search-button');

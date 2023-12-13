@@ -2,17 +2,13 @@
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 global $DB;
 
-// Execute the initial query
 $businessesResult = $DB->query("SELECT * FROM businesstypes");
 
-// Check if the initial query was successful
 if ($businessesResult) {
-    // Fetch the rows from the result set
     while ($row = $businessesResult->fetch_assoc()) {
         $businesses[] = $row;
     }
 } else {
-    // Handle the case where the initial query failed
     echo "Error executing the query.";
 }
 

@@ -4,6 +4,8 @@
 <?php
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
+$usertype = $_SESSION['usertype'];
+
 require 'vendor/autoload.php'; // Include PHPMailer autoloader
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -105,6 +107,7 @@ function add_verification_code_to_database($verification_code) {
     global $DB;
     $email = $_POST["data"]["email"];
     // Replace 'business_owner' and adjust column names as needed
+    
     $sql = "UPDATE business_owner SET verification_code = '$verification_code' WHERE email = '$email'";
 
     // Perform the query

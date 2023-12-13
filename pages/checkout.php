@@ -9,11 +9,9 @@ $clientType = $_SESSION['usertype'];
 $client = $DB->query("SELECT * FROM client WHERE clientID = '$clientID' and usertype= '$clientType'");
 
 if ($client) {
-    // Fetch the client information
     $clientInfo = $client->fetch_assoc();
 }
 
-// Get the discounted total from the voucher selection
 $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] : null;
 
 
@@ -55,27 +53,27 @@ $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] 
               <div class="row d-flex align-items-center my-2 px-5">
                   <div class="form-check row d-flex">
                     <div class="col-5">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                      <label class="form-check-label" for="flexCheckDefault">Pick-up</label> <!--set na if pick-up, pick.up date lg ang accessible-->
+                        <input class="form-check-input" type="checkbox" value="" id="pickUpCheckbox" name="fulfillmentMethod">
+                        <label class="form-check-label" for="pickUpCheckbox">Pick-up</label>
                     </div>
                     <div class="col-5">
                        <input type="date" class="form-control"  name="pick-up" id="pick-up">
                     </div>
                   </div>
                   <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                      <label class="form-check-label" for="flexCheckDefault">Delivery</label>
+                  <input class="form-check-input" type="checkbox" value="" id="deliveryCheckbox" name="fulfillmentMethod">
+                    <label class="form-check-label" for="deliveryCheckbox">Delivery</label>
                   </div>
               </div>
               <hr>
-                <div class="row d-flex align-items-center mb-2"> <!-- triggered only kung delivery mode -->
-                    <label class="mb-2 " for="address">Delivery Address</label>
-                    <input type="text" class="form-control "   name="address" id="address"  >
-                </div>
-                <div class="row d-flex align-items-center mb-2">
-                    <label class="mb-2 " for="deliveryDate">Delivery Date</label>
-                    <input type="date" class="form-control " name="deliveryDate" id="deliveryDate"  >
-                </div>
+                        <div class="row d-flex align-items-center mb-2" id="deliveryAddress">
+                <label class="mb-2 " for="address">Delivery Address</label>
+                <input type="text" class="form-control " name="address" id="address">
+            </div>
+            <div class="row d-flex align-items-center mb-2" id="deliveryDate">
+                <label class="mb-2 " for="deliveryDate">Delivery Date</label>
+                <input type="date" class="form-control " name="deliveryDate" id="deliveryDate">
+            </div>
                
                 
        
@@ -85,14 +83,15 @@ $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] 
               <h4 class=" p-3 mb-4" style=" border-bottom: 3px solid #fb7e00;"> 3. Payment </h4>
               <h6> Mode of Payment </h6>
               <div class="row d-flex align-items-center my-2 px-5">
-              <div class="form-check ">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                      <label class="form-check-label" for="flexCheckDefault">On-Site Payment</label>
-                  </div>
-                  <div class="form-check ">
-                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                      <label class="form-check-label" for="flexCheckDefault">Online Payment</label>
-                  </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="onsitePaymentCheckbox" name="onsitePayment">
+                <label class="form-check-label" for="onsitePaymentCheckbox">On-Site Payment</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="onlinePaymentCheckbox" name="onlinePayment">
+                <label class="form-check-label" for="onlinePaymentCheckbox">Online Payment</label>
+            </div>
+
           </div>
         </div> 
     </div> 
@@ -173,9 +172,49 @@ $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] 
                 <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
                 <input type="hidden" name="packName" value="<?= $packName['packName'] ?>" >
                 <input type="hidden" name="grandTotal" value="<?= $grandTotal ?>">
-                <button type="submit" class="btn btn-primary" style="width:100%">
+                <button type="submit" class="btn btn-primary" style="width:100%" id="placeOrderButton">
                     Place Order
                 </button>
+
             </form>
 
-            
+            <form action="?action=onsite" method="post">
+                <input type="hidden" name="packCode" value="<?= $packCode ?>">
+                <input type="hidden" name="clientName"  value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>">
+                <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">
+                <input type="hidden" name="email" value="<?= $clientInfo['email'] ?>" >
+                <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
+                <input type="hidden" name="packName" value="<?= $packName['packName'] ?>" >
+                <input type="hidden" name="grandTotal" value="<?= $grandTotal ?>">
+                <button type="submit" class="btn btn-primary" style="width:100%" id="placeOrderButton2">
+                    Place Order
+                </button>
+
+            </form>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    // Get references to the checkboxes and buttons
+                    var onsitePaymentCheckbox = document.getElementById('onsitePaymentCheckbox');
+                    var onlinePaymentCheckbox = document.getElementById('onlinePaymentCheckbox');
+                    var placeOrderButton = document.getElementById('placeOrderButton');
+                    var placeOrderButton2 = document.getElementById('placeOrderButton2');
+
+                    // Initial check on page load
+                    togglePlaceOrderButtons();
+
+                    // Function to toggle the "Place Order" buttons visibility based on checkbox state
+                    function togglePlaceOrderButtons() {
+                        if (onsitePaymentCheckbox.checked) {
+                            // Onsite payment is checked, show placeOrderButton2 and hide placeOrderButton
+                            placeOrderButton.style.display = 'none';
+                            placeOrderButton2.style.display = 'block';
+                        } else {
+                            // Onsite payment is not checked, show placeOrderButton and hide placeOrderButton2
+                            placeOrderButton.style.display = 'block';
+                            placeOrderButton2.style.display = 'none';
+                        }
+                    }
+                });
+            </script>
+

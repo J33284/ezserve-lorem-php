@@ -41,7 +41,7 @@ $vouchers = $DB->query($queryVouchers);
             <tr>
               <td><?= $voucher['busName'] ?></td>
               <td><?= $voucher['code'] ?></td>
-              <td><?= $voucher['cond'] ?></td>
+              <td>₱<?= number_format($voucher['cond']) ?></td>
               <td><?= $voucher['discount'] ?>%</td>
               <td><?= $voucher['startDate'] ?></td>
               <td><?= $voucher['endDate'] ?></td>
