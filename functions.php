@@ -148,10 +148,7 @@ function add_record( $name, $fields = [] ) {
 		return false;
 	}
 }
-  
 
-// sample
-// update_record( "persons", [ 'key' => 'id', 'val' => $_POST[ 'id' ] ], $_POST[ 'data' ] )
 
 
 function update_record( $name, $id, $fields = [] ) {

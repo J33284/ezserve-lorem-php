@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 07, 2023 at 08:39 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Dec 13, 2023 at 02:55 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -65,7 +65,7 @@ CREATE TABLE `branches` (
 --
 
 INSERT INTO `branches` (`branchCode`, `businessCode`, `branchName`, `address`, `coordinates`, `branchImage`) VALUES
-(31, 20, 'Mina Branch', 'Mina Province', '10.722376679524237, 122.56210416206152', 0x6173736574732f75706c6f6164732f6272616e636865732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567);
+(31, 20, 'Mina Branch', 'Mina Province', '10.718841588703297, 122.55887657403949', 0x6173736574732f75706c6f6164732f6272616e636865732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567);
 
 -- --------------------------------------------------------
 
@@ -97,7 +97,7 @@ CREATE TABLE `business` (
 --
 
 INSERT INTO `business` (`businessCode`, `ownerID`, `busName`, `about`, `busType`, `house_building`, `street`, `barangay`, `city_municipality`, `province`, `region`, `phone`, `mobile`, `permits`, `busImage`, `status`) VALUES
-(20, 2, 'Puga Funeral Business', 'At Puga Funeral Business, our mission is to guide you through the intricate process of saying goodbye to a cherished family member or friend. We offer a range of comprehensive funeral services designed to meet the diverse needs of our community, blending traditional values with contemporary approaches.', 'Funeral Services', '', '', '', 'Mina', 'Iloilo', '6', '330-2904', '09847637822', 0x6173736574732f75706c6f6164732f426f6c697661725f526567697374726174696f6e2e706466, 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 1),
+(20, 2, 'Puga Funeral ', 'At Puga Funeral Business, our mission is to guide you through the intricate process of saying goodbye to a cherished family member or friend. We offer a range of comprehensive funeral services designed to meet the diverse needs of our community, blending traditional values with contemporary approaches.', 'Funeral Services', '', '', '', 'Mina', 'Iloilo', '6', '330-2904', '09847637822', 0x6173736574732f75706c6f6164732f426f6c697661725f526567697374726174696f6e2e706466, 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 1),
 (21, 2, 'Jireh\nPhotography', '', 'Photography', '20', 'JEREOS', 'Jereos', 'ILOILO CITY ', 'ILOILO', '6', '330-6753', '097543256786', 0x6173736574732f75706c6f6164732f426f6c697661725f526567697374726174696f6e2e706466, '', 1);
 
 -- --------------------------------------------------------
@@ -149,7 +149,7 @@ CREATE TABLE `business_owner` (
 --
 
 INSERT INTO `business_owner` (`ownerID`, `fname`, `lname`, `birthday`, `email`, `verification_code`, `number`, `ownerAddress`, `username`, `password`, `usertype`, `status`, `created`, `updated`) VALUES
-(2, 'Alisah Mae', 'Bolivar', '0001-01-07', 'bvrlisah@gmail.com', '', '09452781051', '28 Dayot Subdivision Jereos Street La Paz, Iloilo City', 'Owner', '827ccb0eea8a706c4c34a16891f84e7b', 'business owner', 1, '2023-10-26 09:03:03', '2023-10-26 09:03:03');
+(2, 'Alisah', 'Bolivar', '0001-01-07', 'bvrlisah@gmail.com', '', '09452781051', '28 Dayot Subdivision Jereos Street La Paz, Iloilo City', 'Owner', '827ccb0eea8a706c4c34a16891f84e7b', 'business owner', 1, '2023-10-26 09:03:03', '2023-10-26 09:03:03');
 
 -- --------------------------------------------------------
 
@@ -199,7 +199,7 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`clientID`, `fname`, `lname`, `birthday`, `email`, `number`, `ownerAddress`, `username`, `password`, `usertype`, `status`, `created`, `updated`) VALUES
-(2, 'Jireh  Antonette', 'Nieves', '2001-12-02', 'jirehsevein@gmail.com', '09452781052', 'Lapuz', 'User', '827ccb0eea8a706c4c34a16891f84e7b', 'client', 1, '2023-10-25 08:59:20', '2023-10-25 08:59:20');
+(2, 'Jireh  Antonette', 'Nieves', '2001-12-02', 'jirehsevein09@gmail.com', '09452781052', 'Lapuz', 'User', '827ccb0eea8a706c4c34a16891f84e7b', 'client', 1, '2023-10-25 08:59:20', '2023-10-25 08:59:20');
 
 -- --------------------------------------------------------
 
@@ -235,7 +235,35 @@ CREATE TABLE `package` (
 --
 
 INSERT INTO `package` (`packCode`, `packName`, `branchCode`) VALUES
-(53, 'Puga Funeral \"Basic Services\"', 31);
+(53, 'Basic Services', 31);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payment`
+--
+
+CREATE TABLE `payment` (
+  `paymentID` int(11) NOT NULL,
+  `clientID` int(11) NOT NULL,
+  `sourceID` varchar(100) NOT NULL,
+  `amount` int(200) NOT NULL,
+  `paymentDate` date DEFAULT current_timestamp(),
+  `businessName` varchar(100) NOT NULL,
+  `itemName` varchar(200) NOT NULL,
+  `paymentMethod` varchar(50) NOT NULL,
+  `status` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `payment`
+--
+
+INSERT INTO `payment` (`paymentID`, `clientID`, `sourceID`, `amount`, `paymentDate`, `businessName`, `itemName`, `paymentMethod`, `status`) VALUES
+(26, 2, 'src_6gCPRP2pYNCiPsn8h9L5KyV3', 98200, '2023-12-13', '', 'Product Name', 'gcash', 'active'),
+(27, 2, 'src_6gCPRP2pYNCiPsn8h9L5KyV3', 98200, '2023-12-13', '', 'Product Name', 'gcash', 'active'),
+(28, 2, 'src_hPsjdikoQhkiZ5Lg7zUPhhNr', 122750, '2023-12-13', '', 'Basic Services', 'gcash', 'active'),
+(29, 2, 'src_hPsjdikoQhkiZ5Lg7zUPhhNr', 122750, '2023-12-13', '', 'Basic Services', 'gcash', 'active');
 
 -- --------------------------------------------------------
 
@@ -287,8 +315,9 @@ CREATE TABLE `voucher` (
 --
 
 INSERT INTO `voucher` (`voucherID`, `businessCode`, `code`, `discount`, `startDate`, `endDate`, `cond`) VALUES
-(64, 20, 'PugaBasic10', 10, '2023-12-05', '2023-12-25', '1000'),
-(70, 21, 'Jireh10', 20, '2023-12-05', '2023-12-31', '2000');
+(64, 20, 'Basic10', 10, '2023-12-05', '2023-12-25', '1000'),
+(70, 20, 'Basic20', 20, '2023-12-05', '2023-12-31', '2000'),
+(203, 20, 'Basic 5', 5, '2023-12-04', '2023-12-31', '3000');
 
 --
 -- Indexes for dumped tables
@@ -352,6 +381,12 @@ ALTER TABLE `custom_package`
 ALTER TABLE `package`
   ADD PRIMARY KEY (`packCode`),
   ADD KEY `branchCode` (`branchCode`);
+
+--
+-- Indexes for table `payment`
+--
+ALTER TABLE `payment`
+  ADD PRIMARY KEY (`paymentID`);
 
 --
 -- Indexes for table `service`
@@ -425,6 +460,12 @@ ALTER TABLE `package`
   MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
+-- AUTO_INCREMENT for table `payment`
+--
+ALTER TABLE `payment`
+  MODIFY `paymentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
 -- AUTO_INCREMENT for table `service`
 --
 ALTER TABLE `service`
@@ -434,7 +475,7 @@ ALTER TABLE `service`
 -- AUTO_INCREMENT for table `voucher`
 --
 ALTER TABLE `voucher`
-  MODIFY `voucherID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
+  MODIFY `voucherID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=204;
 
 --
 -- Constraints for dumped tables

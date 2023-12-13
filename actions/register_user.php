@@ -13,7 +13,7 @@ use PHPMailer\PHPMailer\Exception;
 if (isset($_POST['data'])) {
     $email = $_POST["data"]["email"];
     $_POST['data']['password'] = md5($_POST['data']['password']);
-    $verification_code = md5(uniqid(rand(), true));
+    $verification_code = sprintf('%06d', mt_rand(0, 999999));
    
     $allowedUsertypes = ['client', 'business owner'];
     if (in_array($_POST['data']['usertype'], $allowedUsertypes)) {

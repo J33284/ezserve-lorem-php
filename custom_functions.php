@@ -1,15 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Custom Functions
-|--------------------------------------------------------------------------
-|
-| Here is where you can add all customize functions for your web application. These
-| customize functions are connected within corresponding "actions" which
-| assigned in every "pages" group. Now create more custom functions!
-|
-*/
 
 if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' );
 

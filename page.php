@@ -13,4 +13,3 @@ if( isset( $_GET[ 'page' ] ) && !empty( $_GET[ 'page' ] ) ) {
   require ROOT_DIR . '/pages/default.php';
 }
 
-//require ROOT_DIR . DS . 'pages' . DS . get_page() . '.php';

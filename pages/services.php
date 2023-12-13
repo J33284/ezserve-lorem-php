@@ -11,11 +11,9 @@ if (isset($_POST['keyword'])) {
 
   $sql = "SELECT * FROM business WHERE status = 1 AND (busName COLLATE utf8mb4_unicode_ci LIKE '%$keyword%' OR busType COLLATE utf8mb4_unicode_ci LIKE '%$keyword%')";
 
-  // Execute the query
   $results = $DB->query($sql);
 }
 else {
-  // If no keyword is entered, show all businesses
   $results = $businesses;
 }
 
@@ -39,7 +37,6 @@ else {
       <?php foreach ($results as $business): ?>
         <div class="card flex-row shadow-sm p-3 mb-5 bg-white rounded" style="width: 85vw;">
           <?php
-          // Check if the business has an image
           $imagePath = !empty($business['busImage']) ? $business['busImage'] : 'assets/images/default.jpg';
           ?>
           <img class="card-img" src="<?= $imagePath ?>" alt="Card image cap">
@@ -68,7 +65,6 @@ else {
 const searchButton = document.getElementById('search-button');
 
 searchButton.addEventListener('click', function() {
-  // Submit the form when the search button is clicked
   document.getElementById('searchbar').submit();
 });
 

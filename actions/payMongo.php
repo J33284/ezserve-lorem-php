@@ -10,6 +10,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['clientName'];
     $email = $_POST['email'];
     $phone = $_POST['mobileNumber'];
+    $name = $_POST['packName'];
+    $businessCode = $_POST['businessCode'];
+
+    $_SESSION['businessName'] = ($result = $DB->query("SELECT busName FROM business WHERE businessCode = '$businessCode'")) ? $result->fetch_assoc()['businesbussName'] : null;
 
     $checkoutData = [
         'data' => [
@@ -25,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     [
                         'amount' => $amount * 100, 
                         'currency' => 'PHP',
-                        'name' => 'Product Name',
+                        'name' => $name,
                         'quantity' => 1,
                     ],
                 ],

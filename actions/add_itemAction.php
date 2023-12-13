@@ -1,9 +1,9 @@
 <?php
-// Include database connection and any necessary configurations
+
 global $DB;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve and sanitize form data
+  
     $branchCode = isset($_POST['branchcode']) ? $_POST['branchcode'] : '';
     $packCode = isset($_POST['packagecode']) ? $_POST['packagecode'] : '';
     $categoryName = $_POST["categoryName"];
@@ -16,33 +16,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $price = $_POST["price"];
 
     try {
-        // Start a database transaction
+       
         $DB->begin_transaction();
 
-        // Insert into category table
         $stmt = $DB->prepare("INSERT INTO category (packCode, categoryName) VALUES (?, ?)");
         $stmt->bind_param("ss", $packCode, $categoryName);
         $stmt->execute();
         
-        // Get the auto-incremented categoryCode
+        
         $categoryCode = $DB->insert_id;
 
-        // Insert into service table
+
         $stmt = $DB->prepare("INSERT INTO service (categoryCode, serviceName, Description, quantity, unit, color, size, price) VALUES (?, ?, ?, ?, ?, ?,?,?)");
         $stmt->bind_param("ssssssss", $categoryCode, $serviceName, $Description, $quantity, $unit, $color, $size, $price);
         $stmt->execute();
 
-        // Commit the transaction if all queries were successful
+      
         $DB->commit();
 
-        // Set a flag for successful insertion
         $insertionSuccess = true;
 
     } catch (Exception $e) {
-        // Rollback the transaction if any query fails
+     
         $DB->rollback();
 
-        // Set the flag for unsuccessful insertion
+
         $insertionSuccess = false;
 
         // Output the error message

@@ -14,3 +14,4 @@ if (isset($_REQUEST['action'])) {
         // ...
     }
 }
+?>

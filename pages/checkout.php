@@ -145,7 +145,6 @@ $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] 
                         // Calculate total for the current item and add to grand total
                         $total = $packageDetails['quantity'] * $packageDetails['price'];
                         $grandTotal += $total;
-                        
                         if (isset($discountedTotal) && is_numeric($discountedTotal)) {
                             // Update total to discounted total
                             $grandTotal = $discountedTotal;
@@ -171,6 +170,8 @@ $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] 
                 <input type="hidden" name="clientName"  value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>">
                 <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">
                 <input type="hidden" name="email" value="<?= $clientInfo['email'] ?>" >
+                <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
+                <input type="hidden" name="packName" value="<?= $packName['packName'] ?>" >
                 <input type="hidden" name="grandTotal" value="<?= $grandTotal ?>">
                 <button type="submit" class="btn btn-primary" style="width:100%">
                     Place Order
