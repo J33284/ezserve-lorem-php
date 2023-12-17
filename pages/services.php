@@ -1,3 +1,5 @@
+
+<head><title>Services</title></head>
 <?php
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
