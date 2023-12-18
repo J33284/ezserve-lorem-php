@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <!--main local css-->
     <link href="./assets/view.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="assets/images/webworks-logo.png">
     
   </head>
 <body>
