@@ -21,44 +21,53 @@ else {
 
 <?= element('header') ?>
 <div class="h-100">
-<div class="search container-fluid align-items-center justify-content-between">
+  <div class="search container-fluid align-items-center justify-content-between">
 
-  <div class="search-header py-5">
-    <form id="searchbar" class="d-flex justify-content-center" method="post">
-      <input type="text" class="form-control rounded" placeholder="Search" name="keyword" value="<?= $keyword ?>" />
-      <button type="button" class="btn btn-primary" id="search-button" data-mdb-ripple-init>
-        <i class="bi bi-search"></i>
-      </button>
-    </form>
-  </div>
+    <div class="search-header py-5">
+      <form id="searchbar" class="d-flex justify-content-center" method="post">
+        <input type="text" class="form-control rounded" placeholder="Search" name="keyword" value="<?= $keyword ?>" />
+        <button type="button" class="btn btn-primary" id="search-button" data-mdb-ripple-init>
+          <i class="bi bi-search"></i>
+        </button>
+      </form>
+    </div>
 
-  <?php if (!empty($results)): ?>
-    <div class="mx-5 p-5">
-      <?php foreach ($results as $business): ?>
-        <div class="card flex-row shadow-sm p-3 mb-5 bg-white rounded" style="width: 85vw;">
-          <?php
-          $imagePath = !empty($business['busImage']) ? $business['busImage'] : 'assets/images/default.jpg';
-          ?>
-          <img class="card-img" src="<?= $imagePath ?>" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title"><?= $business['busName'] ?></h5>
-            <p class="card-text"><?= $business['city_municipality'] . ' ' . $business['province'] ?></p>
-            <form action="?page=client_business_details&businessCode=<?= $business['businessCode'] ?>" method="post">
-              <input type="hidden" name="businessCode" value="<?= $business['businessCode'] ?>">
-              <button type="submit" class="btn btn-primary view-business">View</button>
-            </form>
-          </div>
+    <?php if (!empty($results)): ?>
+      <div class="service-wrap mx-5 p-5">
+        <div class="row">
+          <?php $cardCount = 0; ?>
+          <?php foreach ($results as $business): ?>
+            <?php $cardCount++; ?>
+            <div class="col-md-3 mb-4">
+              <div class="card shadow-sm p-3 mb-5 bg-white bg-opacity-75" style="width: 100%; height: 50vh">
+                <?php
+                $imagePath = !empty($business['busImage']) ? $business['busImage'] : 'assets/images/default.jpg';
+                ?>
+                <img class="card-img-top rounded-3 img-fluid"  src="<?= $imagePath ?>" alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title"><?= $business['busName'] ?></h5>
+                  <p class="card-text"><?= $business['city_municipality'] . ' ' . $business['province'] ?></p>
+                  <form action="?page=client_business_details&businessCode=<?= $business['businessCode'] ?>" method="post">
+                    <input type="hidden" name="businessCode" value="<?= $business['businessCode'] ?>">
+                    <button type="submit" class="btn btn-primary view-business">View</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <?php if ($cardCount % 4 === 0): ?>
+              </div><div class="row">
+            <?php endif; ?>
+          <?php endforeach; ?>
         </div>
-      <?php endforeach; ?>
-    </div>
-  <?php else: ?>
-    <div style="height: 100vh">
-      <p class="text-light p-5">No results found for your search term: "<?= $keyword ?>"</p>
-    </div>
-  <?php endif; ?>
+      </div>
+    <?php else: ?>
+      <div style="height: 100vh">
+        <p class="text-light p-5">No results found for your search term: "<?= $keyword ?>"</p>
+      </div>
+    <?php endif; ?>
 
-</div>
   </div>
+</div>
 
 <script>
 const searchButton = document.getElementById('search-button');
