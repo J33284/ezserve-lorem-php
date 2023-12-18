@@ -112,17 +112,18 @@ header{
  /* home page */
 
 .bg-image{
-  padding: 20vh 0 20vh 0;
-  background-image: url(images/online-business.JPG);
+  
+  background-image: url(images/nordwood-themes-EZSm8xRjnX0-unsplash.jpg);
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size:cover;
+  height: 100vh;
 }
 
 .home-quote h1{
   color: #fb7e00;
   font-family: "Arvo";
 }
-footer p, .home-quote a span{
+footer p{
     color:#ffff;
     font-size: 16px;
   
