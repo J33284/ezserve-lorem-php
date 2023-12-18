@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 13, 2023 at 02:55 AM
+-- Generation Time: Dec 18, 2023 at 05:41 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -43,7 +43,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`adminID`, `email`, `username`, `password`, `usertype`, `status`, `created`, `updated`) VALUES
-(1, 'bvrlisah@gmail.com', 'admin', '827ccb0eea8a706c4c34a16891f84e7b', 'admin', 1, '2023-10-26 21:01:34', '2023-10-26 21:01:34');
+(1, 'bvrlisah@gmail.com', 'Admin', '827ccb0eea8a706c4c34a16891f84e7b', 'admin', 1, '2023-10-26 21:01:34', '2023-10-26 21:01:34');
 
 -- --------------------------------------------------------
 
@@ -59,13 +59,6 @@ CREATE TABLE `branches` (
   `coordinates` varchar(100) NOT NULL,
   `branchImage` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `branches`
---
-
-INSERT INTO `branches` (`branchCode`, `businessCode`, `branchName`, `address`, `coordinates`, `branchImage`) VALUES
-(31, 20, 'Mina Branch', 'Mina Province', '10.718841588703297, 122.55887657403949', 0x6173736574732f75706c6f6164732f6272616e636865732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567);
 
 -- --------------------------------------------------------
 
@@ -91,14 +84,6 @@ CREATE TABLE `business` (
   `busImage` longblob NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `business`
---
-
-INSERT INTO `business` (`businessCode`, `ownerID`, `busName`, `about`, `busType`, `house_building`, `street`, `barangay`, `city_municipality`, `province`, `region`, `phone`, `mobile`, `permits`, `busImage`, `status`) VALUES
-(20, 2, 'Puga Funeral ', 'At Puga Funeral Business, our mission is to guide you through the intricate process of saying goodbye to a cherished family member or friend. We offer a range of comprehensive funeral services designed to meet the diverse needs of our community, blending traditional values with contemporary approaches.', 'Funeral Services', '', '', '', 'Mina', 'Iloilo', '6', '330-2904', '09847637822', 0x6173736574732f75706c6f6164732f426f6c697661725f526567697374726174696f6e2e706466, 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 1),
-(21, 2, 'Jireh\nPhotography', '', 'Photography', '20', 'JEREOS', 'Jereos', 'ILOILO CITY ', 'ILOILO', '6', '330-6753', '097543256786', 0x6173736574732f75706c6f6164732f426f6c697661725f526567697374726174696f6e2e706466, '', 1);
 
 -- --------------------------------------------------------
 
@@ -149,7 +134,7 @@ CREATE TABLE `business_owner` (
 --
 
 INSERT INTO `business_owner` (`ownerID`, `fname`, `lname`, `birthday`, `email`, `verification_code`, `number`, `ownerAddress`, `username`, `password`, `usertype`, `status`, `created`, `updated`) VALUES
-(2, 'Alisah', 'Bolivar', '0001-01-07', 'bvrlisah@gmail.com', '', '09452781051', '28 Dayot Subdivision Jereos Street La Paz, Iloilo City', 'Owner', '827ccb0eea8a706c4c34a16891f84e7b', 'business owner', 1, '2023-10-26 09:03:03', '2023-10-26 09:03:03');
+(28, 'Jose ', 'Puga', '1985-10-21', 'bvrlisah@gmail.com', '025232', '09452781051', '', 'JosePuga', '$argon2i$v=19$m=65536,t=4,p=1$dlYzVWM3ZTB6WHlZMjRkWQ$uXqRlJ7A6I70lW8qQnKYcYYzWPRRsc4LhSqouUXAgDU', 'business owner', 1, '2023-12-18 01:51:48', '2023-12-18 01:51:48');
 
 -- --------------------------------------------------------
 
@@ -163,15 +148,6 @@ CREATE TABLE `category` (
   `categoryName` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `category`
---
-
-INSERT INTO `category` (`categoryCode`, `packCode`, `categoryName`) VALUES
-(62, 53, 'Casket'),
-(63, 53, 'Flowers'),
-(64, 53, 'Stationary');
-
 -- --------------------------------------------------------
 
 --
@@ -184,6 +160,7 @@ CREATE TABLE `client` (
   `lname` varchar(50) NOT NULL,
   `birthday` date NOT NULL,
   `email` varchar(50) NOT NULL,
+  `verification_code` int(100) NOT NULL,
   `number` varchar(30) NOT NULL,
   `ownerAddress` varchar(255) NOT NULL,
   `username` varchar(100) NOT NULL,
@@ -198,8 +175,8 @@ CREATE TABLE `client` (
 -- Dumping data for table `client`
 --
 
-INSERT INTO `client` (`clientID`, `fname`, `lname`, `birthday`, `email`, `number`, `ownerAddress`, `username`, `password`, `usertype`, `status`, `created`, `updated`) VALUES
-(2, 'Jireh  Antonette', 'Nieves', '2001-12-02', 'jirehsevein09@gmail.com', '09452781052', 'Lapuz', 'User', '827ccb0eea8a706c4c34a16891f84e7b', 'client', 1, '2023-10-25 08:59:20', '2023-10-25 08:59:20');
+INSERT INTO `client` (`clientID`, `fname`, `lname`, `birthday`, `email`, `verification_code`, `number`, `ownerAddress`, `username`, `password`, `usertype`, `status`, `created`, `updated`) VALUES
+(15, 'Jireh', 'Nieves', '2001-02-13', 'bvrlisah@gmail.com', 558955, '09452781051', '', 'Jireh', '$argon2i$v=19$m=65536,t=4,p=1$dnRva3NXSXZkMzRIeGZELw$psmL3JC0LIOnWT+8hezkEwc2QkQlXNoZTR0kfKTvE80', 'client', 1, '2023-12-17 16:55:20', '2023-12-17 16:55:20');
 
 -- --------------------------------------------------------
 
@@ -230,13 +207,6 @@ CREATE TABLE `package` (
   `branchCode` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `package`
---
-
-INSERT INTO `package` (`packCode`, `packName`, `branchCode`) VALUES
-(53, 'Basic Services', 31);
-
 -- --------------------------------------------------------
 
 --
@@ -254,16 +224,6 @@ CREATE TABLE `payment` (
   `paymentMethod` varchar(50) NOT NULL,
   `status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `payment`
---
-
-INSERT INTO `payment` (`paymentID`, `clientID`, `sourceID`, `amount`, `paymentDate`, `businessName`, `itemName`, `paymentMethod`, `status`) VALUES
-(26, 2, 'src_6gCPRP2pYNCiPsn8h9L5KyV3', 98200, '2023-12-13', '', 'Product Name', 'gcash', 'active'),
-(27, 2, 'src_6gCPRP2pYNCiPsn8h9L5KyV3', 98200, '2023-12-13', '', 'Product Name', 'gcash', 'active'),
-(28, 2, 'src_hPsjdikoQhkiZ5Lg7zUPhhNr', 122750, '2023-12-13', '', 'Basic Services', 'gcash', 'active'),
-(29, 2, 'src_hPsjdikoQhkiZ5Lg7zUPhhNr', 122750, '2023-12-13', '', 'Basic Services', 'gcash', 'active');
 
 -- --------------------------------------------------------
 
@@ -285,15 +245,6 @@ CREATE TABLE `service` (
   `itemImage` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `service`
---
-
-INSERT INTO `service` (`serviceCode`, `categoryCode`, `serviceName`, `Description`, `quantity`, `unit`, `size`, `color`, `price`, `stocks`, `itemImage`) VALUES
-(50, 62, 'Premium Casket', 'Solid mahogany casket with satin interior', 1, 'units', 'Standard', 'Mahogany Brown', 120000, 0, ''),
-(51, 63, 'Floral Arrangement', 'White lilies and roses bouquet', 1, 'set', 'Standard', 'White', 2000, 0, ''),
-(52, 64, 'Memorial Cards', 'Customized cards with the deceased\'s details', 50, 'set', 'Standard', 'Ivory', 15, 0, '');
-
 -- --------------------------------------------------------
 
 --
@@ -309,15 +260,6 @@ CREATE TABLE `voucher` (
   `endDate` date NOT NULL,
   `cond` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `voucher`
---
-
-INSERT INTO `voucher` (`voucherID`, `businessCode`, `code`, `discount`, `startDate`, `endDate`, `cond`) VALUES
-(64, 20, 'Basic10', 10, '2023-12-05', '2023-12-25', '1000'),
-(70, 20, 'Basic20', 20, '2023-12-05', '2023-12-31', '2000'),
-(203, 20, 'Basic 5', 5, '2023-12-04', '2023-12-31', '3000');
 
 --
 -- Indexes for dumped tables
@@ -433,7 +375,7 @@ ALTER TABLE `businesstypes`
 -- AUTO_INCREMENT for table `business_owner`
 --
 ALTER TABLE `business_owner`
-  MODIFY `ownerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `ownerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -445,7 +387,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-  MODIFY `clientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `clientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `custom_package`
@@ -463,7 +405,7 @@ ALTER TABLE `package`
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `paymentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `paymentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `service`

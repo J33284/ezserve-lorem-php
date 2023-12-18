@@ -33,6 +33,20 @@
             <li><a href="<?php echo SITE_URL ?>/?page=default">Home</a></li>
             <li><a href="<?php echo SITE_URL ?>/?page=services">Service</a></li>
             <li><a href="<?php echo SITE_URL ?>/?page=about">About</a></li>
+            
+            <?php if (empty($_SESSION[AUTH_TYPE])) { ?>
+                <span class="guest">Guest</span>
+            <?php }elseif ($_SESSION[AUTH_TYPE] === 'client') { ?>
+                <span class="client">Client: </span>
+            <?php } elseif ($_SESSION[AUTH_TYPE] === 'business owner') { ?>
+                <span class="business_owner">Business Owner: </span>
+            <?php } ?>
+
+            <?php if (empty($_SESSION[AUTH_NAME])) { ?>
+                <span class="guest"></span>
+            <?php }else { ?>
+            <span class="username"><?php echo $_SESSION[AUTH_NAME]; ?></span>
+            <?php } ?>
 
             <?php if (isset($_SESSION[AUTH_ID])) { ?>
             <li class="dropdown">
@@ -52,7 +66,6 @@
                 </ul>
             </li>
 
-            <span class="username"><?php echo $_SESSION[AUTH_NAME]; ?></span>
     
         <?php } else { ?>
             <a class="" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
