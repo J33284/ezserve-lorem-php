@@ -40,13 +40,28 @@ $result = $DB->query($sql);
                     <?php $count = 1; ?>
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <tr>
+<<<<<<< HEAD
                             <th scope="row" class="bg-transparent border border-white"><?= $count++ ?></th>
                             <td class="bg-transparent border border-white d-flex justify-content-between ">
                                 <div class="view-business d-flex justify-content-center align-items-center" data-businesscode="<?= $row['businessCode'] ?>">
+=======
+                            <th scope="row"><?= $count++ ?></th>
+                            <td>
+                                <div class="view-business">
+>>>>>>> be5d29adf8a12d88ae641adbf194391d01532cfa
                                     <?= $row['busName'] ?>
                                 
                                 </div>
+<<<<<<< HEAD
                                 <a href="?page=branches&businesscode=<?= $row['businessCode'] ?>" class="btn btn-primary mx-5" >View</a>
+=======
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                <a href="?page=branches&ownerID=<?=$ownerID?>&businesscode=<?= $row['businessCode'] ?>" class="btn btn-primary" >View</a>
+
+                                </div>
+>>>>>>> be5d29adf8a12d88ae641adbf194391d01532cfa
                             </td>
                         </tr>
                     <?php endwhile; ?>

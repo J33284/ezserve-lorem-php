@@ -99,8 +99,6 @@ function previewAddBranch(input) {
     }
 }
 
-
-
 function toggleViewBranch(event) {
     const button = event.currentTarget;
     const businessCode = button.getAttribute("data-businesscode");
