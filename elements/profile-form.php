@@ -15,8 +15,8 @@ $ownerAddress = $userData->ownerAddress;
 <script src="assets/js/script.js"></script>
 <div id="profile" class="profile">
   <div class="d-flex justify-content-between p-3">
-    <h1 class="text-light">My Profile</h1>
-    <a href="#" class="btn-edit btn-lg float-end mt-4 text-light" onclick="toggleEdit()">
+    <h1 >My Profile</h1>
+    <a href="#" class="btn-edit btn-lg float-end mt-4 " onclick="toggleEdit()">
       <i id="pencilIcon" class="bi bi-pencil-fill"></i>
     </a>
   </div>
@@ -27,37 +27,37 @@ $ownerAddress = $userData->ownerAddress;
         <div class="form">
             <div class="row g-3">
                 <div class="mb-2">
-                    <label class="mb-2 text-light" for="fname">First Name</label>
+                    <label class="mb-2 " for="fname">First Name</label>
                     <input type="text" class="form-control" name="fname" id="fname" placeholder="First Name" required readonly
                         value="<?php echo $fname; ?>">
                 </div>
                 <div class="mb-2">
-                    <label class="mb-2 text-light" for="lname">Last Name</label>
+                    <label class="mb-2 " for="lname">Last Name</label>
                     <input type="text" class="form-control" name="lname" id="lname" placeholder="Last Name" required readonly
                         value="<?php echo $lname; ?>">
                 </div>
                 <div class="mb-2">
-                    <label class="mb-2 text-light" for="birthday">Birthday</label>
+                    <label class="mb-2 " for="birthday">Birthday</label>
                     <input type="date" class="date form-control" name="birthday" id="birthday" placeholder="Birthday" required readonly
                         value="<?php echo $birthday; ?>">
                 </div>
                 <div class="mb-2">
-                    <label class="mb-2 text-light" for="email">Email Address</label>
+                    <label class="mb-2 " for="email">Email Address</label>
                     <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" required readonly
                         value="<?php echo $email; ?>">
                 </div>
                 <div class="mb-2">
-                    <label class="mb-2 text-light" for="number">Mobile Number</label>
+                    <label class="mb-2 " for="number">Mobile Number</label>
                     <input type="text" class="form-control" name="number" id="number" placeholder="Mobile Number" required readonly
                         value="<?php echo $number; ?>">
                 </div>
                 <div class="mb-2">
-                    <label class="mb-2 text-light" for="username">Username</label>
+                    <label class="mb-2 " for="username">Username</label>
                     <input type="text" class="form-control" name="username" id="username" placeholder="Username" required readonly
                         value="<?php echo $username; ?>">
                 </div>
                 <div class="mb-2">
-                    <label class="mb-2 text-light" for="ownerAddress">Address</label>
+                    <label class="mb-2 " for="ownerAddress">Address</label>
                     <input type="text" class="form-control" name="ownerAddress" id="ownerAddress" placeholder="Address"  readonly
                         value="<?php echo $ownerAddress; ?>">
                 </div>

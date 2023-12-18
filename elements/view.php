@@ -1,7 +1,7 @@
 
 <div class="bg-image row  justify-content-center align-items-center">
         <div class="col-1"></div>
-        <div class="home-quote  col-lg-5 col-sm-8 justify-content-center align-items-center p-5 border-2 h-auto rounded-4 bg-opacity-10 bg-white">
+        <div class="home-quote w-50 mt-5 justify-content-center align-items-center p-5  ">
           <h1>Welcome To WebWorks! </h1>
           <br>
           <p class="lh-base text-justify"> Get ready to embark on a journey of discovery as you explore our extensive range of services. We've got it all whether you're seeking convenience, creativity, or expertise. Take your time, dive in, and uncover the possibilities that await. Your one-stop destination for all your service needs is right here. Start exploring today and experience the endless opportunities that await you!</p>
