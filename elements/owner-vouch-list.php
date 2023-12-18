@@ -18,14 +18,14 @@ $vouchers = $DB->query($queryVouchers);
 
 <div id="vouch-list" class="vouch-list" style="width: 75vw; margin: 100px 0px 0px 300px; height: 100vh;">
   <div class="d-flex justify-content-between p-3">
-    <h1 class="text-light">Vouchers</h1>
+    <h1 >Vouchers</h1>
   </div>
   <br>
 
   <div class="voucher-tbl" style="height: 80vh; overflow-y: auto;">
     <form id="voucherForm" action="?action=save_voucher" method="post">
-      <table id="voucherTable" class="table table-hover table-responsive">
-        <thead  style="border-bottom: 3px solid #FFA500;">
+      <table id="voucherTable" class="table table-hover table-responsive table-bordered">
+        <thead  class="table-dark">
           <tr>
             <th scope="col">Business Name</th>
             <th scope="col" style="border-right: 1px solid #ddd;">Voucher Code</th>
@@ -39,13 +39,13 @@ $vouchers = $DB->query($queryVouchers);
         <tbody>
           <?php foreach ($vouchers as $voucher) : ?>
             <tr>
-              <td><?= $voucher['busName'] ?></td>
-              <td><?= $voucher['code'] ?></td>
-              <td>₱<?= number_format($voucher['cond']) ?></td>
-              <td><?= $voucher['discount'] ?>%</td>
-              <td><?= $voucher['startDate'] ?></td>
-              <td><?= $voucher['endDate'] ?></td>
-              <td>
+              <td class="bg-transparent border border-white"><?= $voucher['busName'] ?></td>
+              <td class="bg-transparent border border-white"><?= $voucher['code'] ?></td>
+              <td class="bg-transparent border border-white">₱<?= number_format($voucher['cond']) ?></td>
+              <td class="bg-transparent border border-white"><?= $voucher['discount'] ?>%</td>
+              <td class="bg-transparent border border-white"><?= $voucher['startDate'] ?></td>
+              <td class="bg-transparent border border-white"><?= $voucher['endDate'] ?></td>
+              <td class="bg-transparent border border-white">
                 <button class="btn btn-sm btn-warning btn-edit" data-voucher-id="<?= $voucher['voucherID'] ?>">
                   Edit
                 </button>
@@ -67,16 +67,17 @@ $vouchers = $DB->query($queryVouchers);
                 <?php endforeach; ?>
               </select>
             </td>
-            <td><input type="text" name="newVoucherCode" required></td>
-            <td><input type="text" name="newCondition" required></td>
-            <td><input type="text" name="newDiscount" required></td>
-            <td><input type="date" name="newStartDate" required></td>
-            <td><input type="date" name="newEndDate" required></td>
+            <td class="bg-transparent border border-white"><input type="text" name="newVoucherCode" required></td>
+            <td class="bg-transparent border border-white"><input type="text" name="newCondition" required></td>
+            <td class="bg-transparent border border-white"><input type="text" name="newDiscount" required></td>
+            <td class="bg-transparent border border-white"><input type="date" name="newStartDate" required></td>
+            <td class="bg-transparent border border-white"><input type="date" name="newEndDate" required></td>
           </tr>
         </tbody>
       </table>
       <button id="addRowBtn" class="btn btn-primary mt-3">Add Row</button>
       <button id="saveBtn" class="btn btn-success mt-3" style="display: none;">Save</button>
+      <button id="cancelBtn" class="btn btn-secondary mt-3" style="display: none;">Cancel</button>
     </form>
   </div>
 </div>
@@ -90,6 +91,7 @@ $vouchers = $DB->query($queryVouchers);
 
     document.getElementById("addRowBtn").style.display = "none";
     document.getElementById("saveBtn").style.display = "inline-block";
+    document.getElementById("cancelBtn").style.display = "inline-block";
   });
 
   // Add an event listener to each delete button

@@ -39,14 +39,27 @@
                 <a class="" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class=" profile-logo bi-person-fill"></i>
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul class="dropdown-menu w-auto" aria-labelledby="navbarDropdown">
                     <?php if ($_SESSION[AUTH_TYPE] === 'client') { ?>
-                        <li><a class="dropdown-item" ><?php echo $_SESSION[AUTH_NAME]; ?></a></li>
+                        <div class="d-flex mx-3 justify-content-start align-items-center">
+                        <i class="bi bi-person-circle" style="font-size: 45px"></i>
+                        <h4 class="mt-4 mx-2"><?php echo $_SESSION[AUTH_NAME]; ?></h4>
+                        </div>
+                        <hr class="p-0 m-3">
                         <li><a class="dropdown-item" href="<?php echo SITE_URL ?>/?page=client_profile">Profile</a></li>
                     <?php } elseif ($_SESSION[AUTH_TYPE] === 'business owner') { ?>
-                        <li><a class="dropdown-item" ><?php echo $_SESSION[AUTH_NAME]; ?></a></li>
+                        <div class="d-flex mx-3 justify-content-start align-items-center">
+                        <i class="bi bi-person-circle" style="font-size: 45px"></i>
+                        <h4 class="mt-4 mx-2"><?php echo $_SESSION[AUTH_NAME]; ?></h4>
+                        </div>
+                        <hr class="p-0 m-3">
                         <li><a class="dropdown-item" href="<?php echo SITE_URL ?>/?page=owner_profile">Profile</a></li>
                     <?php } elseif ($_SESSION[AUTH_TYPE] === 'admin') { ?>
+                        <div class="d-flex mx-3 justify-content-start align-items-center">
+                        <i class="bi bi-person-circle" style="font-size: 45px"></i>
+                        <h4 class="mt-4 mx-2"><?php echo $_SESSION[AUTH_NAME]; ?></h4>
+                        </div>
+                        <hr class="p-0 m-3">
                         <li><a class="dropdown-item" href="<?php echo SITE_URL ?>/?page=admin_profile">Profile</a></li>
                     <?php } ?>
 

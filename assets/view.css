@@ -4,7 +4,7 @@
 body{
   font-family: "Lexend exa", Arial;
   overflow-x: hidden;
-  background-image: url(./images/2.jpg);
+  background-image: url(./images/bg-2.png);
   background-repeat: repeat;
   background-size: cover; */  
 }
@@ -26,7 +26,7 @@ h1{
 header{
     background-color: #0f3a4b;
     height: 80px;
-    box-shadow: 0px 3px 8px #031b23;
+    box-shadow: 0px 2px 5px #031b23;
     
   }
   .header-nav{
@@ -86,16 +86,7 @@ header{
   box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
   transition: 0.3s;
   border-radius: 4px;
-  width: 10em;
-  padding: 0px;
-  top: 50px;
   visibility: hidden;
- }
- .dropdown ul li{
-  padding: 10px;
- }
- .dropdown ul li a{
-  color: #161616;
  }
  .user-logo{
   filter: brightness(0) invert(1);
@@ -120,7 +111,7 @@ header{
 }
 
 .home-quote h1{
-  color: #fb7e00;
+  color: #2a93bd;
   font-family: "Arvo";
 }
 footer p{
@@ -274,7 +265,7 @@ a{
 /*profile pages main content*/
 .profile, .purchase, .voucher,
 .own_vouch, .admin-reg, .owner-order-list, .own-bus{
-  margin: 150px 10px 50px 20vw;
+  margin: 120px 10px 50px 20vw;
   width: 75vw;
   scroll-margin-top:100px;
   height: 100vh;
