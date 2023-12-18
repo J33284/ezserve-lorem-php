@@ -15,8 +15,7 @@
         </div>
       </div>
 
-      
-<style>
+  <style>
     @media (max-width: 1100px) {
   .side-nav .nav-item span, h3{
     visibility: hidden;
@@ -37,5 +36,3 @@
   
 
   </style>
-
-  
