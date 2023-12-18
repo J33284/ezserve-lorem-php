@@ -13,9 +13,9 @@
                 <input type="hidden" name="usertype" value="<?= isset($_GET['usertype']) ? $_GET['usertype'] : ''; ?>">
                 <div class="row p-3">
                     <!-- Add any other necessary input fields -->
-                    <input type="text" class="form-control mb-3" name="username" readonly>
-                    <input type="text" class="form-control mb-3" name="verification_code" required
-                        placeholder="Input Verification Code">
+                <input type="text" class="form-control mb-3" name="email" value="<?= isset($_GET['email']) ? $_GET['email'] : ''; ?>" readonly>
+                <input type="text" class="form-control mb-3" name="verification_code" required placeholder="Input Verification Code">
+                
                 </div>
                 <div class="reset-pw p-2">
                     <a href="?page=register">Create New Account</a>

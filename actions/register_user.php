@@ -8,7 +8,11 @@ use PHPMailer\PHPMailer\Exception;
 
 if (isset($_POST['data'])) {
     $email = $_POST["data"]["email"];
-    $_POST['data']['password'] = md5($_POST['data']['password']);
+    //Password Hashing
+    $plainPassword = $_POST['data']['password'];
+    $hashedPassword = password_hash($plainPassword, PASSWORD_ARGON2I);
+    $_POST['data']['password'] = $hashedPassword;
+
     $verification_code = sprintf('%06d', mt_rand(0, 999999));
 
     $allowedUsertypes = ['client', 'business owner'];
@@ -45,8 +49,8 @@ function processVerificationEmail($email, $verification_code) {
 
         $mail->send();
 
-      // Redirect to verification page
-        header("Location: ?page=email_verification&usertype=" . urlencode($usertype));
+    header("Location: ?page=email_verification&usertype=" . urlencode($usertype) . "&email=" . urlencode($email));
+    exit();
 
 
         exit();
@@ -114,6 +118,7 @@ function getEmailBody($verification_code) {
 
 function add_verification_code_to_database($email, $verification_code) {
     global $DB;
+    
     $usertype = $_POST["data"]["usertype"];
 
     if ($usertype === 'client') {
