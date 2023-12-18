@@ -24,7 +24,7 @@ h1{
 }
 /* for header part only */
 header{
-    background-color: #0e313e;
+    background-color: #0f3a4b;
     height: 80px;
     box-shadow: 0px 3px 8px #031b23;
     
@@ -159,7 +159,7 @@ a{
 }
 
 .footer{
-    background-color: #0e313e;
+    background-color: #03151c;
     height: 90px;
     box-shadow: 0px 5px 10px #00171f;
     z-index: 10000;
@@ -232,7 +232,7 @@ a{
   bottom: 0;
   left: 0;
   padding: 50px 0 0; /* Height of navbar */
-  box-shadow: 5px 0 10px -5px #333;
+  box-shadow: 2px 0 10px -5px #333;
   z-index: 600;
   width: 18em;
   
@@ -510,3 +510,4 @@ h1{
   width: 25vw; 
   height: 45vh;
 }
+

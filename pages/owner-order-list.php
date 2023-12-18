@@ -37,5 +37,5 @@
         </table>
       </div> 
 
-<?= element( 'footer' ) ?>
+
         
