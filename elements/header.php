@@ -37,7 +37,11 @@
                 <span class="client">Client: </span>
             <?php } elseif ($_SESSION[AUTH_TYPE] === 'business owner') { ?>
                 <span class="business_owner">Business Owner: </span>
+            <?php } elseif (empty($_SESSION[AUTH_TYPE])) { ?>
+                <span class="guest">Guest: </span>
             <?php } ?>
+
+            
             <span class="username"><?php echo $_SESSION[AUTH_NAME]; ?></span>
 
 
