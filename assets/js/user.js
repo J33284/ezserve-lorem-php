@@ -101,23 +101,6 @@ function previewAddBranch(input) {
 
 
 
-function toggleViewBranch(event) {
-    const button = event.currentTarget;
-    const businessCode = button.getAttribute("data-businesscode");
-    const branchDetails = document.querySelector("#branchDetails" + businessCode);
-    branchDetails.style.display = branchDetails.style.display === "none" ? "block" : "none";
-    
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-    const viewBranchButtons = document.querySelectorAll(".view-branch-button");
-    viewBranchButtons.forEach(button => {
-        button.addEventListener("click", function(event) {
-            toggleViewBranch(event);
-        });
-    });
-});
-
 function toggleEditBranch(branchCode) {
     // Toggle the readonly attribute on input fields
     toggleButtonVisibility(`saveBranch_${branchCode}`);

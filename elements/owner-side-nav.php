@@ -15,17 +15,13 @@
         </div>
       </div>
 
-  <style>
-    @media (max-width: 1000px) {
+      
+<style>
+    @media (max-width: 1100px) {
   .side-nav .nav-item span, h3{
     visibility: hidden;
 
   }
- 
-  }
-  
-  
-@media (max-width: 500px) {
   .side-nav .nav-item span{
     visibility: hidden;
 
@@ -36,6 +32,10 @@
   .side-nav{
     width: 15vw;
   }
+ 
+  }
   
-}
+
   </style>
+
+  

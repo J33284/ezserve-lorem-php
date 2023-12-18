@@ -41,13 +41,13 @@ $result = $DB->query($sql);
                         <tr>
                             <th scope="row"><?= $count++ ?></th>
                             <td>
-                                <div class="view-business" data-businesscode="<?= $row['businessCode'] ?>">
+                                <div class="view-business">
                                     <?= $row['busName'] ?>
                                 </div>
                             </td>
                             <td>
                                 <div class="btn-group">
-                                <a href="?page=branches&businesscode=<?= $row['businessCode'] ?>" class="btn btn-primary" >View</a>
+                                <a href="?page=branches&ownerID=<?=$ownerID?>&businesscode=<?= $row['businessCode'] ?>" class="btn btn-primary" >View</a>
 
                                 </div>
                             </td>
