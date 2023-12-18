@@ -8,13 +8,11 @@
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <?php
-global $DB;
-$businessCode = isset($_GET['businesscode']) ? $_GET['businesscode'] : '';
 $ownerID = $_SESSION['userID'];
 
-// Ensure $businessCode is properly sanitized to prevent SQL injection
+global $DB;
+$businessCode = isset($_GET['businesscode']) ? $_GET['businesscode'] : '';
 $businessCode = $DB->real_escape_string($businessCode);
-
 $sql = "SELECT * FROM business WHERE ownerID = $ownerID AND businessCode = '$businessCode' AND status = 1";
 $result = $DB->query($sql);
 
