@@ -264,7 +264,7 @@ a{
 }
 /*profile pages main content*/
 .profile, .purchase, .voucher,
-.own_vouch, .admin-reg, .owner-order-list, .own-bus{
+.own_vouch, .admin-reg, .owner-order-list, .own-bus, .admin-users{
   margin: 120px 10px 50px 20vw;
   width: 75vw;
   scroll-margin-top:100px;
