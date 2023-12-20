@@ -12,26 +12,30 @@ $businesses = $DB->query($queryBusiness);
 $queryVouchers = "SELECT *
                   FROM voucher
                   JOIN business ON voucher.businessCode = business.businessCode
+                  LEFT JOIN branches ON branches.businessCode = business.businessCode
                   WHERE business.ownerID = $ownerID";
+
 $vouchers = $DB->query($queryVouchers);
 ?>
 
-<div id="vouch-list" class="vouch-list" style="width: 75vw; margin: 100px 0px 0px 300px; height: 100vh;">
+<div id="vouch-list" class="vouch-list w-95 overflow-auto" style="width: auto; margin: 100px 20px 0px 20%; height: 100vh;">
   <div class="d-flex justify-content-between p-3">
     <h1 >Vouchers</h1>
   </div>
   <br>
 
-  <div class="voucher-tbl" style="height: 80vh; overflow-y: auto;">
+  <div class="voucher-tbl overflow-auto  " >
     <form id="voucherForm" action="?action=save_voucher" method="post">
-      <table id="voucherTable" class="table table-hover table-responsive table-bordered">
+      <table id="voucherTable" class="table table-hover table-responsive table-bordered  " >
         <thead  class="table-dark">
           <tr>
             <th scope="col">Business Name</th>
-            <th scope="col" style="border-right: 1px solid #ddd;">Voucher Code</th>
-            <th scope="col" style="border-right: 1px solid #ddd;">Minimum Spend</th>
-            <th scope="col" style="border-right: 1px solid #ddd;">Discount</th>
-            <th scope="col" style="border-right: 1px solid #ddd;">Start Date</th>
+            <th scope="col">Branch Name</th>
+            <th scope="col">Voucher Code</th>
+            <th scope="col">Condition</th>
+            <th scope="col">Discount Amount</th>
+            <th scope="col">Discount Type</th>
+            <th scope="col">Start Date</th>
             <th scope="col">End Date</th>
             <th scope="col">Actions</th>
           </tr>
@@ -40,12 +44,14 @@ $vouchers = $DB->query($queryVouchers);
           <?php foreach ($vouchers as $voucher) : ?>
             <tr>
               <td class="bg-transparent border border-white"><?= $voucher['busName'] ?></td>
+              <td class="bg-transparent border border-white"><?= $voucher['branchName'] ?></td>
               <td class="bg-transparent border border-white"><?= $voucher['code'] ?></td>
-              <td class="bg-transparent border border-white">₱<?= number_format($voucher['cond']) ?></td>
+              <td class="bg-transparent border border-white">₱<?= number_format($voucher['cond']) ?></td> <!--select option, minimum spend, gift, package-specific-->
               <td class="bg-transparent border border-white"><?= $voucher['discount'] ?>%</td>
+              <td class="bg-transparent border border-white"><?= $voucher['discount'] ?>%</td> <!--select option, percentage, fixed amount -->
               <td class="bg-transparent border border-white"><?= $voucher['startDate'] ?></td>
               <td class="bg-transparent border border-white"><?= $voucher['endDate'] ?></td>
-              <td class="bg-transparent border border-white">
+              <td class="bg-transparent border border-white d-flex">
                 <button class="btn btn-sm btn-warning btn-edit" data-voucher-id="<?= $voucher['voucherID'] ?>">
                   Edit
                 </button>
