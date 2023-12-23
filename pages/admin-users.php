@@ -2,6 +2,29 @@
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
 $accounts = $DB->query("SELECT bo.* FROM business_owner bo WHERE bo.status = 1 ");
+
+$keyword = "";
+$results = [];
+
+if (isset($_POST['keyword'])) {
+    $keyword = $_POST['keyword'];
+
+    $sql = "SELECT b.*, bo.fname, bo.lname
+        FROM business b
+        LEFT JOIN business_owner bo ON b.ownerID = bo.ownerID
+        WHERE b.status = 1
+        AND (
+            b.busName COLLATE utf8mb4_unicode_ci LIKE '%$keyword%'
+            OR b.busType COLLATE utf8mb4_unicode_ci LIKE '%$keyword%'
+            OR bo.fname COLLATE utf8mb4_unicode_ci LIKE '%$keyword%'
+            OR bo.lname COLLATE utf8mb4_unicode_ci LIKE '%$keyword%'
+        )";
+
+    $results = $DB->query($sql);
+} else {
+    $results = $businesses;
+}
+
 ?>
 
 <?= element('header') ?>
@@ -9,9 +32,19 @@ $accounts = $DB->query("SELECT bo.* FROM business_owner bo WHERE bo.status = 1 "
 <?= element('admin-side-nav') ?>
 
 <div id="admin-users" class="admin-users">
-    <div class="d-flex justify-content-between p-3">
+    <div class="d-flex justify-content-between ">
         <h1>Business Owner Accounts</h1>
+
+        <form method="post" action="">
+        <div id="searchbar" class="d-flex my-3 float-end">
+            <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" name="keyword" value="<?= $keyword ?>" />
+            <span class="search-btn input-group-text border-0">
+                <i class="bi bi-search"></i>
+            </span>
+        </div>
+    </form>
     </div>
+    
 
     <div class="overflow-auto" style="height:100vh">
         <table class="table table-hover table-responsive table-bordered" style="border-radius: 10px">
@@ -29,9 +62,41 @@ $accounts = $DB->query("SELECT bo.* FROM business_owner bo WHERE bo.status = 1 "
                             <div class="d-flex justify-content-center align-items-center">
                                 <?= $account['fname'] . ' ' . $account['lname'] ?>
                             </div>
-                            <a href="" class="btn btn-primary mx-5">View</a>
+                            <button class="btn btn-primary mx-5" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccount<?= $account['ownerID'] ?>">View</button>
                         </td>
                     </tr>
+                    <div class="offcanvas offcanvas-top overflow-auto p-3" style="width: 50vw; height: 100vh; margin-left: 25vw;" tabindex="-1" id="offcanvasAccount<?= $account['ownerID'] ?>" data-bs-backdrop="false">
+                    <div class="p-3">
+                        <div class="offcanvas-header p-0">
+                            <h2 class="offcanvas-title" id="offcanvasExampleLabel">Owner's Account Information</h2>
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <hr>
+                        <div>
+                            
+                            <div class="d-flex my-3">
+                                <span class="col-sm-3"> Owner's Name: </span>
+                                <span class="col mx-5 border-bottom"><?= $account['fname'] . ' ' . $account['lname'] ?></span>
+                            </div>
+                            <div class="d-flex my-3">
+                                <span class="col-sm-3"> Owner's Birthday: </span>
+                                <span class="col mx-5 border-bottom"><?= $account['birthday'] ?></span>
+                            </div>
+                            <div class="d-flex my-3">
+                                <span class="col-sm-3"> Owner's Email: </span>
+                                <span class="col mx-5 border-bottom"><?= $account['email'] ?></span>
+                            </div>
+                            <div class="d-flex my-3">
+                                <span class="col-sm-3"> Owner's Number: </span>
+                                <span class="col mx-5 border-bottom"><?= $account['number'] ?></span>
+                            </div>
+                            <div class="d-flex my-3">
+                                <span class="col-sm-3"> Owner's Address: </span>
+                                <span class="col mx-5 border-bottom"><?= $account['ownerAddress'] ?></span>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
                 <?php endforeach; ?>
             </tbody>
         </table>
