@@ -6,5 +6,3 @@
 
 <?= element( 'profile-form' ) ?>    
 
-<?= element( 'footer' ) ?>
-        

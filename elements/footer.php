@@ -1,14 +1,12 @@
 <?php  if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); ?>
-<footer>
-      <div class="container-fluid d-flex justify-content-center align-items-center  "> 
+<footer >
+      <div class="container-fluid d-flex justify-content-center align-items-center sticky-top"> 
         <div class="container">
-          <div class="d-flex">
+          <div class="d-flex justify-content-center align-items-center">
             <img class="logo" src="assets/images/new logo.png">
-            <div>
-              <span>EzServe</span>
-              <hr>
+           
               <p>Your One-stop Online Shop</p>
-            </div>
+            
           </div>
         </div>
       </div>
