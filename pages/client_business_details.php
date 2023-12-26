@@ -49,11 +49,13 @@ $business = $businesses->fetch_assoc();
             <div id="Branches" class="card p-3 shadow p-3 mb-5 bg-white rounded border-0 d-flex" style="width:80vw;">
                 <h2> Branches </h2>
                 <hr>
-                <div id="map" class="card p-3 shadow  mb-5 bg-white rounded border-0" style="width: 78vw; height: 80vh;"></div>
-
+                <div class="d-flex">
+                <div id="map" class=" col shadow  mb-5 bg-white rounded border-0" style="width: 50vw; height: 50vh;"></div>
+                <div class="flex-column">
                 <?php foreach ($businesses as $branch) : ?>
-                    <div class="d-flex justify-content-between align-items-center mx-5">
-                        <h4><?= $branch['branchName'] ?></h4>
+                    <div class=" d-flex mx-5">
+                        
+                        <h4 class="my-3"><?= $branch['branchName'] ?></h4>
                         <form action="?page=client_package&businessCode=<?= $business['businessCode'] ?>&branchCode=<?= $branch['branchCode'] ?>" method="post">
                             <input type="hidden" name="branchCode" value="<?= $branch['branchCode'] ?>">
                             <input type="hidden" name="businessCode" value="<?= $business['businessCode'] ?>">
@@ -61,9 +63,13 @@ $business = $businesses->fetch_assoc();
                                 View
                             </button>
                         </form>
-                    </div>
+                        </div>
+                    
+                    <?php endforeach; ?> 
+                    </div>                   
+                </div>
                     <hr>
-                <?php endforeach; ?>
+                
 
 
 

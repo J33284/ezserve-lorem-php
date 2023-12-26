@@ -136,10 +136,10 @@ if ($branchesQ) {
     
     
     <div class="d-flex justify-content-center align-items-center p-3" style="height: 50vh;">
-          <div class="business-form-background">
-                  <i class="bi bi-plus-square"></i>
+          <div class="card rounded-1 border-0 p-4 flex-row">
+                 <i class="bi bi-exclamation-diamond mx-2 justify-content-center align-items-center d-flex"></i>
                   <span >No Packages Available Yet!!</span>
-              </a>
+            
           </div>
       </div>
   </div>

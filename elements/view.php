@@ -1,9 +1,9 @@
 
 <div class="bg-image row  justify-content-center align-items-center">
         <div class="home-quote w-75 mt-5 py-5 text-center ">
-          <h1 class="text-center">Welcome To WebWorks! </h1>
+          <h1 class="text-center">Welcome To EzServe! </h1>
           <br>
-          <p class="lh-base  "> Get ready to embark on a journey of discovery as you explore our extensive range of services. We've got it all whether you're seeking convenience, creativity, or expertise. Take your time, dive in, and uncover the possibilities that await. Your one-stop destination for all your service needs is right here. Start exploring today and experience the endless opportunities that await you!</p>
+          <p class="lh-lg "> Get ready to embark on a journey of discovery as you explore our extensive range of services. We've got it all whether you're seeking convenience, creativity, or expertise. Take your time, dive in, and uncover the possibilities that await. Your one-stop destination for all your service needs is right here. Start exploring today and experience the endless opportunities that await you!</p>
           <button href="?page=services" type="button" class="btn btn-outline-primary text-center">Explore <i class="bi bi-arrow-right text-black "></i> </button>
           
         </div>

@@ -25,8 +25,8 @@
     <header class="header container-fluid align-items-center justify-content-center fixed-top  ">
     <div class="container header-nav d-flex justify-content-between align-items-center">
         <div class="logo-area">
-            <img class="logo" src="assets/images/webworks-logo(white).png">
-            <span><b>WEBWORKS</b></span>
+            <img class="logo" src="assets/images/new logo.png">
+            
         </div>
         <nav class="d-flex justify-content-between align-items-center">
         <ul class="d-flex align-items-center justify-content-between">
