@@ -1,6 +1,6 @@
 <div class="side-nav card fixed-top  rounded-4 bg-opacity-10 bg-white">
 <?php if (isset($_SESSION[AUTH_ID])) { ?>
-    <?php if ($_SESSION[AUTH_TYPE] === 'admin') { ?>
+    <?php if ($_SESSION[AUTH_TYPE] === 'client') { ?>
       <div class="d-flex mx-3 justify-content-start align-items-center">
         <i class="bi bi-person-circle" style="font-size: 45px"></i>
         <h3 class="mt-4 mx-2"><?php echo $_SESSION[AUTH_NAME]; ?></h3>

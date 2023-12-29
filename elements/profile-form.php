@@ -9,6 +9,9 @@ $number = $userData->number;
 $username = $userData->username;
 $password = $userData->password;
 $ownerAddress = $userData->ownerAddress;
+$profileImage = $userData->profileImage;
+
+
 
 ?>
 
@@ -30,7 +33,7 @@ $ownerAddress = $userData->ownerAddress;
             <div class="row g-3">
                 <div class="d-flex justify-content-center align-items-center mb-2">
                         <div class="rounded-5">
-                        <img id="imageProfile_<?= $branchData[''] ?>" class="imageBranchPreview_<?= $branchData[''] ?>  view-branch-pic rounded-4" src="<?= $branchData[''] ? $branchData[''] : 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg' ?>" alt="Profile Image" >
+                        <img class="rounded-circle shadow p-1 mb-5 bg-white" style="width: 200px;" id="profileImage" alt="Profile Image" src="assets/images/loreto-gabawa-jr.jpg" >
 </div>
                 </div>
                 <div class="mb-3 row">
