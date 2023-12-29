@@ -3,5 +3,4 @@
     <?= element( 'header' ) ?>
     <?= element( 'client-side-nav' ) ?>
     <?= element( 'profile-form' ) ?>
-    <?= element( 'footer' ) ?>
-  
+   

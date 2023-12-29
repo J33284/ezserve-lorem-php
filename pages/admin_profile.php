@@ -35,4 +35,4 @@ $username = $userData->username;
       </div>
     </div>
   </form>
-<?= element('footer') ?>
+
