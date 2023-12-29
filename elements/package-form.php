@@ -3,8 +3,8 @@ global $DB;
 $branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
 $packageQuery = "SELECT * FROM package
 JOIN category ON package.packCode = category.packCode
-JOIN service ON category.categoryCode = service.categoryCode
-WHERE package.branchCode = $branchCode;";
+JOIN items ON category.categoryCode = items.categoryCode
+WHERE package.branchCode = '$branchCode';";
 $packageResult = $DB->query($packageQuery);
 ?>
 

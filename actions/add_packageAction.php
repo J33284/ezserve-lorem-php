@@ -1,68 +1,97 @@
 <?php
-
+// Assuming you have a database connection
 global $DB;
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-    $branchCode = isset($_POST['branchcode']) ? $_POST['branchcode'] : '';
-    $packName = $_POST["packName"];
-    $categoryNames = $_POST["categoryName"];
-    $serviceNames = $_POST["serviceName"];
-    $descriptions = $_POST["Description"];
-    $quantities = $_POST["quantity"];
-    $units = $_POST["unit"];
-    $sizes = $_POST["size"];
-    $colors = $_POST["color"];
-    $prices = $_POST["price"];
+// Function to sanitize input data
+function sanitizeInput($data) {
+    if (is_array($data)) {
+        return array_map('sanitizeInput', $data);
+    } else {
+        return htmlspecialchars(stripslashes(trim($data)));
+    }
+}
 
-    try {
-       
-        $DB->begin_transaction();
+try {
+    // Begin a transaction
+    $DB->begin_transaction();
 
-        $stmt = $DB->prepare("INSERT INTO package (branchCode, packName) VALUES (?, ?)");
-        $stmt->bind_param("ss", $branchCode, $packName);
-        $stmt->execute();
+    // Get package information
+    $packName = sanitizeInput($_POST['packageName'][0]);
+    $packDesc = sanitizeInput($_POST['packageDescription'][0]);
+    $branchCode = $_POST["branchCode"];
 
-        
-        $packCode = $DB->insert_id;
+    // Insert into the 'package' table
+    $sql = "INSERT INTO package (branchCode, packName, packDesc) VALUES (?, ?, ?)";
+    $stmt = $DB->prepare($sql);
+    $stmt->bind_param("sss", $branchCode, $packName, $packDesc);
+    $stmt->execute();
 
-        
-        for ($i = 0; $i < count($categoryNames); $i++) {
-    
-            $stmt = $DB->prepare("INSERT INTO category (packCode, categoryName) VALUES (?, ?)");
-            $stmt->bind_param("ss", $packCode, $categoryNames[$i]);
+    $packCode = $DB->insert_id;
+
+    // Get category information
+    $categories = $_POST['categoryName'];
+
+    foreach ($categories as $categoryIndex => $categoryNames) {
+        // Assuming that the category names are in an array
+        foreach ($categoryNames as $categoryName) {
+            $categoryName = sanitizeInput($categoryName);
+
+            // Insert into the 'category' table
+            $sql = "INSERT INTO category (categoryName, packCode) VALUES (?, ?)";
+            $stmt = $DB->prepare($sql);
+            $stmt->bind_param("si", $categoryName, $packCode);
             $stmt->execute();
 
             $categoryCode = $DB->insert_id;
 
-            $stmt = $DB->prepare("INSERT INTO service (categoryCode, serviceName, Description, color, quantity, unit, size, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssssss", $categoryCode, $serviceNames[$i], $descriptions[$i], $colors[$i], $quantities[$i], $units[$i],  $sizes[$i], $prices[$i]);
-            $stmt->execute();
+            // Get item information
+            $items = $_POST['itemName'][$categoryIndex];
+            $descriptions = $_POST['itemDescription'][$categoryIndex];
+            $quantities = $_POST['quantity'][$categoryIndex];
+            $prices = $_POST['price'][$categoryIndex];
+
+            foreach ($items as $itemIndex => $itemName) {
+                $itemName = sanitizeInput($itemName);
+                $description = sanitizeInput($descriptions[$itemIndex]);
+                $quantity = sanitizeInput($quantities[$itemIndex]);
+                $price = sanitizeInput($prices[$itemIndex]);
+
+                // Insert into the 'items' table
+                $sql = "INSERT INTO items (itemName, description, quantity, price, categoryCode) VALUES (?, ?, ?, ?, ?)";
+                $stmt = $DB->prepare($sql);
+                $stmt->bind_param("ssidi", $itemName, $description, $quantity, $price, $categoryCode);
+                $stmt->execute();
+
+                $itemCode = $DB->insert_id;
+
+                // Get detail information
+                $detailNames = $_POST['detailName'][$categoryIndex][$itemIndex];
+                $detailValues = $_POST['detailValue'][$categoryIndex][$itemIndex];
+
+                foreach ($detailNames as $index => $detailName) {
+                    $detailName = sanitizeInput($detailName);
+                    $detailValue = sanitizeInput($detailValues[$index]);
+
+                    // Insert into the 'item_details' table
+                    $sql = "INSERT INTO item_details (detailName, detailValue, itemCode) VALUES (?, ?, ?)";
+                    $stmt = $DB->prepare($sql);
+                    $stmt->bind_param("ssi", $detailName, $detailValue, $itemCode);
+                    $stmt->execute();
+                }
+            }
         }
-
-       
-        $DB->commit();
-
-    
-        $insertionSuccess = true;
-
-    } catch (Exception $e) {
-     
-        $DB->rollback();
-
-    
-        $insertionSuccess = false;
-
-        echo "Error: " . $e->getMessage();
     }
-}
 
-if ($insertionSuccess) {
-  
-    header('Location: ?page=package&branchcode=' . urlencode($branchCode));
-    exit(); 
-} else {
-  
-    echo "Insertion failed. Please try again.";
+    // Commit the transaction
+    $DB->commit();
+
+    header("Location: ?page=package&branchCode=$branchCode");
+    exit();
+} catch (Exception $e) {
+    // Rollback the transaction in case of an exception
+    $DB->rollback();
+
+    // Handle the exception (you might want to log it or show an error message)
+    echo "Error: " . $e->getMessage();
 }
 ?>

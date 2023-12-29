@@ -97,7 +97,7 @@ $result = $DB->query($sql);
                 ?>
                 
                <!--php if ($branchResult->num_rows > 0): -->
-                <a href="#branch-details" id="ViewBranch" class="btn-view-branches align-items-center justify-content-center view-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleViewBranch(this, event)">
+                <a href="?page=branches&businessCode=<?=$businesscode?>" id="ViewBranch" class="btn-view-branches align-items-center justify-content-center view-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleViewBranch(this, event)">
                     <i class="bi bi-eye"></i>
                     <span>View Branch</span>
                 </a>
