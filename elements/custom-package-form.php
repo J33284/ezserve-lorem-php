@@ -79,16 +79,9 @@ $branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
 <body>
 
 <div class="form-container">
-    <form action="?action=add_packageAction" method="post">
-        <div class="form-group">
-            <h2>Pre-made Package</h2>
+    <form action="?action=add_customPackage" method="post">
+            <h2>Custom-made Package</h2>
             <br>
-            <label for="packageName">PACKAGE INFORMATION</label>
-            <input type="text" id="packageName" name="packageName[]" placeholder="Package Name">
-            <textarea id="packageDescription" name="packageDescription[]" placeholder="Description"></textarea>
-            <input type="hidden" name="branchCode" value="<?=$branchCode?>">
-        </div>
-
         <div class="category-group" data-category="1">
             <div class="form-group">
                 <label for="categoryName">CATEGORY</label>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 18, 2023 at 05:41 AM
+-- Generation Time: Dec 29, 2023 at 12:10 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -60,6 +60,13 @@ CREATE TABLE `branches` (
   `branchImage` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `branches`
+--
+
+INSERT INTO `branches` (`branchCode`, `businessCode`, `branchName`, `address`, `coordinates`, `branchImage`) VALUES
+(32, 22, 'Mina Branch', 'Mina Iloilo ', '10.93052940811921, 122.57529571652414', 0x6173736574732f75706c6f6164732f6272616e636865732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567);
+
 -- --------------------------------------------------------
 
 --
@@ -84,6 +91,14 @@ CREATE TABLE `business` (
   `busImage` longblob NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `business`
+--
+
+INSERT INTO `business` (`businessCode`, `ownerID`, `busName`, `about`, `busType`, `house_building`, `street`, `barangay`, `city_municipality`, `province`, `region`, `phone`, `mobile`, `permits`, `busImage`, `status`) VALUES
+(22, 28, 'Puga Funeral Home', 'In times of loss, finding solace in a compassionate and dedicated funeral home is paramount. At Puga Funeral, we understand the delicate nature of saying farewell to a loved one, and we strive to provide support and comfort when it\'s needed most.', 'Funeral Services', '', '', 'Brgy. Tolicuran', 'Iloilo City', 'Iloilo', '6', '330-39-13', '09831837281', 0x6173736574732f75706c6f6164732f3430303831383438355f3637383239373836343430393538355f333334383734323732383439303230313730375f6e2e6a7067, 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 1),
+(23, 28, 'Puga Photography Services', '', 'Photography', '', '', 'Tolicuran', 'Mina', 'Iloilo ', '6', '320-39-12', '0928372672', 0x6173736574732f75706c6f6164732f3430303831383438355f3637383239373836343430393538355f333334383734323732383439303230313730375f6e2e6a7067, 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 1);
 
 -- --------------------------------------------------------
 
@@ -148,6 +163,15 @@ CREATE TABLE `category` (
   `categoryName` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `category`
+--
+
+INSERT INTO `category` (`categoryCode`, `packCode`, `categoryName`) VALUES
+(103, 95, 'Clothes'),
+(104, 95, 'Flowers'),
+(105, 96, 'Clothes');
+
 -- --------------------------------------------------------
 
 --
@@ -176,7 +200,8 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`clientID`, `fname`, `lname`, `birthday`, `email`, `verification_code`, `number`, `ownerAddress`, `username`, `password`, `usertype`, `status`, `created`, `updated`) VALUES
-(15, 'Jireh', 'Nieves', '2001-02-13', 'bvrlisah@gmail.com', 558955, '09452781051', '', 'Jireh', '$argon2i$v=19$m=65536,t=4,p=1$dnRva3NXSXZkMzRIeGZELw$psmL3JC0LIOnWT+8hezkEwc2QkQlXNoZTR0kfKTvE80', 'client', 1, '2023-12-17 16:55:20', '2023-12-17 16:55:20');
+(15, 'Jireh', 'Nieves', '2001-02-13', 'bvrlisah@gmail.com', 558955, '09452781051', '', 'Jireh', '$argon2i$v=19$m=65536,t=4,p=1$dnRva3NXSXZkMzRIeGZELw$psmL3JC0LIOnWT+8hezkEwc2QkQlXNoZTR0kfKTvE80', 'client', 1, '2023-12-17 16:55:20', '2023-12-17 16:55:20'),
+(16, 'Alisah', 'Mae', '2001-07-01', 'lalalaamb@gmail.com', 255941, '09452781051', '', 'Alisah', '$argon2i$v=19$m=65536,t=4,p=1$TVpKbzgxLnFRTWZmM280Ug$PADQxftI6YM7q8XsGlKk1zq80PE86DTOCMJnSgHsnTQ', 'client', 1, '2023-12-18 04:52:58', '2023-12-18 04:52:58');
 
 -- --------------------------------------------------------
 
@@ -198,14 +223,64 @@ CREATE TABLE `custom_package` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `items`
+--
+
+CREATE TABLE `items` (
+  `itemCode` int(11) NOT NULL,
+  `categoryCode` int(11) NOT NULL,
+  `itemName` varchar(100) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  `quantity` int(100) NOT NULL,
+  `unit` varchar(100) NOT NULL,
+  `price` bigint(255) NOT NULL,
+  `itemImage` longblob NOT NULL,
+  `stocks` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `items`
+--
+
+INSERT INTO `items` (`itemCode`, `categoryCode`, `itemName`, `description`, `quantity`, `unit`, `price`, `itemImage`, `stocks`) VALUES
+(102, 103, 'Barong', 'Barong Tagalog', 1, '', 900, '', 0),
+(103, 103, 'Slacks', 'Black', 1, '', 700, '', 0),
+(104, 104, 'Flowers', 'Pink Lilies', 1, '', 700, '', 0),
+(105, 105, 'Barong', 'Barong Tagalog', 1, '', 600, '', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `item_details`
+--
+
+CREATE TABLE `item_details` (
+  `detailsCode` int(11) NOT NULL,
+  `itemCode` int(11) NOT NULL,
+  `detailName` varchar(200) NOT NULL,
+  `detailValue` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `package`
 --
 
 CREATE TABLE `package` (
   `packCode` int(11) NOT NULL,
+  `branchCode` int(11) NOT NULL,
   `packName` varchar(50) NOT NULL,
-  `branchCode` int(11) NOT NULL
+  `packDesc` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `package`
+--
+
+INSERT INTO `package` (`packCode`, `branchCode`, `packName`, `packDesc`) VALUES
+(95, 32, 'Full Package', 'Full Package Description'),
+(96, 32, 'Basic Package', 'Basic Package Description');
 
 -- --------------------------------------------------------
 
@@ -223,26 +298,6 @@ CREATE TABLE `payment` (
   `itemName` varchar(200) NOT NULL,
   `paymentMethod` varchar(50) NOT NULL,
   `status` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `service`
---
-
-CREATE TABLE `service` (
-  `serviceCode` int(11) NOT NULL,
-  `categoryCode` int(11) NOT NULL,
-  `serviceName` varchar(100) NOT NULL,
-  `Description` varchar(100) NOT NULL,
-  `quantity` int(100) NOT NULL,
-  `unit` varchar(100) NOT NULL,
-  `size` varchar(100) NOT NULL,
-  `color` varchar(100) NOT NULL,
-  `price` bigint(255) NOT NULL,
-  `stocks` int(255) NOT NULL,
-  `itemImage` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -318,6 +373,20 @@ ALTER TABLE `custom_package`
   ADD KEY `clientID` (`clientID`);
 
 --
+-- Indexes for table `items`
+--
+ALTER TABLE `items`
+  ADD PRIMARY KEY (`itemCode`),
+  ADD KEY `categoryCode` (`categoryCode`);
+
+--
+-- Indexes for table `item_details`
+--
+ALTER TABLE `item_details`
+  ADD PRIMARY KEY (`detailsCode`),
+  ADD KEY `itemCode` (`itemCode`);
+
+--
 -- Indexes for table `package`
 --
 ALTER TABLE `package`
@@ -329,12 +398,6 @@ ALTER TABLE `package`
 --
 ALTER TABLE `payment`
   ADD PRIMARY KEY (`paymentID`);
-
---
--- Indexes for table `service`
---
-ALTER TABLE `service`
-  ADD PRIMARY KEY (`serviceCode`);
 
 --
 -- Indexes for table `voucher`
@@ -357,13 +420,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `branches`
 --
 ALTER TABLE `branches`
-  MODIFY `branchCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `branchCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `business`
 --
 ALTER TABLE `business`
-  MODIFY `businessCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `businessCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `businesstypes`
@@ -381,13 +444,13 @@ ALTER TABLE `business_owner`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `categoryCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `categoryCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
 
 --
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-  MODIFY `clientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `clientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `custom_package`
@@ -396,22 +459,28 @@ ALTER TABLE `custom_package`
   MODIFY `customCode` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `items`
+--
+ALTER TABLE `items`
+  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+
+--
+-- AUTO_INCREMENT for table `item_details`
+--
+ALTER TABLE `item_details`
+  MODIFY `detailsCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+
+--
 -- AUTO_INCREMENT for table `package`
 --
 ALTER TABLE `package`
-  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
   MODIFY `paymentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
-
---
--- AUTO_INCREMENT for table `service`
---
-ALTER TABLE `service`
-  MODIFY `serviceCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `voucher`
@@ -446,6 +515,18 @@ ALTER TABLE `category`
 --
 ALTER TABLE `custom_package`
   ADD CONSTRAINT `clientID` FOREIGN KEY (`clientID`) REFERENCES `client` (`clientID`);
+
+--
+-- Constraints for table `items`
+--
+ALTER TABLE `items`
+  ADD CONSTRAINT `categoryCode` FOREIGN KEY (`categoryCode`) REFERENCES `category` (`categoryCode`);
+
+--
+-- Constraints for table `item_details`
+--
+ALTER TABLE `item_details`
+  ADD CONSTRAINT `itemCode` FOREIGN KEY (`itemCode`) REFERENCES `items` (`itemCode`);
 
 --
 -- Constraints for table `package`
