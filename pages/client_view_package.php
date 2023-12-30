@@ -15,10 +15,10 @@ $clientType = $_SESSION['usertype'];
 
 $packCode = $_GET['packCode'];
 
-$packageDetailsQ = $DB->query("SELECT p.*, c.*, s.*
+$packageDetailsQ = $DB->query("SELECT p.*, c.*, i.*
     FROM package p
     JOIN category c ON p.packCode = c.packCode
-    JOIN service s ON c.categoryCode = s.categoryCode
+    JOIN items i ON c.categoryCode = i.categoryCode
     WHERE p.packCode = '$packCode'");
 
 if ($packageDetailsQ) {
@@ -41,7 +41,7 @@ if ($packageDetailsQ) {
                 <thead style="border-bottom: 3px solid #fb7e00;">
                     <tr>
                         <th scope="col">Category</th>
-                        <th scope="col">Services</th>
+                        <th scope="col">Items</th>
                         <th scope="col">Description</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Price</th>
@@ -52,9 +52,9 @@ if ($packageDetailsQ) {
                     <?php 
                     $grandTotal = 0; // Initialize the grand total
 
-                    $result = $DB->query("SELECT c.*, s.*
+                    $result = $DB->query("SELECT c.*, i.*
                         FROM category c
-                        JOIN service s ON c.categoryCode = s.categoryCode
+                        JOIN items i ON c.categoryCode = i.categoryCode
                         WHERE c.packCode = '$packCode'");
                     while ($row = $result->fetch_assoc()): 
                         $total = $row['quantity'] * $row['price']; // Calculate total for the row
@@ -62,8 +62,8 @@ if ($packageDetailsQ) {
                     ?>
                         <tr>
                             <td><?= $row['categoryName'] ?></td>
-                            <td><?= $row['serviceName'] ?></td>
-                            <td><?= $row['Description'] ?></td>
+                            <td><?= $row['itemName'] ?></td>
+                            <td><?= $row['description'] ?></td>
                             <td><?= $row['quantity'] . ' ' . $row['unit'] ?> </td>
                             <td>₱<?= number_format ($row['price']) ?></td>
                             <td>₱<?=number_format($total) ?></td>

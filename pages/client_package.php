@@ -85,9 +85,9 @@ if ($branchesQ) {
                                   // Fetch services for the selected branch
                                   $categoryCode = $category['categoryCode'];
 
-                                  $serviceQ = $DB->query("SELECT c.*, s.*
+                                  $serviceQ = $DB->query("SELECT c.*, i.*
                                       FROM category c
-                                      JOIN service s ON c.categoryCode = s.categoryCode
+                                      JOIN items i ON c.categoryCode = i.categoryCode
                                       WHERE c.categoryCode = '$categoryCode' LIMIT 1");
 
                                   // Check if the query was successful before trying to fetch data

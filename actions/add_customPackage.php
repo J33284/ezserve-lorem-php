@@ -15,18 +15,8 @@ try {
     // Begin a transaction
     $DB->begin_transaction();
 
-    // Get package information
-    $packName = sanitizeInput($_POST['packageName'][0]);
-    $packDesc = sanitizeInput($_POST['packageDescription'][0]);
+    // Get branch code
     $branchCode = $_POST["branchCode"];
-
-    // Insert into the 'package' table
-    $sql = "INSERT INTO package (branchCode, packName, packDesc) VALUES (?, ?, ?)";
-    $stmt = $DB->prepare($sql);
-    $stmt->bind_param("sss", $branchCode, $packName, $packDesc);
-    $stmt->execute();
-
-    $packCode = $DB->insert_id;
 
     // Get category information
     $categories = $_POST['categoryName'];
@@ -37,9 +27,9 @@ try {
             $categoryName = sanitizeInput($categoryName);
 
             // Insert into the 'category' table
-            $sql = "INSERT INTO category (categoryName, packCode) VALUES (?, ?)";
+            $sql = "INSERT INTO custom_category (categoryName, branchCode) VALUES (?, ?)";
             $stmt = $DB->prepare($sql);
-            $stmt->bind_param("si", $categoryName, $packCode);
+            $stmt->bind_param("ss", $categoryName, $branchCode);
             $stmt->execute();
 
             $categoryCode = $DB->insert_id;
@@ -57,7 +47,7 @@ try {
                 $price = sanitizeInput($prices[$itemIndex]);
 
                 // Insert into the 'items' table
-                $sql = "INSERT INTO items (itemName, description, quantity, price, categoryCode) VALUES (?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO custom_items (itemName, description, quantity, price, categoryCode) VALUES (?, ?, ?, ?, ?)";
                 $stmt = $DB->prepare($sql);
                 $stmt->bind_param("ssidi", $itemName, $description, $quantity, $price, $categoryCode);
                 $stmt->execute();
@@ -73,7 +63,7 @@ try {
                     $detailValue = sanitizeInput($detailValues[$index]);
 
                     // Insert into the 'item_details' table
-                    $sql = "INSERT INTO item_details (detailName, detailValue, itemCode) VALUES (?, ?, ?)";
+                    $sql = "INSERT INTO custom_item_details (detailName, detailValue, itemCode) VALUES (?, ?, ?)";
                     $stmt = $DB->prepare($sql);
                     $stmt->bind_param("ssi", $detailName, $detailValue, $itemCode);
                     $stmt->execute();
@@ -85,7 +75,7 @@ try {
     // Commit the transaction
     $DB->commit();
 
-    header("Location: ?page=package&branchCode=$branchCode");
+    header("Location: ?page=custom_package&branchCode=$branchCode");
     exit();
 } catch (Exception $e) {
     // Rollback the transaction in case of an exception
