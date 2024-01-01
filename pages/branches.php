@@ -6,6 +6,8 @@
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
 <?php
 $ownerID = $_SESSION['userID'];
@@ -22,11 +24,11 @@ $result = $DB->query($sql);
 <div id="own-bus" class="own-bus">
     <div class=" row d-flex justify-content-center align-items-center p-3">
         <a href="?page=owner_business" id="backButton" class=" col-1 btn-back">
-                <i class="bi bi-arrow-left"></i>
+                <i class="bi bi-arrow-left" style="color: black;"></i>
             </a>
-        <h1 class=" col text-light">My Business</h1>
+        <h1 class=" col" style="color: black;">My Business</h1>
         <a class="col" href="?page=bus-register" id="registerButton">
-            <i class="bi bi-plus-square text-light">Register your business here!</i>
+            <i class="bi bi-plus-square" style="color: black;">Register your business here!</i>
         </a>
         <div>
            
@@ -255,23 +257,31 @@ $result = $DB->query($sql);
     var mapAddBranch;
 
     function openMapInAddBranch() {
-        if (!mapAddBranch) {
-            mapAddBranch = L.map('mapAddBranch').setView([10.7202, 122.5621], 14);
+    if (!mapAddBranch) {
+        mapAddBranch = L.map('mapAddBranch').setView([10.7202, 122.5621], 14);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(mapAddBranch);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(mapAddBranch);
 
-            mapAddBranch.on('click', function (e) {
-                updateCoordinatesInputAddBranch(e.latlng.lat, e.latlng.lng);
-            });
-        }
+        // Add the geocoder control
+        L.Control.geocoder().addTo(mapAddBranch);
 
-        var mapDiv = document.getElementById("mapAddBranch");
-        mapDiv.style.display = "block";
+        // Initialize the marker
+        var marker = L.marker([10.7202, 122.5621], { draggable: true }).addTo(mapAddBranch);
 
-        mapAddBranch.invalidateSize();
+        mapAddBranch.on('click', function (e) {
+            updateCoordinatesInputAddBranch(e.latlng.lat, e.latlng.lng);
+            marker.setLatLng(e.latlng); // Update marker position on click
+        });
     }
+
+    var mapDiv = document.getElementById("mapAddBranch");
+    mapDiv.style.display = "block";
+
+    mapAddBranch.invalidateSize();
+}
+
 
     function closeMapInAddBranch() {
         var mapDiv = document.getElementById("mapAddBranch");
@@ -282,9 +292,13 @@ $result = $DB->query($sql);
         document.getElementById('coordinatesInputAddBranch').value = lat + ', ' + lng;
     }
 
+    
+    
+    
+    
     var mapBranchDetails = {};
 
-function openMapInBranchDetails(branchCode) {
+    function openMapInBranchDetails(branchCode) {
     if (!mapBranchDetails[branchCode]) {
         mapBranchDetails[branchCode] = L.map('mapBranchDetails_' + branchCode).setView([10.7202, 122.5621], 14);
 
@@ -292,8 +306,15 @@ function openMapInBranchDetails(branchCode) {
             attribution: '© OpenStreetMap contributors'
         }).addTo(mapBranchDetails[branchCode]);
 
+        // Add the geocoder control
+        L.Control.geocoder().addTo(mapBranchDetails[branchCode]);
+
+        // Initialize the marker
+        var marker = L.marker([10.7202, 122.5621], { draggable: true }).addTo(mapBranchDetails[branchCode]);
+
         mapBranchDetails[branchCode].on('click', function (e) {
             updateCoordinatesInputBranchDetails(branchCode, e.latlng.lat, e.latlng.lng);
+            marker.setLatLng(e.latlng); // Update marker position on click
         });
     }
 
@@ -302,6 +323,8 @@ function openMapInBranchDetails(branchCode) {
 
     mapBranchDetails[branchCode].invalidateSize();
 }
+
+
 
 function closeMapInBranchDetails(branchCode) {
     var mapDiv = document.getElementById("mapBranchDetails_" + branchCode);

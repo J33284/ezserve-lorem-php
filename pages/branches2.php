@@ -4,18 +4,17 @@
 
 <?= element( 'owner-side-nav' ) ?>
 
-<!-- Add this in the head section of your HTML -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-search/dist/leaflet.control.search.min.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-search/dist/leaflet.control.search.min.js"></script>
 
 <?php
-global $DB;
-$businessCode = isset($_GET['businesscode']) ? $_GET['businesscode'] : '';
 $ownerID = $_SESSION['userID'];
 
-// Ensure $businessCode is properly sanitized to prevent SQL injection
+global $DB;
+$businessCode = isset($_GET['businesscode']) ? $_GET['businesscode'] : '';
 $businessCode = $DB->real_escape_string($businessCode);
-
 $sql = "SELECT * FROM business WHERE ownerID = $ownerID AND businessCode = '$businessCode' AND status = 1";
 $result = $DB->query($sql);
 
@@ -25,11 +24,11 @@ $result = $DB->query($sql);
 <div id="own-bus" class="own-bus">
     <div class=" row d-flex justify-content-center align-items-center p-3">
         <a href="?page=owner_business" id="backButton" class=" col-1 btn-back">
-                <i class="bi bi-arrow-left"></i>
+                <i class="bi bi-arrow-left" style="color: black;"></i>
             </a>
-        <h1 class=" col text-light">My Business</h1>
+        <h1 class=" col" style="color: black;">My Business</h1>
         <a class="col" href="?page=bus-register" id="registerButton">
-            <i class="bi bi-plus-square text-light">Register your business here!</i>
+            <i class="bi bi-plus-square" style="color: black;">Register your business here!</i>
         </a>
         <div>
            
@@ -100,7 +99,7 @@ $result = $DB->query($sql);
                 ?>
                 
                <!--php if ($branchResult->num_rows > 0): -->
-                <a href="#branch-details" id="ViewBranch" class="btn-view-branches align-items-center justify-content-center view-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleViewBranch(this, event)">
+                <a href="?page=branches&businessCode=<?=$businesscode?>" id="ViewBranch" class="btn-view-branches align-items-center justify-content-center view-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleViewBranch(this, event)">
                     <i class="bi bi-eye"></i>
                     <span>View Branch</span>
                 </a>
@@ -169,7 +168,7 @@ $result = $DB->query($sql);
 
 <?php if ($branchResult->num_rows > 0): ?>
 <!-- View Branch -->
-<div class="branch-details" id="branchDetails<?= $businessCode ?>" style="display: block;">
+<div class="branch-details" id="branchDetails<?= $businessCode ?>" style="display: none;">
     <?php while ($branchData = $branchResult->fetch_assoc()): ?>
         <div class="branch-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded" id="branchDetails_<?= $branchData['branchCode'] ?>">
             <div class="d-flex justify-content-between p-4">
@@ -227,7 +226,7 @@ $result = $DB->query($sql);
                         </div>
                     </div>
                     <div>
-                        <a href="?page=package&branchcode=<?= $branchData['branchCode'] ?>" class="btn-add-branch align-items-center justify-content-center view-package-button" id="ViewPackage">
+                        <a href="?page=choose_package&branchcode=<?= $branchData['branchCode'] ?>" class="btn-add-branch align-items-center justify-content-center view-package-button" id="ViewPackage">
                             <i class="bi bi-eye"></i>
                             <span>Add/View Package</span>
                         </a>
