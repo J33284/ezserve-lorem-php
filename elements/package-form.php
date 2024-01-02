@@ -92,10 +92,19 @@ $packageResult = $DB->query($packageQuery);
               </div>
             </div>
           <?php } ?>
+          <div class="text-end mt-3">
+                <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn btn-light">
+                    <i class="bi bi-plus-square"></i>
+                    <span>Add Package</span>
+                </a>
+            </div>
         </div>
       </div>
     </div>
   </div>
+  
+
+  
 
 <?php else: ?>
   <div class="package-details" id="packageDetails<?= $branchCode ?>" style="display: block;">
