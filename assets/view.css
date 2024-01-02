@@ -5,7 +5,7 @@ body {
   font-family: "Lexend exa", Arial;
   overflow-x: hidden;
   background-image: url(./images/bg-2.png);
-  background-repeat: repeat;
+  background-repeat:repeat-y;
   background-size: cover; 
 }
 
@@ -302,10 +302,6 @@ h1{
   border-left: 1px solid rgb(212, 212, 212);
 }
 
-/*package*/
-#pack{
-  margin-top: 100px;
-}
 
 
 
