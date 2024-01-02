@@ -12,7 +12,7 @@ $branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
         <h6>This section lets you create pre-made packages for your customers.</h6>
         <div class="accordion" id="accordionFlushExample">
           <div class="m-3">
-            <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
+            <a href="?page=package&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
               <i class="bi bi-plus-square"></i>
               <span>Add/View Package</span>
             </a>
