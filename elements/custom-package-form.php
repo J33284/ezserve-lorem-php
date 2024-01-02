@@ -6,70 +6,7 @@ $branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
 
 
 <style>
-    body {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 100px; /* Adjusted margin for better centering */
-        font-family: Arial, sans-serif; /* Added a generic font family */
-    }
-
-    .form-container {
-        margin-left: 400px;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        width: 80%; /* Adjusted width for responsiveness */
-        max-width: 800px; /* Set a maximum width */
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Added a subtle box shadow */ 
-
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-        font-size: 18px;
-        
-    }
-
-    input[type="text"],
-    input[type="number"],
-    textarea {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        box-sizing: border-box;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 16px;
-    }
-
-    .add-category-btn,
-    .submit-btn,
-    .add-item-btn,
-    .add-details-btn {
-        background-color: #4caf50;
-        color: #fff;
-        padding: 10px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        margin-right: 10px;
-        display: flex;
-
-    }
-
-    .category-indicator,
-    .item-indicator {
-        font-weight: bold;
-        margin-right: 5px;
-    }
-
+ 
     .details-group {
         display: none;
         margin-top: 10px;
@@ -78,43 +15,47 @@ $branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
 </head>
 <body>
 
-<div class="form-container">
+<div class="custom-info " style="margin: 120px 0 0 25%; width: 70vw">
+<div class="card p-5 bg-opacity-25 bg-white">
     <form action="?action=add_customPackage" method="post">
             <h2>Custom-made Package</h2>
             <br>
         <div class="category-group" data-category="1">
-            <div class="form-group">
-                <label for="categoryName">CATEGORY</label>
+            <div class="form-group mb-3">
+                <label class="mb-2" for="categoryName">CATEGORY</label>
                 <span class="category-indicator"> Category #1.</span>
-                <input type="text" id="categoryName" name="categoryName[1][]" placeholder="Category Name">
+                <input class="form-control" type="text" id="categoryName" name="categoryName[1][]" placeholder="Category Name">
             </div>
 
             <div class="item-group" data-item="1">
                 <div class="form-group">
-                    <label for="itemName">ITEM INFORMATION</label>
+                    <label class="mb-2" for="itemName">ITEM INFORMATION</label>
                     <span class="item-indicator"> Item #1.</span>
-                    <input type="text" id="itemName" name="itemName[1][]" placeholder="Item Name">
-                    <textarea id="itemDescription" name="itemDescription[1][]" placeholder="Description"></textarea>
-                    <input type="number" id="quantity" name="quantity[1][]" placeholder="Quantity">
-                    <input type="number" id="price" name="price[1][]" placeholder="Price">
+                    <input class="form-control mb-3" type="text" id="itemName" name="itemName[1][]" placeholder="Item Name">
+                    <textarea class="form-control mb-3" id="itemDescription" name="itemDescription[1][]" placeholder="Description"></textarea>
+                    <input class="form-control mb-3" type="number" id="quantity" name="quantity[1][]" placeholder="Quantity">
+                    <input class="form-control mb-3" type="number" id="price" name="price[1][]" placeholder="Price">
                 </div>
-                <button type="button" class="add-details-btn" onclick="cloneDetails(this)">Add Other Details</button>
+                <button type="button" class="add-details-btn btn btn-primary mb-3" onclick="cloneDetails(this)">Add Other Details</button>
+                <hr>
                 <div class="details-group">
                     <div class="form-group">
                         <label for="detailName">Detail Name</label>
-                        <input type="text" name="detailName[1][][]" placeholder="Detail Name">
+                        <input  class="form-control" type="text" name="detailName[1][][]" placeholder="Detail Name">
                     </div>
                     <div class="form-group">
                         <label for="detailValue">Value</label>
-                        <input type="text" name="detailValue[1][][]" placeholder="Value">
+                        <input class="form-control" type="text" name="detailValue[1][][]" placeholder="Value">
                     </div>
                 </div>
             </div>
 
-            <button type="button" class="add-item-btn" onclick="cloneItemFields(this)">Add Items</button>
+            <button type="button" class="add-item-btn btn btn-primary " onclick="cloneItemFields(this)">Add Items</button>
+            <hr>
         </div>
-        <button type="button" class="add-category-btn" onclick="cloneCategoryFields()">Add Category</button>
-        <button type="submit" class="submit-btn">Save</button>
+        <button type="button" class="add-category-btn btn btn-primary " onclick="cloneCategoryFields()">Add Category</button>
+        <hr>
+        <button type="submit" class="submit-btn btn btn-primary float-end">Save</button>
     </form>
 </div>
 
