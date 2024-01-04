@@ -8,7 +8,7 @@ $packageResult = $DB->query($packageQuery);
 <?php if ($packageResult->num_rows > 0): ?>
   <div class="package-details" id="packageDetails<?= $branchCode ?>" style="display: block; height: 100vh">
     <div class="d-flex align-items-center" style="height: 200px; margin-top: 350px; margin-left: 20%; width: 80vw; ">
-      <div class="package-details overflow-auto col-5 card py-5 mx-4 px-4" style="height: 100vh; width: 70vw;">
+      <div class="package-details overflow-auto col-5 card bg-opacity-25 bg-white py-5 mx-4 px-4" style="height: 100vh; width: 70vw;">
         <h2>Pre-made Packages</h2>
         <h6>This section lets you create pre-made packages for your customers.</h6>
         <div class="accordion" id="accordionFlushExample">
@@ -17,7 +17,7 @@ $packageResult = $DB->query($packageQuery);
             $packageCode = $package['packCode'];
             $totalPackagePrice = 0; // Initialize total price for each package
             ?>
-            <div class="accordion-item" id="accordionItem<?= $packageCode ?>">
+            <div class="accordion-item " id="accordionItem<?= $packageCode ?>">
               <h2 class="accordion-header" id="flush-heading<?= $packageCode ?>">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?= $packageCode ?>" aria-expanded="false" aria-controls="flush-collapse<?= $packageCode ?>">
                   <?= $package['packName'] ?>
@@ -34,7 +34,7 @@ $packageResult = $DB->query($packageQuery);
                     ?>
                     <h3><?= $category['categoryName'] ?></h3>
                     <table class="table table-hover table-responsive">
-                      <thead>
+                      <thead class="table-dark">
                         <tr>
                           <th scope="col">Items</th>
                           <th scope="col">Description</th>
@@ -75,13 +75,16 @@ $packageResult = $DB->query($packageQuery);
                             <td><?= $totalItemPrice ?></td>
 
                             <td>
-                              <i class="bi bi-pencil"></i>
-                              <span>Edit</span>
-                            </td>
-                            <td>
-                              <i class="bi bi-trash"></i>
-                              <span>Delete</span>
-                            </td>
+                              <div>
+                                <i class="bi bi-pencil"></i>
+                                <span>Edit</span>
+                              </div>
+                              <div>
+                                <i class="bi bi-trash"></i>
+                                <span>Delete</span>
+                              </div>
+                              </td>
+                            
                           </tr>
                         <?php } ?>
                       </tbody>
@@ -93,7 +96,7 @@ $packageResult = $DB->query($packageQuery);
             </div>
           <?php } ?>
           <div class="text-end mt-3">
-                <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn btn-light">
+                <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn btn-primary">
                     <i class="bi bi-plus-square"></i>
                     <span>Add Package</span>
                 </a>
@@ -114,7 +117,7 @@ $packageResult = $DB->query($packageQuery);
         <h6>This section lets you create pre-made packages for your customers.</h6>
         <div class="accordion" id="accordionFlushExample">
           <div class="m-3">
-            <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
+            <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn-edit btn btn-primary btn-lg mt-4">
               <i class="bi bi-plus-square"></i>
               <span>Add Package</span>
             </a>
