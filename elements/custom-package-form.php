@@ -12,25 +12,26 @@ $branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
         margin-top: 10px;
     }
 </style>
-</head>
-<body>
+
 
 <div class="custom-info " style="margin: 120px 0 0 25%; width: 70vw">
 <div class="card p-5 bg-opacity-25 bg-white">
     <form action="?action=add_customPackage" method="post">
+    <input type="hidden" name="branchCode" value="<?=$branchCode?>">
+
             <h2>Custom-made Package</h2>
             <br>
         <div class="category-group" data-category="1">
             <div class="form-group mb-3">
                 <label class="mb-2" for="categoryName">CATEGORY</label>
-                <span class="category-indicator"> Category #1.</span>
+                <span class="category-indicator"> (Category #1)</span>
                 <input class="form-control" type="text" id="categoryName" name="categoryName[1][]" placeholder="Category Name">
             </div>
 
             <div class="item-group" data-item="1">
                 <div class="form-group">
                     <label class="mb-2" for="itemName">ITEM INFORMATION</label>
-                    <span class="item-indicator"> Item #1.</span>
+                    <span class="item-indicator"> (Item #1)</span>
                     <input class="form-control mb-3" type="text" id="itemName" name="itemName[1][]" placeholder="Item Name">
                     <textarea class="form-control mb-3" id="itemDescription" name="itemDescription[1][]" placeholder="Description"></textarea>
                     <input class="form-control mb-3" type="number" id="quantity" name="quantity[1][]" placeholder="Quantity">
@@ -80,14 +81,14 @@ function createCategoryGroup(categoryIndex) {
     newCategoryGroup.innerHTML = `
         <div class="form-group">
             <label for="${categoryId}">CATEGORY</label>
-            <span class="category-indicator">Category #${categoryIndex}.</span>
+            <span class="category-indicator">(Category #${categoryIndex}).</span>
             <input type="text" id="${categoryId}" name="categoryName[${categoryIndex + 1}][]" placeholder="Category Name">
         </div>
 
         <div class="item-group" data-item="${itemCounter}">
             <div class="form-group">
                 <label for="${itemNameId}">ITEM INFORMATION</label>
-                <span class="item-indicator">Item #${itemCounter}.</span>
+                <span class="item-indicator">(Item #${itemCounter}).</span>
                 <input type="text" id="${itemNameId}" name="itemName[${categoryIndex + 1}][]" placeholder="Item Name">
                 <textarea id="${itemDescriptionId}" name="itemDescription[${categoryIndex + 1 }][]" placeholder="Description"></textarea>
                 <input type="number" id="${quantityId}" name="quantity[${categoryIndex + 1}][]" placeholder="Quantity">
@@ -178,7 +179,5 @@ function clearDetailsInputs(detailsGroup) {
 
 </script>
 
-<!-- ... (your existing HTML code) ... -->
 
-</body>
-</html>
+

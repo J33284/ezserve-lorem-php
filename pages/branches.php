@@ -98,12 +98,12 @@ $result = $DB->query($sql);
 
                 ?>
                 
-               <!--php if ($branchResult->num_rows > 0): -->
+              
                 <a href="#" id="ViewBranch" class="btn-view-branches align-items-center justify-content-center view-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleViewBranch(this, event)">
                     <i class="bi bi-eye"></i>
                     <span>View Branch</span>
                 </a>
-                <!--php endif; -->
+                
 
                 <br>
                 <a href="#add-branch" id="AddBranch" class="btn-add-branch align-items-center justify-content-center add-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleAddBranch(this, event)">
@@ -228,7 +228,7 @@ $result = $DB->query($sql);
                     <div>
                         <a href="?page=choose_package&branchcode=<?= $branchData['branchCode'] ?>" class="btn-add-branch align-items-center justify-content-center view-package-button" id="ViewPackage">
                             <i class="bi bi-eye"></i>
-                            <span>Add/View Package</span>
+                            <span>Add/View Packages</span>
                         </a>
                     </div>
 
