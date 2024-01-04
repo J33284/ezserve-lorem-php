@@ -43,7 +43,7 @@ if ($branchesQ) {
 
         <div class="col-7">
 
-            <h3 class="text-light mb-3"> Pre-made Packages</h3>
+            <h3 class="text-dark mb-3"> Pre-made Packages</h3>
 
             <?php
             // Fetch services for the selected branch
