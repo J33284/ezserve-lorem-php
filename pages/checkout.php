@@ -99,10 +99,10 @@ $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] 
           <?php
             $packCode = $_GET['packCode'];
 
-            $packageDetailsQ = $DB->query("SELECT p.*, c.*, s.*
+            $packageDetailsQ = $DB->query("SELECT p.*, c.*, i.*
             FROM package p
             JOIN category c ON p.packCode = c.packCode
-            JOIN service s ON c.categoryCode = s.categoryCode
+            JOIN items i ON c.categoryCode = i.categoryCode
             WHERE p.packCode = '$packCode'");
 
             $packName = $packageDetailsQ->fetch_assoc();
@@ -128,7 +128,7 @@ $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] 
                     <?php while ($packageDetails = $packageDetailsQ->fetch_assoc()): ?>
                         <tr>
                             <td><?php echo $packageDetails['quantity']; ?></td>
-                            <td><?php echo $packageDetails['serviceName']; ?></td>
+                            <td><?php echo $packageDetails['itemName']; ?></td>
                             <td>₱<?php echo number_format($packageDetails['price']); ?></td>
                             <td>
                             <?php
