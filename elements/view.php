@@ -10,18 +10,25 @@
         <div class="col-6"></div>
       </div>
 
-      <div class="owner-quote row d-flex justify-content-center align-items-center ">
-        <div class="col-md-1"></div>
-        <div class="img col-md-4"><img src="assets/images/online-business.JPG"></div>
-        <div class="col-md-4">
-          <h1>Business Owner</h1>
-          <br>
-          <p class="lh-base text-justify">Are you ready to unlock the full potential of your business and expand your reach like never before? We've got just the thing for you! Sign up now and venture into the world of online business to tap into a massive audience waiting to discover your products and services. </p>
-          <a href="<?php echo SITE_URL?>/?page=register" class="btn-sign-up d-inline-flex">
-            <span>Sign Up</span>
-            <i class="bi bi-arrow-right"></i> 
-          </a>
+      <div class="owner-quote row d-flex justify-content-center align-items-center p-5" >
+        <div class="col card border-top-0 border-bottom-0 border-right-0 d-flex align-items-center justify-content-center text-center" style="height: 30vh">
+          <span>Streamlined platform offering seamless access to diverse business, ensuring a hassle-free experience for users.</span>
         </div>
-        <div class="col-md-1"></div>
+        <div class="col card border-top-0 border-bottom-0 d-flex align-items-center justify-content-center text-center" style="height: 30vh">
+          <span>Intitive and user-friendly website connecting you effortlessly to a variety of trusted businesses.</span>
+        </div>
+        <div class="col card border-top-0 border-bottom-0 border-left-0 d-flex align-items-center justify-content-center text-center" style="height: 30vh">
+        <span>Your go-to source for accessing reliable businesses, fostering a sense of trust and conbenience.</span>  
+        </div>
+        
       </div>
 
+<style>
+  @media (max-width:500px) {
+   .owner-quote{
+    display: flex;
+  flex-direction: column;
+   }  
+  }
+  
+</style>
