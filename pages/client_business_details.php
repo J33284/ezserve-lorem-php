@@ -25,7 +25,7 @@ $business = $businesses->fetch_assoc();
 
 <div class="bus-details">
     
-    <div class="container shadow mb-5 bg-white rounded details sticky-top" style="padding: 30px 0px 0px 20px;">
+    <div class="container shadow mb-5 bg-white rounded details sticky-top" style="height: auto; padding: 30px 0px 0px 20px;">
         <div class="row">
             <h1 class="d-flex justify-content-start align-items-center"><?= $business['busName'] ?></h1>
         </div>
@@ -40,17 +40,17 @@ $business = $businesses->fetch_assoc();
 
     <div class="info container d-flex justify-content-center align-items-center">
         <div>
-            <div id="About" class="card p-3 shadow p-3 mb-5 bg-white rounded border-0" style="width: 80vw; height: 30vh;">
+            <div id="About" class="card p-3 shadow p-3 mb-5 bg-white rounded border-0" style="width: 80vw; height: auto;">
                 <h2>About Us</h2>
                 <hr>
                 <p><?= $business['about'] ?></p>
             </div>
            
-            <div id="Branches" class="card p-3 shadow p-3 mb-5 bg-white rounded border-0 d-flex" style="width:80vw;">
+            <div id="Branches" class="card p-3 shadow p-3 mb-5 bg-white rounded border-0 d-flex" style="width:80vw; height: auto;">
                 <h2> Branches </h2>
                 <hr>
-                <div class="d-flex">
-                <div id="map" class=" col shadow  mb-5 bg-white rounded border-0" style="width: 50vw; height: 50vh;"></div>
+                <div class="map-group d-flex">
+                <div id="map" class=" col shadow  mb-5 bg-white rounded border-0 " style="width: 50vw; height: 50vh;"></div>
                 <div class="flex-column">
                 <?php foreach ($businesses as $branch) : ?>
                     <div class=" d-flex mx-5">
@@ -99,3 +99,13 @@ $business = $businesses->fetch_assoc();
 </div>
 
 <?= element('footer') ?>
+
+<style>
+    @media (max-width: 700px) {
+        #Branches div{
+            display: flex;
+  flex-direction: column;
+        }
+       
+    }
+</style>

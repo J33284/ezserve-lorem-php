@@ -87,3 +87,15 @@ searchInput.addEventListener('keypress', function(event) {
   }
 });
 </script>
+
+<style>
+  
+  @media (max-width: 700px) {
+    .service-wrap{
+      margin-left: 0!important;
+      padding: 0!important;
+      width: 100vw;
+    }
+    
+  }
+</style>

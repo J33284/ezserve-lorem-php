@@ -21,6 +21,8 @@ if ($branchesQ) {
     html {
         scroll-padding-top: 250px;
     }
+    
+    
 </style>
 
 
@@ -29,7 +31,7 @@ if ($branchesQ) {
 <?php if ($branchesQ->num_rows > 0): ?>
 <div class="mb-5" style="height: 100vh">
 
-    <div class=" container pack-head sticky-top card p-3">
+    <div class=" container pack-head sticky-top card p-3" style="height: auto">
         <div class=" row d-flex justify-content-center align-items-center">
             <a href="?page=client_business_details&businessCode=<?= $businessCode ?>" class=" col-lg-1 col-sm-1 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
                 <i class="bi bi-arrow-left"></i></a>
