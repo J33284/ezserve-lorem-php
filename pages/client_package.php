@@ -119,7 +119,7 @@ if ($branchesQ) {
                 <br> With our custom package builder, you can choose exactly what you want, from the number of items
                 and categories of items. We'll even work with you to create a custom price that fits your budget.</p>
             <br>
-            <form action="?page=Client_custom" method="post">
+            <form action="?page=client_custom&businessCode=<?=$businessCode?>&branchCode=<?= $branch['branchCode'] ?>" method="post">
                 <input type="hidden" name="branchCode" value="<?= $branch['branchCode'] ?>">
                 <input type="hidden" name="packageCode" value="<?= $branch['packCode'] ?>">
                 <button type="submit" class="btn " data-bs-business-code="<?= $branch['branchCode'] ?>">

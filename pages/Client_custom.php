@@ -1,6 +1,7 @@
 <?php
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
+$businessCode = $_GET['businessCode'];
 $branchCode = $_POST['branchCode'];
 
 // Retrieve all branches for the given business
@@ -24,7 +25,7 @@ if ($branchesQ) {
 <div id="client-custom" class="client-custom">
     <div class="container pack-head" style="top: 100px;">
         <div class="container row">
-            <a href="?page=client_package" class="col-xl-1 btn-back btn-lg float-end">
+            <a href="?page=client_package&businessCode=<?= $businessCode?>&branchCode=<?=$branchCode?>" class="col-xl-1 btn-back btn-lg float-end">
                 <i class="bi bi-arrow-left"></i>
             </a>
             <h1 class="col-xl-7 d-flex justify-content-start text-light">Package Customization</h1>
