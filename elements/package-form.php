@@ -93,7 +93,7 @@ $packageResult = $DB->query($packageQuery);
             </div>
           <?php } ?>
           <div class="text-end mt-3">
-                <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn btn-light">
+                <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn btn-outline-primary">
                     <i class="bi bi-plus-square"></i>
                     <span>Add Package</span>
                 </a>
@@ -102,10 +102,6 @@ $packageResult = $DB->query($packageQuery);
       </div>
     </div>
   </div>
-  
-
-  
-
 <?php else: ?>
   <div class="package-details" id="packageDetails<?= $branchCode ?>" style="display: block;">
     <div class="d-flex align-items-center" style="height: 200px; margin-top: 300px; margin-left: 390px; width: 140%;">

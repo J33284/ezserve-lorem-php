@@ -13,8 +13,13 @@ $branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
         <div class="accordion" id="accordionFlushExample">
           <div class="m-3">
             <a href="?page=package&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
+              <i class="bi bi-eye"></i>
+              <span>View Package</span>
+            </a>
+           <br>
+            <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
               <i class="bi bi-plus-square"></i>
-              <span>Add/View Package</span>
+              <span>Add Package</span>
             </a>
           </div>
         </div>
