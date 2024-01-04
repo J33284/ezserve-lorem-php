@@ -19,7 +19,7 @@ $branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
     <form action="?action=add_customPackage" method="post">
     <input type="hidden" name="branchCode" value="<?=$branchCode?>">
 
-            <h2>Custom-made Package</h2>
+            <h2>Custom Items</h2>
             <br>
         <div class="category-group" data-category="1">
             <div class="form-group mb-3">

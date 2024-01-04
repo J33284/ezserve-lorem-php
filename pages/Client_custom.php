@@ -2,23 +2,20 @@
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
 $branchCode = $_POST['branchCode'];
-$packCode = $_POST['packageCode'];
 
 // Retrieve all branches for the given business
-$branchesQ = $DB->query("SELECT br.*, p.*, c.*, s.*
+$branchesQ = $DB->query("SELECT br.*, c.*, i.*
   FROM branches br
-  JOIN package p ON br.branchCode = p.branchCode
-  JOIN category c ON p.packCode = c.packCode
-  JOIN service s ON c.categoryCode = s.categoryCode
-  WHERE br.branchCode = '$branchCode' AND p.packCode = '$packCode'");
+  JOIN custom_category c ON br.branchCode = c.branchCode
+  JOIN custom_items i ON c.customcategoryCode = i.customcategoryCode
+  WHERE br.branchCode = '$branchCode'");
 
 // Check if the query was successful before trying to fetch data
 if ($branchesQ) {
     // Fetch the first row (branch) from the result set
     $branch = $branchesQ->fetch_assoc();
 
-    // Fetch all services for the selected branch and package
-    $servicesQ = $DB->query("SELECT s.* FROM service s WHERE s.categoryCode IN (SELECT c.categoryCode FROM category c WHERE c.packCode = '$packCode')");
+    $servicesQ = $DB->query("SELECT i.* FROM items i WHERE i.categoryCode IN (SELECT customCategoryCode FROM custom_category WHERE branchCode  = '$branchCode')");
 }
 ?>
 
@@ -38,24 +35,25 @@ if ($branchesQ) {
         <div id="package-info" class="package-info col-4" style="width: 50vw; height: 65vh; margin: 100px 0 0 80px;">
             <div class="accords">
                 <div>
-                    <div class="accordion" id="<?= $branch['categoryCode'] ?>">
-                    <?php while ($row = $servicesQ->fetch_assoc()) : ?>
+                    <div class="accordion" id="<?= $branch['customCategoryCode'] ?>">
+                    <?php while ($servicesQ && $row = $servicesQ->fetch_assoc()) : ?>
+
                         <div class="accordion-item">
-                            <h2 class="accordion-header" id="Service<?= $row['serviceCode'] ?>">
+                            <h2 class="accordion-header" id="Service<?= $row['itemCode'] ?>">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#service-details-<?= $row['serviceCode'] ?>" aria-expanded="false"
-                                        aria-controls="service-details-<?= $row['serviceCode'] ?>">
-                                    <?= $row['serviceName'] ?>
+                                        data-bs-target="#service-details-<?= $row['itemCode'] ?>" aria-expanded="false"
+                                        aria-controls="service-details-<?= $row['itemCode'] ?>">
+                                    <?= $row['itemName'] ?>
                                 </button>
                             </h2>
-                            <div id="service-details-<?= $row['serviceCode'] ?>" class="accordion-collapse collapse"
-                                aria-labelledby="Service<?= $row['serviceCode'] ?>"
-                                data-bs-parent="#<?= $branch['categoryCode'] ?>">
+                            <div id="service-details-<?= $row['itemCode'] ?>" class="accordion-collapse collapse"
+                                aria-labelledby="Service<?= $row['itemCode'] ?>"
+                                data-bs-parent="#<?= $branch['customCategoryCode'] ?>">
                                 <div class="accordion-body">
                                     <div class="d-flex">
                                         <input type="checkbox" style="width: 5%;" class="form-check-input service-checkbox"
-                                            id="service-<?= $row['serviceCode'] ?>" data-service-id="<?= $row['serviceCode'] ?>">
-                                        <label for="service-<?= $row['serviceCode'] ?>">Select Item</label>
+                                            id="service-<?= $row['itemCode'] ?>" data-service-id="<?= $row['itemCode'] ?>">
+                                        <label for="service-<?= $row['itemCode'] ?>">Select Item</label>
                                         <input type="number" class="form-control quantity-input" value="1" min="1" style="width:30%;">
                                         <label>Quantity</label>
                                     </div>
@@ -67,7 +65,7 @@ if ($branchesQ) {
                                             <h6><?= $row['price'] ?></h6>
 
                                             <label>Description:</label>
-                                            <h6><?= $row['Description'] ?></h6>
+                                            <h6><?= $row['description'] ?></h6>
                                         </div>
                                         <img src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
                                             class="col-5" alt="example placeholder"/>
@@ -138,14 +136,14 @@ if ($branchesQ) {
             // Loop through each checked checkbox
             $('.service-checkbox:checked').each(function () {
                 var quantity = $(this).closest('.accordion-body').find('.quantity-input').val();
-                var serviceName = $(this).closest('.accordion-item').find('.accordion-button').text();
+                var itemName = $(this).closest('.accordion-item').find('.accordion-button').text();
                 var price = parseFloat($(this).closest('.accordion-item').find('.accordion-body h6').text().replace('₱', '').trim());
 
                 // Calculate total price for each service
-                var serviceTotal = quantity * price;
+                var itemTotal = quantity * price;
 
                 // Append row to the order list
-                $('.order-body').append('<tr><td>' + quantity + '</td><td>' + serviceName + '</td><td>₱' + serviceTotal.toFixed(2) + '</td></tr>');
+                $('.order-body').append('<tr><td>' + quantity + '</td><td>' + itemName + '</td><td>₱' + itemTotal.toFixed(2) + '</td></tr>');
 
                 // Update total price
                 totalPrice += serviceTotal;
@@ -153,7 +151,7 @@ if ($branchesQ) {
                 // Store order details in the array
                 orderDetails.push({
                     quantity: quantity,
-                    serviceName: serviceName,
+                    itemName: itemName,
                     price: price
                 });
             });

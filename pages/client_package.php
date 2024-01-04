@@ -111,18 +111,18 @@ if ($branchesQ) {
         </div>
         
         <div class="col-4">
-            <h3 class="text-light"> Create Custom Package</h3>
+            <h3 class="text-dark"> Create Custom Package</h3>
             <br>
-            <p class="text-light"><b>Can't find the perfect package? Create your own!</b><br>
-                <br> With our custom package builder, you can choose exactly what you want, from the number of services
-                to the types of services. We'll even work with you to create a custom price that fits your budget.</p>
+            <p class="text-dark"><b>Can't find the perfect package? Create your own!</b><br>
+                <br> With our custom package builder, you can choose exactly what you want, from the number of items
+                and categories of items. We'll even work with you to create a custom price that fits your budget.</p>
             <br>
             <form action="?page=Client_custom" method="post">
                 <input type="hidden" name="branchCode" value="<?= $branch['branchCode'] ?>">
                 <input type="hidden" name="packageCode" value="<?= $branch['packCode'] ?>">
                 <button type="submit" class="btn " data-bs-business-code="<?= $branch['branchCode'] ?>">
-                    <i class="bi bi-plus-square text-light"></i>
-                    <span class="text-light">create your own package!</span>
+                    <i class="bi bi-plus-square text-dark"></i>
+                    <span class="text-dark">create your own package!</span>
                 </button>
             </form>
 

@@ -32,7 +32,7 @@ try {
             $stmt->bind_param("ss", $categoryName, $branchCode);
             $stmt->execute();
 
-            $categoryCode = $DB->insert_id;
+            $customCategoryCode = $DB->insert_id;
 
             // Get item information
             $items = $_POST['itemName'][$categoryIndex];
@@ -47,9 +47,9 @@ try {
                 $price = sanitizeInput($prices[$itemIndex]);
 
                 // Insert into the 'items' table
-                $sql = "INSERT INTO custom_items (itemName, description, quantity, price, categoryCode) VALUES (?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO custom_items (itemName, description, quantity, price, customCategoryCode) VALUES (?, ?, ?, ?, ?)";
                 $stmt = $DB->prepare($sql);
-                $stmt->bind_param("ssidi", $itemName, $description, $quantity, $price, $categoryCode);
+                $stmt->bind_param("ssidi", $itemName, $description, $quantity, $price, $customCategoryCode);
                 $stmt->execute();
 
                 $itemCode = $DB->insert_id;

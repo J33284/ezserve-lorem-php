@@ -90,6 +90,12 @@ $packageResult = $DB->query($packageQuery);
                       </tbody>
                     </table>
                     <div class="text-end"><strong>Total Package Price:</strong> <?= $totalPackagePrice ?></div>
+                    <div class="text-end mt-3">
+                            <a href="?page=add_item&packageCode=<?= $packageCode ?>&categoryCode=<?= $categoryCode ?>" class="btn btn-outline-primary">
+                              <i class="bi bi-plus-square"></i>
+                              <span>Add Item</span>
+                            </a>
+                          </div>
                   <?php } ?>
                 </div>
               </div>
@@ -99,6 +105,10 @@ $packageResult = $DB->query($packageQuery);
                 <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn btn-outline-primary">
                     <i class="bi bi-plus-square"></i>
                     <span>Add Package</span>
+                </a>
+                <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn btn-outline-primary">
+                    <i class="bi bi-plus-square"></i>
+                    <span>Add Category</span>
                 </a>
             </div>
         </div>

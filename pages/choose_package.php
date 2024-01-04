@@ -31,13 +31,18 @@ $branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
   <div class="custom-details"  style="display: block;">
     <div class="d-flex align-items-center" style="height: 200px; margin-top: 120px; margin-left: 390px; width: 140%;">
       <div class="package-details col-5 card py-5 mx-4 px-4">
-        <h2>Custom Packages</h2>
+        <h2>Custom Items</h2>
         <h6>This section lets you create custom packages for your customers.</h6>
         <div class="accordion" id="accordionFlushExample">
           <div class="m-3">
+            <a href="?page=custom_package&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
+              <i class="bi bi-eye"></i>
+              <span>View Custom Items</span>
+            </a>
+            <br>
             <a href="?page=add_custom_package&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
               <i class="bi bi-plus-square"></i>
-              <span>Add/View Custom Package</span>
+              <span>Add Custom Items</span>
             </a>
           </div>
         </div>

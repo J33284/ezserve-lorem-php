@@ -2,10 +2,12 @@
 global $DB;
 
 $packCode = isset($_GET['packagecode']) ? $_GET['packagecode'] : '';
-$packageQuery = "SELECT package.packCode, package.packName, category.categoryName, service.serviceName, service.Description, service.quantity, service.color, service.price
+$categoryCode = isset($_GET['categoryCode']) ? $_GET['categoryCode'] : '';
+
+$packageQuery = "SELECT *
 FROM package
 JOIN category ON package.packCode = category.packCode
-JOIN service ON category.categoryCode = service.categoryCode
+JOIN items ON category.categoryCode = items.categoryCode
 WHERE package.packCode = '$packCode';";
 $packageResult = $DB->query($packageQuery);
 $row = $packageResult->fetch_assoc();
@@ -23,9 +25,6 @@ $row = $packageResult->fetch_assoc();
         <tr>
           <td>Category:</td>
           <td colspan ="2"><input type="text" name="categoryName" class="form-control" required></td>
-          <td>Service:</td>
-          <td colspan ="2"><input type="text" name="serviceName" class="form-control" required></td>
-        </tr>
         <tr>
           <td>Description:</td>
           <td colspan ="5"><input type="text" name="Description" class="form-control" required></td>
@@ -33,6 +32,7 @@ $row = $packageResult->fetch_assoc();
         <tr>
           <td>Quantity:</td>
           <td><input type="number" name="quantity" class="form-control" required></td>
+          <!--
           <td>Unit:</td>
           <td>
             <select name="unit" class="form-control">
@@ -47,13 +47,8 @@ $row = $packageResult->fetch_assoc();
                   <option value="lb">Pounds (lb)</option>
             </select>
             </td>
-          <td>Color:</td>
-          <td><input type="text" name="color" class="form-control" required></td>
-        </tr>
-        <tr>
-          <td>Size:</td>
-          <td colspan ="2"><input type="text" name="size" class="form-control" required></td>
-          <td>Price:</td>
+-->
+           <td>Price:</td>
           <td colspan ="2"><input type="number" name="price" class="form-control" step="0.01" placeholder="price per unit" required></td>
         </tr>
         <tr>
