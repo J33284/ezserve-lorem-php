@@ -69,12 +69,75 @@ $businessesResult = $DB->query("SELECT * FROM businesstypes");
                             </div>
                         </div>
                     </div>
+                    
                     <div class="p-0">
                         <h6 class="page-title">Upload Business Permits <br> (Allowed File Types: pdf, jpeg, jpg, png)</h6>
                         <input class="form-control mt-3" name="permits" type="file" id="formFile"> <!-- Modify the name attribute to "permits" -->
                     </div>
 
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="termsCheckbox" name="termsCheckbox" required>
+                        <label class="form-check-label" for="termsCheckbox">
+                            I have read and agree to the <a href="#termsModal" data-bs-toggle="modal">Terms and Conditions</a>
+                        </label>
+                    </div>
+                    
                     <button type="submit" class="btn btn-primary mt-5">Submit</button>
+
+                        <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="termsModalLabel">Terms and Conditions</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                    <h1>Terms and Conditions</h1>
+
+                                        <p><strong>1. Acceptance of Terms</strong></p>
+                                        <p>By accessing and using this website, you agree to comply with and be bound by these terms and conditions. If you do not agree with any part of these terms, you should not use this website.</p>
+
+                                        <p><strong>2. User Eligibility</strong></p>
+                                        <p>You must be at least 18 years old to use this website. By using the website, you confirm that you are at least 18 years old and have the legal capacity to enter into this agreement.</p>
+
+                                        <p><strong>3. Business Legality Confirmation</strong></p>
+                                        <p>Users are required to provide accurate and up-to-date information regarding the legality of their business. Any false information provided may result in the termination of the user's account.</p>
+
+                                        <p><strong>4. Intellectual Property</strong></p>
+                                        <p>All content and materials on this website, including but not limited to text, images, logos, and designs, are the property of [Your Company] and are protected by intellectual property laws. Users may not use, reproduce, or distribute any content without permission.</p>
+
+                                        <p><strong>5. Privacy Policy</strong></p>
+                                        <p>The collection and use of personal information are governed by our <a href="#privacy-policy">Privacy Policy</a>, which is incorporated into these terms by reference.</p>
+
+                                        <p><strong>6. Compliance with Laws</strong></p>
+                                        <p>Users are responsible for complying with all applicable laws and regulations in their use of the website. [Your Company] is not liable for any illegal activities conducted by users.</p>
+
+                                        <p><strong>7. Disclaimer of Warranties</strong></p>
+                                        <p>This website is provided "as is" without any warranties, expressed or implied. [Your Company] does not guarantee the accuracy, completeness, or reliability of the content.</p>
+
+                                        <p><strong>8. Limitation of Liability</strong></p>
+                                        <p>[Your Company] shall not be liable for any direct, indirect, incidental, consequential, or punitive damages arising out of or related to the use of this website.</p>
+
+                                        <p><strong>9. Termination</strong></p>
+                                        <p>[Your Company] reserves the right to terminate or suspend a user's account at any time for violation of these terms.</p>
+
+                                        <p><strong>10. Changes to Terms</strong></p>
+                                        <p>[Your Company] may revise these terms and conditions at any time without notice. By using this website, you agree to be bound by the current version of these terms.</p>
+
+                                        <p><strong>11. Governing Law</strong></p>
+                                        <p>These terms and conditions are governed by and construed in accordance with the laws of [Your Country/State].</p>
+
+                                        <p>If you have any questions or concerns about these terms and conditions, please contact us at [Your Contact Information].</p>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>

@@ -9,25 +9,37 @@
     <style>
         body {
             text-align: center;
-            margin-top: 120px;
-            margin-left: 200px;
+            margin-top: 200px;
+            margin-left: 170px;
         }
 
         table {
-            border: 1px solid #000;
-            margin: 0 auto;
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
         }
 
         button {
             display: block;
-            margin-top: 20px;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
         }
-
-        .centered-button {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-    }
     </style>
 </head>
 
@@ -45,10 +57,10 @@
     ?>
         <table>
             <tr>
-                <th>Business Code</th>
-                <th>Branch Code</th>
+                <th>Business Name</th>
+                <th>Branch Name</th>
                 <th>Voucher Code</th>
-                <th>Discount Type</th>
+                <th>Condition</th>
                 <th>Discount Value</th>
                 <th>Start Date</th>
                 <th>End Date</th>
@@ -56,13 +68,22 @@
 
             <?php
             while ($row = $result->fetch_assoc()) {
+                // Fetch business name based on businessCode
+                $businessCode = $row["businessCode"];
+                $busNameResult = $DB->query("SELECT busName FROM business WHERE businessCode = '$businessCode'");
+                $busName = ($busNameResult->num_rows > 0) ? $busNameResult->fetch_assoc()["busName"] : '';
+
+                // Fetch branch name based on branchCode
+                $branchCode = $row["branchCode"];
+                $branchNameResult = $DB->query("SELECT branchName FROM branches WHERE branchCode = '$branchCode'");
+                $branchName = ($branchNameResult->num_rows > 0) ? $branchNameResult->fetch_assoc()["branchName"] : '';
             ?>
                 <tr>
-                    <td><?= $row["businessCode"] ?></td>
-                    <td><?= $row["branchCode"] ?></td>
+                    <td><?= $busName ?></td>
+                    <td><?= $branchName ?></td>
                     <td><?= $row["voucherCode"] ?></td>
-                    <td><?= $row["discountType"] ?></td>
-                    <td><?= $row["discountValue"] ?></td>
+                    <td><?= $row["cond"] ?></td>
+                    <td><?= ($row["discountType"] === 'percentage') ? $row["discountValue"] . '%' : '₱' . $row["discountValue"] ?></td>
                     <td><?= $row["startDate"] ?></td>
                     <td><?= $row["endDate"] ?></td>
                 </tr>
@@ -74,14 +95,12 @@
 
     <?php
     } else {
-        echo "No vouchers found.";
+        echo "<p>No vouchers found.</p>";
     }
     ?>
 
     <!-- Button to add a voucher -->
-<div class="centered-button">
     <a href="?page=create_voucher"><button>Add Voucher</button></a>
-</div>
 
 </body>
 

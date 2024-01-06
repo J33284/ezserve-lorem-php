@@ -8,6 +8,14 @@ use PHPMailer\PHPMailer\Exception;
 
 if (isset($_POST['data'])) {
     $email = $_POST["data"]["email"];
+
+    if (emailExists($email)) {
+        set_message("Email already exists. Please use a different email address.", "danger");
+        redirect("?page=register&", $_POST['data']);
+        exit();
+
+    }
+
     //Password Hashing
     $plainPassword = $_POST['data']['password'];
     $hashedPassword = password_hash($plainPassword, PASSWORD_ARGON2I);
@@ -33,6 +41,27 @@ if (isset($_POST['data'])) {
 }
 
 redirect();
+
+function emailExists($email) {
+    global $DB;
+
+    $email = mysqli_real_escape_string($DB, $email);
+    
+    $sqlClient = "SELECT COUNT(*) FROM client WHERE email = '$email'";
+    $sqlBusinessOwner = "SELECT COUNT(*) FROM business_owner WHERE email = '$email'";
+    
+    $resultClient = mysqli_query($DB, $sqlClient);
+    $resultBusinessOwner = mysqli_query($DB, $sqlBusinessOwner);
+
+    if ($resultClient && $resultBusinessOwner) {
+        $rowClient = mysqli_fetch_row($resultClient);
+        $rowBusinessOwner = mysqli_fetch_row($resultBusinessOwner);
+
+        return $rowClient[0] > 0 || $rowBusinessOwner[0] > 0;
+    } else {
+        return false;
+    }
+}
 
 function processVerificationEmail($email, $verification_code) {
     global $DB;
@@ -138,4 +167,12 @@ function add_verification_code_to_database($email, $verification_code) {
         echo "Error: " . mysqli_error($DB);
     }
 }
+
+
+function register_redirect($url, $params = array()) {
+    $queryString = http_build_query($params);
+    header("Location: $url?$queryString");
+    exit();
+}
+
 ?>

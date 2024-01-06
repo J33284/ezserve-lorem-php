@@ -2,7 +2,7 @@
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
 $businessCode = $_GET['businessCode'];
-$branchCode = $_POST['branchCode'];
+$branchCode = $_GET['branchCode'];
 
 // Retrieve all branches for the given business
 $branchesQ = $DB->query("SELECT br.*, c.*, i.*
@@ -16,7 +16,11 @@ if ($branchesQ) {
     // Fetch the first row (branch) from the result set
     $branch = $branchesQ->fetch_assoc();
 
-    $servicesQ = $DB->query("SELECT i.* FROM items i WHERE i.categoryCode IN (SELECT customCategoryCode FROM custom_category WHERE branchCode  = '$branchCode')");
+    $servicesQ = $DB->query("SELECT  br.*, c.* 
+    FROM branches br
+    JOIN custom_category c
+    WHERE br.branchCode = '$branchCode'");
+ 
 }
 ?>
 

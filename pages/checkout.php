@@ -48,31 +48,31 @@ $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] 
             </div>
           </div>
           <div class="delivery mb-3">
-              <h4 class=" p-3 mb-4" style=" border-bottom: 3px solid #fb7e00;"> 2. Delivery Information </h4>
-              <h6> Mode of Fulfillment </h6>
+              <h4 class=" p-3 mb-4" style=" border-bottom: 3px solid #fb7e00;" > </h4>
+              <h6>  </h6>
               <div class="row d-flex align-items-center my-2 px-5">
                   <div class="form-check row d-flex">
                     <div class="col-5">
-                        <input class="form-check-input" type="checkbox" value="" id="pickUpCheckbox" name="fulfillmentMethod">
-                        <label class="form-check-label" for="pickUpCheckbox">Pick-up</label>
+                        <input class="form-check-input" type="hidden" value="" id="pickUpCheckbox" name="fulfillmentMethod">
+                        <label class="form-check-label" for="pickUpCheckbox"></label>
                     </div>
                     <div class="col-5">
-                       <input type="date" class="form-control"  name="pick-up" id="pick-up">
+                       <input type="hidden" class="form-control"  name="pick-up" id="pick-up">
                     </div>
                   </div>
                   <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="deliveryCheckbox" name="fulfillmentMethod">
-                    <label class="form-check-label" for="deliveryCheckbox">Delivery</label>
+                  <input class="form-check-input" type="hidden" value="" id="deliveryCheckbox" name="fulfillmentMethod">
+                    <label class="form-check-label" for="deliveryCheckbox"></label>
                   </div>
               </div>
               <hr>
                         <div class="row d-flex align-items-center mb-2" id="deliveryAddress">
-                <label class="mb-2 " for="address">Delivery Address</label>
-                <input type="text" class="form-control " name="address" id="address">
+                <label class="mb-2 " for="address"></label>
+                <input type="hidden" class="form-control " name="address" id="address">
             </div>
             <div class="row d-flex align-items-center mb-2" id="deliveryDate">
-                <label class="mb-2 " for="deliveryDate">Delivery Date</label>
-                <input type="date" class="form-control " name="deliveryDate" id="deliveryDate">
+                <label class="mb-2 " for="deliveryDate"></label>
+                <input type="hidden" class="form-control " name="deliveryDate" id="deliveryDate">
             </div>
                
                 
@@ -80,7 +80,7 @@ $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] 
 
 
           <div class="payment">
-              <h4 class=" p-3 mb-4" style=" border-bottom: 3px solid #fb7e00;"> 3. Payment </h4>
+              <h4 class=" p-3 mb-4" style=" border-bottom: 3px solid #fb7e00;"> 2. Payment </h4>
               <h6> Mode of Payment </h6>
               <div class="row d-flex align-items-center my-2 px-5">
               <div class="form-check">
@@ -192,29 +192,35 @@ $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] 
 
             </form>
 
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    // Get references to the checkboxes and buttons
-                    var onsitePaymentCheckbox = document.getElementById('onsitePaymentCheckbox');
-                    var onlinePaymentCheckbox = document.getElementById('onlinePaymentCheckbox');
-                    var placeOrderButton = document.getElementById('placeOrderButton');
-                    var placeOrderButton2 = document.getElementById('placeOrderButton2');
+           <!-- ... Your HTML code ... -->
 
-                    // Initial check on page load
-                    togglePlaceOrderButtons();
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get references to the checkboxes and buttons
+        var onsitePaymentCheckbox = document.getElementById('onsitePaymentCheckbox');
+        var onlinePaymentCheckbox = document.getElementById('onlinePaymentCheckbox');
+        var placeOrderButton = document.getElementById('placeOrderButton');
+        var placeOrderButton2 = document.getElementById('placeOrderButton2');
 
-                    // Function to toggle the "Place Order" buttons visibility based on checkbox state
-                    function togglePlaceOrderButtons() {
-                        if (onsitePaymentCheckbox.checked) {
-                            // Onsite payment is checked, show placeOrderButton2 and hide placeOrderButton
-                            placeOrderButton.style.display = 'none';
-                            placeOrderButton2.style.display = 'block';
-                        } else {
-                            // Onsite payment is not checked, show placeOrderButton and hide placeOrderButton2
-                            placeOrderButton.style.display = 'block';
-                            placeOrderButton2.style.display = 'none';
-                        }
-                    }
-                });
-            </script>
+        // Initial check on page load
+        togglePlaceOrderButtons();
 
+        // Add event listener for checkbox change
+        onsitePaymentCheckbox.addEventListener('change', togglePlaceOrderButtons);
+
+        // Function to toggle the "Place Order" buttons visibility based on checkbox state
+        function togglePlaceOrderButtons() {
+            if (onsitePaymentCheckbox.checked) {
+                // Onsite payment is checked, show placeOrderButton2 and hide placeOrderButton
+                placeOrderButton.style.display = 'none';
+                placeOrderButton2.style.display = 'block';
+            } else {
+                // Onsite payment is not checked, show placeOrderButton and hide placeOrderButton2
+                placeOrderButton.style.display = 'block';
+                placeOrderButton2.style.display = 'none';
+            }
+        }
+    });
+</script>
+
+<!-- ... Your HTML code ... -->

@@ -35,12 +35,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $discountValue = $_POST["discountValue"];
     $startDate = $_POST["startDate"];
     $endDate = $_POST["endDate"];
+    $condition = $_POST["condition"];
+
+    // Additional fields for specific conditions
+    $selectedPackage = isset($_POST["selectedPackage"]) ? $_POST["selectedPackage"] : null;
+    $minSpend = isset($_POST["minSpend"]) ? $_POST["minSpend"] : null;
 
     // Perform any necessary validation on the input data
 
     // Insert voucher details into the database
-    $sql = "INSERT INTO voucher (businessCode, branchCode, voucherCode, discountType, discountValue, startDate, endDate)
-            VALUES ('$businessCode', '$branchCode', '$voucherCode', '$discountType', '$discountValue', '$startDate', '$endDate')";
+    if ($discountType === "specific_package") {
+        // If the discount type is specific package, save the package code
+        $sql = "INSERT INTO voucher (businessCode, branchCode, voucherCode, cond, discountType, discountValue, startDate, endDate, packCode)
+                VALUES ('$businessCode', '$branchCode', '$voucherCode', '$condition','$discountType', '$discountValue', '$startDate', '$endDate', '$selectedPackage')";
+    }else if ($condition === "minimum_spend") {
+    // If the condition is minimum spend, save the minimum spend value
+    $sql = "INSERT INTO voucher (businessCode, branchCode, voucherCode, cond, discountType, discountValue, startDate, endDate, min_spend)
+            VALUES ('$businessCode', '$branchCode', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate', '$minSpend')";
+    } else {
+        // For other conditions
+        $sql = "INSERT INTO voucher (businessCode, branchCode, voucherCode, cond, discountType, discountValue, startDate, endDate)
+                VALUES ('$businessCode', '$branchCode', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate')";
+    }
 
     if ($DB->query($sql) === TRUE) {
         // Voucher created successfully

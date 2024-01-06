@@ -4,6 +4,7 @@
 global $DB;
 $businesses = $DB->query("SELECT * FROM business");
 $branches = $DB->query("SELECT * FROM branches");
+$packages = $DB->query("SELECT * FROM package");
 ?>
 
 <div class="package-info" style="margin: 120px 0 0 30%">
@@ -20,11 +21,34 @@ $branches = $DB->query("SELECT * FROM branches");
             </select><br>
 
             <label for="branchCode">Select Branch:</label>
-            <select name="branchCode" id="branchCode">
+            <select name="branchCode" id="branchCode" onchange="updatePackages()">
             </select><br>
 
             <label for="voucherCode">Voucher Code:</label>
             <input type="text" name="voucherCode"><br>
+
+            <label for="condition">Condition:</label>
+            <select name="condition" id="condition" onchange="updateDiscountFields()">
+                <option value="percentage">Gift Card</option>
+                <option value="specific_package">Specific Package</option>
+                <option value="minimum_spend">Minimum Spend</option>
+            </select><br>
+
+            <div id="specificPackageField" style="display: none;">
+                <label for="selectedPackage">Select Package:</label>
+                <select name="selectedPackage" id="selectedPackage">
+                    <?php
+                    while ($row = $packages->fetch_assoc()) {
+                        echo "<option value='" . $row["packageCode"] . "' data-min-spend='" . $row["minSpend"] . "'>" . $row["packageName"] . "</option>";
+                    }
+                    ?>
+                </select><br>
+            </div>
+
+            <div id="minimumSpendField" style="display: none;">
+                <label for="minSpend">Minimum Spend:</label>
+                <input type="text" name="minSpend"><br>
+            </div>
 
             <label for="discountType">Discount Type:</label>
             <select name="discountType">
@@ -51,18 +75,48 @@ $branches = $DB->query("SELECT * FROM branches");
     function updateBranches() {
         var businessCode = document.getElementById("businessCode").value;
         var xhr = new XMLHttpRequest();
-
-        // Adjust the path to point to the correct location of your controller script
         xhr.open("GET", "?action=getBranches&businessCode=" + businessCode, true);
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 document.getElementById("branchCode").innerHTML = xhr.responseText;
+                updatePackages(); // Also update packages when branches change
             }
         };
         xhr.send();
     }
 
-    // Initial call to populate branches based on the default selected businessCode
+    function updatePackages() {
+    var branchCode = document.getElementById("branchCode").value;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "?action=getPackages&branchCode=" + branchCode, true);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            document.getElementById("selectedPackage").innerHTML = xhr.responseText;
+        }
+    };
+    xhr.send();
+}
+
+    function updateDiscountFields() {
+        var condition = document.getElementById("condition").value;
+        var specificPackageField = document.getElementById("specificPackageField");
+        var minimumSpendField = document.getElementById("minimumSpendField");
+
+        if (condition === "specific_package") {
+            specificPackageField.style.display = "block";
+            minimumSpendField.style.display = "none";
+        } else if (condition === "minimum_spend") {
+            specificPackageField.style.display = "none";
+            minimumSpendField.style.display = "block";
+        } else {
+            specificPackageField.style.display = "none";
+            minimumSpendField.style.display = "none";
+        }
+    }
+
+    // Initial calls to populate branches and packages based on the default selected businessCode and branchCode
     updateBranches();
+    updatePackages();
 </script>

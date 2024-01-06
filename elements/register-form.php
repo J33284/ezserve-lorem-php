@@ -21,31 +21,35 @@
               <!-- DEFAULT FORM FIELD -->
               <div class="mb-2">
                   <label for="exampleInputEmail1" class="form-label">First Name</label>
-                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="data[fname]">			
+                  <input type="text"  class="form-control" name="data[fname]" value="<?php echo isset($_GET['fname']) ? htmlspecialchars($_GET['fname']) : ''; ?>" required>
+
+                  		
               </div>
               <div class="mb-2">
                   <label for="exampleInputEmail1" class="form-label">Last Name</label>
-                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="data[lname]">			
+                  <input type="text"  class="form-control" name="data[lname]" value="<?php echo isset($_GET['lname']) ? htmlspecialchars($_GET['lname']) : ''; ?>" required>
+
               </div>
               <div class="mb-2">
                   <label for="exampleInputEmail1" class="form-label">Birthday</label>
-                  <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="data[birthday]">			
+                  <input type="date"  class="form-control" name="data[birthday]" value="<?php echo isset($_GET['birthday']) ? htmlspecialchars($_GET['birthday']) : ''; ?>" required>
               </div>
               <div class="mb-2"> 
                   <label for="exampleInputEmail1" class="form-label">Email</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="data[email]">			
+                  <input type="email"  class="form-control" name="data[email]" value="<?php echo isset($_GET['email']) ? htmlspecialchars($_GET['email']) : ''; ?>" required>
+
               </div>
               <div class="mb-2">
                   <label for="exampleInputEmail1" class="form-label">Mobile Number</label>
-                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="data[number]">			
+                  <input type="text"  class="form-control" name="data[number]" value="<?php echo isset($_GET['number']) ? htmlspecialchars($_GET['number']) : ''; ?>" required>	
               </div>
               <div class="mb-2">
                   <label for="exampleInputPassword1" class="form-label">Username</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="data[username]">	
+                  <input type="text"  class="form-control" name="data[username]" value="<?php echo isset($_GET['username']) ? htmlspecialchars($_GET['username']) : ''; ?>" required>
               </div>
               <div class="mb-2">
                   <label for="exampleInputPassword1" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="exampleInputPassword1" name="data[password]">
+                  <input type="password"  class="form-control" name="data[password]" value="<?php echo isset($_GET['password']) ? htmlspecialchars($_GET['password']) : ''; ?>" required>
               </div>
         
               <button type="submit" class="btn btn-primary">Register</button>        

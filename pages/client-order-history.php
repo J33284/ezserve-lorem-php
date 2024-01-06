@@ -3,15 +3,14 @@ if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
 $clientID = $_SESSION['userID'];
 // Query the database to fetch businesses with a status of 0
-$payment = $DB->query("SELECT * FROM payment WHERE payment.clientID = $clientID ");
+$payment = $DB->query("SELECT * FROM payment ");
 
 $keyword = "";
 $results = [];
 
 if (isset($_POST['keyword'])) {
   $keyword = $_POST['keyword'];
-
-  $sql = "SELECT * FROM payment WHERE (fname COLLATE utf8mb4_unicode_ci LIKE '%$keyword%' OR lname COLLATE utf8mb4_unicode_ci LIKE '%$keyword%')";
+  $sql = $DB->query("SELECT * FROM payment ");
 
   $results = $DB->query($sql);
 }

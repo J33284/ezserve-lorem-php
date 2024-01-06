@@ -28,11 +28,13 @@ function show_message() {
 	}
 }
 
-function redirect( $page = "", $q = "" ) {
-	header( "Location: " . SITE_URL . "/$page" . ( !empty( $q ) ? '&' . $q : '' ) );
-	exit;
-}
 
+
+function redirect($url, $params = array()) {
+    $queryString = http_build_query($params);
+    header("Location: $url?$queryString");
+    exit();
+}
 
 // Start of Subfoldering inside the pages Changes
 function get_page() {
