@@ -11,6 +11,7 @@ if (isset($_POST['data'])) {
 
     if (emailExists($email)) {
         set_message("Email already exists. Please use a different email address.", "danger");
+        
         redirect("?page=register&", $_POST['data']);
         exit();
 

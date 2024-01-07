@@ -42,7 +42,7 @@ if (!empty($_POST['username']) && !empty($_POST['password'])) {
                 $_SESSION[AUTH_TYPE] = $user->usertype;
                 $_SESSION[AUTH_TOKEN] = $user->token;
                 set_message("Welcome back {$user->username}!", 'success');
-                redirect(); // Redirect to the desired location for active users
+                header ("Location:?page=default"); // Redirect to the desired location for active users
             }
         } else {
             set_message("Invalid login, please try again.", "danger");
