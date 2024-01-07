@@ -33,7 +33,9 @@ $profileImage = $userData->profileImage;
             <div class="row g-3">
                 <div class="d-flex justify-content-center align-items-center mb-2">
                         <div class="rounded-5">
-                        <img class="rounded-circle shadow p-1 mb-5 bg-white" style="width: 200px;" id="profileImage" alt="Profile Image" src="assets/images/loreto-gabawa-jr.jpg" >
+                        <img class="rounded-circle shadow p-1 mb-5 bg-white" style="width: 200px;" id="profileImage<?$userData?>" alt="Profile Image" src="assets/images/loreto-gabawa-jr.jpg" >
+                        <input type="file" class="form-control w-50" id="addProfileImage" name="addProfileImage" accept="image/*" onchange="previewPic(this)" style="display:none">
+                        
 </div>
                 </div>
                 <div class="mb-3 row">
@@ -88,3 +90,28 @@ $profileImage = $userData->profileImage;
         </div>
     </form>
 </div>
+
+<script>
+
+function previewPic(input, userID) {
+    console.log('previewPic function called');
+    var previewBr = input.closest('.profileForm').querySelector('.imageBranchPreview_' + branchCode);
+
+    console.log('File:', input.files);
+
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            console.log('Read successful');
+            previewBr.src = reader.result;
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        console.log('No file selected or no files support');
+        previewBr.src = "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg";
+    }
+}
+
+</script>
