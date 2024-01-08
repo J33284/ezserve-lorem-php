@@ -4,5 +4,5 @@
 
 	session_start();
     set_message( "<i class='fas fa-check'></i> Logout Successfully." . $DB->error, "success" );
-	redirect();
+	header("Location:?page=login");
 	exit;
