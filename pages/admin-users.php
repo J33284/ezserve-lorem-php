@@ -2,7 +2,10 @@
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
 $accounts = $DB->query("SELECT bo.* FROM business_owner bo WHERE bo.status = 1 ");
-
+if (isset($_GET['ownerID'])) {
+    $ownerID = $_GET['ownerID'];
+    $businesses = $DB->query("SELECT b.* FROM business b WHERE b.status = 1 AND b.ownerID = $ownerID");
+}
 $keyword = "";
 $results = [];
 
@@ -65,6 +68,10 @@ if (isset($_POST['keyword'])) {
                             <button class="btn btn-primary mx-5" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccount<?= $account['ownerID'] ?>">View</button>
                         </td>
                     </tr>
+                    </tbody>
+                    <?php endforeach; ?>
+        </table>
+        <?php foreach ($accounts as $account) : ?>
                     <div class="offcanvas offcanvas-top overflow-auto p-3" style="width: 50vw; height: 100vh; margin-left: 25vw;" tabindex="-1" id="offcanvasAccount<?= $account['ownerID'] ?>" data-bs-backdrop="false">
                     <div class="p-3">
                         <div class="offcanvas-header p-0">
@@ -94,12 +101,40 @@ if (isset($_POST['keyword'])) {
                                 <span class="col-sm-3"> Owner's Address: </span>
                                 <span class="col mx-5 border-bottom"><?= $account['ownerAddress'] ?></span>
                             </div>
-                        </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                       
+               
+                            <div class="Business-list">
+                                <table class="table table-hover table-responsive table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Business Name</th>
+                                            <th>Business Type</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php if ($businesses->num_rows > 0) : ?>
+                                            <?php while ($business = $businesses->fetch_assoc()) : ?>
+                                                <tr>
+                                                    <td><?= $business['busName'] ?></td>
+                                                    <td><?= $business['busType'] ?></td>
+                                                </tr>
+                                            <?php endwhile; ?>
+                                        <?php else : ?>
+                                            <tr>
+                                                <td colspan="2">No businesses found.</td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                       
+                         <?php endforeach; ?>
+                   
+               
+           
+    </div>
+    </div>
+    </div>
     </div>
 </div>
 
