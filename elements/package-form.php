@@ -72,7 +72,6 @@ $packageResult = $DB->query($packageQuery);
                               }
                               ?>
                             </td>
-                            <td><?= $totalItemPrice ?></td>
 
                             <td>
                               <div>
@@ -89,7 +88,7 @@ $packageResult = $DB->query($packageQuery);
                         <?php } ?>
                       </tbody>
                     </table>
-                    <div class="text-end"><strong>Total Package Price:</strong> <?= $totalPackagePrice ?></div>
+                    
                     <div class="text-end mt-3">
                             <a href="?page=add_item&packageCode=<?= $packageCode ?>&categoryCode=<?= $categoryCode ?>" class="btn btn-outline-primary">
                               <i class="bi bi-plus-square"></i>
@@ -97,6 +96,8 @@ $packageResult = $DB->query($packageQuery);
                             </a>
                           </div>
                   <?php } ?>
+                  <br>
+                  <div class="text-end"><strong>Total Package Price:</strong> <?= $totalPackagePrice ?></div>
                 </div>
               </div>
             </div>
@@ -119,13 +120,12 @@ $packageResult = $DB->query($packageQuery);
   <div class="package-details" id="packageDetails<?= $branchCode ?>" style="display: block;">
     <div class="d-flex align-items-center" style="height: 200px; margin-top: 300px; margin-left: 390px; width: 140%;">
       <div class="package-details col-5 card py-5 mx-4 px-4">
-        <h2>Pre-made Packages</h2>
-        <h6>This section lets you create pre-made packages for your customers.</h6>
+      <h2><span style="color: red;">&#9888;</span> No Pre-made Package Found</h2>
         <div class="accordion" id="accordionFlushExample">
           <div class="m-3">
             <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn-edit btn btn-primary btn-lg mt-4">
               <i class="bi bi-plus-square"></i>
-              <span>Add Package</span>
+              <span>Create Package</span>
             </a>
           </div>
         </div>

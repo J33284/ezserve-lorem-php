@@ -80,6 +80,7 @@ function createCategoryGroup(categoryIndex) {
     const priceId = `price_${categoryIndex}`;
 
     // Add your category-group structure here
+    
     newCategoryGroup.innerHTML = `
         <div class="form-group">
             <label for="${categoryId}">CATEGORY</label>
