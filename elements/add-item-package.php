@@ -1,88 +1,128 @@
 <?php
-global $DB;
-
-$packCode = isset($_GET['packagecode']) ? $_GET['packagecode'] : '';
+$branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
+$packCode = isset($_GET['packageCode']) ? $_GET['packageCode'] : '';
 $categoryCode = isset($_GET['categoryCode']) ? $_GET['categoryCode'] : '';
 
-$packageQuery = "SELECT *
-FROM package
-JOIN category ON package.packCode = category.packCode
-JOIN items ON category.categoryCode = items.categoryCode
-WHERE package.packCode = '$packCode';";
-$packageResult = $DB->query($packageQuery);
-$row = $packageResult->fetch_assoc();
+// Assuming $DB is your database connection
+global $DB;
+
+// Constructing the SQL query
+$sql = "
+    SELECT *
+    FROM package p 
+    JOIN category c ON p.packCode = c.packCode
+    WHERE p.packCode = '$packCode'
+      AND c.categoryCode = '$categoryCode'
+";
+
+// Executing the query
+$result = $DB->query($sql);
+$row = $result->fetch_assoc();
+
 ?>
 
-<div class="form-container">
-  <form method="post" action="?action=add_itemAction">
-    <h2>Add Package Item </h2>
-    <table class="table table-hover table-responsive">
-      <tbody>
-        <tr>
-          <td>Package Name:</td>
-          <td colspan="5"><input type="text" name="packName" class="form-control" readonly value="<?= $row['packName'] ?>"></td>
-        </tr>
-        <tr>
-          <td>Category:</td>
-          <td colspan ="2"><input type="text" name="categoryName" class="form-control" required></td>
-        <tr>
-          <td>Description:</td>
-          <td colspan ="5"><input type="text" name="Description" class="form-control" required></td>
-        </tr>
-        <tr>
-          <td>Quantity:</td>
-          <td><input type="number" name="quantity" class="form-control" required></td>
-          <!--
-          <td>Unit:</td>
-          <td>
-            <select name="unit" class="form-control">
-                  <option value="units">Unit/s</option>
-                  <option value="set">Set/s</option>
-                  <option value="bundle">Bundle</option>
-                  <option value="pair">Pair/s</option>
-                  <option value="kg">kg</option>
-                  <option value="hours">Hours</option>
-                  <option value="servings">Servings</option>
-                  <option value="kg">Kilograms (kg)</option>
-                  <option value="lb">Pounds (lb)</option>
-            </select>
-            </td>
--->
-           <td>Price:</td>
-          <td colspan ="2"><input type="number" name="price" class="form-control" step="0.01" placeholder="price per unit" required></td>
-        </tr>
-        <tr>
-          <td colspan="5"><input type="hidden" name="branchcode" value="<?= isset($_GET['branchcode']) ? $_GET['branchcode'] : ''; ?>"></td>
-          <td><input type="hidden" name="packagecode" value="<?= $row['packCode'] ?>"></td>
-        </tr>
-        <tr>
-          <td colspan="6" style="text-align: center;">
-            <button type="submit" class="btn btn-primary">Save Item</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </form>
-</div>
 
 <style>
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 110vh;
-    margin-left: 250px;
-  }
-
-  .form-container {
-    width: 70%;
-    padding: 10px;
-    background-color: #f8f9fa;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-  }
-
-  .form-container h2 {
-    text-align: center;
-  }
+.details-group {
+        display: none;
+        margin-top: 10px;
+    }
 </style>
+
+<div class="package-info " style="margin: 120px 0 0 30%">
+<div class="card p-5 bg-opacity-25 bg-white">
+    <form action="?action=add_itemAction" method="post">
+        <div class="form-group mb-5">
+            <h2>Add Item</h2>
+            <br>
+            <label for="packageName">PACKAGE INFORMATION</label>
+            <input class="form-control mb-3" type="text" id="packageName" name="packageName[]" placeholder="Package Name" value="<?=$row['packName'] ?>" readonly>
+            <textarea  class="form-control" id="packageDescription" name="packageDescription[]" placeholder="Description" value="<?=$row['packDesc'] ?>" readonly></textarea>
+            <input type="hidden" name="branchCode" value="<?=$branchCode?>">
+            <input type="hidden" name="packCode" value="<?=$packCode?>">
+            <input type="hidden" name="categoryCode" value="<?=$categoryCode?>">
+        </div>
+
+        <div class="category-group" data-category="1">
+            <div class="form-group mb-3">
+                <label for="categoryName">CATEGORY</label>
+                <span class="category-indicator"> Category #1.</span>
+                <input class="form-control" type="text" id="categoryName" name="categoryName[1][]" placeholder="Category Name" value="<?=$row['packDesc'] ?>" readonly>
+            </div>
+
+            <div class="item-group" data-item="1">
+                <div class="form-group">
+                    <label for="itemName">ITEM INFORMATION</label>
+                    <span class="item-indicator"> Item #1.</span>
+                    <input  class="form-control mb-3" type="text" id="itemName" name="itemName[1][]" placeholder="Item Name">
+                    <textarea class="form-control mb-3" id="itemDescription" name="itemDescription[1][]" placeholder="Description"></textarea>
+                    <input class="form-control mb-3" type="number" id="quantity" name="quantity[1][]" placeholder="Quantity">
+                    <input  class="form-control" type="number" id="price" name="price[1][]" placeholder="Price">
+                </div>
+                <button type="button" class="add-details-btn btn btn-primary my-3" onclick="cloneDetails(this)">Add Other Details</button>
+                <hr>
+                <div class="details-group">
+                    <div class="form-group">
+                        <label for="detailName">Detail Name</label>
+                        <input class="form-control" type="text" name="detailName[1][][]" placeholder="Detail Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="detailValue">Value</label>
+                        <input class="form-control" type="text" name="detailValue[1][][]" placeholder="Value">
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="add-item-btn btn btn-primary my-3" onclick="cloneItemFields(this)">Add Items</button>
+            <hr>
+        </div>
+        <button type="submit" class="submit-btn btn btn-primary float-end">Save</button>
+    </form>
+</div>
+
+</div>
+<script>
+let itemCounter = 1;
+
+function cloneItemFields(button) {
+    const itemGroup = button.parentNode.querySelector('.item-group').cloneNode(true);
+    button.parentNode.insertBefore(itemGroup, button);
+
+    itemCounter++;
+    const itemIndicator = itemGroup.querySelector('.item-indicator');
+    if (itemIndicator) {
+        itemIndicator.textContent = 'Item #' + itemCounter + '.';
+    }
+
+    const detailsGroup = itemGroup.querySelector('.details-group');
+    if (detailsGroup) {
+        detailsGroup.style.display = 'none';
+        clearDetailsInputs(detailsGroup);
+    }
+}
+
+function toggleDetails(button) {
+    const detailsGroup = button.parentNode.querySelector('.details-group');
+    if (detailsGroup) {
+        detailsGroup.style.display = detailsGroup.style.display === 'none' ? 'block' : 'none';
+    }
+}
+
+function cloneDetails(button) {
+    const detailsGroup = button.parentNode.querySelector('.details-group').cloneNode(true);
+    clearDetailsInputs(detailsGroup);
+    button.parentNode.insertBefore(detailsGroup, button.nextSibling);
+    detailsGroup.style.display = 'block';
+}
+
+function clearDetailsInputs(detailsGroup) {
+    const detailNameInput = detailsGroup.querySelector('[name="detailName"]');
+    const detailValueInput = detailsGroup.querySelector('[name="detailValue"]');
+    if (detailNameInput && detailValueInput) {
+        detailNameInput.value = '';
+        detailValueInput.value = '';
+    }
+}
+
+</script>
+

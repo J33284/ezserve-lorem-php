@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
 
                 if ($stmt->execute()) {
                     set_message("Thank you for your registration. Please wait for Confirmation");
-                    redirect('?page=owner_business');
+                    header('Location:?page=owner_business');
                 } else {
                     set_message("Failed Registration: " . $stmt->error);
                 }

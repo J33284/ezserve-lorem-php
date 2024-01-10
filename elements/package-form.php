@@ -41,7 +41,6 @@ $packageResult = $DB->query($packageQuery);
                           <th scope="col">Quantity</th>
                           <th scope="col">Price</th>
                           <th scope="col">Other Details</th>
-                          <th scope="col">Total</th>
                           <th scope="colspan=2">Action</th> <!-- Add Edit column header -->
                         </tr>
                       </thead>
@@ -90,13 +89,17 @@ $packageResult = $DB->query($packageQuery);
                     </table>
                     
                     <div class="text-end mt-3">
-                            <a href="?page=add_item&packageCode=<?= $packageCode ?>&categoryCode=<?= $categoryCode ?>" class="btn btn-outline-primary">
+                            <a href="?page=add_item&branchCode=<?=$branchCode?>&packageCode=<?= $packageCode ?>&categoryCode=<?= $categoryCode ?>" class="btn btn-outline-primary">
                               <i class="bi bi-plus-square"></i>
                               <span>Add Item</span>
                             </a>
                           </div>
                   <?php } ?>
                   <br>
+                  <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn btn-outline-primary">
+                    <i class="bi bi-plus-square"></i>
+                    <span>Add Category</span>
+                 </a>
                   <div class="text-end"><strong>Total Package Price:</strong> <?= $totalPackagePrice ?></div>
                 </div>
               </div>
@@ -107,10 +110,7 @@ $packageResult = $DB->query($packageQuery);
                     <i class="bi bi-plus-square"></i>
                     <span>Add Package</span>
                 </a>
-                <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn btn-outline-primary">
-                    <i class="bi bi-plus-square"></i>
-                    <span>Add Category</span>
-                </a>
+               
             </div>
         </div>
       </div>
