@@ -84,32 +84,32 @@ function createCategoryGroup(categoryIndex) {
         <div class="form-group">
             <label for="${categoryId}">CATEGORY</label>
             <span class="category-indicator">Category #${categoryIndex}.</span>
-            <input type="text" id="${categoryId}" name="categoryName[${categoryIndex + 1}][]" placeholder="Category Name">
+            <input class="form-control" type="text" id="${categoryId}" name="categoryName[${categoryIndex + 1}][]" placeholder="Category Name">
         </div>
 
         <div class="item-group" data-item="${itemCounter}">
             <div class="form-group">
                 <label for="${itemNameId}">ITEM INFORMATION</label>
                 <span class="item-indicator">Item #${itemCounter}.</span>
-                <input type="text" id="${itemNameId}" name="itemName[${categoryIndex + 1}][]" placeholder="Item Name">
-                <textarea id="${itemDescriptionId}" name="itemDescription[${categoryIndex + 1 }][]" placeholder="Description"></textarea>
-                <input type="number" id="${quantityId}" name="quantity[${categoryIndex + 1}][]" placeholder="Quantity">
-                <input type="number" id="${priceId}" name="price[${categoryIndex + 1}][]" placeholder="Price">
+                <input class="form-control" type="text" id="${itemNameId}" name="itemName[${categoryIndex + 1}][]" placeholder="Item Name">
+                <textarea class="form-control" id="${itemDescriptionId}" name="itemDescription[${categoryIndex + 1 }][]" placeholder="Description"></textarea>
+                <input class="form-control" type="number" id="${quantityId}" name="quantity[${categoryIndex + 1}][]" placeholder="Quantity">
+                <input class="form-control" type="number" id="${priceId}" name="price[${categoryIndex + 1}][]" placeholder="Price">
             </div>
-            <button type="button" class="add-details-btn" onclick="cloneDetails(this)">Add Other Details</button>
+            <button type="button" class="add-details-btn btn btn-primary" onclick="cloneDetails(this)">Add Other Details</button>
             <div class="details-group">
                 <div class="form-group">
                     <label for="detailName">Detail Name</label>
-                    <input type="text" name="detailName[${categoryIndex}][][]" placeholder="Detail Name">
+                    <input class="form-control" type="text" name="detailName[${categoryIndex}][][]" placeholder="Detail Name">
                 </div>
                 <div class="form-group">
                     <label for="detailValue">Value</label>
-                    <input type="text" name="detailValue[${categoryIndex}][][]" placeholder="Value">
+                    <input class="form-control" type="text" name="detailValue[${categoryIndex}][][]" placeholder="Value">
                 </div>
             </div>
         </div>
 
-        <button type="button" class="add-item-btn" onclick="cloneItemFields(this)">Add Item</button>
+        <button type="button" class="add-item-btn btn btn-primary" onclick="cloneItemFields(this)">Add Item</button>
     `;
 
     return newCategoryGroup;
