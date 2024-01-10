@@ -96,7 +96,7 @@ $packageResult = $DB->query($packageQuery);
                           </div>
                   <?php } ?>
                   <br>
-                  <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn btn-outline-primary">
+                  <a href="?page=add_category&branchCode=<?=$branchCode?>&packageCode=<?= $packageCode ?>" class="btn btn-outline-primary">
                     <i class="bi bi-plus-square"></i>
                     <span>Add Category</span>
                  </a>
