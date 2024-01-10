@@ -85,7 +85,7 @@ try {
     // Commit the transaction
     $DB->commit();
 
-    header("Location: ?page=package&branchCode=$branchCode");
+    header("Location: ?page=package&branchcode=$branchCode");
     exit();
 } catch (Exception $e) {
     // Rollback the transaction in case of an exception

@@ -7,7 +7,6 @@ define('AUTH_NAME', 'username');
 define('AUTH_TYPE', 'usertype');
 define('AUTH_TOKEN', 'token');
 
-//define('LOGIN_REDIRECT', '?page=email_verify');
 
 $restricted_pages['client']['access'] = ['default', 'client_profile'];
 $restricted_pages['client']['default_page'] = 'default';
