@@ -3,7 +3,7 @@
       <div class="container-fluid d-flex justify-content-center align-items-center sticky-top"> 
         <div class="container">
           <div class="d-flex justify-content-center align-items-center">
-            <img class="logo" src="assets/images/new logo.png">
+            <img class="logo" src="assets/images/has shadow.png">
            
               <p>Your One-stop Online Shop</p>
             

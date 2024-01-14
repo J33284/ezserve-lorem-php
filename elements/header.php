@@ -22,8 +22,8 @@
  
 
 
-    <header class="header container-fluid align-items-center justify-content-center fixed-top  ">
-    <div class="container header-nav d-flex justify-content-between align-items-center">
+    <header class="header align-items-center justify-content-center fixed-top  ">
+    <div class="mx-5 header-nav d-flex justify-content-between align-items-center">
         <div class="logo-area">
             <img class="logo" src="assets/images/has shadow.png">
             
