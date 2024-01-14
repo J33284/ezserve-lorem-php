@@ -1,60 +1,36 @@
 <?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $branchCode = isset($_POST['branchCode']) ? $_POST['branchCode'] : '';
+    $packCode = isset($_POST['packCode']) ? $_POST['packCode'] : '';
+    $categoryCode = isset($_POST['categoryCode']) ? $_POST['categoryCode'] : '';
 
-global $DB;
+    // Assuming $DB is your database connection
+    global $DB;
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  
-    $branchCode = isset($_POST['branchcode']) ? $_POST['branchcode'] : '';
-    $packCode = isset($_POST['packagecode']) ? $_POST['packagecode'] : '';
-    $categoryName = $_POST["categoryName"];
-    $serviceName = $_POST["serviceName"];
-    $Description = $_POST["Description"];
-    $quantity = $_POST["quantity"];
-    $unit = $_POST["unit"];
-    $color = $_POST["color"];
-    $size = $_POST["size"];
-    $price = $_POST["price"];
+    // Insert item information into the database
+    foreach ($_POST['itemName'][1] as $key => $itemName) {
+        $itemDescription = mysqli_real_escape_string($DB, $_POST['itemDescription'][1][$key]);
+        $quantity = (int)$_POST['quantity'][1][$key];
+        $price = (float)$_POST['price'][1][$key];
 
-    try {
-       
-        $DB->begin_transaction();
+        $itemSql = "INSERT INTO items (itemName, description, quantity, price, categoryCode) 
+                    VALUES ('$itemName', '$itemDescription', $quantity, $price, $categoryCode)";
+        $DB->query($itemSql);
 
-        $stmt = $DB->prepare("INSERT INTO category (packCode, categoryName) VALUES (?, ?)");
-        $stmt->bind_param("ss", $packCode, $categoryName);
-        $stmt->execute();
-        
-        
-        $categoryCode = $DB->insert_id;
+        $itemCode = $DB->insert_id;
 
+        // Insert details information into the database
+        foreach ($_POST['detailName'][1][$key] as $detailKey => $detailName) {
+            $detailValue = mysqli_real_escape_string($DB, $_POST['detailValue'][1][$key][$detailKey]);
 
-        $stmt = $DB->prepare("INSERT INTO service (categoryCode, serviceName, Description, quantity, unit, color, size, price) VALUES (?, ?, ?, ?, ?, ?,?,?)");
-        $stmt->bind_param("ssssssss", $categoryCode, $serviceName, $Description, $quantity, $unit, $color, $size, $price);
-        $stmt->execute();
-
-      
-        $DB->commit();
-
-        $insertionSuccess = true;
-
-    } catch (Exception $e) {
-     
-        $DB->rollback();
-
-
-        $insertionSuccess = false;
-
-        // Output the error message
-        echo "Error: " . $e->getMessage();
+            $detailSql = "INSERT INTO item_details (itemCode, detailName, detailValue) 
+                           VALUES ('$itemCode', '$detailName', '$detailValue')";
+            $DB->query($detailSql);
+        }
     }
-}
 
-// Check if the insertion was successful
-if ($insertionSuccess) {
-    // Redirect to the previous page with the correct branchcode and packagecode
-    header('Location: ?page=package&branchcode=' . urlencode($branchCode));
-    exit(); // Make sure to exit after the header to prevent further execution
-} else {
-    // Handle the case where insertion failed
-    echo "Insertion failed. Please try again.";
+    // Redirect to a success page or do something else
+    header("Location: ?page=package&branchcode=$branchCode");
+    exit();
 }
 ?>

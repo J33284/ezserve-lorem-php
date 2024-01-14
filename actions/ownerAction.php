@@ -82,15 +82,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
 
     $stmt->bind_param("ssssssssssssss", $userID, $busName, $busType, $house_building, $street, $barangay, $city_municipality, $province, $region, $phone, $mobile, $permitsFile, $sanitaryFile, $taxFile);
 
-    // ... (rest of the code)
-
-    // Execute the prepared statement
-    if ($stmt->execute()) {
-        set_message("Thank you for your registration. Please wait for Confirmation");
-        header('Location:?page=owner_business');
-    } else {
-        set_message("Failed Registration: " . $stmt->error);
-    }
+                if ($stmt->execute()) {
+                    set_message("Thank you for your registration. Please wait for Confirmation");
+                    header('Location:?page=owner_business');
+                } else {
+                    set_message("Failed Registration: " . $stmt->error);
+                }
 
     $stmt->close();
 }
