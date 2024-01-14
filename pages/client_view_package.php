@@ -28,17 +28,18 @@ if ($packageDetailsQ) {
 } 
 ?>
 
-<div id="package-view" class="package-view h-100 " style="margin-top:120px">
+<div id="package-view" class="package-view h-100 " >
     <?php if ($packageDetails): ?>
+        
         <div class="row d-flex justify-content-start align-items-center" style="margin-left: 50px">
-            <a href="?page=client_package&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class="col-lg-1 col-sm-1 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
-                <i class="text-light bi bi-arrow-left"></i></a>
-            <h1 class="col-lg-6 col-sm-6 d-flex justify-content-start text-light"> <?= $packageDetails['packName'] ?> Details </h1>
+            <a href="?page=client_package&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class=" col-1 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
+                <i class=" bi bi-arrow-left"></i></a>
+            <h1 class="col-10 d-flex justify-content-start"> <?= $packageDetails['packName'] ?> Details </h1>
         </div>
    
-        <div class="container card mt-5 w-75 justify-content-center align-items-center d-flex py-3">
-            <table class="table table-hover table-responsive">
-                <thead style="border-bottom: 3px solid #fb7e00;">
+        <div class="card mt-5 justify-content-center align-items-center d-flex p-3 table-responsive " >
+            <table class="table table-hover table-responsive" >
+                <thead class="table-dark">
                     <tr>
                         <th scope="col">Category</th>
                         <th scope="col">Items</th>
@@ -71,7 +72,7 @@ if ($packageDetailsQ) {
                     <?php endwhile; ?>
                 </tbody>
             </table>
-
+                
             <div class="float-end">
                 <div class="total row d-flex sticky-bottom m-5">
                     <h3 class="col-7"> Total:</h3>
@@ -97,3 +98,21 @@ if ($packageDetailsQ) {
         <p class="text-center">No details found for the specified package.</p>
     <?php endif; ?>
 </div>
+
+<style>
+    @media (min-width:1000px) {
+        .package-view{
+            margin:120px;
+            width:auto;
+        }
+    }
+    @media (max-width: 700px) {
+        .package-view{
+            margin-top: 120px;
+        }
+        .total{
+            margin:0!important;
+        }
+        
+    }
+</style>
