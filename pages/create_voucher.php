@@ -1,8 +1,11 @@
 <?= element('header') ?>
 
+
+
 <?php
 global $DB;
-$businesses = $DB->query("SELECT * FROM business");
+$ownerID = isset($_SESSION['userID']) ? $_SESSION['userID'] : null;
+$businesses = $DB->query("SELECT * FROM business WHERE ownerID = '$ownerID'");
 $branches = $DB->query("SELECT * FROM branches");
 $packages = $DB->query("SELECT * FROM package");
 ?>
