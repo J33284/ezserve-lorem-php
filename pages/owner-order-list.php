@@ -12,19 +12,19 @@ $payments = $DB->query("
 
 <?= element('owner-side-nav') ?>
 
-<div id="owner-order-list" class="owner-order-list">
+<div id="owner-order-list" class="owner-order-list" style="margin: 120px 0 0 20%">
     <div class="d-flex justify-content-between p-3">
         <h1 class="page-title">Client Orders</h1>
     </div>
-    <div id="searchbar" class="d-flex my-3 float-end">
+    <div id="searchbar" class="d-flex my-3 ">
         <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
         <span class="search-btn input-group-text border-0">
             <i class="bi bi-search"></i>
         </span>
     </div>
-
+<div>
     <table class="table table-hover table-responsive">
-        <thead>
+        <thead class="table-dark">
             <tr>
                 <th scope="col">Transaction No.</th>
                 <th scope="col">Client Name</th>
