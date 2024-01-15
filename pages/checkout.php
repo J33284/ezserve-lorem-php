@@ -25,7 +25,7 @@ $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] 
         <div class="container row">
           <a href="?page=client_view_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode = $_GET['packCode']; ?>" class=" col-xl-1 btn-back btn-lg float-end ">
             <i class="bi bi-arrow-left"></i></a>
-          <h1 class="col-xl-7 d-flex justify-content-start text-light">Check Out</h1>
+          <h1 class="col-xl-7 d-flex justify-content-start">Check Out</h1>
          
           </div>    
        </div>       
