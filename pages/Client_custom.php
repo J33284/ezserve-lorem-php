@@ -105,3 +105,51 @@ WHERE br.branchCode = '$branchCode'");
 
 
 
+<script>
+    // Function to update the order list
+    function updateOrderList() {
+        // Clear existing items in the order list
+        $('.order-body').empty();
+
+        // Iterate through all checkboxes and add checked items to the order list
+        $('input[type="checkbox"]:checked').each(function () {
+            var itemCode = $(this).val();
+            var itemName = $('label[for="itemCheckbox' + itemCode + '"]').text();
+            var quantity = $('#quantity' + itemCode).val();
+            var price = parseFloat($('#quantity' + itemCode).data('price')); // You need to set the data-price attribute for each checkbox
+
+            // Calculate the total price for the item
+            var totalPrice = quantity * price;
+
+            // Append the item to the order list
+            $('.order-body').append(
+                '<tr>' +
+                '<td>' + quantity + '</td>' +
+                '<td>' + itemName + '</td>' +
+                '<td>' + totalPrice.toFixed(2) + '</td>' +
+                '</tr>'
+            );
+        });
+
+        // Update the total price
+        updateTotalPrice();
+    }
+
+    // Function to update the total price
+    function updateTotalPrice() {
+        var totalPrice = 0;
+
+        // Calculate the total price by summing up the prices of all items in the order list
+        $('.order-body tr').each(function () {
+            totalPrice += parseFloat($(this).find('td:last').text());
+        });
+
+        // Update the total price in the UI
+        $('.total-price').text(totalPrice.toFixed(2));
+    }
+
+    // Attach event listeners to checkboxes and quantity inputs
+    $('input[type="checkbox"], input[name="quantity[]"]').on('change', function () {
+        updateOrderList();
+    });
+</script>
