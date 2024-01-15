@@ -31,7 +31,7 @@ if (isset($_POST['keyword'])) {
         </form>
 
         <div id="date-picker-example" class="md-form md-outline d-flex datepicker align-items-center">
-            <label for="date" class="text-white mx-4">Sort by Date</label>
+            <label for="date" class=" mx-4">Sort by Date</label>
             <input placeholder="Select date" type="date" id="date" class="form-control w-50">
         </div>
     </div>
