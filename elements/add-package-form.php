@@ -118,8 +118,8 @@ function createCategoryGroup(categoryIndex) {
                 <span class="item-indicator">Item #${itemCounter}.</span>
                 <input class="form-control" type="text" id="${itemNameId}" name="itemName[${categoryIndex + 1}][]" placeholder="Item Name">
                 <textarea class="form-control" id="${itemDescriptionId}" name="itemDescription[${categoryIndex + 1 }][]" placeholder="Description"></textarea>
-                <input class="form-control" type="number" id="${quantityId}" name="quantity[${categoryIndex + 1}][]" placeholder="Quantity">
-                <select class="form-select" id="unit" name="unit[${categoryIndex + 1}][]">
+                <input class="form-control mb-3" type="number" id="${quantityId}" name="quantity[${categoryIndex + 1}][]" placeholder="Quantity">
+                <select class="form-select mb-3" id="unit" name="unit[${categoryIndex + 1}][]">
                         <option value="" disabled selected>Select a unit</option>
                         <option value="bag">bag</option>
                         <option value="box">box</option>
@@ -140,9 +140,9 @@ function createCategoryGroup(categoryIndex) {
                         <option value="sheet">sheet</option>
                         <option value="unit">unit</option>
                     </select>
-                <input class="form-control" type="number" id="${priceId}" name="price[${categoryIndex + 1}][]" placeholder="Price">
+                <input class="form-control mb-3" type="number" id="${priceId}" name="price[${categoryIndex + 1}][]" placeholder="Price">
             </div>
-            <button type="button" class="add-details-btn btn btn-primary" onclick="cloneDetails(this)">Add Other Details</button>
+            <button type="button" class="add-details-btn btn btn-primary mb-3" onclick="cloneDetails(this)">Add Other Details</button>
             <div class="details-group">
                 <div class="form-group">
                     <label for="detailName">Detail Name</label>
