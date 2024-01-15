@@ -54,7 +54,7 @@ $categoriesResult = $DB->query($categoriesQuery);
                                                 <tr>
                                                     <td><?= $item['itemName'] ?></td>
                                                     <td><?= $item['description'] ?></td>
-                                                    <td><?= $item['quantity'] ?></td>
+                                                    <td><?= $item['quantity']." ". $item['unit'] ?></td>
                                                     <td><?= $item['price'] ?></td>
                                                     <td>
                                                         <?php
@@ -94,7 +94,7 @@ $categoriesResult = $DB->query($categoriesQuery);
                         </div>
                     <?php } ?>
                     <div class="text-end mt-3">
-                        <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn btn-outline-primary">
+                            <a href="?page=add_custom_package&branchcode=<?= $branchCode ?>" class="btn-edit btn btn-primary btn-lg mt-4">
                             <i class="bi bi-plus-square"></i>
                             <span>Add Category</span>
                         </a>
@@ -105,19 +105,18 @@ $categoriesResult = $DB->query($categoriesQuery);
     </div>
 <?php else: ?>
     <div class="package-details" id="packageDetails<?= $branchCode ?>" style="display: block;">
-        <div class="d-flex align-items-center" style="height: 200px; margin-top: 300px; margin-left: 390px; width: 140%;">
-            <div class="package-details col-5 card py-5 mx-4 px-4">
-                <h2>Custom-made Items</h2>
-                <h6>This section lets you create custom-made items for your customers.</h6>
-                <div class="accordion" id="accordionFlushExample">
-                    <div class="m-3">
-                        <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn-edit btn btn-primary btn-lg mt-4">
-                            <i class="bi bi-plus-square"></i>
-                            <span>Add Package</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
+    <div class="d-flex align-items-center" style="height: 200px; margin-top: 300px; margin-left: 390px; width: 140%;">
+      <div class="package-details col-5 card py-5 mx-4 px-4">
+      <h2><span style="color: red;">&#9888;</span> No Records Found</h2>
+        <div class="accordion" id="accordionFlushExample">
+          <div class="m-3">
+            <a href="?page=add_custom_package&branchcode=<?= $branchCode ?>" class="btn-edit btn btn-primary btn-lg mt-4">
+              <i class="bi bi-plus-square"></i>
+              <span>Create Custom Items</span>
+            </a>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 <?php endif; ?>

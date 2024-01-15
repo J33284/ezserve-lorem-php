@@ -1,5 +1,6 @@
 <?php
 global $DB;
+$clientID = $_SESSION['userID'];
 $branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
 $packageQuery = "SELECT * FROM package WHERE branchCode = '$branchCode'";
 $packageResult = $DB->query($packageQuery);
@@ -40,6 +41,7 @@ $packageResult = $DB->query($packageQuery);
                           <th scope="col">Description</th>
                           <th scope="col">Quantity</th>
                           <th scope="col">Price</th>
+                          <th scope="col">Total</th>
                           <th scope="col">Other Details</th>
                           <th scope="colspan=2">Action</th> <!-- Add Edit column header -->
                         </tr>
@@ -60,17 +62,18 @@ $packageResult = $DB->query($packageQuery);
                           <tr>
                             <td><?= $item['itemName'] ?></td>
                             <td><?= $item['description'] ?></td>
-                            <td><?= $item['quantity'] ?></td>
+                            <td><?= $item['quantity'] . " " . $item['unit'] ?></td>
                             <td><?= $item['price'] ?></td>
+                            <td><?= $totalItemPrice ?></td> 
                             <td>
-                              <?php
-                              if (!empty($details)) {
+                            <?php
+                              if (!empty($details['detailName']) && !empty($details['detailValue'])) {
                                 echo $details['detailName'] . ': ' . $details['detailValue'];
                               } else {
                                 echo 'N/A';
                               }
-                              ?>
-                            </td>
+                            ?>
+                          </td>
 
                             <td>
                               <div>

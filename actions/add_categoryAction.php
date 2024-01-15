@@ -38,17 +38,21 @@ try {
             $descriptions = $_POST['itemDescription'][$categoryIndex];
             $quantities = $_POST['quantity'][$categoryIndex];
             $prices = $_POST['price'][$categoryIndex];
+            $units = $_POST['unit'][$categoryIndex];
+            
 
             foreach ($items as $itemIndex => $itemName) {
                 $itemName = sanitizeInput($itemName);
                 $description = sanitizeInput($descriptions[$itemIndex]);
                 $quantity = sanitizeInput($quantities[$itemIndex]);
                 $price = sanitizeInput($prices[$itemIndex]);
+                $unit = sanitizeInput($units[$itemIndex]);
+
 
                 // Insert into the 'items' table
-                $sql = "INSERT INTO items (itemName, description, quantity, price, categoryCode) VALUES (?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO items (itemName, description, quantity, price, unit, categoryCode) VALUES (?, ?, ?, ?, ?, ?)";
                 $stmt = $DB->prepare($sql);
-                $stmt->bind_param("ssssi", $itemName, $description, $quantity, $price, $categoryCode);
+                $stmt->bind_param("ssidsi", $itemName, $description, $quantity, $price, $unit, $categoryCode);
                 $stmt->execute();
 
                 $itemCode = $DB->insert_id;

@@ -37,7 +37,7 @@ $row = $result->fetch_assoc();
             <br>
             <label for="packageName">PACKAGE INFORMATION</label>
             <input class="form-control mb-3" type="text" id="packageName" name="packageName[]" placeholder="Package Name" value="<?=$row['packName'] ?>" readonly>
-            <textarea  class="form-control" id="packageDescription" name="packageDescription[]" placeholder="Description" value="<?=$row['packDesc'] ?>" readonly></textarea>
+            <input  class="form-control" id="packageDescription" name="packageDescription[]" placeholder="Description" value="<?=$row['packDesc'] ?>" readonly>
             <input type="hidden" name="branchCode" value="<?=$branchCode?>">
             <input type="hidden" name="packCode" value="<?=$packCode?>">
             <input type="hidden" name="categoryCode" value="<?=$categoryCode?>">
@@ -47,7 +47,7 @@ $row = $result->fetch_assoc();
             <div class="form-group mb-3">
                 <label for="categoryName">CATEGORY</label>
                 <span class="category-indicator"> Category #1.</span>
-                <input class="form-control" type="text" id="categoryName" name="categoryName[1][]" placeholder="Category Name" value="<?=$row['packDesc'] ?>" readonly>
+                <input class="form-control" type="text" id="categoryName" name="categoryName[1][]" placeholder="Category Name" value="<?=$row['categoryName'] ?>" readonly>
             </div>
 
             <div class="item-group" data-item="1">
@@ -57,6 +57,29 @@ $row = $result->fetch_assoc();
                     <input  class="form-control mb-3" type="text" id="itemName" name="itemName[1][]" placeholder="Item Name">
                     <textarea class="form-control mb-3" id="itemDescription" name="itemDescription[1][]" placeholder="Description"></textarea>
                     <input class="form-control mb-3" type="number" id="quantity" name="quantity[1][]" placeholder="Quantity">
+                    <select class="form-select" id="unit" name="unit[1][]" required>
+                        <option value="" selected disabled>Select a unit</option>
+                        <option value="bag">bag</option>
+                        <option value="box">box</option>
+                        <option value="bottle">bottle</option>
+                        <option value="bundle">bundle</option>
+                        <option value="cm">cm</option>
+                        <option value="dozen">dozen</option>
+                        <option value="gallon">gallon</option>
+                        <option value="kg">kg</option>
+                        <option value="liter">liter</option>
+                        <option value="mg">mg</option>
+                        <option value="ounce">ounce</option>
+                        <option value="pair">pair</option>
+                        <option value="piece">piece</option>
+                        <option value="pound">pound</option>
+                        <option value="roll">roll</option>
+                        <option value="set">set</option>
+                        <option value="set">serve</option>
+                        <option value="sheet">sheet</option>
+                        <option value="set">tray</option>
+                        <option value="unit">unit</option>
+                    </select>
                     <input  class="form-control" type="number" id="price" name="price[1][]" placeholder="Price">
                 </div>
                 <button type="button" class="add-details-btn btn btn-primary my-3" onclick="cloneDetails(this)">Add Other Details</button>

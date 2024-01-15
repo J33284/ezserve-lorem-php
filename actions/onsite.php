@@ -12,11 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['ac
     $grandTotal = $_POST['grandTotal'];
     $paymentMethod = "on site payment";
     $status ="unpaid";
+    $clientID = $_POST['clientID'];
     
 
     // Insert the data into the 'payment' table
-    $insertQuery = "INSERT INTO payment (packCode, clientName, mobileNumber, email, businessCode, itemName, amount, paymentMethod, status)
-                    VALUES ('$packCode', '$clientName', '$mobileNumber', '$email', '$businessCode', '$packName', '$grandTotal', '$paymentMethod', '$status')";
+    $insertQuery = "INSERT INTO payment (packCode, clientID, clientName, mobileNumber, email, businessCode, itemName, amount, paymentMethod, status)
+                    VALUES ('$packCode', '$clientID', '$clientName', '$mobileNumber', '$email', '$businessCode', '$packName', '$grandTotal', '$paymentMethod', '$status')";
 
     // Execute the query
     $DB->query($insertQuery);

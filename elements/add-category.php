@@ -5,9 +5,7 @@ $packCode = isset($_GET['packageCode']) ? $_GET['packageCode'] : '';
 
 global $DB;
 
-$sql = "
-    SELECT *
-    FROM package WHERE packCode = '$packCode'";
+$sql = "SELECT * FROM package WHERE packCode = '$packCode'";
 
 // Executing the query
 $result = $DB->query($sql);
@@ -30,7 +28,7 @@ $row = $result->fetch_assoc();
             <br>
             <label for="packageName">PACKAGE INFORMATION</label>
             <input class="form-control mb-3" type="text" id="packageName" name="packageName[]" placeholder="Package Name" value="<?=$row['packName'] ?>" readonly>
-            <textarea  class="form-control" id="packageDescription" name="packageDescription[]" placeholder="Description" value="<?=$row['packDesc'] ?>" readonly></textarea>
+            <input class="form-control" id="packageDescription" name="packageDescription[]" placeholder="Description" value="<?=$row['packDesc'] ?>" readonly></textarea>
             <input type="hidden" name="branchCode" value="<?=$branchCode?>">
             <input type="hidden" name="packCode" value="<?=$packCode?>">
 
@@ -50,7 +48,30 @@ $row = $result->fetch_assoc();
                     <input  class="form-control mb-3" type="text" id="itemName" name="itemName[1][]" placeholder="Item Name">
                     <textarea class="form-control mb-3" id="itemDescription" name="itemDescription[1][]" placeholder="Description"></textarea>
                     <input class="form-control mb-3" type="number" id="quantity" name="quantity[1][]" placeholder="Quantity">
-                    <input  class="form-control" type="number" id="price" name="price[1][]" placeholder="Price">
+                    <select class="form-select" id="unit" name="unit[1][]" required>
+                        <option value="" selected disabled>Select a unit</option>
+                        <option value="bag">bag</option>
+                        <option value="box">box</option>
+                        <option value="bottle">bottle</option>
+                        <option value="bundle">bundle</option>
+                        <option value="cm">cm</option>
+                        <option value="dozen">dozen</option>
+                        <option value="gallon">gallon</option>
+                        <option value="kg">kg</option>
+                        <option value="liter">liter</option>
+                        <option value="mg">mg</option>
+                        <option value="ounce">ounce</option>
+                        <option value="pair">pair</option>
+                        <option value="piece">piece</option>
+                        <option value="pound">pound</option>
+                        <option value="roll">roll</option>
+                        <option value="set">set</option>
+                        <option value="set">serve</option>
+                        <option value="sheet">sheet</option>
+                        <option value="set">tray</option>
+                        <option value="unit">unit</option>
+                    </select>
+                    <input  class="form-control" type="number" id="price" name="price[1][]" placeholder="Price per unit">
                 </div>
                 <button type="button" class="add-details-btn btn btn-primary my-3" onclick="cloneDetails(this)">Add Other Details</button>
                 <hr>
@@ -108,6 +129,29 @@ function createCategoryGroup(categoryIndex) {
                 <input class="form-control" type="text" id="${itemNameId}" name="itemName[${categoryIndex + 1}][]" placeholder="Item Name">
                 <textarea class="form-control" id="${itemDescriptionId}" name="itemDescription[${categoryIndex + 1 }][]" placeholder="Description"></textarea>
                 <input class="form-control" type="number" id="${quantityId}" name="quantity[${categoryIndex + 1}][]" placeholder="Quantity">
+                <select class="form-select" id="unit" name="unit[${categoryIndex + 1}][]" required>
+                        <option value="" selected disabled>Select a unit</option>
+                        <option value="bag">bag</option>
+                        <option value="box">box</option>
+                        <option value="bottle">bottle</option>
+                        <option value="bundle">bundle</option>
+                        <option value="cm">cm</option>
+                        <option value="dozen">dozen</option>
+                        <option value="gallon">gallon</option>
+                        <option value="kg">kg</option>
+                        <option value="liter">liter</option>
+                        <option value="mg">mg</option>
+                        <option value="ounce">ounce</option>
+                        <option value="pair">pair</option>
+                        <option value="piece">piece</option>
+                        <option value="pound">pound</option>
+                        <option value="roll">roll</option>
+                        <option value="set">set</option>
+                        <option value="set">serve</option>
+                        <option value="sheet">sheet</option>
+                        <option value="set">tray</option>
+                        <option value="unit">unit</option>
+                    </select>
                 <input class="form-control" type="number" id="${priceId}" name="price[${categoryIndex + 1}][]" placeholder="Price">
             </div>
             <button type="button" class="add-details-btn btn btn-primary" onclick="cloneDetails(this)">Add Other Details</button>

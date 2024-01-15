@@ -43,7 +43,7 @@ else {
             <table class="table table-hover table-bordered">
                 <thead class="table-dark">
                     <tr>
-                        <th scope="col">Source ID</th>
+                        <th scope="col">Payment ID</th>
                         <th scope="col">Date</th>
                         <th scope="col">Package Name</th>
                         <th scope="col">Total Amount</th>
@@ -55,9 +55,14 @@ else {
                     <?php
                     while ($row = $payment->fetch_assoc()) {
                         echo '<tr>';
-                        echo '<td>' . $row['sourceID'] . '</td>';
+                        echo '<td>' . ($row['sourceID'] != '' ? $row['sourceID'] : 'N/A') . '</td>';
                         echo '<td>' . $row['paymentDate'] . '</td>';
-                        echo '<td>' . $row['itemName'] . '</td>';
+
+                        $packageQuery = $DB->query("SELECT * FROM package WHERE packCode = '{$row['packCode']}' LIMIT 1");
+                        $packageResult = $packageQuery->fetch_assoc();
+                        
+                        echo '<td>' . ($packageResult ? $packageResult['packName'] : 'N/A') . '</td>';
+                    
                         $formattedAmount = '₱' . number_format($row['amount'], 2);
                         echo '<td>' . $formattedAmount . '</td>';
                         echo '<td>' . $row['paymentMethod'] . '</td>';

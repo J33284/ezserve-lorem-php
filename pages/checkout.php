@@ -186,6 +186,8 @@ $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] 
                 <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
                 <input type="hidden" name="packName" value="<?= $packName['packName'] ?>" >
                 <input type="hidden" name="grandTotal" value="<?= $grandTotal ?>">
+                <input type="hidden" name="clientID" value="<?= $clientID ?>">
+
                 <button type="submit" class="btn btn-primary" style="width:100%" id="placeOrderButton2">
                     Place Order
                 </button>

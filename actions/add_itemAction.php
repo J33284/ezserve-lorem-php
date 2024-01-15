@@ -12,9 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $itemDescription = mysqli_real_escape_string($DB, $_POST['itemDescription'][1][$key]);
         $quantity = (int)$_POST['quantity'][1][$key];
         $price = (float)$_POST['price'][1][$key];
+        $unit = mysqli_real_escape_string($DB, $_POST['unit'][1][$key]);
 
-        $itemSql = "INSERT INTO items (itemName, description, quantity, price, categoryCode) 
-                    VALUES ('$itemName', '$itemDescription', $quantity, $price, $categoryCode)";
+
+        $itemSql = "INSERT INTO items (itemName, description, quantity, price, unit categoryCode) 
+                    VALUES ('$itemName', '$itemDescription', '$quantity', '$price', '$unit', '$categoryCode')";
         $DB->query($itemSql);
 
         $itemCode = $DB->insert_id;

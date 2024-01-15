@@ -12,23 +12,24 @@ $packages = $DB->query("SELECT * FROM package");
         <h2>Create Voucher</h2>
         <form method="post" action="?action=save_voucher" id="voucherForm">
             <label for="businessCode">Select Business:</label>
-            <select name="businessCode" id="businessCode" onchange="updateBranches()">
+            <select name="businessCode" class="form-control mb-3" id="businessCode" onchange="updateBranches()">
                 <?php
                 while ($row = $businesses->fetch_assoc()) {
                     echo "<option value='" . $row["businessCode"] . "'>" . $row["busName"] . "</option>";
                 }
                 ?>
-            </select><br>
+            </select>
+            <br>
 
             <label for="branchCode">Select Branch:</label>
-            <select name="branchCode" id="branchCode" onchange="updatePackages()">
+            <select name="branchCode" class="form-control mb-3" id="branchCode" onchange="updatePackages()">
             </select><br>
 
             <label for="voucherCode">Voucher Code:</label>
-            <input type="text" name="voucherCode"><br>
+            <input type="text" class="form-control mb-3" name="voucherCode"><br>
 
             <label for="condition">Condition:</label>
-            <select name="condition" id="condition" onchange="updateDiscountFields()">
+            <select name="condition" class="form-control mb-3" id="condition" onchange="updateDiscountFields()">
                 <option value="percentage">Gift Card</option>
                 <option value="specific_package">Specific Package</option>
                 <option value="minimum_spend">Minimum Spend</option>
@@ -36,7 +37,7 @@ $packages = $DB->query("SELECT * FROM package");
 
             <div id="specificPackageField" style="display: none;">
                 <label for="selectedPackage">Select Package:</label>
-                <select name="selectedPackage" id="selectedPackage">
+                <select name="selectedPackage" class="form-control mb-3" id="selectedPackage">
                     <?php
                     while ($row = $packages->fetch_assoc()) {
                         echo "<option value='" . $row["packageCode"] . "' data-min-spend='" . $row["minSpend"] . "'>" . $row["packageName"] . "</option>";
@@ -47,25 +48,25 @@ $packages = $DB->query("SELECT * FROM package");
 
             <div id="minimumSpendField" style="display: none;">
                 <label for="minSpend">Minimum Spend:</label>
-                <input type="text" name="minSpend"><br>
+                <input type="text" class="form-control mb-3" name="minSpend"><br>
             </div>
 
             <label for="discountType">Discount Type:</label>
-            <select name="discountType">
+            <select name="discountType" class="form-control mb-3">
                 <option value="percentage">Percentage</option>
                 <option value="amount">Amount</option>
             </select><br>
 
             <label for="discountValue">Discount Value:</label>
-            <input type="text" name="discountValue"><br>
+            <input type="text" class="form-control mb-3" name="discountValue"><br>
 
             <label for="startDate">Start Date:</label>
-            <input type="date" name="startDate"><br>
+            <input type="date"class="form-control mb-3" name="startDate"><br>
 
             <label for="endDate">End Date:</label>
-            <input type="date" name="endDate"><br>
+            <input type="date" class="form-control mb-3" name="endDate"><br>
 
-            <input type="submit" value="Create Voucher">
+            <input type="submit" class="btn btn-primary" style="float: right;" value="Create Voucher">
         </form>
     </div>
 </div>

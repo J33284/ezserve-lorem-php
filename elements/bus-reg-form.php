@@ -116,31 +116,30 @@ $businessesResult = $DB->query("SELECT * FROM businesstypes");
                                         <p>Users are required to provide accurate and up-to-date information regarding the legality of their business. Any false information provided may result in the termination of the user's account.</p>
 
                                         <p><strong>4. Intellectual Property</strong></p>
-                                        <p>All content and materials on this website, including but not limited to text, images, logos, and designs, are the property of [Your Company] and are protected by intellectual property laws. Users may not use, reproduce, or distribute any content without permission.</p>
+                                        <p>All content and materials on this website, including but not limited to text, images, logos, and designs, are the property of EzServe and are protected by intellectual property laws. Users may not use, reproduce, or distribute any content without permission.</p>
 
                                         <p><strong>5. Privacy Policy</strong></p>
                                         <p>The collection and use of personal information are governed by our <a href="#privacy-policy">Privacy Policy</a>, which is incorporated into these terms by reference.</p>
 
                                         <p><strong>6. Compliance with Laws</strong></p>
-                                        <p>Users are responsible for complying with all applicable laws and regulations in their use of the website. [Your Company] is not liable for any illegal activities conducted by users.</p>
+                                        <p>Users are responsible for complying with all applicable laws and regulations in their use of the website. EzServe is not liable for any illegal activities conducted by users.</p>
 
                                         <p><strong>7. Disclaimer of Warranties</strong></p>
-                                        <p>This website is provided "as is" without any warranties, expressed or implied. [Your Company] does not guarantee the accuracy, completeness, or reliability of the content.</p>
+                                        <p>This website is provided "as is" without any warranties, expressed or implied.EzServe does not guarantee the accuracy, completeness, or reliability of the content.</p>
 
                                         <p><strong>8. Limitation of Liability</strong></p>
-                                        <p>[Your Company] shall not be liable for any direct, indirect, incidental, consequential, or punitive damages arising out of or related to the use of this website.</p>
+                                        <p>EzServe shall not be liable for any direct, indirect, incidental, consequential, or punitive damages arising out of or related to the use of this website.</p>
 
                                         <p><strong>9. Termination</strong></p>
-                                        <p>[Your Company] reserves the right to terminate or suspend a user's account at any time for violation of these terms.</p>
+                                        <p>EzServe reserves the right to terminate or suspend a user's account at any time for violation of these terms.</p>
 
                                         <p><strong>10. Changes to Terms</strong></p>
-                                        <p>[Your Company] may revise these terms and conditions at any time without notice. By using this website, you agree to be bound by the current version of these terms.</p>
+                                        <p>EzServe may revise these terms and conditions at any time without notice. By using this website, you agree to be bound by the current version of these terms.</p>
 
                                         <p><strong>11. Governing Law</strong></p>
-                                        <p>These terms and conditions are governed by and construed in accordance with the laws of [Your Country/State].</p>
+                                        <p>These terms and conditions are governed by and construed in accordance with the laws of Republic of the Philippines.</p>
 
-                                        <p>If you have any questions or concerns about these terms and conditions, please contact us at [Your Contact Information].</p>
-
+                                        <p>If you have any questions or concerns about these terms and conditions, please contact us at officialezserve@gmail.com</p>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

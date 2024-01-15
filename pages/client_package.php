@@ -78,7 +78,7 @@ if ($branchesQ) {
         
                         <div class="card flex-row h-auto  m-3 shadow p-3 mb-5 bg-white rounded border-0" id = "<?= $category['categoryCode'] ?>" style="width: 100%">
                                   <div class="col-4 h-50">
-                                    <img  src="" alt="Card image cap">
+                                    <img  src="assets/images/package-icon.png" alt="Card image cap">
                                 </div>
                              
                             <div class="col-8 py-4">

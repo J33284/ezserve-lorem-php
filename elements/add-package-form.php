@@ -35,9 +35,33 @@ $branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
                     <label for="itemName">ITEM INFORMATION</label>
                     <span class="item-indicator"> Item #1.</span>
                     <input  class="form-control mb-3" type="text" id="itemName" name="itemName[1][]" placeholder="Item Name">
-                    <textarea class="form-control mb-3" id="itemDescription" name="itemDescription[1][]" placeholder="Description"></textarea>
+                    <textarea class="form-control mb-3" id="itemDescription" name="itemDescription[1][]" placeholder="Description">
                     <input class="form-control mb-3" type="number" id="quantity" name="quantity[1][]" placeholder="Quantity">
-                    <input  class="form-control" type="number" id="price" name="price[1][]" placeholder="Price">
+                    <select class="form-select" id="unit" name="unit[1][]" required>
+                        <option value="" selected disabled>Select a unit</option>
+                        <option value="bag">bag</option>
+                        <option value="box">box</option>
+                        <option value="bottle">bottle</option>
+                        <option value="bundle">bundle</option>
+                        <option value="cm">cm</option>
+                        <option value="dozen">dozen</option>
+                        <option value="gallon">gallon</option>
+                        <option value="kg">kg</option>
+                        <option value="liter">liter</option>
+                        <option value="mg">mg</option>
+                        <option value="ounce">ounce</option>
+                        <option value="pair">pair</option>
+                        <option value="piece">piece</option>
+                        <option value="pound">pound</option>
+                        <option value="roll">roll</option>
+                        <option value="set">set</option>
+                        <option value="set">serve</option>
+                        <option value="sheet">sheet</option>
+                        <option value="set">tray</option>
+                        <option value="unit">unit</option>
+                    </select>
+                    <br>
+                    <input  class="form-control" type="number" id="price" name="price[1][]" placeholder="Price per unit">
                 </div>
                 <button type="button" class="add-details-btn btn btn-primary my-3" onclick="cloneDetails(this)">Add Other Details</button>
                 <hr>
@@ -95,6 +119,27 @@ function createCategoryGroup(categoryIndex) {
                 <input class="form-control" type="text" id="${itemNameId}" name="itemName[${categoryIndex + 1}][]" placeholder="Item Name">
                 <textarea class="form-control" id="${itemDescriptionId}" name="itemDescription[${categoryIndex + 1 }][]" placeholder="Description"></textarea>
                 <input class="form-control" type="number" id="${quantityId}" name="quantity[${categoryIndex + 1}][]" placeholder="Quantity">
+                <select class="form-select" id="unit" name="unit[${categoryIndex + 1}][]">
+                        <option value="" disabled selected>Select a unit</option>
+                        <option value="bag">bag</option>
+                        <option value="box">box</option>
+                        <option value="bottle">bottle</option>
+                        <option value="bundle">bundle</option>
+                        <option value="cm">cm</option>
+                        <option value="dozen">dozen</option>
+                        <option value="gallon">gallon</option>
+                        <option value="kg">kg</option>
+                        <option value="liter">liter</option>
+                        <option value="mg">mg</option>
+                        <option value="ounce">ounce</option>
+                        <option value="pair">pair</option>
+                        <option value="piece">piece</option>
+                        <option value="pound">pound</option>
+                        <option value="roll">roll</option>
+                        <option value="set">set</option>
+                        <option value="sheet">sheet</option>
+                        <option value="unit">unit</option>
+                    </select>
                 <input class="form-control" type="number" id="${priceId}" name="price[${categoryIndex + 1}][]" placeholder="Price">
             </div>
             <button type="button" class="add-details-btn btn btn-primary" onclick="cloneDetails(this)">Add Other Details</button>
@@ -118,6 +163,8 @@ function createCategoryGroup(categoryIndex) {
 
 function cloneCategoryFields() {
     const categoryGroup = createCategoryGroup(categoryCounter).cloneNode(true);
+    clearInputValues(categoryGroup);
+    
     const form = document.querySelector('form');
     form.insertBefore(categoryGroup, document.querySelector('.add-category-btn'));
 
@@ -136,12 +183,12 @@ function cloneCategoryFields() {
     const newDetailsGroup = categoryGroup.querySelector('.details-group');
     if (newDetailsGroup) {
         newDetailsGroup.style.display = 'none';
-        clearDetailsInputs(newDetailsGroup);
     }
 }
 
 function cloneItemFields(button) {
     const itemGroup = button.parentNode.querySelector('.item-group').cloneNode(true);
+    clearInputValues(itemGroup);
     button.parentNode.insertBefore(itemGroup, button);
 
     itemCounter++;
@@ -153,31 +200,23 @@ function cloneItemFields(button) {
     const detailsGroup = itemGroup.querySelector('.details-group');
     if (detailsGroup) {
         detailsGroup.style.display = 'none';
-        clearDetailsInputs(detailsGroup);
-    }
-}
-
-function toggleDetails(button) {
-    const detailsGroup = button.parentNode.querySelector('.details-group');
-    if (detailsGroup) {
-        detailsGroup.style.display = detailsGroup.style.display === 'none' ? 'block' : 'none';
     }
 }
 
 function cloneDetails(button) {
     const detailsGroup = button.parentNode.querySelector('.details-group').cloneNode(true);
-    clearDetailsInputs(detailsGroup);
+    clearInputValues(detailsGroup);
     button.parentNode.insertBefore(detailsGroup, button.nextSibling);
     detailsGroup.style.display = 'block';
 }
 
-function clearDetailsInputs(detailsGroup) {
-    const detailNameInput = detailsGroup.querySelector('[name="detailName"]');
-    const detailValueInput = detailsGroup.querySelector('[name="detailValue"]');
-    if (detailNameInput && detailValueInput) {
-        detailNameInput.value = '';
-        detailValueInput.value = '';
-    }
+function clearInputValues(element) {
+    const inputs = element.querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+        if (input.type !== 'hidden') {
+            input.value = '';
+        }
+    });
 }
 
 </script>
