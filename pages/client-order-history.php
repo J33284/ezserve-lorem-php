@@ -2,27 +2,24 @@
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
 $clientID = $_SESSION['userID'];
-// Query the database to fetch businesses with a status of 0
-$payment = $DB->query("SELECT * FROM payment ");
+$payment = $DB->query("SELECT * FROM payment WHERE clientID = '$clientID' ");
 
 $keyword = "";
 $results = [];
 
 if (isset($_POST['keyword'])) {
-  $keyword = $_POST['keyword'];
-  $sql = $DB->query("SELECT * FROM payment ");
+    $keyword = $_POST['keyword'];
+    $sql = $DB->query("SELECT * FROM payment ");
 
-  $results = $DB->query($sql);
-}
-else {
-  $results = $payment;
+    $results = $DB->query($sql);
+} else {
+    $results = $payment;
 }
 ?>
 
 <?= element('header') ?>
 
 <?= element('client-side-nav') ?>
-
 
 <div id="admin-reg" class="admin-reg">
     <div class="mb-5 d-flex justify-content-between">
@@ -52,29 +49,78 @@ else {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    while ($row = $payment->fetch_assoc()) {
-                        echo '<tr>';
-                        echo '<td>' . ($row['sourceID'] != '' ? $row['sourceID'] : 'N/A') . '</td>';
-                        echo '<td>' . $row['paymentDate'] . '</td>';
-
-                        $packageQuery = $DB->query("SELECT * FROM package WHERE packCode = '{$row['packCode']}' LIMIT 1");
-                        $packageResult = $packageQuery->fetch_assoc();
-                        
-                        echo '<td>' . ($packageResult ? $packageResult['packName'] : 'N/A') . '</td>';
-                    
-                        $formattedAmount = '₱' . number_format($row['amount'], 2);
-                        echo '<td>' . $formattedAmount . '</td>';
-                        echo '<td>' . $row['paymentMethod'] . '</td>';
-                        echo '<td>' . $row['status'] . '</td>';
-                        echo '</tr>';
-                    }
-                    ?>
+                    <?php while ($row = $payment->fetch_assoc()): ?>
+                        <tr>
+                            <td><?= $row['sourceID'] != '' ? $row['sourceID'] : 'N/A' ?></td>
+                            <td><?= $row['paymentDate'] ?></td>
+                            <td>
+                                <?php
+                                $packageResult = $DB->query("SELECT * FROM package WHERE packCode = '{$row['packCode']}' LIMIT 1")->fetch_assoc();
+                                echo $packageResult ? $packageResult['packName'] : 'N/A';
+                                ?>
+                                <button class="btn btn-sm btn-info view-btn" data-toggle="modal" data-target="#itemModal<?= $row['packCode'] ?>">View</button>
+                            </td>
+                            <td><?= '₱' . number_format($row['amount'], 2) ?></td>
+                            <td><?= $row['paymentMethod'] ?></td>
+                            <td><?= $row['status'] ?></td>
+                        </tr>
+                    <?php endwhile; ?>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<!-- Modals placed outside the loop -->
+<?php $payment->data_seek(0); // Reset the result set pointer ?>
+<?php while ($row = $payment->fetch_assoc()): ?>
+    <div class="modal fade" id="itemModal<?= $row['packCode'] ?>" tabindex="-1" role="dialog" aria-labelledby="itemModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="itemModalLabel">Item Names and Prices</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Item Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $packageQuery = $DB->query("
+                                SELECT *
+                                FROM category
+                                JOIN items ON category.categoryCode = items.categoryCode
+                                JOIN item_details ON items.itemCode = item_details.itemCode
+                                WHERE category.packCode = '{$row['packCode']}'
+                            ");
+                            while ($item = $packageQuery->fetch_assoc()) {
+                                echo '<tr>';
+                                echo '<td>' . $item['itemName'] . '</td>';
+                                echo '<td>' . $item['description'] . '</td>';
+                                echo '<td>' . $item['quantity'] . " " . $item['unit'] . '</td>';
+                                echo '<td>' . '₱' . number_format($item['price'], 2) . '</td>';
+                                echo '</tr>';
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endwhile; ?>
 
 <script>
     // Data Picker Initialization
@@ -82,3 +128,8 @@ else {
         inline: true
     });
 </script>
+<!-- Bootstrap CSS and JS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
