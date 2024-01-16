@@ -70,7 +70,7 @@ else {
 
   </div>
 </div>
-
+<?= element('footer') ?>
 <script>
 const searchButton = document.getElementById('search-button');
 

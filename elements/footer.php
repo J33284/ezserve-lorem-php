@@ -5,7 +5,7 @@
           <div class="d-flex justify-content-center align-items-center">
             <img class="logo" src="assets/images/has shadow.png">
            
-              <p>Your One-stop Online Shop</p>
+              <p class="my-3">Get It Done in a Click</p>
             
           </div>
         </div>
