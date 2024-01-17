@@ -1,9 +1,9 @@
 <div class="login container row justify-content-center align-items-center">
-    <div class="logimg col-xl-7 my-5 d-flex justify-content-center align-items-center">
+    <div class="signimg col-lg-6 my-5 d-flex justify-content-center align-items-center">
         <img src="./assets/images/has shadow with tagline.png" alt="ezServe Logo">
     </div>
 
-    <div class="card justify-content-between border-0 col-sm-8 col-xl-5 shadow p-3 mb-5 bg-white rounded">
+    <div class="card justify-content-between border-0 col-sm-8 col-lg-5 shadow p-3 mb-5 bg-white rounded">
         <div class="card-body">
             <h1>Sign Up</h1>
             <hr>
@@ -52,8 +52,31 @@
                   <input type="password"  class="form-control" name="data[password]" value="<?php echo isset($_GET['password']) ? htmlspecialchars($_GET['password']) : ''; ?>" required>
               </div>
         
-              <button type="submit" class="btn btn-primary">Register</button>        
+              <button type="submit" class="btn btn-primary mb-3">Register</button>     
+              <div class="register p-2 d-flex align-items-center justify-content-start">
+                            <p>Already have an account?<a href="<?php echo SITE_URL?>/?page=login">Login</a></p>
+                        </div>   
             </form>
           </div>
         </div>
       </div>
+
+      <style>
+.signimg img{
+    width: 50vw;
+}
+@media (max-width:1700px) {
+                .login{
+                    margin-left: 5%;
+                }
+                .card{
+                    margin-left: 50px;
+                }
+            }
+@media (max-width: 700px) {
+    .login{
+        width: 100%;
+        margin: 120px 0 0 0 ;
+    }
+}
+</style>

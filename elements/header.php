@@ -23,12 +23,12 @@
 
 
     <header class="header align-items-center justify-content-center fixed-top  ">
-    <div class="mx-5 header-nav d-flex justify-content-between align-items-center">
-        <div class="logo-area">
+    <div class=" header-nav d-flex justify-content-between align-items-center">
+        
             <img class="logo" src="assets/images/has shadow.png">
             
-        </div>
-        <nav class="d-flex justify-content-between align-items-center">
+        
+        <nav class="d-flex  align-items-center ">
         <ul class="d-flex align-items-center justify-content-between">
             <li><a href="<?php echo SITE_URL ?>/?page=default">Home</a></li>
             <li><a href="<?php echo SITE_URL ?>/?page=services">Service</a></li>
@@ -89,3 +89,31 @@
 </header>
 
 
+<style>
+   
+   @media (max-width: 1700px) {
+        .logo{
+            width: 10rem;
+            height: 5rem;
+            margin-left: 20px;
+        }
+        nav{
+            margin: 0 50px;
+        }
+    }
+     @media (max-width:700px) {
+     
+    .logo{
+      width: 10rem;
+      height: 4rem;
+     margin: 0;
+    }
+    } 
+    nav{
+        display: flex;
+  justify-content: start;
+    }
+    nav ul{
+        padding:0;
+    }
+</style>
