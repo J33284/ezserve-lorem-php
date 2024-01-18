@@ -33,7 +33,7 @@ $profileImage = $userData->profileImage;
             <div class="row g-3">
                 <div class="d-flex justify-content-center align-items-center mb-2">
                         <div class="rounded-5">
-                        <img class="rounded-circle shadow p-1 mb-5 bg-white" style="width: 200px;" id="profileImage<?$userData?>" alt="Profile Image" src="assets/images/loreto-gabawa-jr.jpg" >
+                        <img class="rounded-circle shadow p-1 mb-5 bg-white" style="width: 200px;" id="profileImage<?$userData?>" alt="Profile Image" src="assets/images/profile-placeholder.jpg" >
                         <input type="file" class="form-control w-50" id="addProfileImage" name="addProfileImage" accept="image/*" onchange="previewPic(this)" style="display:none">
                         
 </div>
