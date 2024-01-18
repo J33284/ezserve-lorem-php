@@ -326,13 +326,9 @@ h1{
 /*package page*/
 .pack-head{
   height: 12vh;
-  top: 100px;
+  top: 90px;
   padding-top: 25px;
-  width: 100vw;
   position: relative;
-}
-.pack{
-  margin: 30px 100px
 }
 
 .admin-reg{

@@ -20,8 +20,47 @@ if ($branchesQ) {
 <style>
     html {
         scroll-padding-top: 250px;
-    }
     
+    }
+    @media (max-width:1700px) {
+     
+     .head {
+         display: flex;
+        flex-direction: row;
+        margin: 20px;
+     }   
+     .head h1{
+        margin: 0 70px 0 20px;
+     }
+     .pack{
+        display: flex;
+        flex-direction: row;
+        margin: 150px 0px 0px 100px;
+     }
+     .pre-made{
+        margin-right: 20px;
+     }
+     }
+
+    @media (max-width:700px) {
+     
+    .head {
+        display: flex;
+        flex-direction: column;
+        margin:0;
+    }   
+    .head h1{
+        margin: 0;
+    }
+    .pack{
+        display: flex;
+        flex-direction: column;
+       margin: 120px 0 0 20px;
+    }
+    }
+    .btn-back{
+        margin-right: 20px;
+    }
     
 </style>
 
@@ -31,19 +70,19 @@ if ($branchesQ) {
 <?php if ($branchesQ->num_rows > 0): ?>
 <div class="mb-5" style="height: 100vh">
 
-    <div class=" container pack-head sticky-top card p-3" style="height: auto">
-        <div class=" row d-flex justify-content-center align-items-center">
-            <a href="?page=client_business_details&businessCode=<?= $businessCode ?>" class=" col-lg-1 col-sm-1 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
+    <div class=" container pack-head sticky-top card p-3" style="height: auto; width: auto;">
+        <div class=" head "> 
+            <a href="?page=client_business_details&businessCode=<?= $businessCode ?>" class="  btn-back btn-lg justify-content-start align-items-center d-flex text-dark ">
                 <i class="bi bi-arrow-left"></i></a>
-            <h1 class="col-lg-6 col-sm-6 d-flex justify-content-start "> <?= $branch['branchName'] ?></h1>
+            <h1 class="justify-content-start mb-3 "> <?= $branch['branchName'] ?></h1>
 
-            <h4 class="col-lg-5 col-sm-5 mx-35"> <?= $branch['address'] ?> </h4>
+            <h4 class="align-items-center justify-content-center d-flex m-0"> <?= $branch['address'] ?> </h4>
         </div>
     </div>
 
-    <div id="pack" class="pack row" style="margin: 150px 0px 0px 100px;">
+    <div id="pack" class="pack " >
 
-        <div class="col-7">
+        <div class=" pre-made col-lg-6 col-md-12">
 
             <h3 class="text-dark mb-3"> Pre-made Packages</h3>
 
@@ -76,12 +115,12 @@ if ($branchesQ) {
 
                                 ?>
         
-                        <div class="card flex-row h-auto  m-3 shadow p-3 mb-5 bg-white rounded border-0" id = "<?= $category['categoryCode'] ?>" style="width: 100%">
-                                  <div class="col-4 h-50">
-                                    <img  src="assets/images/package-icon.png" alt="Card image cap">
+                        <div class="card flex-row h-auto w-auto m-3 shadow p-3 mb-5 bg-white rounded border-0" id = "<?= $category['categoryCode'] ?>" style="width: 100%">
+                                  <div class="packImg" >
+                                    <img  style="width: 10rem;" src="assets/images/package-icon.png" alt="Card image cap">
                                 </div>
                              
-                            <div class="col-8 py-4">
+                            <div class="packname" style="width:50vw">
                                 <h5 > <?= $package['packName'] ?> </h5>
                                 <?php
                                   // Fetch services for the selected branch
@@ -112,7 +151,7 @@ if ($branchesQ) {
             ?>
         </div>
         
-        <div class="col-4">
+        <div class="col-lg-4 col-md-12">
             <h3 class="text-dark"> Create Custom Package</h3>
             <br>
             <p class="text-dark"><b>Can't find the perfect package? Create your own!</b><br>
