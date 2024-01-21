@@ -14,7 +14,7 @@ WHERE c.branchCode = '$branchCode'");
 <div id="client-custom" class="client-custom">
     <div class="container pack-head" style="top: 100px;">
         <div class="row">
-            <a href="?page=client_package&businessCode=<?= $businessCode?>&branchCode=<?=$branchCode?>" class="col-xl-1 btn-back btn-lg float-end">
+            <a href="?page=client_package&businessCode=<?= $businessCode?>&branchCode=<?=$branchCode?>" class="col-xl-1 text-dark float-end">
                 <i class="bi bi-arrow-left"></i>
             </a>
             <h1 class="col-xl-7 d-flex justify-content-start text-dark">Package Customization</h1>
@@ -44,14 +44,14 @@ WHERE c.branchCode = '$branchCode'");
                                     $itemsQ = $DB->query("SELECT * FROM custom_items WHERE customCategoryCode = '$categoryCode'");
                                     while ($item = $itemsQ->fetch_assoc()):
                                     ?>
-                                        <li class="list-group-item">
-                                            <div class="form-check">
+                                        <li class="list-group-item row">
+                                            <div class="form-check col-5">
                                                 <input class="form-check-input" type="checkbox" id="itemCheckbox<?= $item['itemCode'] ?>" name="itemCheckbox[]" value="<?= $item['itemCode'] ?>">
                                                 <label class="form-check-label" for="itemCheckbox<?= $item['itemCode'] ?>">
                                                     <?= $item['itemName'] ?>
                                                 </label>
                                             </div>
-                                            <input type="number" class="form-control" id="quantity<?= $item['itemCode'] ?>" name="quantity[]" placeholder="Quantity" value ="1" min="1">
+                                            <input type="number" class="form-control col-5" id="quantity<?= $item['itemCode'] ?>" name="quantity[]" placeholder="Quantity" value ="1" min="1">
                                          </li>
                                     <?php endwhile; ?>
                                 </ul>

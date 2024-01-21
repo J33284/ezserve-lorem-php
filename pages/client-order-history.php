@@ -46,6 +46,7 @@ if (isset($_POST['keyword'])) {
                         <th scope="col">Total Amount</th>
                         <th scope="col">Mode of Payment</th>
                         <th scope="col">Status</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,11 +59,11 @@ if (isset($_POST['keyword'])) {
                                 $packageResult = $DB->query("SELECT * FROM package WHERE packCode = '{$row['packCode']}' LIMIT 1")->fetch_assoc();
                                 echo $packageResult ? $packageResult['packName'] : 'N/A';
                                 ?>
-                                <button class="btn btn-sm btn-info view-btn" data-toggle="modal" data-target="#itemModal<?= $row['packCode'] ?>">View</button>
                             </td>
                             <td><?= '₱' . number_format($row['amount'], 2) ?></td>
                             <td><?= $row['paymentMethod'] ?></td>
                             <td><?= $row['status'] ?></td>
+                            <td><button class="btn btn-sm btn-primary view-btn" data-toggle="modal" data-target="#itemModal<?= $row['packCode'] ?>">View</button></td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
@@ -128,8 +129,6 @@ if (isset($_POST['keyword'])) {
         inline: true
     });
 </script>
-<!-- Bootstrap CSS and JS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

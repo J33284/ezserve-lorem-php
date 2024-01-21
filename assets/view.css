@@ -36,21 +36,11 @@ header{
   .header-nav{
     height: 80px;
   }
-  .logo{
-    height: 100px;
-  }
+ 
   .profile-logo{
     color: #fb7e00;
   }
-  @media (max-width:570px) {
-    header span{
-      visibility: hidden;
-    }    
-    .logo-area{
-      width: 30px;
-      margin: 30px 0 0 0 ;
-    }
-    }
+ 
   
   nav li{
     list-style: none;
@@ -336,13 +326,9 @@ h1{
 /*package page*/
 .pack-head{
   height: 12vh;
-  top: 100px;
+  top: 90px;
   padding-top: 25px;
-  width: 100vw;
   position: relative;
-}
-.pack{
-  margin: 30px 100px
 }
 
 .admin-reg{

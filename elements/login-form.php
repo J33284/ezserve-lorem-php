@@ -1,9 +1,9 @@
-<div class="login container row justify-content-between d-flex align-items-center">
-            <div class="logimg col-xl-7 d-flex my-5 justify-content-center align-items-center">
-                <img src="./assets/images/has shadow.png" alt="ezServe Logo" >
+<div class="login container row  justify-content-between d-flex align-items-center">
+            <div class="logimg col-lg-6 d-flex my-5 mx-3 justify-content-center align-items-center">
+                <img src="./assets/images/has shadow with tagline.png" alt="ezServe Logo" >
             </div>
 
-            <div class="card justify-content-between border-0 col-sm-8 col-xl-5 shadow p-3 mb-5 bg-white rounded">
+            <div class="card justify-content-between border-0 col-sm-8 col-lg-5 shadow p-3 mb-5 bg-white rounded">
                 <div class="card-body">
                     <h1>Login</h1>
                     <hr>
@@ -28,4 +28,20 @@
                 </div>
             </div>
         </div>
-        
+
+        <style>
+            @media (max-width:1700px) {
+                .login{
+                    margin-left: 5%;
+                }
+                .card{
+                    margin-left: 10px;
+                }
+            }
+            @media (max-width: 700px) {
+                .login{
+                    width: 100%;
+                    margin: 120px 0 0 0 ;
+                }
+            }
+        </style>

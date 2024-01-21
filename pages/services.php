@@ -22,7 +22,7 @@ else {
 ?>
 
 <?= element('header') ?>
-<div class="h-100">
+<div >
   <div class="search container-fluid align-items-center justify-content-between">
 
     <div class="search-header py-5">
@@ -36,7 +36,7 @@ else {
 
     <?php if (!empty($results)): ?>
       <div class="service-wrap mx-5 p-5">
-        <div class="row">
+        <div class="sub-service row">
           <?php $cardCount = 0; ?>
           <?php foreach ($results as $business): ?>
             <?php $cardCount++; ?>
@@ -70,7 +70,8 @@ else {
 
   </div>
 </div>
-
+    </div>
+<?= element('footer') ?>
 <script>
 const searchButton = document.getElementById('search-button');
 
@@ -95,7 +96,9 @@ searchInput.addEventListener('keypress', function(event) {
       margin-left: 0!important;
       padding: 0!important;
       width: 100vw;
+      
     }
+  
     
   }
 </style>
