@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 15, 2024 at 04:40 AM
+-- Generation Time: Jan 21, 2024 at 03:27 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -66,7 +66,7 @@ CREATE TABLE `branches` (
 
 INSERT INTO `branches` (`branchCode`, `businessCode`, `branchName`, `address`, `coordinates`, `branchImage`) VALUES
 (32, 22, 'Mina Branch', 'Mina Iloilo Province', '10.93052940811921, 122.57529571652414', 0x6173736574732f75706c6f6164732f6272616e636865732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567),
-(33, 24, 'Lambunao Branch', 'Brgy. Poblacion, Ilawod Lambunao Iloilo', '11.054889732037514, 122.47451036671974', 0x6173736574732f75706c6f6164732f6272616e636865732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567);
+(33, 24, 'Lambunao Branch', 'Brgy. Poblacion, Ilawod Lambunao Iloilo', '11.054889732037514, 122.47451036671974', 0x6173736574732f75706c6f6164732f6272616e636865732f66316638376566623162616538656630376162383437396465626664363837642e706e67);
 
 -- --------------------------------------------------------
 
@@ -78,7 +78,7 @@ CREATE TABLE `business` (
   `businessCode` int(11) NOT NULL,
   `ownerID` int(11) NOT NULL,
   `busName` varchar(100) NOT NULL,
-  `about` varchar(500) NOT NULL,
+  `about` varchar(1000) NOT NULL,
   `busType` varchar(100) NOT NULL,
   `house_building` varchar(100) NOT NULL,
   `street` varchar(100) NOT NULL,
@@ -100,7 +100,7 @@ CREATE TABLE `business` (
 INSERT INTO `business` (`businessCode`, `ownerID`, `busName`, `about`, `busType`, `house_building`, `street`, `barangay`, `city_municipality`, `province`, `region`, `phone`, `mobile`, `permits`, `busImage`, `status`) VALUES
 (22, 28, 'Puga Funeral Home', 'In times of loss, finding solace in a compassionate and dedicated funeral home is paramount. At Puga Funeral, we understand the delicate nature of saying farewell to a loved one, and we strive to provide support and comfort when it\'s needed most.', 'Funeral Services', '', '', 'Brgy. Tolicuran', 'Iloilo City', 'Iloilo', '6', '330-39-13', '09831837281', 0x6173736574732f75706c6f6164732f3430303831383438355f3637383239373836343430393538355f333334383734323732383439303230313730375f6e2e6a7067, 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 1),
 (23, 28, 'Puga Photography Services', '', 'Photography', '', '', 'Tolicuran', 'Mina', 'Iloilo ', '6', '320-39-12', '0928372672', 0x6173736574732f75706c6f6164732f3430303831383438355f3637383239373836343430393538355f333334383734323732383439303230313730375f6e2e6a7067, 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 1),
-(24, 31, 'Bahay Kusina De Tangra', ' Bahay Kusina De Tangra Catering & Eatery seamlessly blends the rich heritage of Tangra-style Chinese cuisine with a versatile business model that caters to diverse culinary needs. Our eatery, adorned with cultural nuances, provides a welcoming ambiance for patrons seeking an authentic dining experience. The menu boasts a tantalizing array of Tangra specialties, carefully curated to offer a fusion of bold flavors and traditional culinary techniques. From sizzling stir-fries to delectable dim sum', 'Catering', '20', '7th Street', 'Poblacion Ilawod', 'Lambunao', 'Iloilo', '6', '09452781051', '09452781023', 0x6173736574732f75706c6f6164732f494354203133392d2047726f757020436173652053747564792023332e706466, 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 1);
+(24, 31, 'Bahay Kusina De Tangra', ' Bahay Kusina De Tangra Catering & Eatery seamlessly blends the rich heritage of Tangra-style Filipino cuisine with a versatile business model that caters to diverse culinary needs. Our eatery, adorned with cultural nuances, provides a welcoming ambiance for patrons seeking an authentic dining experience. The menu boasts a tantalizing array of Tangra specialties, carefully curated to offer a fusion of bold flavors and traditional culinary techniques. From sizzling stir-fries to delectable dim su', 'Catering', '20', '7th Street', 'Poblacion Ilawod', 'Lambunao', 'Iloilo', '6', '09452781051', '09452781023', 0x6173736574732f75706c6f6164732f494354203133392d2047726f757020436173652053747564792023332e706466, 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 1);
 
 -- --------------------------------------------------------
 
@@ -157,30 +157,6 @@ INSERT INTO `business_owner` (`ownerID`, `fname`, `lname`, `birthday`, `email`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `category`
---
-
-CREATE TABLE `category` (
-  `categoryCode` int(11) NOT NULL,
-  `packCode` int(11) NOT NULL,
-  `categoryName` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `category`
---
-
-INSERT INTO `category` (`categoryCode`, `packCode`, `categoryName`) VALUES
-(122, 110, 'Chicken Menu'),
-(124, 110, 'Pork Menudo'),
-(125, 110, 'Utensils'),
-(126, 110, 'Tableware'),
-(127, 110, 'Drinks'),
-(128, 110, 'Rice');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `client`
 --
 
@@ -225,8 +201,10 @@ CREATE TABLE `custom_category` (
 --
 
 INSERT INTO `custom_category` (`customCategoryCode`, `branchCode`, `categoryName`) VALUES
-(9, 33, 'Pork Menu'),
-(10, 33, 'Chicken Menu');
+(23, 33, 'Pork Menu'),
+(24, 33, 'Chicken Menu'),
+(25, 33, 'Seafoods'),
+(26, 33, 'Drinks');
 
 -- --------------------------------------------------------
 
@@ -239,18 +217,21 @@ CREATE TABLE `custom_items` (
   `customCategoryCode` int(11) NOT NULL,
   `itemName` varchar(200) NOT NULL,
   `description` varchar(200) NOT NULL,
-  `quantity` int(200) NOT NULL,
-  `unit` varchar(100) NOT NULL,
-  `price` int(200) NOT NULL
+  `price` int(200) NOT NULL,
+  `custom_itemImage` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `custom_items`
 --
 
-INSERT INTO `custom_items` (`itemCode`, `customCategoryCode`, `itemName`, `description`, `quantity`, `unit`, `price`) VALUES
-(8, 9, 'Pork Menudo', 'Pork Menudo', 1, 'tray', 200),
-(9, 10, 'Buttered Chicken', 'Buttered Chicken', 1, 'tray', 200);
+INSERT INTO `custom_items` (`itemCode`, `customCategoryCode`, `itemName`, `description`, `price`, `custom_itemImage`) VALUES
+(26, 23, 'Pork Afritada', '', 100, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f343338383832313136303833383131323475706c6f61645f313630383338313037353835302e706e67),
+(27, 23, 'Pork Embutido', '', 20, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f34646434666161396338363061313135613661393239633137333733623665372e6a7067),
+(28, 24, 'Chicken Curry', '', 50, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f5f66616e6172745f5f315f796561725f616e6e69766572736172795f62795f616b656d6f6e6f5f6466357462336e2d333530742e6a7067),
+(29, 25, 'Shrimp', '', 79, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f66316638376566623162616538656630376162383437396465626664363837642e706e67),
+(30, 26, 'Royal', '12 oz', 20, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f766c63736e61702d323032322d30382d30392d31376832306d3434733132352e706e67),
+(31, 23, 'Pork Embutido', '', 99, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f34646434666161396338363061313135613661393239633137333733623665372e6a7067);
 
 -- --------------------------------------------------------
 
@@ -265,13 +246,17 @@ CREATE TABLE `custom_item_details` (
   `detailValue` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `custom_item_details`
+-- Table structure for table `images`
 --
 
-INSERT INTO `custom_item_details` (`detailsCode`, `itemCode`, `detailName`, `detailValue`) VALUES
-(4, 8, '', ''),
-(5, 9, '', '');
+CREATE TABLE `images` (
+  `id` int(11) NOT NULL,
+  `filename` varchar(255) NOT NULL,
+  `image_data` longblob NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -281,13 +266,15 @@ INSERT INTO `custom_item_details` (`detailsCode`, `itemCode`, `detailName`, `det
 
 CREATE TABLE `items` (
   `itemCode` int(11) NOT NULL,
-  `categoryCode` int(11) NOT NULL,
+  `packCode` int(11) NOT NULL,
   `itemName` varchar(100) NOT NULL,
   `description` varchar(100) NOT NULL,
   `quantity` int(100) NOT NULL,
   `unit` varchar(100) NOT NULL,
   `price` bigint(255) NOT NULL,
-  `itemImage` longblob NOT NULL,
+  `imageName` varchar(255) NOT NULL,
+  `itemImage` varchar(255) NOT NULL,
+  `userInput` varchar(20) NOT NULL,
   `stocks` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -295,14 +282,11 @@ CREATE TABLE `items` (
 -- Dumping data for table `items`
 --
 
-INSERT INTO `items` (`itemCode`, `categoryCode`, `itemName`, `description`, `quantity`, `unit`, `price`, `itemImage`, `stocks`) VALUES
-(135, 122, 'Buttered Chicken', 'Buttered Chicken', 1, 'tray', 500, '', 0),
-(136, 122, 'Chicken Gordon Bleu', 'Chicken Gordon Bleu', 1, 'tray', 700, '', 0),
-(137, 124, 'Pork Menudo', 'Pork Menudo', 3, 'tray', 800, '', 0),
-(138, 125, 'Spoon and Fork', '', 30, 'piece', 300, '', 0),
-(139, 126, 'Bowls and Plates', 'Plastic', 30, 'piece', 10, '', 0),
-(140, 127, 'Fruit Punch', 'Fruit Punch', 6, 'liter', 50, '', 0),
-(141, 128, 'Rice', 'Rice', 3, 'set', 200, '', 0);
+INSERT INTO `items` (`itemCode`, `packCode`, `itemName`, `description`, `quantity`, `unit`, `price`, `imageName`, `itemImage`, `userInput`, `stocks`) VALUES
+(347, 275, '3 Main Dish', 'pork menu\r\nchicken menu\r\nvegatables\r\nseafood', 0, '', 0, '', 'assets/uploads/packages/_fanart__1_year_anniversary_by_akemono_df5tb3n-350t.jpg', 'enable', 0),
+(350, 275, '2 side dish', '', 0, '', 0, '', 'assets/uploads/packages/vlcsnap-2022-07-13-10h17m15s799.png', 'enable', 0),
+(351, 275, 'Softdrinks', '12 oz', 0, '', 0, '', 'assets/uploads/packages/f1f87efb1bae8ef07ab8479debfd687d.png', 'enable', 0),
+(352, 275, 'Utensills', 'Spoon and Fork', 0, '', 0, '', 'assets/uploads/packages/Runner [1920×1080].jfif', 'enable', 0);
 
 -- --------------------------------------------------------
 
@@ -322,13 +306,7 @@ CREATE TABLE `item_details` (
 --
 
 INSERT INTO `item_details` (`detailsCode`, `itemCode`, `detailName`, `detailValue`) VALUES
-(64, 135, '', ''),
-(65, 136, '', ''),
-(66, 137, '', ''),
-(67, 138, '', ''),
-(68, 139, '', ''),
-(69, 140, '', ''),
-(70, 141, '', '');
+(303, 352, 'Additional', 'Tableware');
 
 -- --------------------------------------------------------
 
@@ -340,15 +318,17 @@ CREATE TABLE `package` (
   `packCode` int(11) NOT NULL,
   `branchCode` int(11) NOT NULL,
   `packName` varchar(50) NOT NULL,
-  `packDesc` varchar(300) NOT NULL
+  `packDesc` varchar(300) NOT NULL,
+  `pricingType` varchar(50) NOT NULL,
+  `amount` int(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `package`
 --
 
-INSERT INTO `package` (`packCode`, `branchCode`, `packName`, `packDesc`) VALUES
-(110, 33, 'Package 1', 'Good for 30pax');
+INSERT INTO `package` (`packCode`, `branchCode`, `packName`, `packDesc`, `pricingType`, `amount`) VALUES
+(275, 33, 'Package 1', 'tbc', 'per pax', 320);
 
 -- --------------------------------------------------------
 
@@ -445,13 +425,6 @@ ALTER TABLE `business_owner`
   ADD PRIMARY KEY (`ownerID`);
 
 --
--- Indexes for table `category`
---
-ALTER TABLE `category`
-  ADD PRIMARY KEY (`categoryCode`),
-  ADD KEY `packCode` (`packCode`);
-
---
 -- Indexes for table `client`
 --
 ALTER TABLE `client`
@@ -479,11 +452,17 @@ ALTER TABLE `custom_item_details`
   ADD KEY `itemCode` (`itemCode`);
 
 --
+-- Indexes for table `images`
+--
+ALTER TABLE `images`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `items`
 --
 ALTER TABLE `items`
   ADD PRIMARY KEY (`itemCode`),
-  ADD KEY `categoryCode` (`categoryCode`);
+  ADD KEY `packCode` (`packCode`);
 
 --
 -- Indexes for table `item_details`
@@ -552,12 +531,6 @@ ALTER TABLE `business_owner`
   MODIFY `ownerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
--- AUTO_INCREMENT for table `category`
---
-ALTER TABLE `category`
-  MODIFY `categoryCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
-
---
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
@@ -567,37 +540,43 @@ ALTER TABLE `client`
 -- AUTO_INCREMENT for table `custom_category`
 --
 ALTER TABLE `custom_category`
-  MODIFY `customCategoryCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `customCategoryCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `custom_items`
 --
 ALTER TABLE `custom_items`
-  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `custom_item_details`
 --
 ALTER TABLE `custom_item_details`
-  MODIFY `detailsCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `detailsCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
+-- AUTO_INCREMENT for table `images`
+--
+ALTER TABLE `images`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
+  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=353;
 
 --
 -- AUTO_INCREMENT for table `item_details`
 --
 ALTER TABLE `item_details`
-  MODIFY `detailsCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `detailsCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=304;
 
 --
 -- AUTO_INCREMENT for table `package`
 --
 ALTER TABLE `package`
-  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=280;
 
 --
 -- AUTO_INCREMENT for table `payment`
@@ -628,12 +607,6 @@ ALTER TABLE `business`
   ADD CONSTRAINT `ownerID` FOREIGN KEY (`ownerID`) REFERENCES `business_owner` (`ownerID`);
 
 --
--- Constraints for table `category`
---
-ALTER TABLE `category`
-  ADD CONSTRAINT `packCode` FOREIGN KEY (`packCode`) REFERENCES `package` (`packCode`);
-
---
 -- Constraints for table `custom_category`
 --
 ALTER TABLE `custom_category`
@@ -655,7 +628,7 @@ ALTER TABLE `custom_item_details`
 -- Constraints for table `items`
 --
 ALTER TABLE `items`
-  ADD CONSTRAINT `categoryCode` FOREIGN KEY (`categoryCode`) REFERENCES `category` (`categoryCode`);
+  ADD CONSTRAINT `items_ibfk_1` FOREIGN KEY (`packCode`) REFERENCES `package` (`packCode`);
 
 --
 -- Constraints for table `item_details`

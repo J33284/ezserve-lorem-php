@@ -108,6 +108,13 @@ if ($packageDetailsQ) {
         }
         ?>
         <p style="font-size: 30px;"><?= $total ?></p>
+
+        <div id="quantityMeterContainer" style="display: none;">
+        <label for="quantityMeter">No. of Persons:</label>
+        <input type="number" id="quantityMeter" placeholder="Enter quantity">
+    </div>
+
+        
     </div>
 
     <div class="container mt-3 text-center">
@@ -262,12 +269,15 @@ if ($packageDetailsQ) {
             quantityMeterCell.appendChild(quantityMeter);
             row.appendChild(quantityMeterCell);
         });
-    }
 
-    // Show/hide buttons
-    document.getElementById('customizeButton').classList.add('d-none');
-    document.getElementById('backButton').classList.remove('d-none');
-    document.getElementById('saveButton').classList.remove('d-none');
+        // Show/hide buttons
+        document.getElementById('customizeButton').classList.add('d-none');
+        document.getElementById('backButton').classList.remove('d-none');
+        document.getElementById('saveButton').classList.remove('d-none');
+
+        // Show the quantity meter and label
+        document.getElementById('quantityMeterContainer').style.display = 'block';
+    }
 }
 
 function backToPackageView() {
@@ -280,6 +290,7 @@ function backToPackageView() {
     document.getElementById('customizeButton').classList.remove('d-none');
     document.getElementById('backButton').classList.add('d-none');
     document.getElementById('saveButton').classList.add('d-none');
+    document.getElementById('quantityMeterContainer').classList.add('d-none');
 }
 
 function saveCustomization() {
@@ -314,6 +325,9 @@ function saveCustomization() {
         cell5.innerHTML = quantity;
     });
 
+    // Include the number of persons in the checkout details
+    var numberOfPersons = document.getElementById('quantityMeter').value;
+
     // Show checkout container and buttons
     document.getElementById('checkoutContainer').classList.remove('d-none');
     document.getElementById('backToCustomization').classList.remove('d-none');
@@ -340,23 +354,32 @@ function saveCustomization() {
     }
     
     function proceedToCheckout() {
-        // Extract checkout details and pass them to the next page
-        var checkoutDetails = [];
-        document.querySelectorAll('#checkoutTableBody tr').forEach(function(row) {
-            var item = {
-                itemName: row.cells[0].innerText,
-                description: row.cells[1].innerText,
-                itemDetails: row.cells[2].innerText,
-                customization: row.cells[3].innerText,
-                quantity: row.cells[4].innerText
-            };
-            checkoutDetails.push(item);
-        });
-    
-        // Convert checkoutDetails to JSON and encode it for URL
-        var checkoutDetailsJSON = encodeURIComponent(JSON.stringify(checkoutDetails));
-    
-        // Redirect to the next page with checkoutDetails as a query parameter
-        window.location.href = '?page=checkout&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?=$packCode?>&checkoutDetails=' + checkoutDetailsJSON;
-    }
+    // Extract checkout details and pass them to the next page
+    var checkoutDetails = [];
+    document.querySelectorAll('#checkoutTableBody tr').forEach(function(row) {
+        var item = {
+            itemName: row.cells[0].innerText,
+            description: row.cells[1].innerText,
+            itemDetails: row.cells[2].innerText,
+            customization: row.cells[3].innerText,
+            quantity: row.cells[4].innerText
+        };
+        checkoutDetails.push(item);
+    });
+
+    // Create a separate JSON object for numberOfPersons
+    var numberOfPersons = {
+        numberOfPersons: document.getElementById('quantityMeter').value,
+        packageAmount: '<?= $packageDetails['amount'] ?>'
+        packageAmount: '<?= $packageDetails['pricingType'] ?>'
+    };
+
+    // Convert checkoutDetails and numberOfPersons to JSON and encode them for URL
+    var checkoutDetailsJSON = encodeURIComponent(JSON.stringify(checkoutDetails));
+    var numberOfPersonsJSON = encodeURIComponent(JSON.stringify(numberOfPersons));
+
+    // Redirect to the next page with checkoutDetails and numberOfPersons as query parameters
+    window.location.href = '?page=checkout&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?=$packCode?>&checkoutDetails=' + checkoutDetailsJSON + '&numberOfPersons=' + numberOfPersonsJSON;
+}
+
     </script>

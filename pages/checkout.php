@@ -20,6 +20,13 @@ if (isset($_GET['checkoutDetails'])) {
     $checkoutDetails = json_decode(urldecode($encodedDetails), true);
 }
 
+if (isset($_GET['numberOfPersons'])) {
+    // Retrieve the encoded JSON string from the URL
+    $perPax = $_GET['numberOfPersons'];
+
+    // Decode the JSON string to an array
+    $perPax = json_decode(urldecode($perPax), true);
+}
 ?>
 
 <?= element('header') ?>
@@ -55,23 +62,49 @@ if (isset($_GET['checkoutDetails'])) {
 
             <!-- Delivery Information -->
             <div class="delivery mb-3">
-                <h4 class=" p-3 mb-4" style=" border-bottom: 3px solid #fb7e00;"></h4>
+                <h4 class=" p-3 mb-4" style=" border-bottom: 3px solid #fb7e00;">2. Delivery</h4>
                 <h6></h6>
                 <div class="row d-flex align-items-center my-2 px-5">
-                    <!-- ... (Delivery method checkboxes) ... -->
-                </div>
+                    <div class="form-check row d-flex">
+                        <div class="col-5">
+                                <input class="form-check-input" type="checkbox" value="" id="pickUpCheckbox" name="fulfillmentMethod">
+                                <label class="form-check-label" for="pickUpCheckbox">Pick-up</label>
+                            </div>
+                            <div class="col-5">
+                                <input type="date" class="form-control" name="pick-up" id="pick-up">
+                            </div>
+                            </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="deliveryCheckbox" name="fulfillmentMethod">
+                            <label class="form-check-label" for="deliveryCheckbox">Delivery</label>
+                        </div>
+                    </div>
                 <hr>
                 <div class="row d-flex align-items-center mb-2" id="deliveryAddress">
-                    <label class="mb-2" for="address"></label>
-                    <input type="hidden" class="form-control" name="address" id="address">
+                    <label class="mb-2" for="address">Delivery Address</label>
+                    <input type="text" class="form-control" name="address" id="address">
                 </div>
                 <div class="row d-flex align-items-center mb-2" id="deliveryDate">
-                    <label class="mb-2" for="deliveryDate"></label>
-                    <input type="hidden" class="form-control" name="deliveryDate" id="deliveryDate">
+                    <label class="mb-2" for="deliveryDate">Delivery Date</label>
+                    <input type="date" class="form-control" name="deliveryDate" id="deliveryDate">
                 </div>
             </div>
+        
+        <div class="payment">
+            <h4 class=" p-3 mb-4" style=" border-bottom: 3px solid #fb7e00;"> 3. Payment </h4>
+            <h6> Mode of Payment </h6>
+        <div class="row d-flex align-items-center my-2 px-5">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="onsitePaymentCheckbox" name="onsitePayment">
+            <label class="form-check-label" for="onsitePaymentCheckbox">On-Site Payment</label>
         </div>
-
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="onlinePaymentCheckbox" name="onlinePayment">
+            <label class="form-check-label" for="onlinePaymentCheckbox">Online Payment</label>
+            </div>
+        </div>
+    </div>
+    </div>
         <!-- Order List -->
         <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" style="height: auto">
             <h3 class="order-header sticky-top p-3">Order List</h3>
@@ -97,10 +130,55 @@ if (isset($_GET['checkoutDetails'])) {
                     </tbody>
                 </table>
                 <!-- ... (Total and other order details) ... -->
+                <?php
+                // Assuming $perPax is your associative array with packageAmount and numberOfPersons
+                $amountPerPax = floatval($perPax['packageAmount']);
+                $numberOfPersons = intval($perPax['numberOfPersons']);
+
+                // Calculate the overall total
+                $overallTotal = $amountPerPax * $numberOfPersons;
+                ?>
+                <div style="padding: 10px;">
+                    <h5><?= '₱' . number_format($amountPerPax, 2). " per pax " . $numberOfPersons ?></h5>
+                    <p style="font-size: 30px;">Total: <?= '₱' . number_format($overallTotal, 2) ?></p>
+                </div>
+                <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"
+                href="?page=voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>&grandTotal=<?= $grandTotal ?>">
+                <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
+                <i class="bi bi-chevron-right float end col-2"></i>
+                </a>
+
+                <form action="?action=payMongo" method="post">
+                    <input type="hidden" name="packCode" value="<?= $packCode ?>">
+                    <input type="hidden" name="clientName" value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>">
+                    <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">
+                    <input type="hidden" name="email" value="<?= $clientInfo['email'] ?>" >
+                    <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
+                    <input type="hidden" name="packName" value="<?= $packName['packName'] ?>" >
+                    <input type="hidden" name="grandTotal" value="<?= $grandTotal ?>">
+                    <button type="submit" class="btn btn-primary" style="width:100%" id="placeOrderButton">
+                    Place Order
+                    </button>
+                </form>
+
+                <form action="?action=onsite" method="post">
+                <input type="hidden" name="packCode" value="<?= $packCode ?>">
+                <input type="hidden" name="clientName" value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>">
+                <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">
+                <input type="hidden" name="email" value="<?= $clientInfo['email'] ?>" >
+                <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
+                <input type="hidden" name="packName" value="<?= $packName['packName'] ?>" >
+                <input type="hidden" name="grandTotal" value="<?= $grandTotal ?>">
+                <input type="hidden" name="clientID" value="<?= $clientID ?>">
+
+                <button type="submit" class="btn btn-primary" style="width:100%" id="placeOrderButton2">
+                Place Order
+                </button>
+                </form>
             </div>
         </div>
-    </div>
-</div>
+   
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -129,7 +207,8 @@ if (isset($_GET['checkoutDetails'])) {
             }
         }
     });
+
+
 </script>
 
-<!-- Your existing code for scripts... -->
 
