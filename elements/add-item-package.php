@@ -1,7 +1,7 @@
 <?php
+$businessCode = isset($_GET['businessCode']) ? $_GET['businessCode'] : '';
 $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
-$packCode = isset($_GET['packageCode']) ? $_GET['packageCode'] : '';
-$categoryCode = isset($_GET['categoryCode']) ? $_GET['categoryCode'] : '';
+$packCode = isset($_GET['packCode']) ? $_GET['packCode'] : '';
 
 // Assuming $DB is your database connection
 global $DB;
@@ -10,142 +10,187 @@ global $DB;
 $sql = "
     SELECT *
     FROM package p 
-    JOIN category c ON p.packCode = c.packCode
     WHERE p.packCode = '$packCode'
-      AND c.categoryCode = '$categoryCode'
 ";
 
 // Executing the query
 $result = $DB->query($sql);
 $row = $result->fetch_assoc();
-
 ?>
-
 
 <style>
 .details-group {
-        display: none;
-        margin-top: 10px;
-    }
+    display: none;
+    margin-top: 10px;
+}
 </style>
 
-<div class="package-info " style="margin: 120px 0 0 30%">
-<div class="card p-5 bg-opacity-25 bg-white">
-    <form action="?action=add_itemAction" method="post">
-        <div class="form-group mb-5">
-            <h2>Add Item</h2>
-            <br>
-            <label for="packageName">PACKAGE INFORMATION</label>
-            <input class="form-control mb-3" type="text" id="packageName" name="packageName[]" placeholder="Package Name" value="<?=$row['packName'] ?>" readonly>
-            <input  class="form-control" id="packageDescription" name="packageDescription[]" placeholder="Description" value="<?=$row['packDesc'] ?>" readonly>
-            <input type="hidden" name="branchCode" value="<?=$branchCode?>">
-            <input type="hidden" name="packCode" value="<?=$packCode?>">
-            <input type="hidden" name="categoryCode" value="<?=$categoryCode?>">
-        </div>
+<div class="package-info" style="margin: 120px 0 0 30%">
+    <div class="card p-5 bg-opacity-25 bg-white">
+        <form action="?action=add_itemAction" method="post" enctype="multipart/form-data">
+            <div class="form-group mb-5">
+                <h2>Add Item</h2>
+                <br>
+                <label for="packageName">PACKAGE INFORMATION</label>
+                <br>
+                <label>Package Name</label>
+                <input class="form-control mb-3" type="text" id="packageName" name="packageName[]" placeholder="Package Name" value="<?=$row['packName'] ?>" readonly>
+                <label>Package Description</label>
+                <input class="form-control" id="packageDescription" name="packageDescription[]" placeholder="Description" value="<?=$row['packDesc'] ?>" readonly>
+                <input type="hidden" name="businessCode" value="<?=$businessCode?>">
+                <input type="hidden" name="branchCode" value="<?=$branchCode?>">
+                <input type="hidden" name="packCode" value="<?=$packCode?>">
 
-        <div class="category-group" data-category="1">
-            <div class="form-group mb-3">
-                <label for="categoryName">CATEGORY</label>
-                <span class="category-indicator"> Category #1.</span>
-                <input class="form-control" type="text" id="categoryName" name="categoryName[1][]" placeholder="Category Name" value="<?=$row['categoryName'] ?>" readonly>
+                <label>Pricing Type</label>
+                <input class="form-control" name ="pricingType" value="<?=$row['pricingType'] ?>" readonly>
+
             </div>
 
             <div class="item-group" data-item="1">
-                <div class="form-group">
-                    <label for="itemName">ITEM INFORMATION</label>
-                    <span class="item-indicator"> Item #1.</span>
-                    <input  class="form-control mb-3" type="text" id="itemName" name="itemName[1][]" placeholder="Item Name">
-                    <textarea class="form-control mb-3" id="itemDescription" name="itemDescription[1][]" placeholder="Description"></textarea>
-                    <input class="form-control mb-3" type="number" id="quantity" name="quantity[1][]" placeholder="Quantity">
-                    <select class="form-select" id="unit" name="unit[1][]" required>
-                        <option value="" selected disabled>Select a unit</option>
-                        <option value="bag">bag</option>
-                        <option value="box">box</option>
-                        <option value="bottle">bottle</option>
-                        <option value="bundle">bundle</option>
-                        <option value="cm">cm</option>
-                        <option value="dozen">dozen</option>
-                        <option value="gallon">gallon</option>
-                        <option value="kg">kg</option>
-                        <option value="liter">liter</option>
-                        <option value="mg">mg</option>
-                        <option value="ounce">ounce</option>
-                        <option value="pair">pair</option>
-                        <option value="piece">piece</option>
-                        <option value="pound">pound</option>
-                        <option value="roll">roll</option>
-                        <option value="set">set</option>
-                        <option value="set">serve</option>
-                        <option value="sheet">sheet</option>
-                        <option value="set">tray</option>
-                        <option value="unit">unit</option>
-                    </select>
-                    <input  class="form-control" type="number" id="price" name="price[1][]" placeholder="Price">
-                </div>
-                <button type="button" class="add-details-btn btn btn-primary my-3" onclick="cloneDetails(this)">Add Other Details</button>
-                <hr>
-                <div class="details-group">
-                    <div class="form-group">
-                        <label for="detailName">Detail Name</label>
-                        <input class="form-control" type="text" name="detailName[1][][]" placeholder="Detail Name">
-                    </div>
-                    <div class="form-group">
-                        <label for="detailValue">Value</label>
-                        <input class="form-control" type="text" name="detailValue[1][][]" placeholder="Value">
-                    </div>
-                </div>
+            </div>
+            <hr>
+            <button type="button" class="add-item-btn btn btn-primary" onclick="cloneItemFields()">Add Item</button>
+            <hr>
+            <button type="submit" class="submit-btn btn btn-primary float-end">Save</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    let itemCounter = 0;
+
+    function createItemGroup(itemIndex) {
+    const newItemGroup = document.createElement('div');
+    newItemGroup.classList.add('item-group');
+    newItemGroup.dataset.item = itemIndex;
+
+    const itemNameId = `itemName_${itemIndex}`;
+    const itemDescriptionId = `itemDescription_${itemIndex}`;
+    const quantityId = `quantity_${itemIndex}`;
+    const unitId = `unit_${itemIndex}`;
+    const priceId = `price_${itemIndex}`;
+    const imageId = `image_${itemIndex}`;
+    const toggleSwitchId = `userInput_${itemIndex}`;
+
+    newItemGroup.innerHTML = `
+        <div class="form-group">
+            <br>
+            <label for="${itemNameId}">ITEM INFORMATION</label>
+            <br>
+            <span class="item-indicator">Item #${itemIndex}.</span>
+            <input class="form-control" type="text" id="${itemNameId}" name="itemName[${itemIndex}][]" placeholder="Item Name">
+            <textarea class="form-control" id="${itemDescriptionId}" name="itemDescription[${itemIndex}][]" placeholder="Description"></textarea>
+            <input class="form-control mb-3" type="number" id="${quantityId}" name="quantity[${itemIndex}][]" placeholder="Quantity">
+            <select class="form-select mb-3" id="${unitId}" name="unit[${itemIndex}][]">
+                <option value="" disabled selected>Select a unit</option>
+                <option value="bag">bag</option>
+                <option value="box">box</option>
+                <option value="bottle">bottle</option>
+                <option value="bundle">bundle</option>
+            </select>
+            
+            <div id="${priceId}Section">
+                <label for="${priceId}">Price per unit</label>
+                <input class="form-control" type="number" id="${priceId}" name="price[${itemIndex}][]" placeholder="Price per unit">
             </div>
 
-            <button type="button" class="add-item-btn btn btn-primary my-3" onclick="cloneItemFields(this)">Add Items</button>
-            <hr>
+            <label for="${imageId}">Upload Image</label>
+            <input type="file" id="${imageId}" name="itemImage[${itemIndex}][]" accept="image/*" onchange="previewImage(this, 'preview_${imageId}')">
+            <img id="preview_${imageId}" style="max-width: 100px; max-height: 100px; margin-top: 10px;" alt="Image Preview">
         </div>
-        <button type="submit" class="submit-btn btn btn-primary float-end">Save</button>
-    </form>
-</div>
 
-</div>
-<script>
-let itemCounter = 1;
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="${toggleSwitchId}" name="userInput[${itemIndex}][]" checked>
+            <label class="form-check-label" for="${toggleSwitchId}">Enable User Input</label>
+        </div>
+        <hr>
+        <button type="button" class="add-details-btn btn btn-primary mb-3" onclick="cloneDetails(this, ${itemIndex})">Add Other Details</button>
+       
+        <div class="details-group" id="details_${itemIndex}_0">
+            <div class="form-group">
+                <label for="detailName">Detail Name</label>
+                <input class="form-control" type="text" name="detailName[${itemIndex}][0][]" placeholder="Detail Name">
+            </div>
+            <div class="form-group">
+                <label for="detailValue">Value</label>
+                <input class="form-control" type="text" name="detailValue[${itemIndex}][0][]" placeholder="Detail Value">
+            </div>
+        </div>
+    </div>
+    `;
 
-function cloneItemFields(button) {
-    const itemGroup = button.parentNode.querySelector('.item-group').cloneNode(true);
-    button.parentNode.insertBefore(itemGroup, button);
-
-    itemCounter++;
-    const itemIndicator = itemGroup.querySelector('.item-indicator');
-    if (itemIndicator) {
-        itemIndicator.textContent = 'Item #' + itemCounter + '.';
-    }
-
-    const detailsGroup = itemGroup.querySelector('.details-group');
-    if (detailsGroup) {
-        detailsGroup.style.display = 'none';
-        clearDetailsInputs(detailsGroup);
-    }
+    return newItemGroup;
 }
 
-function toggleDetails(button) {
-    const detailsGroup = button.parentNode.querySelector('.details-group');
-    if (detailsGroup) {
-        detailsGroup.style.display = detailsGroup.style.display === 'none' ? 'block' : 'none';
-    }
-}
-
-function cloneDetails(button) {
+function cloneDetails(button, itemIndex) {
     const detailsGroup = button.parentNode.querySelector('.details-group').cloneNode(true);
-    clearDetailsInputs(detailsGroup);
+    const detailsCount = document.querySelectorAll(`#details_${itemIndex} .details-group`).length;
+
+    detailsGroup.id = `details_${itemIndex}_${detailsCount}`;
+    clearInputValues(detailsGroup);
     button.parentNode.insertBefore(detailsGroup, button.nextSibling);
-    detailsGroup.style.display = 'block';
+    detailsGroup.style.display = 'block';  // Ensure the cloned details group is displayed
 }
 
-function clearDetailsInputs(detailsGroup) {
-    const detailNameInput = detailsGroup.querySelector('[name="detailName"]');
-    const detailValueInput = detailsGroup.querySelector('[name="detailValue"]');
-    if (detailNameInput && detailValueInput) {
-        detailNameInput.value = '';
-        detailValueInput.value = '';
+
+    function cloneItemFields() {
+        const itemGroup = createItemGroup(itemCounter).cloneNode(true);
+        clearInputValues(itemGroup);
+
+        const pricingType = document.querySelector('[name="pricingType"]').value;
+        if (pricingType === 'per pax') {
+            const priceField = itemGroup.querySelector('[id^="price_"]');
+            if (priceField) {
+                priceField.style.display = 'none';
+            }
+
+            const quantityField = itemGroup.querySelector('[id^="quantity_"]');
+            if (quantityField) {
+                quantityField.style.display = 'none';
+            }
+
+            const unitField = itemGroup.querySelector('[id^="unit_"]');
+            if (unitField) {
+                unitField.style.display = 'none';
+            }
+        }
+
+        document.querySelector('.item-group').appendChild(itemGroup);
+
+        itemCounter++;
+        const itemIndicator = itemGroup.querySelector('.item-indicator');
+        if (itemIndicator) {
+            itemIndicator.textContent = 'Item #' + itemCounter + '.';
+        }
+
+        const detailsGroup = itemGroup.querySelector('.details-group');
+        if (detailsGroup) {
+            detailsGroup.style.display = 'none';
+        }
     }
-}
 
+
+    function clearInputValues(element) {
+        const inputs = element.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            if (input.type !== 'hidden') {
+                input.value = '';
+            }
+        });
+    }
+
+    function previewImage(input, previewId) {
+        const preview = document.getElementById(previewId);
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 </script>
 

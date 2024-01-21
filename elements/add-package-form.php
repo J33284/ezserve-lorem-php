@@ -1,223 +1,204 @@
 <?php
-
-$branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
-
+$businessCode = isset($_GET['businessCode']) ? $_GET['businessCode'] : '';
+$branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
 ?>
 
 <style>
-.details-group {
+    .details-group {
         display: none;
         margin-top: 10px;
     }
 </style>
 
-<div class="package-info " style="margin: 120px 0 0 30%">
-<div class="card p-5 bg-opacity-25 bg-white">
-    <form action="?action=add_packageAction" method="post">
-        <div class="form-group mb-5">
-            <h2>Pre-made Package</h2>
-            <br>
-            <label for="packageName">PACKAGE INFORMATION</label>
-            <input class="form-control mb-3" type="text" id="packageName" name="packageName[]" placeholder="Package Name">
-            <textarea  class="form-control" id="packageDescription" name="packageDescription[]" placeholder="Description"></textarea>
-            <input type="hidden" name="branchCode" value="<?=$branchCode?>">
-        </div>
+<div class="package-info" style="margin: 120px 0 0 30%">
+    <div class="card p-5 bg-opacity-25 bg-white">
+        <form action="?action=add_packageAction" method="post" enctype="multipart/form-data">
+            <div class="form-group mb-5">
+                <h2>Pre-made Package</h2>
+                <br>
+                <label for="packageName">PACKAGE INFORMATION</label>
+                <input class="form-control mb-3" type="text" id="packageName" name="packageName" placeholder="Package Name">
+                <textarea class="form-control" id="packageDescription" name="packageDescription" placeholder="Description"></textarea>
+                <input type="hidden" name="businessCode" value="<?= $businessCode ?>">
+                <input type="hidden" name="branchCode" value="<?= $branchCode ?>">
 
-        <div class="category-group" data-category="1">
-            <div class="form-group mb-3">
-                <label for="categoryName">CATEGORY</label>
-                <span class="category-indicator"> Category #1.</span>
-                <input class="form-control" type="text" id="categoryName" name="categoryName[1][]" placeholder="Category Name">
+                <div class="form-check" style="display: inline-block; margin-right: 20px;">
+                    <h6>Pricing</h6>
+                    <input class="form-check-input" type="checkbox" name="perPaxCheckbox" onclick="handlePricingCheckbox(this)">
+                    <label class="form-check-label" for="perPaxCheckbox">Per Pax</label>
+                </div>
+                <div class="form-check" style="display: inline-block;">
+                    <input class="form-check-input" type="checkbox" name="totalItemsCheckbox" onclick="handlePricingCheckbox(this)">
+                    <label class="form-check-label" for="totalItemsCheckbox">Total of Items</label>
+                </div>
+
+                <div id="pricePerPax" style="display: none;">
+                    <label for="pricePerPax">Price per Pax</label>
+                    <input class="form-control mb-3" type="number" id="pricePerPax" name="pricePerPax" placeholder="Price per Pax">
+                </div>
             </div>
 
             <div class="item-group" data-item="1">
-                <div class="form-group">
-                    <label for="itemName">ITEM INFORMATION</label>
-                    <span class="item-indicator"> Item #1.</span>
-                    <input  class="form-control mb-3" type="text" id="itemName" name="itemName[1][]" placeholder="Item Name">
-                    <textarea class="form-control mb-3" id="itemDescription" name="itemDescription[1][]" placeholder="Description">
-                    <input class="form-control mb-3" type="number" id="quantity" name="quantity[1][]" placeholder="Quantity">
-                    <select class="form-select" id="unit" name="unit[1][]" required>
-                        <option value="" selected disabled>Select a unit</option>
-                        <option value="bag">bag</option>
-                        <option value="box">box</option>
-                        <option value="bottle">bottle</option>
-                        <option value="bundle">bundle</option>
-                        <option value="cm">cm</option>
-                        <option value="dozen">dozen</option>
-                        <option value="gallon">gallon</option>
-                        <option value="kg">kg</option>
-                        <option value="liter">liter</option>
-                        <option value="mg">mg</option>
-                        <option value="ounce">ounce</option>
-                        <option value="pair">pair</option>
-                        <option value="piece">piece</option>
-                        <option value="pound">pound</option>
-                        <option value="roll">roll</option>
-                        <option value="set">set</option>
-                        <option value="set">serve</option>
-                        <option value="sheet">sheet</option>
-                        <option value="set">tray</option>
-                        <option value="unit">unit</option>
-                    </select>
-                    <br>
-                    <input  class="form-control" type="number" id="price" name="price[1][]" placeholder="Price per unit">
-                </div>
-                <button type="button" class="add-details-btn btn btn-primary my-3" onclick="cloneDetails(this)">Add Other Details</button>
-                <hr>
-                <div class="details-group">
-                    <div class="form-group">
-                        <label for="detailName">Detail Name</label>
-                        <input class="form-control" type="text" name="detailName[1][][]" placeholder="Detail Name">
-                    </div>
-                    <div class="form-group">
-                        <label for="detailValue">Value</label>
-                        <input class="form-control" type="text" name="detailValue[1][][]" placeholder="Value">
-                    </div>
-                </div>
             </div>
-
-            <button type="button" class="add-item-btn btn btn-primary my-3" onclick="cloneItemFields(this)">Add Items</button>
             <hr>
-        </div>
-        <button type="button" class="add-category-btn btn btn-primary my-2" onclick="cloneCategoryFields()">Add Category</button>
-        <hr>
-        <button type="submit" class="submit-btn btn btn-primary float-end">Save</button>
-    </form>
+            <button type="button" class="add-item-btn btn btn-primary" onclick="cloneItemFields()">Add Item</button>
+            <hr>
+            <button type="submit" class="submit-btn btn btn-primary float-end">Save</button>
+        </form>
+    </div>
 </div>
 
-</div>
 <script>
-let categoryCounter = 1;
-let itemCounter = 1;
+    let itemCounter = 0;
 
-function createCategoryGroup(categoryIndex) {
-    const newCategoryGroup = document.createElement('div');
-    newCategoryGroup.classList.add('category-group');
+    function handlePricingCheckbox(checkbox) {
+        const priceFields = document.querySelectorAll('[id^="price_"]');
+        const quantityFields = document.querySelectorAll('[id^="quantity_"]');
+        const unitFields = document.querySelectorAll('[id^="unit_"]');
+        const pricePerPaxField = document.getElementById('pricePerPax');
 
-    // Generate unique IDs for the category input fields
-    const categoryId = `categoryName_${categoryIndex}`;
-    const itemGroupId = `itemGroup_${categoryIndex}`;
-    const itemNameId = `itemName_${categoryIndex}`;
-    const itemDescriptionId = `itemDescription_${categoryIndex}`;
-    const quantityId = `quantity_${categoryIndex}`;
-    const priceId = `price_${categoryIndex}`;
+        if (checkbox.name === 'perPaxCheckbox' && checkbox.checked) {
+            priceFields.forEach(field => {
+                field.style.display = 'none';
+            });
 
-    // Add your category-group structure here
-    
-    newCategoryGroup.innerHTML = `
-        <div class="form-group">
-            <label for="${categoryId}">CATEGORY</label>
-            <span class="category-indicator">Category #${categoryIndex}.</span>
-            <input class="form-control" type="text" id="${categoryId}" name="categoryName[${categoryIndex + 1}][]" placeholder="Category Name">
-        </div>
+            quantityFields.forEach(field => {
+                field.style.display = 'none';
+            });
 
-        <div class="item-group" data-item="${itemCounter}">
+            unitFields.forEach(field => {
+                field.style.display = 'none';
+            });
+
+            pricePerPaxField.style.display = 'block';
+        } else {
+            priceFields.forEach(field => {
+                field.style.display = 'block';
+            });
+
+            quantityFields.forEach(field => {
+                field.style.display = 'block';
+            });
+
+            unitFields.forEach(field => {
+                field.style.display = 'block';
+            });
+
+            pricePerPaxField.style.display = 'none';
+        }
+    }
+
+    function createItemGroup(itemIndex) {
+        const newItemGroup = document.createElement('div');
+        newItemGroup.classList.add('item-group');
+        newItemGroup.dataset.item = itemIndex;
+
+        const itemNameId = `itemName_${itemIndex}`;
+        const itemDescriptionId = `itemDescription_${itemIndex}`;
+        const quantityId = `quantity_${itemIndex}`;
+        const unitId = `unit_${itemIndex}`;
+        const priceId = `price_${itemIndex}`;
+        const toggleSwitchId = `userInput_${itemIndex}`;
+        const itemImageId = `itemImage_${itemIndex}`;
+
+        newItemGroup.innerHTML = `
             <div class="form-group">
+                <br>
                 <label for="${itemNameId}">ITEM INFORMATION</label>
-                <span class="item-indicator">Item #${itemCounter}.</span>
-                <input class="form-control" type="text" id="${itemNameId}" name="itemName[${categoryIndex + 1}][]" placeholder="Item Name">
-                <textarea class="form-control" id="${itemDescriptionId}" name="itemDescription[${categoryIndex + 1 }][]" placeholder="Description"></textarea>
-                <input class="form-control mb-3" type="number" id="${quantityId}" name="quantity[${categoryIndex + 1}][]" placeholder="Quantity">
-                <select class="form-select mb-3" id="unit" name="unit[${categoryIndex + 1}][]">
-                        <option value="" disabled selected>Select a unit</option>
-                        <option value="bag">bag</option>
-                        <option value="box">box</option>
-                        <option value="bottle">bottle</option>
-                        <option value="bundle">bundle</option>
-                        <option value="cm">cm</option>
-                        <option value="dozen">dozen</option>
-                        <option value="gallon">gallon</option>
-                        <option value="kg">kg</option>
-                        <option value="liter">liter</option>
-                        <option value="mg">mg</option>
-                        <option value="ounce">ounce</option>
-                        <option value="pair">pair</option>
-                        <option value="piece">piece</option>
-                        <option value="pound">pound</option>
-                        <option value="roll">roll</option>
-                        <option value="set">set</option>
-                        <option value="sheet">sheet</option>
-                        <option value="unit">unit</option>
-                    </select>
-                <input class="form-control mb-3" type="number" id="${priceId}" name="price[${categoryIndex + 1}][]" placeholder="Price">
+                <br>
+                <span class="item-indicator">Item #${itemIndex}.</span>
+                <input class="form-control" type="text" id="${itemNameId}" name="itemName[${itemIndex}][]" placeholder="Item Name">
+                <textarea class="form-control" id="${itemDescriptionId}" name="itemDescription[${itemIndex}][]" placeholder="Description"></textarea>
+                <input class="form-control mb-3" type="number" id="${quantityId}" name="quantity[${itemIndex}][]" placeholder="Quantity">
+                <select class="form-select mb-3" id="${unitId}" name="unit[${itemIndex}][]">
+                    <option value="" disabled selected>Select a unit</option>
+                    <option value="bag">bag</option>
+                    <option value="box">box</option>
+                    <option value="bottle">bottle</option>
+                    <option value="bundle">bundle</option>
+                </select>
+                
+                <div id="${priceId}Section">
+                    <label for="${priceId}">Price per unit</label>
+                    <input class="form-control" type="number" id="${priceId}" name="price[${itemIndex}][]" placeholder="Price per unit">
+                </div>
+                <div class="form-group">
+            <label for="${itemImageId}">Item Image</label>
+            <input type="file" id="${itemImageId}" name="itemImage[${itemIndex}][]" accept="image/*" multiple>
+        </div>
             </div>
-            <button type="button" class="add-details-btn btn btn-primary mb-3" onclick="cloneDetails(this)">Add Other Details</button>
-            <div class="details-group">
+            
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="${toggleSwitchId}" name="userInput[${itemIndex}][]" checked>
+                <label class="form-check-label" for="${toggleSwitchId}">Enable User Input</label>
+            </div>
+            <hr>
+            <button type="button" class="add-details-btn btn btn-primary mb-3" onclick="cloneDetails(this, ${itemIndex})">Add Other Details</button>
+            
+            <div class="details-group" id="details_${itemIndex}_0">
                 <div class="form-group">
                     <label for="detailName">Detail Name</label>
-                    <input class="form-control" type="text" name="detailName[${categoryIndex}][][]" placeholder="Detail Name">
+                    <input class="form-control" type="text" name="detailName[${itemIndex}][0][]" placeholder="Detail Name">
                 </div>
                 <div class="form-group">
                     <label for="detailValue">Value</label>
-                    <input class="form-control" type="text" name="detailValue[${categoryIndex}][][]" placeholder="Value">
+                    <input class="form-control" type="text" name="detailValue[${itemIndex}][0][]" placeholder="Detail Value">
                 </div>
             </div>
         </div>
+        `;
 
-        <button type="button" class="add-item-btn btn btn-primary" onclick="cloneItemFields(this)">Add Item</button>
-    `;
-
-    return newCategoryGroup;
-}
-
-function cloneCategoryFields() {
-    const categoryGroup = createCategoryGroup(categoryCounter).cloneNode(true);
-    clearInputValues(categoryGroup);
-    
-    const form = document.querySelector('form');
-    form.insertBefore(categoryGroup, document.querySelector('.add-category-btn'));
-
-    categoryCounter++;
-    const categoryIndicator = categoryGroup.querySelector('.category-indicator');
-    if (categoryIndicator) {
-        categoryIndicator.textContent = 'Category #' + categoryCounter + '.';
+        return newItemGroup;
     }
 
-    itemCounter = 1;
-    const newItemIndicator = categoryGroup.querySelector('.item-indicator');
-    if (newItemIndicator) {
-        newItemIndicator.textContent = 'Item #' + itemCounter + '.';
+    function cloneDetails(button, itemIndex) {
+        const detailsGroup = button.parentNode.querySelector('.details-group').cloneNode(true);
+        const detailsCount = document.querySelectorAll(`#details_${itemIndex} .details-group`).length;
+
+        detailsGroup.id = `details_${itemIndex}_${detailsCount}`;
+        clearInputValues(detailsGroup);
+        button.parentNode.insertBefore(detailsGroup, button.nextSibling);
+        detailsGroup.style.display = 'block';  // Ensure the cloned details group is displayed
     }
 
-    const newDetailsGroup = categoryGroup.querySelector('.details-group');
-    if (newDetailsGroup) {
-        newDetailsGroup.style.display = 'none';
-    }
-}
+    function cloneItemFields() {
+        const itemGroup = createItemGroup(itemCounter).cloneNode(true);
+        clearInputValues(itemGroup);
+        
+        const perPaxCheckbox = document.querySelector('[name="perPaxCheckbox"]');
+        if (perPaxCheckbox.checked) {
+            const priceField = itemGroup.querySelector('[id^="price_"]');
+            if (priceField) {
+                priceField.style.display = 'none';
+            }
 
-function cloneItemFields(button) {
-    const itemGroup = button.parentNode.querySelector('.item-group').cloneNode(true);
-    clearInputValues(itemGroup);
-    button.parentNode.insertBefore(itemGroup, button);
+            const quantityField = itemGroup.querySelector('[id^="quantity_"]');
+            if (quantityField) {
+                quantityField.style.display = 'none';
+            }
 
-    itemCounter++;
-    const itemIndicator = itemGroup.querySelector('.item-indicator');
-    if (itemIndicator) {
-        itemIndicator.textContent = 'Item #' + itemCounter + '.';
-    }
-
-    const detailsGroup = itemGroup.querySelector('.details-group');
-    if (detailsGroup) {
-        detailsGroup.style.display = 'none';
-    }
-}
-
-function cloneDetails(button) {
-    const detailsGroup = button.parentNode.querySelector('.details-group').cloneNode(true);
-    clearInputValues(detailsGroup);
-    button.parentNode.insertBefore(detailsGroup, button.nextSibling);
-    detailsGroup.style.display = 'block';
-}
-
-function clearInputValues(element) {
-    const inputs = element.querySelectorAll('input, textarea');
-    inputs.forEach(input => {
-        if (input.type !== 'hidden') {
-            input.value = '';
+            const unitField = itemGroup.querySelector('[id^="unit_"]');
+            if (unitField) {
+                unitField.style.display = 'none';
+            }
         }
-    });
-}
 
+        document.querySelector('.item-group').appendChild(itemGroup);
+
+        itemCounter++;
+        const itemIndicator = itemGroup.querySelector('.item-indicator');
+        if (itemIndicator) {
+            itemIndicator.textContent = 'Item #' + itemCounter + '.';
+        }
+    }
+
+    function clearInputValues(element) {
+        const inputs = element.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            if (input.type !== 'hidden') {
+                input.value = '';
+            }
+        });
+    }
 </script>
-

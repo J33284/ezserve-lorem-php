@@ -8,14 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $categoryName = $_POST['categoryName'];
     $businessCode = $_POST['businessCode'];
     $branchCode = $_POST['branchCode'];
-
-    // Insert package information into the 'package' table
-    $categoryInsertQuery = "INSERT INTO custom_category (categoryName, branchCode) VALUES (?,?)";
-    $categoryStatement = $DB->prepare($categoryInsertQuery);
-    $categoryStatement->execute([$categoryName, $branchCode]);
-
-    // Get the last inserted package code (assuming it's an auto-incremented primary key)
-    $customCategoryCode = $DB->insert_id;
+    $customCategoryCode = $_POST['customCategoryCode'];
 
     $targetDirectory = "assets/uploads/custom-packages/";
     // Process item groups

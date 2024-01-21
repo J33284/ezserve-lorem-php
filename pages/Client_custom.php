@@ -4,11 +4,10 @@ if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 $businessCode = $_GET['businessCode'];
 $branchCode = $_GET['branchCode'];
 
-$servicesQ = $DB->query("SELECT br.*, c.*, i.*
-FROM branches br
-JOIN custom_category c ON br.branchCode = c.branchCode
+$servicesQ = $DB->query("SELECT c.*, i.*
+FROM custom_category c 
 JOIN custom_items i ON c.customCategoryCode = i.customCategoryCode
-WHERE br.branchCode = '$branchCode'");
+WHERE c.branchCode = '$branchCode'");
 ?>
 <?= element('header') ?>
 

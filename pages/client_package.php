@@ -62,14 +62,14 @@ if ($branchesQ) {
                                   // Fetch services for the selected branch
                                   $packCode = $package['packCode'];
 
-                                  $categoryQ = $DB->query("SELECT p.*, c.*
+                                  $itemQ = $DB->query("SELECT p.*, i.*
                                       FROM package p
-                                      JOIN category c ON p.packCode = c.packCode
+                                      JOIN items i ON p.packCode = i.packCode
                                       WHERE p.packCode = '$packCode' LIMIT 1");
 
                                   // Check if the query was successful before trying to fetch data
-                                  if ($categoryQ) {
-                                      $category = $categoryQ->fetch_assoc();
+                                  if ($itemQ) {
+                                      $item = $itemQ->fetch_assoc();
 
                                       // The rest of your code remains unchanged
                                   }
@@ -85,16 +85,16 @@ if ($branchesQ) {
                                 <h5 > <?= $package['packName'] ?> </h5>
                                 <?php
                                   // Fetch services for the selected branch
-                                  $categoryCode = $category['categoryCode'];
+                                  $itemCode = $item['itemCode'];
 
-                                  $serviceQ = $DB->query("SELECT c.*, i.*
-                                      FROM category c
-                                      JOIN items i ON c.categoryCode = i.categoryCode
-                                      WHERE c.categoryCode = '$categoryCode' LIMIT 1");
+                                  $item_detailsQ = $DB->query("SELECT i.*, d.*
+                                      FROM items i
+                                      JOIN item_details d ON i.itemCode = d.itemCode
+                                      WHERE i.itemCode = '$itemCode' LIMIT 1");
 
                                   // Check if the query was successful before trying to fetch data
-                                  if ($serviceQ) {
-                                      $service = $serviceQ->fetch_assoc();
+                                  if ($item_detailsQ) {
+                                      $item_details = $item_detailsQ->fetch_assoc();
 
                                       // The rest of your code remains unchanged
                                   }

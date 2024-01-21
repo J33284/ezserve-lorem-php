@@ -1,8 +1,8 @@
 <?= element( 'header' ) ?>
 <?= element( 'owner-side-nav' ) ?>
 <?php
-
-$branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
+$businessCode = isset($_GET['businessCode']) ? $_GET['businessCode'] : '';
+$branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
 ?>
 
 <div class="package-details"  style="display: block;">
@@ -12,12 +12,12 @@ $branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
         <h6>This section lets you create pre-made packages for your customers.</h6>
         <div class="accordion" id="accordionFlushExample">
           <div class="m-3">
-            <a href="?page=package&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
+            <a href="?page=package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
               <i class="bi bi-eye"></i>
               <span>View Package</span>
             </a>
            <br>
-            <a href="?page=add_package&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
+            <a href="?page=add_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
               <i class="bi bi-plus-square"></i>
               <span>Add Package</span>
             </a>
@@ -35,12 +35,12 @@ $branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
         <h6>This section lets you create custom packages for your customers.</h6>
         <div class="accordion" id="accordionFlushExample">
           <div class="m-3">
-            <a href="?page=custom_package&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
+            <a href="?page=custom_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
               <i class="bi bi-eye"></i>
               <span>View Custom Items</span>
             </a>
             <br>
-            <a href="?page=add_custom_package&branchcode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
+            <a href="?page=add_custom_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
               <i class="bi bi-plus-square"></i>
               <span>Add Custom Items</span>
             </a>

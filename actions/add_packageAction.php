@@ -1,99 +1,86 @@
 <?php
-// Assuming you have a database connection
+// Assuming you have a global database connection $DB
 global $DB;
 
-// Function to sanitize input data
-function sanitizeInput($data) {
-    if (is_array($data)) {
-        return array_map('sanitizeInput', $data);
-    } else {
-        return htmlspecialchars(stripslashes(trim($data)));
+// Check if the form is submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Process package information
+    $packageName = $_POST['packageName'];
+    $packageDescription = $_POST['packageDescription'];
+    $businessCode = $_POST['businessCode'];
+    $branchCode = $_POST['branchCode'];
+    
+
+    // Determine pricing type based on checkboxes
+    $pricingType = '';
+    $amount = 0;
+
+    if (isset($_POST['perPaxCheckbox']) && $_POST['perPaxCheckbox'] == 'on') {
+        $pricingType = 'per pax';
+        $amount = isset($_POST['pricePerPax']) ? $_POST['pricePerPax'] : 0;
+    } elseif (isset($_POST['totalItemsCheckbox']) && $_POST['totalItemsCheckbox'] == 'on') {
+        $pricingType = 'total of items';
     }
-}
 
-try {
-    // Begin a transaction
-    $DB->begin_transaction();
+    // Insert package information into the 'package' table
+    $packageInsertQuery = "INSERT INTO package (packName, packDesc, branchCode, pricingType, amount) VALUES (?, ?, ?, ?, ?)";
+    $packageStatement = $DB->prepare($packageInsertQuery);
+    $packageStatement->execute([$packageName, $packageDescription, $branchCode, $pricingType, $amount]);
 
-    // Get package information
-    $packName = sanitizeInput($_POST['packageName'][0]);
-    $packDesc = sanitizeInput($_POST['packageDescription'][0]);
-    $branchCode = $_POST["branchCode"];
-
-    // Insert into the 'package' table
-    $sql = "INSERT INTO package (branchCode, packName, packDesc) VALUES (?, ?, ?)";
-    $stmt = $DB->prepare($sql);
-    $stmt->bind_param("sss", $branchCode, $packName, $packDesc);
-    $stmt->execute();
-
+    // Get the last inserted package code (assuming it's an auto-incremented primary key)
     $packCode = $DB->insert_id;
 
-    // Get category information
-    $categories = $_POST['categoryName'];
+    $targetDirectory = "assets/uploads/packages/";
+    // Process item groups
+    foreach ($_POST['itemName'] as $itemIndex => $itemData) {
+        // Process each item in the group
+        foreach ($itemData as $key => $value) {
+            $itemName = $value;
+            $itemDescription = $_POST['itemDescription'][$itemIndex][$key];
+            $userInput = isset($_POST['userInput'][$itemIndex][$key]) ? 'enable' : 'disable';
 
-    foreach ($categories as $categoryIndex => $categoryNames) {
-        // Assuming that the category names are in an array
-        foreach ($categoryNames as $categoryName) {
-            $categoryName = sanitizeInput($categoryName);
+            $targetFile = $targetDirectory . basename($_FILES['itemImage']['name'][$itemIndex][$key]);
+            move_uploaded_file($_FILES['itemImage']['tmp_name'][$itemIndex][$key], $targetFile);
+    
+            // Insert item information into the 'items' table
+            $itemInsertQuery = "INSERT INTO items (itemName, description, packCode, userInput, itemImage) VALUES (?, ?, ?, ?, ?)";
+            $itemStatement = $DB->prepare($itemInsertQuery);
+            $itemStatement->execute([$itemName, $itemDescription, $packCode, $userInput, $targetFile]);
 
-            // Insert into the 'category' table
-            $sql = "INSERT INTO category (categoryName, packCode) VALUES (?, ?)";
-            $stmt = $DB->prepare($sql);
-            $stmt->bind_param("si", $categoryName, $packCode);
-            $stmt->execute();
+            // Get the last inserted item code (assuming it's an auto-incremented primary key)
+            $itemCode = $DB->insert_id;
 
-            $categoryCode = $DB->insert_id;
+            // Only insert quantity, unit, and price if the "per pax" checkbox is not checked
+            if (!isset($_POST['perPaxCheckbox']) || $_POST['perPaxCheckbox'] != 'on') {
+                $quantity = $_POST['quantity'][$itemIndex][$key];
+                $unit = $_POST['unit'][$itemIndex][$key];
+                $price = $_POST['price'][$itemIndex][$key];
 
-            // Get item information
-            $items = $_POST['itemName'][$categoryIndex];
-            $descriptions = $_POST['itemDescription'][$categoryIndex];
-            $quantities = $_POST['quantity'][$categoryIndex];
-            $prices = $_POST['price'][$categoryIndex];
-            $units = $_POST['unit'][$categoryIndex];
-
-            foreach ($items as $itemIndex => $itemName) {
-                $itemName = sanitizeInput($itemName);
-                $description = sanitizeInput($descriptions[$itemIndex]);
-                $quantity = sanitizeInput($quantities[$itemIndex]);
-                $price = sanitizeInput($prices[$itemIndex]);
-                $unit = sanitizeInput($units[$itemIndex]);
-
-                // Insert into the 'items' table
-                $sql = "INSERT INTO items (itemName, description, quantity, price, unit, categoryCode) VALUES (?, ?, ?, ?, ?, ?)";
-                $stmt = $DB->prepare($sql);
-                $stmt->bind_param("ssidsi", $itemName, $description, $quantity, $price, $unit, $categoryCode);
-                $stmt->execute();
-
-                $itemCode = $DB->insert_id;
-
-                // Get detail information
-                $detailNames = $_POST['detailName'][$categoryIndex][$itemIndex];
-                $detailValues = $_POST['detailValue'][$categoryIndex][$itemIndex];
-
-                foreach ($detailNames as $index => $detailName) {
-                    $detailName = sanitizeInput($detailName);
-                    $detailValue = sanitizeInput($detailValues[$index]);
-
-                    // Insert into the 'item_details' table
-                    $sql = "INSERT INTO item_details (detailName, detailValue, itemCode) VALUES (?, ?, ?)";
-                    $stmt = $DB->prepare($sql);
-                    $stmt->bind_param("ssi", $detailName, $detailValue, $itemCode);
-                    $stmt->execute();
+                // Insert quantity, unit, and price information into the 'items' table
+                $updateItemQuery = "UPDATE items SET quantity = ?, unit = ?, price = ? WHERE itemCode = ?";
+                $updateItemStatement = $DB->prepare($updateItemQuery);
+                $updateItemStatement->execute([$quantity, $unit, $price, $itemCode]);
+            }
+            $detailsCount = count($_POST['detailName'][$itemIndex][$key]);
+            for ($detailIndex = 0; $detailIndex < $detailsCount; $detailIndex++) {
+                $detailName = $_POST['detailName'][$itemIndex][$key][$detailIndex];
+                $detailValue = $_POST['detailValue'][$itemIndex][$key][$detailIndex];
+            
+                // Check if both detailName and detailValue are not empty before inserting
+                if (!empty($detailName) && !empty($detailValue)) {
+                    // Insert detail information into the 'item_details' table
+                    $detailInsertQuery = "INSERT INTO item_details (detailName, detailValue, itemCode) VALUES (?, ?, ?)";
+                    $detailStatement = $DB->prepare($detailInsertQuery);
+                    $detailStatement->execute([$detailName, $detailValue, $itemCode]);
                 }
             }
+            
         }
+        
     }
 
-    // Commit the transaction
-    $DB->commit();
-
-    header("Location: ?page=package&branchcode=$branchCode");
+    // Redirect or perform other actions after successful data insertion
+    header("Location: ?page=package&businessCode={$businessCode}&branchCode={$branchCode}");
     exit();
-} catch (Exception $e) {
-    // Rollback the transaction in case of an exception
-    $DB->rollback();
-
-    // Handle the exception (you might want to log it or show an error message)
-    echo "Error: " . $e->getMessage();
 }
 ?>

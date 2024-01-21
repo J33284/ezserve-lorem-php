@@ -5,9 +5,9 @@
 <?= element( 'owner-side-nav' ) ?>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet-control-search/dist/leaflet.control.search.min.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-control-search/dist/leaflet.control.search.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
 <?php
 $ownerID = $_SESSION['userID'];
@@ -98,12 +98,12 @@ $result = $DB->query($sql);
 
                 ?>
                 
-               <!--php if ($branchResult->num_rows > 0): -->
-                <a href="?page=branches&businessCode=<?=$businesscode?>" id="ViewBranch" class="btn-view-branches align-items-center justify-content-center view-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleViewBranch(this, event)">
+              
+                <a href="#" id="ViewBranch" class="btn-view-branches align-items-center justify-content-center view-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleViewBranch(this, event)">
                     <i class="bi bi-eye"></i>
                     <span>View Branch</span>
                 </a>
-                <!--php endif; -->
+                
 
                 <br>
                 <a href="#add-branch" id="AddBranch" class="btn-add-branch align-items-center justify-content-center add-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleAddBranch(this, event)">
@@ -168,7 +168,7 @@ $result = $DB->query($sql);
 
 <?php if ($branchResult->num_rows > 0): ?>
 <!-- View Branch -->
-<div class="branch-details" id="branchDetails<?= $businessCode ?>" style="display: none;">
+<div class="branch-details" id="branchDetails<?= $businessCode ?>" style="display: block;">
     <?php while ($branchData = $branchResult->fetch_assoc()): ?>
         <div class="branch-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded" id="branchDetails_<?= $branchData['branchCode'] ?>">
             <div class="d-flex justify-content-between p-4">
@@ -226,9 +226,9 @@ $result = $DB->query($sql);
                         </div>
                     </div>
                     <div>
-                        <a href="?page=choose_package&branchcode=<?= $branchData['branchCode'] ?>" class="btn-add-branch align-items-center justify-content-center view-package-button" id="ViewPackage">
+                        <a href="?page=choose_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchData['branchCode'] ?>" class="btn-add-branch align-items-center justify-content-center view-package-button" id="ViewPackage">
                             <i class="bi bi-eye"></i>
-                            <span>Add/View Package</span>
+                            <span>Add/View Packages</span>
                         </a>
                     </div>
 
@@ -243,7 +243,6 @@ $result = $DB->query($sql);
         </div>
        
     <?php endwhile; ?>
-</div> <!-- end of branch info -->
 <?php endif; ?>
 <?php endwhile; ?>
 </div><!--end of detailsForm-->
@@ -257,23 +256,31 @@ $result = $DB->query($sql);
     var mapAddBranch;
 
     function openMapInAddBranch() {
-        if (!mapAddBranch) {
-            mapAddBranch = L.map('mapAddBranch').setView([10.7202, 122.5621], 14);
+    if (!mapAddBranch) {
+        mapAddBranch = L.map('mapAddBranch').setView([10.7202, 122.5621], 14);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(mapAddBranch);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(mapAddBranch);
 
-            mapAddBranch.on('click', function (e) {
-                updateCoordinatesInputAddBranch(e.latlng.lat, e.latlng.lng);
-            });
-        }
+        // Add the geocoder control
+        L.Control.geocoder().addTo(mapAddBranch);
 
-        var mapDiv = document.getElementById("mapAddBranch");
-        mapDiv.style.display = "block";
+        // Initialize the marker
+        var marker = L.marker([10.7202, 122.5621], { draggable: true }).addTo(mapAddBranch);
 
-        mapAddBranch.invalidateSize();
+        mapAddBranch.on('click', function (e) {
+            updateCoordinatesInputAddBranch(e.latlng.lat, e.latlng.lng);
+            marker.setLatLng(e.latlng); // Update marker position on click
+        });
     }
+
+    var mapDiv = document.getElementById("mapAddBranch");
+    mapDiv.style.display = "block";
+
+    mapAddBranch.invalidateSize();
+}
+
 
     function closeMapInAddBranch() {
         var mapDiv = document.getElementById("mapAddBranch");
@@ -284,9 +291,13 @@ $result = $DB->query($sql);
         document.getElementById('coordinatesInputAddBranch').value = lat + ', ' + lng;
     }
 
+    
+    
+    
+    
     var mapBranchDetails = {};
 
-function openMapInBranchDetails(branchCode) {
+    function openMapInBranchDetails(branchCode) {
     if (!mapBranchDetails[branchCode]) {
         mapBranchDetails[branchCode] = L.map('mapBranchDetails_' + branchCode).setView([10.7202, 122.5621], 14);
 
@@ -294,8 +305,15 @@ function openMapInBranchDetails(branchCode) {
             attribution: '© OpenStreetMap contributors'
         }).addTo(mapBranchDetails[branchCode]);
 
+        // Add the geocoder control
+        L.Control.geocoder().addTo(mapBranchDetails[branchCode]);
+
+        // Initialize the marker
+        var marker = L.marker([10.7202, 122.5621], { draggable: true }).addTo(mapBranchDetails[branchCode]);
+
         mapBranchDetails[branchCode].on('click', function (e) {
             updateCoordinatesInputBranchDetails(branchCode, e.latlng.lat, e.latlng.lng);
+            marker.setLatLng(e.latlng); // Update marker position on click
         });
     }
 
@@ -304,6 +322,8 @@ function openMapInBranchDetails(branchCode) {
 
     mapBranchDetails[branchCode].invalidateSize();
 }
+
+
 
 function closeMapInBranchDetails(branchCode) {
     var mapDiv = document.getElementById("mapBranchDetails_" + branchCode);
