@@ -33,47 +33,47 @@ $profileImage = $userData->profileImage;
             <div class="row g-3">
                 <div class="d-flex justify-content-center align-items-center mb-2">
                         <div class="rounded-5">
-                        <img class="rounded-circle shadow p-1 mb-5 bg-white" style="width: 200px;" id="profileImage<?$userData?>" alt="Profile Image" src="assets/images/profile-placeholder.jpg" >
+                        <img class="profileImg rounded-circle shadow p-1 mb-5 bg-white"  id="profileImage<?$userData?>" alt="Profile Image" src="assets/images/profile-placeholder.jpg" >
                         <input type="file" class="form-control w-50" id="addProfileImage" name="addProfileImage" accept="image/*" onchange="previewPic(this)" style="display:none">
                         
 </div>
                 </div>
-                <div class="mb-3 row">
-                    <label class="mb-2 col-3 " for="fname">First Name</label>
+                <div class="fields mb-3 ">
+                    <label class="mb-2 col-lg-3 col-sm-5 " for="fname">First Name</label>
                     <input type="text" class="col form-control" name="fname" id="fname" placeholder="First Name" required readonly
                         value="<?php echo $fname; ?>">
                 </div>
-                <div class="mb-3 row">
-                    <label class="mb-2 col-3" for="lname">Last Name</label>
+                <div class=" fields mb-3">
+                    <label class="mb-2 col-lg-3 col-sm-5" for="lname">Last Name</label>
                     <input type="text" class=" col form-control" name="lname" id="lname" placeholder="Last Name" required readonly
                         value="<?php echo $lname; ?>">
                 </div>
-                <div class="mb-3 row">
-                    <label class="mb-2 col-3" for="birthday">Birthday</label>
+                <div class="fields  mb-3 ">
+                    <label class="mb-2 col-lg-3 col-sm-5" for="birthday">Birthday</label>
                     <input type="date" class="date col form-control" name="birthday" id="birthday" placeholder="Birthday" required readonly
                         value="<?php echo $birthday; ?>">
                 </div>
                
-                <div class="mb-3 row">
-                    <label class="mb-2 col-3 " for="number">Mobile Number</label>
+                <div class="fields  mb-3 ">
+                    <label class="mb-2 col-lg-3 col-sm-5 " for="number">Mobile Number</label>
                     <input type="text" class=" col form-control" name="number" id="number" placeholder="Mobile Number" required readonly
                         value="<?php echo $number; ?>">
                 </div>
-                <div class="mb-3 row">
-                    <label class="mb-2 col-3" for="ownerAddress">Address</label>
+                <div class="fields mb-3 ">
+                    <label class="mb-2 col-lg-3 col-sm-5" for="ownerAddress">Address</label>
                     <input type="text" class=" col form-control" name="ownerAddress" id="ownerAddress" placeholder="Address"  readonly
                         value="<?php echo $ownerAddress; ?>">
                 </div>
 </div>
                 </div>
                 <div class="card p-4">
-                    <div class="mb-3 row">
-                        <label class="mb-2 col-3 " for="email">Email Address</label>
+                    <div class="fields mb-3 ">
+                        <label class="mb-2 col-lg-3 col-sm-5 " for="email">Email Address</label>
                         <input type="email" class=" col form-control" name="email" id="email" placeholder="Email Address" required readonly
                             value="<?php echo $email; ?>">
                     </div>
-                    <div class=" row">
-                        <label class="mb-2 col-3 " for="username">Username</label>
+                    <div class="fields ">
+                        <label class="mb-2 col-lg-3 col-sm-5 " for="username">Username</label>
                         <input type="text" class=" col form-control" name="username" id="username" placeholder="Username" required readonly
                             value="<?php echo $username; ?>">
                     </div>
@@ -91,6 +91,27 @@ $profileImage = $userData->profileImage;
     </form>
 </div>
 
+<style>
+    @media (max-width: 1700px) {
+        .fields{
+            display: flex;
+            flex-direction: row
+        }
+        .profileImg{
+            width: 10rem;
+        }
+    }
+
+    @media (max-width:700px) {
+        .fields{
+            display: flex;
+            flex-direction: column;
+        }
+        .profileImg{
+            width: 8rem;
+        }
+    }
+</style>
 <script>
 
 function previewPic(input, userID) {

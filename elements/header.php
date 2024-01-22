@@ -22,18 +22,21 @@
  
 
 
-    <header class="header align-items-center justify-content-center fixed-top  ">
-    <div class=" header-nav d-flex justify-content-between align-items-center">
-        
-            <img class="logo" src="assets/images/has shadow.png">
-            
-        
+    <header class="header align-items-center justify-content-center fixed-top  " style="height: auto">
+    <div class=" header-nav d-flex justify-content-between align-items-center" style="height: auto">
+        <div class="title">
+            <img class="logo col-sm-7" src="assets/images/has shadow.png">
+            <a class="col-sm-3 burger-menu-icon" href="#" role="button" onclick="toggleMenu()">
+        <i class="bi bi-list text-white"></i>
+            </a>
+        </div>
         <nav class="d-flex  align-items-center ">
-        <ul class="d-flex align-items-center justify-content-between">
-            <li><a href="<?php echo SITE_URL ?>/?page=default">Home</a></li>
-            <li><a href="<?php echo SITE_URL ?>/?page=services">Service</a></li>
-            <li><a href="<?php echo SITE_URL ?>/?page=about">About</a></li>
-            
+        <ul class="burger-menu " id="burgerDropdown" >
+                
+                <li><a href="<?php echo SITE_URL ?>/?page=default">Home</a></li>
+                <li><a href="<?php echo SITE_URL ?>/?page=services">Service</a></li>
+                <li><a href="<?php echo SITE_URL ?>/?page=about">About</a></li>
+           
             <?php if (isset($_SESSION[AUTH_ID])) { ?>
             <li class="dropdown">
                 <a class="" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -90,7 +93,9 @@
 
 
 <style>
-   
+    .burger-menu-icon {
+            display: block;
+        }
    @media (max-width: 1700px) {
         .logo{
             width: 10rem;
@@ -100,6 +105,27 @@
         nav{
             margin: 0 50px;
         }
+        nav ul{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .title{
+            display:flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+        .burger-menu li a{
+                display: block!important;
+                color: #f1f1f1;
+                text-decoration: none;
+                font-size: 20px;
+}
+.burger-menu-icon {
+                display: none;
+            }
+
     }
      @media (max-width:700px) {
      
@@ -108,12 +134,68 @@
       height: 4rem;
      margin: 0;
     }
-    } 
-    nav{
+    .header-nav{
+        display: flex;
+  flex-direction: column;
+        
+    }
+    nav ul{
+        display: flex;
+  flex-direction: column;
+  
+    }
+    nav ul li a{
+        display:flex;
+        justify-content: end;
+    }
+    .burger-menu {
+                display: none;
+                overflow: hidden;
+                max-height: 0;
+                transition: max-height 0.3s ease-in-out;
+            }
+
+            .burger-menu.show {
+                display: block;
+                max-height: 1000px; /* Adjust as needed */
+                transition: max-height 0.3s ease-in-out;
+            }
+
+            .burger-menu li {
+                display: block;
+                color: #f1f1f1;
+                text-decoration: none;
+                font-size: 20px;
+                transition: 0.3s;
+                margin-top: 5px; /* Add some margin between menu items */
+            }
+            .burger-menu-icon {
+                display: block;
+            }
+        } 
+
+nav{
         display: flex;
   justify-content: start;
     }
     nav ul{
         padding:0;
     }
+  
 </style>
+<script>
+    function toggleMenu() {
+        if (window.innerWidth <= 700) {
+            var menu = document.getElementById('burgerDropdown');
+            menu.classList.toggle('show');
+        }
+    }
+
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 700) {
+            // Hide the menu if the screen is wider than 700px
+            var menu = document.getElementById('burgerDropdown');
+            menu.classList.remove('show');
+        }
+    });
+</script>
