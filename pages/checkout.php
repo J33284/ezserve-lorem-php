@@ -159,7 +159,7 @@ if (isset($_GET['numberOfPersons'])) {
                     <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">
                     <input type="hidden" name="email" value="<?= $clientInfo['email'] ?>" >
                     <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
-                    <input type="hidden" name="packName" value="<?= $packName['packName'] ?>" >
+                    <input type="hidden" name="packName" value="<?= $item['itemName'] ?>" >
                     <input type="hidden" name="grandTotal" value="<?= $overallTotal ?>">
                     <button type="submit" class="btn btn-primary" style="width:100%" id="placeOrderButton">
                     Place Order
