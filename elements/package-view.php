@@ -18,16 +18,16 @@ $itemsQuery = "SELECT * FROM items WHERE packCode = '$packCode';";
 $itemsResults = $DB->query($itemsQuery);
 ?>
 
-<div class="row justify-content-center align-items-center" style="min-height: 80vh;">
-    <div class="col-md-8">
-        <div class="d-flex justify-content-between align-items-center mb-4" style="margin-left: 550px; margin-top: 120px;">
-            <h3 style="font-size: 34px; padding: 20px; background-color: #fff;">
+<div class="row justify-content-center align-items-center" style="margin:120px 0 0 20%; width: 70vw">
+    <div>
+        <div class="d-flex justify-content-between align-items-center " >
+            <h3 style="font-size: 34px; padding: 20px; ">
                 <?php echo $package['packName']; ?> 
-                <a href="?page=add_item&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?=$packCode?>" class="btn btn-primary">Add Items</a>
             </h3>
+            <a href="?page=add_item&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?=$packCode?>" class="btn btn-primary">Add Items</a>
         </div>
 
-        <div class="container" style="margin-left: 140px;">
+        <div class="container" >
             <?php while ($item = $itemsResults->fetch_assoc()) { ?>
                 <?php
                 // Query to get details associated with the item
@@ -36,20 +36,23 @@ $itemsResults = $DB->query($itemsQuery);
                 ?>
                 <?php if ($package['pricingType'] == 'per pax') { ?>
                     <!-- Code for 'per pax' pricing type -->
-                    <div class="card" style="padding: 30px; margin: 20px;">
-                        <img src="<?php echo $item['itemImage']; ?>" alt="Item Image" style="vertical-align: middle;">
-                        <br>
-                        <h4><?php echo $item['itemName']; ?></h4>
-                        <hr>
-                        <label><strong>Description:</strong></label>
-                        <p><?php echo $item['description']; ?></p>
-                        <?php while ($detail = $detailsResults->fetch_assoc()) { ?>
-                            <p><strong><?php echo $detail['detailName']; ?>:</strong> <?php echo $detail['detailValue']; ?></p>
-                        <?php } ?>
+                    <div class="card flex-row my-3" style="padding: 30px;">
+                        <div class="col-5">
+                            <img src="<?php echo $item['itemImage']; ?>" alt="Item Image" style="width: 20rem">
+                        </div>
+                        <div class="col-6">
+                            <h4><?php echo $item['itemName']; ?></h4>
+                            <hr>
+                            <label><strong>Description:</strong></label>
+                            <p><?php echo $item['description']; ?></p>
+                            <?php while ($detail = $detailsResults->fetch_assoc()) { ?>
+                                <p><strong><?php echo $detail['detailName']; ?>:</strong> <?php echo $detail['detailValue']; ?></p>
+                            <?php } ?>
+                        </div>
                     </div>
                 <?php } else { ?>
                     <div class="card" style="padding: 30px; margin: 20px;">
-                    <img src="<?php echo $item['itemImage']; ?>" alt="Item Image" style="padding: 100px; ">
+                    <img class="imgItem" src="<?php echo $item['itemImage']; ?>" alt="Item Image" style="padding: 100px;  ">
                         <br>    
                         <h4><?php echo $item['itemName']; ?></h4>
                         <hr>
