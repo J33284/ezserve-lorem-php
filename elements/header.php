@@ -93,6 +93,9 @@
 
 
 <style>
+    .dropdown-item{
+        color: #000000!important;
+    }
     .burger-menu-icon {
             display: block;
         }
