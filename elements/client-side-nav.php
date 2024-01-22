@@ -2,7 +2,7 @@
 <?php if (isset($_SESSION[AUTH_ID])) { ?>
     <?php if ($_SESSION[AUTH_TYPE] === 'client') { ?>
       <div class="d-flex mx-3 justify-content-start align-items-center">
-        <i class="bi bi-person-circle" style="font-size: 45px"></i>
+        <i class="bi bi-person-circle" style="font-size: 2rem"></i>
         <h3 class="mt-4 mx-2"><?php echo $_SESSION[AUTH_NAME]; ?></h3>
       </div>
     <?php } ?>

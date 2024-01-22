@@ -55,17 +55,21 @@ if (isset($_POST['keyword'])) {
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Business Owner Name</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($accounts as $index => $account) : ?>
                     <tr>
-                        <th scope="row" class="bg-transparent border border-white"><?= $index + 1 ?></th>
+                        <td scope="row" class="bg-transparent border border-white"><?= $index + 1 ?></td>
                         <td class="bg-transparent border border-white d-flex justify-content-between">
                             <div class="d-flex justify-content-center align-items-center">
                                 <?= $account['fname'] . ' ' . $account['lname'] ?>
                             </div>
                             <button class="btn btn-primary mx-5" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccount<?= $account['ownerID'] ?>">View</button>
+                        </td>
+                        <td class="bg-transparent border border-white ">
+                            <button type="button" class="btn btn-danger "> <i class="bi bi-trash"></i></button>
                         </td>
                     </tr>
                     </tbody>
