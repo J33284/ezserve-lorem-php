@@ -30,10 +30,10 @@ if (isset($_POST['keyword'])) {
             </button>
         </form>
 
-        <div id="date-picker-example" class="md-form md-outline d-flex datepicker align-items-center">
+        <!--<div id="date-picker-example" class="md-form md-outline d-flex datepicker align-items-center">
             <label for="date" class=" mx-4">Sort by Date</label>
             <input placeholder="Select date" type="date" id="date" class="form-control w-50">
-        </div>
+        </div> -->
     </div>
     <div class="h-100">
         <div class="table-responsive">

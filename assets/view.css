@@ -81,9 +81,9 @@ header{
  .dropdown:hover>ul{
     visibility: visible; 
   }
-  .dropdown ul a:hover,
+  .dropdown ul li a:hover,
   .dropdown ul .active:hover,
-  .dropdown ul li:hover>a {
+  .dropdown-menu ul li:hover>a {
     color: #b64900;
   }
 

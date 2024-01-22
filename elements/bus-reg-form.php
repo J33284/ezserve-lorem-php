@@ -74,15 +74,15 @@ $businessesResult = $DB->query("SELECT * FROM businesstypes");
                         <h6 class="page-title text-light">Upload Business Permits <br> (Allowed File Types: pdf, jpeg, jpg, png)</h6>
                         <div class="row align-items-center d-flex justify-content-center">
                             <span class="col-3">Bus</span>
-                            <input class="col form-control mt-3" name="permits" type="file" id="formFile">
+                            <input class="col form-control mt-3" name="permits" type="file" id="formFile" required>
                         </div>
                         <div class="row align-items-center d-flex justify-content-center">
                             <span class="col-3">Sanitary Permit</span>
-                            <input class="col form-control mt-3" name="sanitary" type="file" id="formFile">
+                            <input class="col form-control mt-3" name="sanitary" type="file" id="formFile" required>
                         </div>
                         <div class="row align-items-center d-flex justify-content-center">
                             <span class="col-3">Tax Permit</span>
-                            <input class="col form-control mt-3" name="tax" type="file" id="formFile">
+                            <input class="col form-control mt-3" name="tax" type="file" id="formFile" required>
                         </div>
                     </div>
 

@@ -86,10 +86,10 @@ WHERE c.branchCode = '$branchCode'");
             <div class="total row d-flex sticky-bottom">
                 <h3 class="col-7">Total</h3>
                 <h4 class="col-5 total-price">0.00</h4>
-                <div class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px" href="?page=client_voucher">
+                <!--<div class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px" href="?page=client_voucher">
                     <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
                     <i class="bi bi-chevron-right float-end col-2"></i>
-                </div>
+                </div>-->
                 <form action="?page=custom_checkout&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" method="post">
                     <input type="hidden" name="orderDetails" id="orderDetails" value="">
                     <button type="submit" class="btn btn-primary" style="width:100%">

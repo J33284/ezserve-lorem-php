@@ -93,6 +93,9 @@
 
 
 <style>
+    .dropdown-menu li:hover>.dropdown-item {
+        color: #ffa630!important;
+  }
     .dropdown-item{
         color: #000000!important;
     }
