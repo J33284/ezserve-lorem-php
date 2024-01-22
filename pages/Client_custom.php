@@ -15,7 +15,7 @@ WHERE c.branchCode = '$branchCode'");
 <div id="client-custom" class="client-custom">
     <div class="container pack-head" style="top: 100px;">
         <div class="row">
-            <a href="?page=client_package&businessCode=<?= $businessCode?>&branchCode=<?=$branchCode?>" class="col-xl-1 text-dark float-end">
+            <a href="?page=client_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="col-xl-1 text-dark float-end">
                 <i class="bi bi-arrow-left"></i>
             </a>
             <h1 class="col-xl-7 d-flex justify-content-start text-dark">Package Customization</h1>
@@ -57,7 +57,7 @@ WHERE c.branchCode = '$branchCode'");
                                     <label class="form-check-label" for="item<?= $row['itemCode'] ?>">
                                         <?= $row['itemName'] ?>
                                     </label>
-                                    <input type="number" class="form-control quantity-input" placeholder="Quantity" id="quantity<?= $row['itemCode'] ?>" data-item-code="<?= $row['itemCode'] ?>">
+                                    <input type="number" class="form-control quantity-input" placeholder="Quantity" id="quantity<?= $row['itemCode'] ?>" data-item-code="<?= $row['itemCode'] ?>" min="1" value="1">
                                     <input type="hidden" class="form-control price-input" value="<?= $row['price'] ?>" data-item-code="<?= $row['itemCode'] ?>">
                                 </div>
             <?php endwhile; ?>
@@ -90,10 +90,10 @@ WHERE c.branchCode = '$branchCode'");
                     <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
                     <i class="bi bi-chevron-right float-end col-2"></i>
                 </div>
-                <form action="?page=custom_checkout" method="post">
+                <form action="?page=custom_checkout&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" method="post">
                     <input type="hidden" name="orderDetails" id="orderDetails" value="">
-                    <button type="submit" class="btn btn-primary" style="width:100%" data-bs-business-code="">
-                        Check Out
+                    <button type="submit" class="btn btn-primary" style="width:100%">
+                        Checkout
                     </button>
                 </form>
             </div>
@@ -134,7 +134,7 @@ WHERE c.branchCode = '$branchCode'");
                     itemCode: itemCode,
                     itemName: itemName,
                     quantity: quantity,
-                    price: price,
+                    price:  price,
                     subtotal: subtotal
                 });
 
@@ -147,14 +147,18 @@ WHERE c.branchCode = '$branchCode'");
 
             for (var i = 0; i < orderDetails.length; i++) {
                 var orderItem = orderDetails[i];
-                orderBody.append('<tr><td>' + orderItem.quantity + '</td><td>' + orderItem.itemName + '</td><td>' + orderItem.subtotal.toFixed(2) + '</td></tr>');
+                orderBody.append('<tr><td>' + orderItem.quantity + '</td><td>' + orderItem.itemName + '</td><td>₱' + orderItem.subtotal.toFixed(2) + '</td></tr>');
             }
 
             // Update total price
-            $('.total-price').text(total.toFixed(2));
+            $('.total-price').text('₱' + total.toFixed(2));
 
             // Update hidden input with order details
             $('#orderDetails').val(JSON.stringify(orderDetails));
+
+             // Update checkout button data attribute
+             $('.checkout-btn').attr('data-order-details', JSON.stringify(orderDetails));
+        
         }
     });
 </script>
