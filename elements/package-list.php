@@ -10,14 +10,15 @@
 
 
 
-<div class="container">
-    <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
-        <div class="col-md-8">
-            <div class="d-flex justify-content-between align-items-center mb-4" style="width: 200%;">
-                <h3 style="font-size: 34px; padding: 20px; background-color: #fff; margin-left: 100px;  margin-top: 100px;">
+<div style="margin: 120px 0 0 20%; width: 70vw">
+    <div class="justify-content-center align-items-center" >
+        
+            <div class="d-flex justify-content-between align-items-center mb-4" >
+                <h1>
                     <?php echo $branch['busName']; ?> Packages
-                    <a href="?page=add_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="btn btn-primary">Add Package</a>
-                </h3>
+                    
+                </h1>
+                <a href="?page=add_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="btn btn-primary">Add Package</a>
             </div>
 
             <?php
@@ -26,10 +27,13 @@
             ?>
 
             <?php if ($packageResult->num_rows > 0) { ?>
-                <div class="col-md-12 mt-4">
+                <div >
                     <?php while ($row = $packageResult->fetch_assoc()) { ?>
-                        <div class="card mb-4" style="width: 40rem; height: auto; margin-left: 270px;">
-                            <img src="./assets/images/new logo.png" class="card-img-top" alt="Package Image" style="height: 150px;">
+                        <div class="card mb-4 flex-row" style="width: 70vw">
+                        <div class="col-5 justify-content-center align-items-center d-flex">
+                            <img src="./assets/images/new logo.png"  alt="Package Image" style="width: 25rem">
+                    </div>
+                    <div class="col-7">
                             <div class="card-body">
                                 <h3 class="card-title"><?php echo $row['packName']; ?></h3>
                                 <hr>
@@ -82,6 +86,6 @@
                     </div>
                 </div>
             <?php } ?>
-        </div>
+            </div>
     </div>
 </div>

@@ -63,10 +63,10 @@
                         <h4 class="mt-4 mx-2"><?php echo $_SESSION[AUTH_NAME]; ?></h4>
                         </div>
                         <hr class="p-0 m-3">
-                        <li><a class="dropdown-item" href="<?php echo SITE_URL ?>/?page=admin_profile">Profile</a></li>
+                        <li><a class="dropdown-item text-dark" href="<?php echo SITE_URL ?>/?page=admin_profile">Profile</a></li>
                     <?php } ?>
 
-                    <li><a class="dropdown-item" href="<?php echo SITE_URL ?>/?action=logout">Logout</a></li>
+                    <li><a class="dropdown-item text-dark" href="<?php echo SITE_URL ?>/?action=logout">Logout</a></li>
                 </ul>
             </li>
 
@@ -76,8 +76,8 @@
                     <i class="profile-logo bi-person-fill"></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="<?php echo SITE_URL ?>/?page=login">Login</a></li><br>
-                <li><a class="dropdown-item" href="<?php echo SITE_URL ?>/?page=register">Sign Up</a></li>
+                <li><a class="dropdown-item text-dark" href="<?php echo SITE_URL ?>/?page=login">Login</a></li><br>
+                <li><a class="dropdown-item text-dark" href="<?php echo SITE_URL ?>/?page=register">Sign Up</a></li>
                 </ul>
         <?php } ?>
     </ul>
