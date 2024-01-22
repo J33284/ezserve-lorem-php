@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 22, 2024 at 02:06 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Jan 22, 2024 at 05:25 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -283,10 +283,10 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`itemCode`, `packCode`, `itemName`, `description`, `quantity`, `unit`, `price`, `imageName`, `itemImage`, `userInput`, `stocks`) VALUES
-(347, 275, '3 Main Dish', 'pork menu\r\nchicken menu\r\nvegatables\r\nseafood', 0, '', 0, '', 'assets/uploads/packages/_fanart__1_year_anniversary_by_akemono_df5tb3n-350t.jpg', 'enable', 0),
-(350, 275, '2 side dish', '', 0, '', 0, '', 'assets/uploads/packages/vlcsnap-2022-07-13-10h17m15s799.png', 'enable', 0),
-(351, 275, 'Softdrinks', '12 oz', 0, '', 0, '', 'assets/uploads/packages/f1f87efb1bae8ef07ab8479debfd687d.png', 'enable', 0),
-(352, 275, 'Utensills', 'Spoon and Fork', 0, '', 0, '', 'assets/uploads/packages/Runner [1920×1080].jfif', 'enable', 0);
+(354, 275, '3 Main Dish', '3 main dish of your choice (see menu)', 0, '', 0, '', 'assets/uploads/packages/420045990_917586769805131_1358493736596732913_n.jpg', 'enable', 0),
+(355, 275, '2 Side Dish', '2 side dish of your choice (see menu)', 0, '', 0, '', 'assets/uploads/packages/420038104_1413551699238034_7737994293452447082_n.jpg', 'enable', 0),
+(356, 275, 'Softdrinks', '1L of softdrinks of your choice', 0, '', 0, '', 'assets/uploads/packages/softdrinks.jpg', 'enable', 0),
+(357, 275, 'Utensils', 'Includes spoon, fork, serving spoon, glasses', 0, '', 0, '', 'assets/uploads/packages/cutlery.jpg', 'enable', 0);
 
 -- --------------------------------------------------------
 
@@ -300,13 +300,6 @@ CREATE TABLE `item_details` (
   `detailName` varchar(200) NOT NULL,
   `detailValue` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `item_details`
---
-
-INSERT INTO `item_details` (`detailsCode`, `itemCode`, `detailName`, `detailValue`) VALUES
-(303, 352, 'Additional', 'Tableware');
 
 -- --------------------------------------------------------
 
@@ -570,7 +563,7 @@ ALTER TABLE `images`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=353;
+  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=358;
 
 --
 -- AUTO_INCREMENT for table `item_details`
@@ -647,14 +640,6 @@ ALTER TABLE `item_details`
 --
 ALTER TABLE `package`
   ADD CONSTRAINT `branchCode` FOREIGN KEY (`branchCode`) REFERENCES `branches` (`branchCode`);
-
---
--- Constraints for table `transaction`
---
-ALTER TABLE `transaction`
-  ADD CONSTRAINT `client` FOREIGN KEY (`clientID`) REFERENCES `client` (`clientID`),
-  ADD CONSTRAINT `transaction_ibfk_1` FOREIGN KEY (`businessCode`) REFERENCES `business` (`businessCode`),
-  ADD CONSTRAINT `transaction_ibfk_2` FOREIGN KEY (`packCode`) REFERENCES `package` (`packCode`);
 
 --
 -- Constraints for table `voucher`
