@@ -3,8 +3,9 @@
 <?= element('owner-side-nav') ?>
 
 <?php
-global $DB;
-$branchCode = isset($_GET['branchcode']) ? $_GET['branchcode'] : '';
+global $DB;                                                                                                                                                            $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
+$businessCode = isset($_GET['businessCode']) ? $_GET['businessCode'] : '';
+$branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
 $categoriesQuery = "SELECT * FROM custom_category WHERE branchCode = '$branchCode'";
 $categoriesResult = $DB->query($categoriesQuery);
 ?>
@@ -32,11 +33,9 @@ $categoriesResult = $DB->query($categoriesQuery);
                                             <tr>
                                                 <th scope="col">Items</th>
                                                 <th scope="col">Description</th>
-                                                <th scope="col">Quantity</th>
                                                 <th scope="col">Price</th>
                                                 <th scope="col">Other Details</th>
-                                                <th scope="col">Total</th>
-                                                <th scope="colspan=2">Action</th> <!-- Add Edit column header -->
+                                                <th scope="colspan=2">Action</th> 
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -49,12 +48,10 @@ $categoriesResult = $DB->query($categoriesQuery);
                                                 $detailsQuery = "SELECT * FROM custom_item_details WHERE ItemCode = '$itemCode'";
                                                 $detailsResult = $DB->query($detailsQuery);
                                                 $details = $detailsResult->fetch_assoc();
-                                                $totalItemPrice = $item['quantity'] * $item['price']; // Calculate total for each item
                                                 ?>
                                                 <tr>
                                                     <td><?= $item['itemName'] ?></td>
                                                     <td><?= $item['description'] ?></td>
-                                                    <td><?= $item['quantity']." ". $item['unit'] ?></td>
                                                     <td><?= $item['price'] ?></td>
                                                     <td>
                                                         <?php
@@ -65,7 +62,6 @@ $categoriesResult = $DB->query($categoriesQuery);
                                                         }
                                                         ?>
                                                     </td>
-                                                    <td><?= $totalItemPrice ?></td>
 
                                                     <td>
                                                         <div>
@@ -84,7 +80,7 @@ $categoriesResult = $DB->query($categoriesQuery);
                                     </table>
                                     <!-- Add "Add Item" button -->
                                     <div class="text-end mt-3">
-                                        <a href="?page=add_item&categoryCode=<?= $categoryCode ?>" class="btn btn-outline-primary">
+                                        <a href="?page=add_customItem&customCategoryCode=<?= $categoryCode ?>&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="btn btn-outline-primary">
                                             <i class="bi bi-plus-square"></i>
                                             <span>Add Item</span>
                                         </a>
@@ -94,7 +90,7 @@ $categoriesResult = $DB->query($categoriesQuery);
                         </div>
                     <?php } ?>
                     <div class="text-end mt-3">
-                            <a href="?page=add_custom_package&branchcode=<?= $branchCode ?>" class="btn-edit btn btn-primary btn-lg mt-4">
+                            <a href="?page=add_custom_package&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class="btn-edit btn btn-primary btn-lg mt-4">
                             <i class="bi bi-plus-square"></i>
                             <span>Add Category</span>
                         </a>
@@ -110,7 +106,7 @@ $categoriesResult = $DB->query($categoriesQuery);
       <h2><span style="color: red;">&#9888;</span> No Records Found</h2>
         <div class="accordion" id="accordionFlushExample">
           <div class="m-3">
-            <a href="?page=add_custom_package&branchcode=<?= $branchCode ?>" class="btn-edit btn btn-primary btn-lg mt-4">
+            <a href="?page=add_custom_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="btn-edit btn btn-primary btn-lg mt-4">
               <i class="bi bi-plus-square"></i>
               <span>Create Custom Items</span>
             </a>

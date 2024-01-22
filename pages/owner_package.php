@@ -4,5 +4,5 @@
 
 <?= element( 'owner-side-nav' ) ?>
 
-<?= element( 'package-list' ) ?>    
+<?= element( 'package-view' ) ?>    
 

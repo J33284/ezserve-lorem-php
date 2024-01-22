@@ -1,26 +1,41 @@
 <?php
 $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
 $businessCode = isset($_GET['businessCode']) ? $_GET['businessCode'] : '';
+$customCategoryCode = isset($_GET['customCategoryCode']) ? $_GET['customCategoryCode'] : '';
 
+global $DB;
+
+// Constructing the SQL query
+$sql = "
+    SELECT *
+    FROM custom_category c
+    WHERE c.customCategoryCode = '$customCategoryCode'
+";
+
+// Executing the query
+$result = $DB->query($sql);
+$row = $result->fetch_assoc();
 ?>
 
 <style>
     .details-group {
         display: none;
-        margin-top: 10px;
+        margin-top: 10px;   
     }
 </style>
 
 <div class="package-info" style="margin: 120px 0 0 30%">
     <div class="card p-5 bg-opacity-25 bg-white">
-        <form action="?action=add_customPackage" method="post" enctype="multipart/form-data">
+        <form action="?action=add_customItem" method="post" enctype="multipart/form-data">
             <div class="form-group mb-5">
                 <h2>Custom Items</h2>
                 <br>
                 <label for="category"></label>
-                <input class="form-control mb-3" type="text" id="categoryName" name="categoryName" placeholder="Category Name">
+                <input class="form-control mb-3" type="text" id="categoryName" name="categoryName" placeholder="Category Name" value="<?=$row['categoryName']?>"readonly>
                 <input type="hidden" name="branchCode" value="<?= $branchCode ?>">
                 <input type="hidden" name="businessCode" value="<?= $businessCode ?>">
+                <input type="hidden" name="customCategoryCode" value="<?= $customCategoryCode ?>">
+
 
 
             <div class="item-group" data-item="1">

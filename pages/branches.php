@@ -226,7 +226,7 @@ $result = $DB->query($sql);
                         </div>
                     </div>
                     <div>
-                        <a href="?page=choose_package&branchcode=<?= $branchData['branchCode'] ?>" class="btn-add-branch align-items-center justify-content-center view-package-button" id="ViewPackage">
+                        <a href="?page=choose_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchData['branchCode'] ?>" class="btn-add-branch align-items-center justify-content-center view-package-button" id="ViewPackage">
                             <i class="bi bi-eye"></i>
                             <span>Add/View Packages</span>
                         </a>
@@ -243,7 +243,6 @@ $result = $DB->query($sql);
         </div>
        
     <?php endwhile; ?>
-</div> <!-- end of branch info -->
 <?php endif; ?>
 <?php endwhile; ?>
 </div><!--end of detailsForm-->

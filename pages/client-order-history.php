@@ -2,7 +2,7 @@
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
 $clientID = $_SESSION['userID'];
-$payment = $DB->query("SELECT * FROM payment WHERE clientID = '$clientID' ");
+$payment = $DB->query("SELECT * FROM transaction WHERE clientID = '$clientID' ");
 
 $keyword = "";
 $results = [];
@@ -41,8 +41,11 @@ if (isset($_POST['keyword'])) {
                 <thead class="table-dark">
                     <tr>
                         <th scope="col">Payment ID</th>
-                        <th scope="col">Date</th>
+                        <th scope="col">Payment Date</th>
                         <th scope="col">Package Name</th>
+                        <th scope="col">Pick-up Date</th>
+                        <th scope="col">Delivery</th>
+                        <th scope="col">Delivery Address</th>
                         <th scope="col">Total Amount</th>
                         <th scope="col">Mode of Payment</th>
                         <th scope="col">Status</th>
@@ -60,6 +63,9 @@ if (isset($_POST['keyword'])) {
                                 echo $packageResult ? $packageResult['packName'] : 'N/A';
                                 ?>
                             </td>
+                            <td><?= $row['pDate']?></td>
+                            <td><?= $row['dDate']?></td>
+                            <td><?= $row['dAddress'] ?></td>
                             <td><?= '₱' . number_format($row['amount'], 2) ?></td>
                             <td><?= $row['paymentMethod'] ?></td>
                             <td><?= $row['status'] ?></td>
@@ -85,35 +91,10 @@ if (isset($_POST['keyword'])) {
                     </button>
                 </div>
                 <div class="modal-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Item Name</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $packageQuery = $DB->query("
-                                SELECT *
-                                FROM category
-                                JOIN items ON category.categoryCode = items.categoryCode
-                                JOIN item_details ON items.itemCode = item_details.itemCode
-                                WHERE category.packCode = '{$row['packCode']}'
-                            ");
-                            while ($item = $packageQuery->fetch_assoc()) {
-                                echo '<tr>';
-                                echo '<td>' . $item['itemName'] . '</td>';
-                                echo '<td>' . $item['description'] . '</td>';
-                                echo '<td>' . $item['quantity'] . " " . $item['unit'] . '</td>';
-                                echo '<td>' . '₱' . number_format($item['price'], 2) . '</td>';
-                                echo '</tr>';
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+                    <?=
+                        $row['itemName'];
+                    ?>
+                                
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
