@@ -22,10 +22,12 @@ function saveToDatabase($clientID, $dateCreated, $businessName, $itemName, $amou
 
     // Divide amount by 100
     $amount /= 100;
+    $busCode = "24";
+    $packCode = "275";
 
     // Insert data into the 'payment' table (customize this query based on your database structure)
-    $sql = "INSERT INTO payment (clientID, sourceID, paymentDate, businessName, itemName, amount, paymentMethod, status) 
-            VALUES ('$clientID', '$sourceId','$dateCreated', '$businessName', '$itemName', '$amount', '$paymentMethod', '$status')";
+    $sql = "INSERT INTO transaction (clientID, sourceID, paymentDate, busName, itemName, amount, paymentMethod, status, businessCode, packCode) 
+            VALUES ('$clientID', '$sourceId','$dateCreated', '$businessName', '$itemName', '$amount', '$paymentMethod', '$status', '$busCode', '$packCode')";
 
     if ($DB->query($sql) === TRUE) {
         header ("Location: ?page=client-order-history");
@@ -57,6 +59,5 @@ if (isset($data['data'])) {
     echo 'No data received from the API.';
 }
 
-// Close the database connection
-$DB->close();
+
 ?>

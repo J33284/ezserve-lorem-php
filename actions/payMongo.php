@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['packName'];
     $businessCode = $_POST['businessCode'];
 
-    $_SESSION['businessName'] = ($result = $DB->query("SELECT busName FROM business WHERE businessCode = '$businessCode'")) ? $result->fetch_assoc()['businesbussName'] : null;
+    $_SESSION['businessName'] = ($result = $DB->query("SELECT busName FROM business WHERE businessCode = '$businessCode'")) ? $result->fetch_assoc()['busName'] : null;
 
     $checkoutData = [
         'data' => [

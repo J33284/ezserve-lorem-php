@@ -370,8 +370,8 @@ function saveCustomization() {
     // Create a separate JSON object for numberOfPersons
     var numberOfPersons = {
         numberOfPersons: document.getElementById('quantityMeter').value,
-        packageAmount: '<?= $packageDetails['amount'] ?>'
-        packageAmount: '<?= $packageDetails['pricingType'] ?>'
+        packageAmount: '<?= $packageDetails['amount'] ?>',
+        pricingType: '<?= $packageDetails['pricingType'] ?>'
     };
 
     // Convert checkoutDetails and numberOfPersons to JSON and encode them for URL
