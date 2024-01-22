@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 22, 2024 at 05:25 AM
+-- Generation Time: Jan 22, 2024 at 08:02 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -66,7 +66,8 @@ CREATE TABLE `branches` (
 
 INSERT INTO `branches` (`branchCode`, `businessCode`, `branchName`, `address`, `coordinates`, `branchImage`) VALUES
 (32, 22, 'Mina Branch', 'Mina Iloilo Province', '10.93052940811921, 122.57529571652414', 0x6173736574732f75706c6f6164732f6272616e636865732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567),
-(33, 24, 'Lambunao Branch', 'Brgy. Poblacion, Ilawod Lambunao Iloilo', '11.054889732037514, 122.47451036671974', 0x6173736574732f75706c6f6164732f6272616e636865732f66316638376566623162616538656630376162383437396465626664363837642e706e67);
+(33, 24, 'Lambunao Branch', 'Brgy. Poblacion, Ilawod Lambunao Iloilo', '11.054889732037514, 122.47451036671974', 0x6173736574732f75706c6f6164732f6272616e636865732f66316638376566623162616538656630376162383437396465626664363837642e706e67),
+(34, 25, 'MBS1', 'San Jose St., La paz, Iloilo City', '10.722923022178772, 122.57782744942236', '');
 
 -- --------------------------------------------------------
 
@@ -89,6 +90,8 @@ CREATE TABLE `business` (
   `phone` varchar(100) NOT NULL,
   `mobile` varchar(100) NOT NULL,
   `permits` longblob NOT NULL,
+  `sanitary` longblob NOT NULL,
+  `tax` longblob NOT NULL,
   `busImage` longblob NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -97,10 +100,11 @@ CREATE TABLE `business` (
 -- Dumping data for table `business`
 --
 
-INSERT INTO `business` (`businessCode`, `ownerID`, `busName`, `about`, `busType`, `house_building`, `street`, `barangay`, `city_municipality`, `province`, `region`, `phone`, `mobile`, `permits`, `busImage`, `status`) VALUES
-(22, 28, 'Puga Funeral Home', 'In times of loss, finding solace in a compassionate and dedicated funeral home is paramount. At Puga Funeral, we understand the delicate nature of saying farewell to a loved one, and we strive to provide support and comfort when it\'s needed most.', 'Funeral Services', '', '', 'Brgy. Tolicuran', 'Iloilo City', 'Iloilo', '6', '330-39-13', '09831837281', 0x6173736574732f75706c6f6164732f3430303831383438355f3637383239373836343430393538355f333334383734323732383439303230313730375f6e2e6a7067, 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 1),
-(23, 28, 'Puga Photography Services', '', 'Photography', '', '', 'Tolicuran', 'Mina', 'Iloilo ', '6', '320-39-12', '0928372672', 0x6173736574732f75706c6f6164732f3430303831383438355f3637383239373836343430393538355f333334383734323732383439303230313730375f6e2e6a7067, 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 1),
-(24, 31, 'Bahay Kusina De Tangra', ' Bahay Kusina De Tangra Catering & Eatery seamlessly blends the rich heritage of Tangra-style Filipino cuisine with a versatile business model that caters to diverse culinary needs. Our eatery, adorned with cultural nuances, provides a welcoming ambiance for patrons seeking an authentic dining experience. The menu boasts a tantalizing array of Tangra specialties, carefully curated to offer a fusion of bold flavors and traditional culinary techniques. From sizzling stir-fries to delectable dim su', 'Catering', '20', '7th Street', 'Poblacion Ilawod', 'Lambunao', 'Iloilo', '6', '09452781051', '09452781023', 0x6173736574732f75706c6f6164732f494354203133392d2047726f757020436173652053747564792023332e706466, 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 1);
+INSERT INTO `business` (`businessCode`, `ownerID`, `busName`, `about`, `busType`, `house_building`, `street`, `barangay`, `city_municipality`, `province`, `region`, `phone`, `mobile`, `permits`, `sanitary`, `tax`, `busImage`, `status`) VALUES
+(22, 28, 'Puga Funeral Home', 'In times of loss, finding solace in a compassionate and dedicated funeral home is paramount. At Puga Funeral, we understand the delicate nature of saying farewell to a loved one, and we strive to provide support and comfort when it\'s needed most.', 'Funeral Services', '', '', 'Brgy. Tolicuran', 'Iloilo City', 'Iloilo', '6', '330-39-13', '09831837281', 0x6173736574732f75706c6f6164732f3430303831383438355f3637383239373836343430393538355f333334383734323732383439303230313730375f6e2e6a7067, '', '', 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 1),
+(23, 28, 'Puga Photography Services', '', 'Photography', '', '', 'Tolicuran', 'Mina', 'Iloilo ', '6', '320-39-12', '0928372672', 0x6173736574732f75706c6f6164732f3430303831383438355f3637383239373836343430393538355f333334383734323732383439303230313730375f6e2e6a7067, '', '', 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 1),
+(24, 31, 'Bahay Kusina De Tangra', ' Bahay Kusina De Tangra Catering & Eatery seamlessly blends the rich heritage of Tangra-style Filipino cuisine with a versatile business model that caters to diverse culinary needs. Our eatery, adorned with cultural nuances, provides a welcoming ambiance for patrons seeking an authentic dining experience. The menu boasts a tantalizing array of Tangra specialties, carefully curated to offer a fusion of bold flavors and traditional culinary techniques. From sizzling stir-fries to delectable dim su', 'Catering', '20', '7th Street', 'Poblacion Ilawod', 'Lambunao', 'Iloilo', '6', '09452781051', '09452781023', 0x6173736574732f75706c6f6164732f494354203133392d2047726f757020436173652053747564792023332e706466, '', '', 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 1),
+(25, 35, 'MBS', 'dfsdfsdf', 'Photography', 'n/a', 'n/a', 'Tiniclan', 'Badjiangan', 'Iloilo', '6', 'sdfsd', '09886556799', 0x6173736574732f75706c6f6164732f3432303033383130345f313431333535313639393233383033345f373733373939343239333435323434373038325f6e2e6a7067, 0x6173736574732f75706c6f6164732f6375746c6572792e6a7067, 0x6173736574732f75706c6f6164732f736f66746472696e6b732e6a7067, 0x6173736574732f75706c6f6164732f627573696e6573732f4372697370792d506174612d5265636970652d66656174757265642d696d6167652d353030783530302e6a7067, 1);
 
 -- --------------------------------------------------------
 
@@ -152,7 +156,8 @@ CREATE TABLE `business_owner` (
 
 INSERT INTO `business_owner` (`ownerID`, `fname`, `lname`, `birthday`, `email`, `verification_code`, `number`, `ownerAddress`, `username`, `password`, `usertype`, `status`, `created`, `updated`) VALUES
 (28, 'Jose ', 'Puga', '1985-10-21', 'bvrlisah@gmail.com', '462081', '09452781051', '', 'JosePuga', '$argon2i$v=19$m=65536,t=4,p=1$dlYzVWM3ZTB6WHlZMjRkWQ$uXqRlJ7A6I70lW8qQnKYcYYzWPRRsc4LhSqouUXAgDU', 'business owner', 1, '2023-12-18 01:51:48', '2023-12-18 01:51:48'),
-(31, 'Ma Gloria', 'Hinolan', '1962-04-21', 'jirehsevein@gmail.com', '674098', '09452781051', '', 'magloria', '$argon2i$v=19$m=65536,t=4,p=1$QU9DTDM2RFBjSml3QUxWaw$2eEPbJIUBT/BeDWIV+6Oyy/h4D0V5xuo0IE1/1zLNHU', 'business owner', 1, '2024-01-05 04:05:52', '2024-01-05 04:05:52');
+(31, 'Ma Gloria', 'Hinolan', '1962-04-21', 'jirehsevein@gmail.com', '674098', '09452781051', '', 'magloria', '$argon2i$v=19$m=65536,t=4,p=1$QU9DTDM2RFBjSml3QUxWaw$2eEPbJIUBT/BeDWIV+6Oyy/h4D0V5xuo0IE1/1zLNHU', 'business owner', 1, '2024-01-05 04:05:52', '2024-01-05 04:05:52'),
+(35, 'Maria', 'Seran', '2024-01-22', 'maria.seran@students.isatu.edu.ph', '059208', '09102150299', 'Teneclan, Badiangan, Iloilo', 'mxria', '$argon2i$v=19$m=65536,t=4,p=1$S2hoVHo3a2hVOC5YbklZcw$813V2OTaF6nRYEBLzXFpCitTLkZ0GC+rGbG39m2IGuk', 'business owner', 1, '2024-01-22 06:10:46', '2024-01-22 06:10:46');
 
 -- --------------------------------------------------------
 
@@ -204,7 +209,8 @@ INSERT INTO `custom_category` (`customCategoryCode`, `branchCode`, `categoryName
 (23, 33, 'Pork Menu'),
 (24, 33, 'Chicken Menu'),
 (25, 33, 'Seafoods'),
-(26, 33, 'Drinks');
+(26, 33, 'Drinks'),
+(27, 34, 'asdasd');
 
 -- --------------------------------------------------------
 
@@ -231,7 +237,8 @@ INSERT INTO `custom_items` (`itemCode`, `customCategoryCode`, `itemName`, `descr
 (28, 24, 'Chicken Curry', '', 50, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f5f66616e6172745f5f315f796561725f616e6e69766572736172795f62795f616b656d6f6e6f5f6466357462336e2d333530742e6a7067),
 (29, 25, 'Shrimp', '', 79, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f66316638376566623162616538656630376162383437396465626664363837642e706e67),
 (30, 26, 'Royal', '12 oz', 20, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f766c63736e61702d323032322d30382d30392d31376832306d3434733132352e706e67),
-(31, 23, 'Pork Embutido', '', 99, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f34646434666161396338363061313135613661393239633137333733623665372e6a7067);
+(31, 23, 'Pork Embutido', '', 99, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f34646434666161396338363061313135613661393239633137333733623665372e6a7067),
+(32, 27, 'sasasa', 'asdff', 100, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f3432303033383130345f313431333535313639393233383033345f373733373939343239333435323434373038325f6e2e6a7067);
 
 -- --------------------------------------------------------
 
@@ -286,7 +293,8 @@ INSERT INTO `items` (`itemCode`, `packCode`, `itemName`, `description`, `quantit
 (354, 275, '3 Main Dish', '3 main dish of your choice (see menu)', 0, '', 0, '', 'assets/uploads/packages/420045990_917586769805131_1358493736596732913_n.jpg', 'enable', 0),
 (355, 275, '2 Side Dish', '2 side dish of your choice (see menu)', 0, '', 0, '', 'assets/uploads/packages/420038104_1413551699238034_7737994293452447082_n.jpg', 'enable', 0),
 (356, 275, 'Softdrinks', '1L of softdrinks of your choice', 0, '', 0, '', 'assets/uploads/packages/softdrinks.jpg', 'enable', 0),
-(357, 275, 'Utensils', 'Includes spoon, fork, serving spoon, glasses', 0, '', 0, '', 'assets/uploads/packages/cutlery.jpg', 'enable', 0);
+(357, 275, 'Utensils', 'Includes spoon, fork, serving spoon, glasses', 0, '', 0, '', 'assets/uploads/packages/cutlery.jpg', 'enable', 0),
+(358, 280, 'mimi', 'mammamma', 0, '', 0, '', 'assets/uploads/packages/bufalo.jpg', 'enable', 0);
 
 -- --------------------------------------------------------
 
@@ -321,7 +329,8 @@ CREATE TABLE `package` (
 --
 
 INSERT INTO `package` (`packCode`, `branchCode`, `packName`, `packDesc`, `pricingType`, `amount`) VALUES
-(275, 33, 'Package 1', 'tbc', 'per pax', 320);
+(275, 33, 'Package 1', 'tbc', 'per pax', 320),
+(280, 34, 'asasdasd', 'asdasdsada', 'per pax', 390);
 
 -- --------------------------------------------------------
 
@@ -356,7 +365,8 @@ CREATE TABLE `transaction` (
 INSERT INTO `transaction` (`paymentID`, `businessCode`, `clientID`, `packCode`, `sourceID`, `clientName`, `email`, `mobileNumber`, `amount`, `paymentDate`, `itemName`, `paymentMethod`, `pDate`, `dDate`, `dAddress`, `status`, `busName`) VALUES
 (34, 24, 18, 110, '', 'Vianney Sobrevega', 'vyangsob@gmail.com', 2147483647, 13800, '2024-01-11', 'Package 1', 'on site payment', '', '', '', 'unpaid', ''),
 (53, 24, 18, 275, '', 'Vianney Sobrevega', 'vyangsob@gmail.com', 2147483647, 9280, '2024-01-22', '3 Main Dish, 2 side dish, Softdrinks, Utensills', 'on site payment', '', '2024-02-08', 'asdasd', 'unpaid', ''),
-(56, 24, 18, 275, 'src_1WznoQCz8otM9fUngAVVRqsM', '', '', 0, 9280, '2024-01-22', '<br />\r\n<b>Warning</b>:  Undefined variable $packName in <b>C:xampp2htdocswebworks-lorem-phppagescheckout.php</b> on line <b>162</b><br />\r\n<br />\r\n<b>Warning</b>:  Trying to access array offset on va', 'gcash', '', '', '', 'active', 'Bahay Kusina De Tangra');
+(56, 24, 18, 275, 'src_1WznoQCz8otM9fUngAVVRqsM', '', '', 0, 9280, '2024-01-22', '', 'gcash', '', '', '', 'active', 'Bahay Kusina De Tangra'),
+(57, 25, 18, 280, '', 'Vianney Sobrevega', 'vyangsob@gmail.com', 2147483647, 35052420, '2024-01-22', 'mimi', 'on site payment', '', '2024-01-31', 'asdsadas', 'unpaid', '');
 
 -- --------------------------------------------------------
 
@@ -509,13 +519,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `branches`
 --
 ALTER TABLE `branches`
-  MODIFY `branchCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `branchCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `business`
 --
 ALTER TABLE `business`
-  MODIFY `businessCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `businessCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `businesstypes`
@@ -527,25 +537,25 @@ ALTER TABLE `businesstypes`
 -- AUTO_INCREMENT for table `business_owner`
 --
 ALTER TABLE `business_owner`
-  MODIFY `ownerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `ownerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-  MODIFY `clientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `clientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `custom_category`
 --
 ALTER TABLE `custom_category`
-  MODIFY `customCategoryCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `customCategoryCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `custom_items`
 --
 ALTER TABLE `custom_items`
-  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `custom_item_details`
@@ -563,7 +573,7 @@ ALTER TABLE `images`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=358;
+  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=359;
 
 --
 -- AUTO_INCREMENT for table `item_details`
@@ -575,13 +585,13 @@ ALTER TABLE `item_details`
 -- AUTO_INCREMENT for table `package`
 --
 ALTER TABLE `package`
-  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=280;
+  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=281;
 
 --
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `paymentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `paymentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `voucher`
