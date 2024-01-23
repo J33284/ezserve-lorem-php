@@ -51,7 +51,17 @@
                   <label for="exampleInputPassword1" class="form-label">Password</label>
                   <input type="password"  class="form-control" name="data[password]" value="<?php echo isset($_GET['password']) ? htmlspecialchars($_GET['password']) : ''; ?>" required>
               </div>
-        
+
+              <div class="mb-2">
+                <label for="exampleInputPassword2" class="form-label">Re-type Password</label>
+                <input type="password" class="form-control" name="data[repassword]" value="<?php echo isset($_GET['repassword']) ? htmlspecialchars($_GET['repassword']) : ''; ?>" required>
+            </div>
+
+            <div class="mb-2 form-check">
+                <input type="checkbox" class="form-check-input" id="showPassword">
+                <label class="form-check-label" for="showPassword">Show Password</label>
+            </div>
+
               <button type="submit" class="btn btn-primary mb-3">Register</button>     
               <div class="register p-2 d-flex align-items-center justify-content-start">
                             <p>Already have an account?<a href="<?php echo SITE_URL?>/?page=login">Login</a></p>
@@ -61,7 +71,7 @@
         </div>
       </div>
 
-      <style>
+<style>
 .signimg img{
     width: 50vw;
 }
@@ -80,3 +90,17 @@
     }
 }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const passwordInput = document.querySelector('input[name="data[password]"]');
+    const rePasswordInput = document.querySelector('input[name="data[repassword]"]');
+    const showPasswordCheckbox = document.getElementById('showPassword');
+
+    showPasswordCheckbox.addEventListener('change', function () {
+        const type = showPasswordCheckbox.checked ? 'text' : 'password';
+        passwordInput.type = type;
+        rePasswordInput.type = type;
+    });
+});
+</script>

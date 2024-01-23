@@ -8,25 +8,53 @@ use PHPMailer\PHPMailer\Exception;
 
 if (isset($_POST['data'])) {
     $email = $_POST["data"]["email"];
+    $username = $_POST["data"]["username"];
 
-    if (emailExists($email)) {
-        set_message("Email already exists. Please use a different email address.", "danger");
-        
-        redirect("?page=register&", $_POST['data']);
+    // Check if username already exists in either client or business_owner table
+    if (usernameExistsInTable($username, 'client') || usernameExistsInTable($username, 'business_owner')) {
+        set_message("Username already exists. Please choose a different username.", "danger");
+        register_redirect("?page=register&", $_POST['data']);
         exit();
-
     }
 
-    //Password Hashing
+    // Password Hashing
     $plainPassword = $_POST['data']['password'];
-    $hashedPassword = password_hash($plainPassword, PASSWORD_ARGON2I);
-    $_POST['data']['password'] = $hashedPassword;
+    $repassword = $_POST['data']['repassword'];
 
+    // Check if passwords match
+    if ($plainPassword !== $repassword) {
+        set_message("Passwords do not match. Please make sure both passwords are the same.", "danger");
+        register_redirect("?page=register&", $_POST['data']);
+        exit();
+    }
+
+    // Check password strength
+    if (!isStrongPassword($plainPassword)) {
+        set_message("Password is not strong enough. Please use a password with a minimum of 8 characters, including at least one uppercase letter, one lowercase letter, and one special character.", "danger");
+        register_redirect("?page=register&", $_POST['data']);
+        exit();
+    }
     $verification_code = sprintf('%06d', mt_rand(0, 999999));
 
     $allowedUsertypes = ['client', 'business owner'];
     $usertype = $_POST['data']['usertype'];
 
+    // Check if the email already exists in the respective table
+    if ($usertype === 'client' && emailExistsInTable($email, 'client')) {
+        set_message("Email is already registered as a client.", "danger");
+        register_redirect("?page=register&", $_POST['data']);
+        exit();
+    } elseif ($usertype === 'business owner' && emailExistsInTable($email, 'business_owner')) {
+        set_message("Email is already registered as a business owner.", "danger");
+        register_redirect("?page=register&", $_POST['data']);
+        exit();
+    }
+
+    
+    $hashedPassword = password_hash($plainPassword, PASSWORD_ARGON2I);
+    $_POST['data']['password'] = $hashedPassword;
+
+    
     if (in_array($usertype, $allowedUsertypes)) {
         if ($usertype === 'client' && add_record("client", $_POST['data'])) {
             processVerificationEmail($email, $verification_code);
@@ -43,25 +71,34 @@ if (isset($_POST['data'])) {
 
 redirect();
 
-function emailExists($email) {
+// Function to check if the email exists in the specified table
+function emailExistsInTable($email, $table) {
     global $DB;
+    $sql = "SELECT COUNT(*) as count FROM $table WHERE email = '$email'";
+    $result = mysqli_query($DB, $sql);
+    $row = mysqli_fetch_assoc($result);
+    return $row['count'] > 0;
+}
 
-    $email = mysqli_real_escape_string($DB, $email);
-    
-    $sqlClient = "SELECT COUNT(*) FROM client WHERE email = '$email'";
-    $sqlBusinessOwner = "SELECT COUNT(*) FROM business_owner WHERE email = '$email'";
-    
-    $resultClient = mysqli_query($DB, $sqlClient);
-    $resultBusinessOwner = mysqli_query($DB, $sqlBusinessOwner);
+function usernameExistsInTable($username, $table) {
+    global $DB;
+    $sql = "SELECT COUNT(*) as count FROM $table WHERE username = '$username'";
+    $result = mysqli_query($DB, $sql);
+    $row = mysqli_fetch_assoc($result);
+    return $row['count'] > 0;
+}
 
-    if ($resultClient && $resultBusinessOwner) {
-        $rowClient = mysqli_fetch_row($resultClient);
-        $rowBusinessOwner = mysqli_fetch_row($resultBusinessOwner);
+function isStrongPassword($password) {
+    // Add your password strength criteria here
+    // For example, you can check minimum length, uppercase, lowercase, numbers, special characters, etc.
 
-        return $rowClient[0] > 0 || $rowBusinessOwner[0] > 0;
-    } else {
-        return false;
-    }
+    $minLength = 8;
+    $hasUppercase = preg_match('/[A-Z]/', $password);
+    $hasLowercase = preg_match('/[a-z]/', $password);
+    $hasNumber = preg_match('/\d/', $password);
+    $hasSpecialChar = preg_match('/[^a-zA-Z\d]/', $password);
+
+    return strlen($password) >= $minLength && $hasUppercase && $hasLowercase && $hasNumber && $hasSpecialChar;
 }
 
 function processVerificationEmail($email, $verification_code) {
@@ -96,12 +133,12 @@ function configureMailer() {
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com'; // Replace with your email provider's SMTP server
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'officialwebworks@gmail.com'; // Replace with your email address
-        $mail->Password   = 'prtn iybg regr ejei'; // Replace with your email password
+        $mail->Username   = 'officialezserve@gmail.com'; // Replace with your email address
+        $mail->Password   = 'ijzf jsos mrtb fbyb'; // Replace with your email password
         $mail->SMTPSecure = 'tls';
         $mail->Port       = 587;
 
-        $mail->setFrom('officialwebworks@gmail.com', 'Webworks');
+        $mail->setFrom('officialezserve@gmail.com', 'EzServe');
 
         return $mail;
     } catch (Exception $e) {
@@ -138,7 +175,7 @@ function getEmailBody($verification_code) {
             <body>
                 <div class="container">
                     <h1>Verify Your Email</h1>
-                    <p>Thank you for registering with Webworks. Your verification code is:</p>
+                    <p>Thank you for registering with EzServe. Your verification code is:</p>
                     <p style="font-size: 24px; font-weight: bold;">'.$verification_code.'</p>
                 </div>
             </body>

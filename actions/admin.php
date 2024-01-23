@@ -16,8 +16,8 @@
         if( $check && $check->num_rows ) {
             $user = $check->fetch_object();          
             if( $user->status == 0 ) {
-                set_message( "Your account is not yet activated." . $DB->error, "danger" );
-                redirect('');
+                set_message( "Your account does not exist." . $DB->error, "danger" );
+                header("Location: ?page=admin_login");
               
             }
             if ($password == $user->password) {
@@ -26,7 +26,7 @@
                 $_SESSION[ AUTH_TYPE ] = $user->usertype;
                 $_SESSION[ AUTH_TOKEN ] = $user->token;
                 set_message( "Welcome back {$user->username}!", 'success' );
-                redirect();
+                header("Location: ?page=default");
             } else {        
                 set_message( "Invalid login, please try again." . $DB->error, "danger" );
             }

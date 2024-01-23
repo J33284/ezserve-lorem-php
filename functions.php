@@ -29,7 +29,6 @@ function show_message() {
 }
 
 
-
 function redirect($url, $params = array()) {
     $queryString = http_build_query($params);
     header("Location: $url?$queryString");
