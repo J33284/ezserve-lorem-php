@@ -45,6 +45,7 @@ if ($packageDetailsQ) {
                 <tr>
                     <th>Item Name</th>
                     <th>Description</th>
+                    <th>Additional Detail</th>
                     <?php if ($packageDetails['pricingType'] === 'per pax') : ?>
                         <th>Image</th>
                     <?php else : ?>
@@ -67,6 +68,13 @@ if ($packageDetailsQ) {
                     <tr>
                         <td><?= $row['itemName'] ?></td>
                         <td><?= $row['description'] ?></td>
+                        <td>
+        <?php if (!empty($itemDetails['detailName']) && !empty($itemDetails['detailValue'])) : ?>
+            <strong><?= $itemDetails['detailName'] ?></strong><?= $itemDetails['detailValue'] ?>
+        <?php else : ?>
+            N/A
+        <?php endif; ?>
+    </td>
                         <?php if ($packageDetails['pricingType'] === 'per pax') : ?>
                             <td>
                                 <img src="<?= $row['itemImage'] ?>" alt="<?= $row['itemName'] ?>" style="max-width: 200px; height: 180px;"
@@ -111,7 +119,7 @@ if ($packageDetailsQ) {
 
         <div id="quantityMeterContainer" style="display: none;">
         <label for="quantityMeter">No. of Persons:</label>
-        <input type="number" id="quantityMeter" placeholder="Enter quantity">
+        <input type="number" id="quantityMeter" placeholder="Enter quantity" value ="1">
     </div>
 
         

@@ -147,11 +147,12 @@ if (isset($_GET['numberOfPersons'])) {
                     <h5><?= '₱' . number_format($amountPerPax, 2). " (per pax) x " . $numberOfPersons ?></h5>
                     <p style="font-size: 30px;">Total: <?= '₱' . number_format($overallTotal, 2) ?></p>
                 </div>
+                <!--
                 <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"
                 href="?page=voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>&grandTotal=<?= $grandTotal ?>">
                 <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
                 <i class="bi bi-chevron-right float end col-2"></i>
-                </a>
+                </a>-->
 
                 <form action="?action=payMongo" method="post">
                     <input type="hidden" name="packCode" value="<?= $packCode ?>">
