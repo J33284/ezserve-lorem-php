@@ -198,7 +198,6 @@ footer p{
   box-shadow: 2px 0 10px -5px #333;
   z-index: 600;
   width: 18em;
-  
 }
 
 
@@ -219,11 +218,14 @@ footer p{
 }
 .side-nav .nav-item:hover,
 .side-nav div a:hover>a {
-  border-bottom: 3px solid #ff9933 ;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; ;
 }
 .side-nav .nav-item.active  {
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; ;
   background:linear-gradient(to left, #ccffff 0%, #99ccff 58%);
-  border-radius: 5px;
+  
 }
 
 
@@ -238,7 +240,7 @@ footer p{
   margin-right: 5px;
 }
 /*profile pages main content*/
-.profile, .purchase, .voucher,
+ .purchase, .voucher,
 .own_vouch, .admin-reg, .owner-order-list, .own-bus, .admin-users{
   margin: 120px 10px 50px 20vw;
   width: 75vw;

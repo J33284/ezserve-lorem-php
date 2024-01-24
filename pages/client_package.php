@@ -17,52 +17,6 @@ if ($branchesQ) {
 }
 ?>
 
-<style>
-    html {
-        scroll-padding-top: 250px;
-    
-    }
-    @media (max-width:1700px) {
-     
-     .head {
-         display: flex;
-        flex-direction: row;
-        margin: 20px;
-     }   
-     .head h1{
-        margin: 0 70px 0 20px;
-     }
-     .pack{
-        display: flex;
-        flex-direction: row;
-        margin: 150px 0px 0px 100px;
-     }
-     .pre-made{
-        margin-right: 20px;
-     }
-     }
-
-    @media (max-width:700px) {
-     
-    .head {
-        display: flex;
-        flex-direction: column;
-        margin:0;
-    }   
-    .head h1{
-        margin: 0;
-    }
-    .pack{
-        display: flex;
-        flex-direction: column;
-       margin: 120px 0 0 20px;
-    }
-    }
-    .btn-back{
-        margin-right: 20px;
-    }
-    
-</style>
 
 
 <?= element('header') ?>
@@ -189,3 +143,49 @@ if ($branchesQ) {
 <?php endif; ?>
 
 
+<style>
+    html {
+        scroll-padding-top: 250px;
+    
+    }
+    @media (max-width:1700px) {
+     
+     .head {
+         display: flex;
+        flex-direction: row;
+        margin: 20px;
+     }   
+     .head h1{
+        margin: 0 70px 0 20px;
+     }
+     .pack{
+        display: flex;
+        flex-direction: row;
+        margin: 150px 0px 0px 100px;
+     }
+     .pre-made{
+        margin-right: 20px;
+     }
+     }
+
+    @media (max-width:700px) {
+     
+    .head {
+        display: flex;
+        flex-direction: column;
+        margin:0;
+    }   
+    .head h1{
+        margin: 0;
+    }
+    .pack{
+        display: flex;
+        flex-direction: column;
+       margin: 120px 0 0 20px;
+    }
+    }
+    .btn-back{
+        margin-right: 20px;
+    }
+    
+</style>

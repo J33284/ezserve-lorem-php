@@ -10,7 +10,7 @@
 
 
 
-<div style="margin: 120px 0 0 20%; width: 70vw">
+<div style="margin: 120px 0 0 23%; width: 70vw">
     <div class="justify-content-center align-items-center" >
         
             <div class="d-flex justify-content-between align-items-center mb-4" >
@@ -18,7 +18,7 @@
                     <?php echo $branch['busName']; ?> Packages
                     
                 </h1>
-                <a href="?page=add_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="btn btn-primary">Add Package</a>
+                <a href="?page=add_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="btn btn-md btn btn-outline-dark"><i class="bi bi-plus-square">Add Package</i></a>
             </div>
 
             <?php

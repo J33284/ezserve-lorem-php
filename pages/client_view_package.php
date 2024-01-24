@@ -136,7 +136,7 @@ if ($packageDetailsQ) {
 <!-- Checkout Container -->
 <div id="checkoutContainer" class="container mt-3 text-center d-none">
     <h2>Checkout</h2>
-    <table id="checkoutTable" class="table table-bordered table-responsive" style="margin-top: 130px;">
+    <table id="checkoutTable" class="table rounded table-bordered table-responsive" style="margin-top: 130px;">
         <!-- Table Header -->
         <thead>
     <tr>

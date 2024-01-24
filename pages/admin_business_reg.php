@@ -13,8 +13,11 @@ $businesses = $DB->query("SELECT b.*, bo.* FROM business b
 <?= element('admin-side-nav') ?>
 
 <div id="admin-reg" class="admin-reg overflow-auto">
+<div class="d-flex justify-content-between mb-4">
+        <h1>Business Registrations</h1>
+</div>
     <table class="table table-hover table-responsive">
-        <thead>
+        <thead class="table-dark">
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Business Name</th>
@@ -24,13 +27,14 @@ $businesses = $DB->query("SELECT b.*, bo.* FROM business b
         <tbody>
             <?php foreach ($businesses as $key => $business) : ?>
                 <tr class="sticky-top mt-3">
-                    <th scope="row"><?= $key + 1 ?></th>
-                    <td data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample<?= $business['businessCode'] ?>" role="button">
+                    <th scope="row" class="bg-transparent border border-white"><?= $key + 1 ?></th>
+                    <td class="bg-transparent border border-white w-100 justify-content-between align-items-center d-flex" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample<?= $business['businessCode'] ?>" role="button">
                         <?= $business['busName'] ?>
-                    </td>
-                    <td>
-                    <div class="d-flex float-end">
                         <button class="btn btn-primary " data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample<?= $business['businessCode'] ?>">View</button>
+                    </td>
+                    <td class="bg-transparent border border-white " style="width:90px;">
+                    <div class="d-flex float-end">
+                        
                         <form method="post">
                             <input type="hidden" name="business_Code" value="<?= $business['businessCode'] ?>">
                             <button class="btn btn-success mx-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccept<?= $business['businessCode'] ?>">Accept</button>

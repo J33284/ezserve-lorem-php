@@ -137,8 +137,6 @@ if (isset($_POST['keyword'])) {
                                             </tr>
                                             <?php
                                         }
-                                    } else {
-                                        echo "Error in fetching results: " . mysqli_error($your_connection_variable);
                                     }
                                     ?>
 

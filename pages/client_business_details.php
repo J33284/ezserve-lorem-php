@@ -27,7 +27,9 @@ $business = $businesses->fetch_assoc();
     
     <div class="container shadow mb-5 bg-white rounded details sticky-top" style="height: auto; padding: 30px 0px 0px 20px;">
         <div class="row">
-            <h1 class="d-flex justify-content-start align-items-center"><?= $business['busName'] ?></h1>
+            <a href="?page=client_business_details&businessCode=<?= $businessCode ?>" class=" col-1 btn-back btn-lg justify-content-start align-items-center d-flex text-dark ">
+                <i class="bi bi-arrow-left "></i></a>
+            <h1 class="d-flex justify-content-start align-items-center col-7"><?= $business['busName'] ?></h1>
         </div>
 
         <div class="links border-top">

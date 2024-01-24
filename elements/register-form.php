@@ -1,9 +1,9 @@
 <div class="login container row justify-content-center align-items-center">
-    <div class="signimg col-lg-6 my-5 d-flex justify-content-center align-items-center">
+    <div class="signimg col-lg-5 my-5 d-flex justify-content-center align-items-center">
         <img src="./assets/images/has shadow with tagline.png" alt="ezServe Logo">
     </div>
 
-    <div class="card justify-content-between border-0 col-sm-8 col-lg-5 shadow p-3 mb-5 bg-white rounded">
+    <div class="card justify-content-between border-0 col-sm-8 col-lg-6 shadow p-3 mb-5 bg-white rounded">
         <div class="card-body">
             <h1>Sign Up</h1>
             <hr>
@@ -61,6 +61,14 @@
                 <input type="checkbox" class="form-check-input" id="showPassword">
                 <label class="form-check-label" for="showPassword">Show Password</label>
             </div>
+            <div class="pwWarning mb-3">
+                <p >Password must contain the following:</p>
+                <li>Minimum of 8 characters</li>
+                <li>One or more lowercase letter</li>
+                <li>One or more uppercase letter</li>
+                <li>One or more digit characters</li>
+                <li>One or more special characters</li>
+            </div>
 
               <button type="submit" class="btn btn-primary mb-3">Register</button>     
               <div class="register p-2 d-flex align-items-center justify-content-start">
@@ -72,6 +80,11 @@
       </div>
 
 <style>
+    .pwWarning p, li{
+        margin:5px!important;
+        font-size: 12px;
+        color: #009933;
+    }
 .signimg img{
     width: 50vw;
 }

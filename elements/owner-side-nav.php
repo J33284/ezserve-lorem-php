@@ -18,7 +18,7 @@
 
 
   <style>
-    @media (max-width: 1100px) {
+    @media (max-width: 1300px) {
   .side-nav .nav-item span, h3{
     visibility: hidden;
 
