@@ -14,11 +14,16 @@
     <div class="justify-content-center align-items-center" >
         
             <div class="d-flex justify-content-between align-items-center mb-4" >
+                <div class="d-flex"> 
+                    <a href="?page=choose_package&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class=" mx-3 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
                 <h1>
-                    <?php echo $branch['busName']; ?> Packages
+                    Create Pre-made Packages
                     
                 </h1>
-                <a href="?page=add_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="btn btn-md btn btn-outline-dark"><i class="bi bi-plus-square">Add Package</i></a>
+                </div>
+                <a href="?page=add_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="  btn btn-md btn btn-outline-dark"><i class="bi bi-plus-square"> Add Package</i></a>
             </div>
 
             <?php
