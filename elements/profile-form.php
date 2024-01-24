@@ -20,8 +20,8 @@ $profileImage = $userData->profileImage;
 <div id="profile" class="profile" >
   <div class="d-flex justify-content-between p-3">
     <h1 >My Profile</h1>
-    <a href="#" class="btn-edit btn-lg float-end mt-4 " onclick="toggleEdit()">
-      <i id="pencilIcon" class="bi bi-pencil-fill"></i>
+    <a href="#" class="btn-edit btn-md btn btn-outline-dark float-end mt-4 " onclick="toggleEdit()">
+      <i id="pencilIcon" class="bi bi-pencil-fill"> Edit Profile</i>
     </a>
   </div>
 

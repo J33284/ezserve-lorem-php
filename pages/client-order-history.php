@@ -40,7 +40,7 @@ if (isset($_POST['keyword'])) {
             <table class="table table-hover table-bordered">
                 <thead class="table-dark">
                     <tr>
-                        <th scope="col">Payment ID</th>
+                        <th scope="col" class="align-items-start">Payment ID</th>
                         <th scope="col">Payment Date</th>
                         <th scope="col">Package Name</th>
                         <th scope="col">Pick-up Date</th>
@@ -55,7 +55,7 @@ if (isset($_POST['keyword'])) {
                 <tbody>
                     <?php while ($row = $payment->fetch_assoc()): ?>
                         <tr>
-                            <td><?= $row['sourceID'] != '' ? $row['sourceID'] : 'N/A' ?></td>
+                            <td ><?= $row['sourceID'] != '' ? $row['sourceID'] : 'N/A' ?></td>
                             <td><?= $row['paymentDate'] ?></td>
                             <td>
                                 <?php

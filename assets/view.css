@@ -9,8 +9,8 @@ body {
   background-size: cover; 
 }
 
-input.form-control::placeholder {
-  opacity: .5;
+.form-control{
+  border: 1px solid #ccc;
 }
 
 h1 {
@@ -204,11 +204,11 @@ footer p{
 
 .side-nav .nav-item{
   list-style: none;
-  margin: 0px 20px;
   height: 40px;
  
-  
-
+}
+.side-nav .nav-item {
+  padding: 0 10px 0 10px;
 }
 .side-nav .nav-item a span{
   color: black;
@@ -218,11 +218,14 @@ footer p{
   font-style: normal;
 }
 .side-nav .nav-item:hover,
-.side-nav .active,
-.side-nav .active:focus,
 .side-nav div a:hover>a {
-  border-bottom: 3px solid #fb7e00;
+  border-bottom: 3px solid #ff9933 ;
 }
+.side-nav .nav-item.active  {
+  background:linear-gradient(to left, #ccffff 0%, #99ccff 58%);
+  border-radius: 5px;
+}
+
 
 .side-nav i{
   font-size: 25px;
@@ -365,9 +368,6 @@ h1{
   padding: 0px 30px;
 }
 
-.column .form-control{
-  margin: 0px 0px 10px 0px;
-}
 .column .about-field, 
 .column .contact-field{
   height: 80px;
@@ -396,20 +396,7 @@ h1{
   margin: 120px 0 0 80px;
 }
 
-.accords {
-  height: 60vh;
-  overflow: scroll;
-  margin-bottom: 100px;
-}
-.accords::-webkit-scrollbar, .order::-webkit-scrollbar {
-  display: none;
-}
-.accord-check{
-  margin: 5px;
-}
-.accordion-body .form-check-input{
-  height: 25px;
-}
+
 .custom{
   height: 100vh;
 }
