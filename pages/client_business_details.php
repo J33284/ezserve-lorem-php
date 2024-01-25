@@ -73,9 +73,6 @@ $business = $businesses->fetch_assoc();
                     <hr>
                 
 
-
-
-
                 <!-- Move the map initialization outside the loop -->
                 <script>
                     document.addEventListener('DOMContentLoaded', function () {
