@@ -39,7 +39,7 @@ $current_page = isset($_GET['page']) ? $_GET['page'] : 'default'; // Get the cur
                 
         <li><a class="burger-item <?php echo ($current_page === 'default') ? 'active' : ''; ?>" href="<?= SITE_URL ?>/?page=default">Home</a></li>
     <li><a class="burger-item <?php echo ($current_page === 'services') ? 'active' : ''; ?>" href="<?= SITE_URL ?>/?page=services">Service</a></li>
-    <li><a class="burger-item <?php echo ($current_page === 'about') ? 'active' : ''; ?>" href="<?= SITE_URL ?>/?page=about">About</a></li>
+    <li><a class="burger-item <?php echo ($current_page === 'about') ? 'active' : ''; ?>" href="<?= SITE_URL ?>/?page=about">About Us</a></li>
 
           
                 <?php if (isset($_SESSION[AUTH_ID])) { ?>
