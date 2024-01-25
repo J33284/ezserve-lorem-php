@@ -124,8 +124,9 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
                     <input class="form-control mb-3" type="number" id="${priceId}" name="price[${itemIndex}][]" placeholder="Price per unit">
                 </div>
                 <div class="form-group mb-3">
-            <label for="${itemImageId}">Item Image</label>
-            <input type="file" id="${itemImageId}" name="itemImage[${itemIndex}][]" accept="image/*" multiple>
+            <label for="${itemImageId}">Upload Image</label>
+            <input type="file" id="${itemImageId}" name="itemImage[${itemIndex}][]" accept="image/*" onchange="previewImage(this, 'preview_${itemImageId}')" multiple>
+            <img id="preview_${itemImageId}" style="max-width: 100px; max-height: 100px; margin-top: 10px;" src="assets/images/preview-placeholder.jpg" alt="Image Preview">
         </div>
             </div>
             
@@ -202,5 +203,18 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
                 input.value = '';
             }
         });
+    }
+    function previewImage(input, previewId) {
+        const preview = document.getElementById(previewId);
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
     }
 </script>
