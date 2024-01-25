@@ -37,13 +37,13 @@
                 $branchName = ($branchNameResult->num_rows > 0) ? $branchNameResult->fetch_assoc()["branchName"] : '';
             ?>
                 <tr>
-                    <td><?= $busName ?></td>
-                    <td><?= $branchName ?></td>
-                    <td><?= $row["voucherCode"] ?></td>
-                    <td><?= $row["cond"] ?></td>
-                    <td><?= ($row["discountType"] === 'percentage') ? $row["discountValue"] . '%' : '₱' . $row["discountValue"] ?></td>
-                    <td><?= $row["startDate"] ?></td>
-                    <td><?= $row["endDate"] ?></td>
+                    <td class="bg-transparent border border-white"><?= $busName ?></td>
+                    <td class="bg-transparent border border-white"><?= $branchName ?></td>
+                    <td class="bg-transparent border border-white"><?= $row["voucherCode"] ?></td>
+                    <td class="bg-transparent border border-white"><?= $row["cond"] ?></td>
+                    <td class="bg-transparent border border-white"><?= ($row["discountType"] === 'percentage') ? $row["discountValue"] . '%' : '₱' . $row["discountValue"] ?></td>
+                    <td class="bg-transparent border border-white"><?= $row["startDate"] ?></td>
+                    <td class="bg-transparent border border-white"><?= $row["endDate"] ?></td>
                 </tr>
             <?php
             }
