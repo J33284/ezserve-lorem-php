@@ -9,7 +9,7 @@ $results = [];
 
 if (isset($_POST['keyword'])) {
     $keyword = $_POST['keyword'];
-    $sql = $DB->query("SELECT * FROM payment ");
+    $sql = $DB->query("SELECT * FROM transaction");
 
     $results = $DB->query($sql);
 } else {
@@ -22,7 +22,11 @@ if (isset($_POST['keyword'])) {
 <?= element('client-side-nav') ?>
 
 <div id="admin-reg" class="admin-reg">
-    <div class="mb-5 d-flex justify-content-between">
+<div class="d-flex justify-content-between p-3">
+    <h1 >Order History</h1>
+    
+ 
+    <div class="mb-5 d-flex justify-content-between float-end">
         <form id="search" class="d-flex justify-content-center" method="post">
             <input type="text" class="form-control rounded" placeholder="Search" name="keyword" value="" />
             <button type="button" class="btn btn-primary" id="search-button" data-mdb-ripple-init>
@@ -35,12 +39,13 @@ if (isset($_POST['keyword'])) {
             <input placeholder="Select date" type="date" id="date" class="form-control w-50">
         </div> -->
     </div>
-    <div class="h-100">
-        <div class="table-responsive">
-            <table class="table table-hover table-bordered">
+    </div>
+    <div style="height: 100vh;">
+        <div class="table-responsive" style="height: 100vh;">
+            <table class="table table-hover table-bordered" >
                 <thead class="table-dark">
                     <tr>
-                        <th scope="col">Payment ID</th>
+                        <th scope="col" class="align-items-start">Payment ID</th>
                         <th scope="col">Payment Date</th>
                         <th scope="col">Package Name</th>
                         <th scope="col">Pick-up Date</th>
@@ -55,7 +60,7 @@ if (isset($_POST['keyword'])) {
                 <tbody>
                     <?php while ($row = $payment->fetch_assoc()): ?>
                         <tr>
-                            <td><?= $row['sourceID'] != '' ? $row['sourceID'] : 'N/A' ?></td>
+                            <td ><?= $row['sourceID'] != '' ? $row['sourceID'] : 'N/A' ?></td>
                             <td><?= $row['paymentDate'] ?></td>
                             <td>
                                 <?php

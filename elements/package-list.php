@@ -14,15 +14,18 @@ $branchResult = $DB->query($branchQuery);
 $branch = $branchResult->fetch_assoc();
 ?>
 
+
+
 <div style="margin: 120px 0 0 20%; width: 70vw">
-    <div class="justify-content-center align-items-center">
-
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1><?php echo $branch['busName']; ?> </h1>
-            <h1><?php echo $branch['branchName']; ?> Packages </h1>
-
-            <a href="?page=add_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="btn btn-primary">Add Package</a>
-        </div>
+    <div class="justify-content-center align-items-center" >
+        
+            <div class="d-flex justify-content-between align-items-center mb-4" >
+                <h1>
+                    <?php echo $branch['busName']; ?> Packages
+                    
+                </h1>
+                <a href="?page=add_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="btn btn-primary">Add Package</a>
+            </div>
 
         <?php
         $packageQuery = "SELECT * FROM package WHERE branchCode = '$branchCode'";

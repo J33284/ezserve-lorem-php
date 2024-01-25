@@ -8,11 +8,11 @@
     <?php } ?>
         <hr class="mx-3">
         <div class="">
-          <div class="nav-item"><a href="<?php echo SITE_URL ?>/?page=admin_business_reg" class="py-2"><i class="bi bi-list-check"></i><span>Registrations</span></i></a></div>
-          <div class="nav-item"><a href="<?php echo SITE_URL ?>/?page=admin-bus-list" class="py-2"><i class="bi bi-briefcase"></i><span>Businesses</span></a></div>
-          <div class="nav-item"><a href="<?php echo SITE_URL ?>/?page=admin-users" class="py-2"><i class="bi bi-people"></i><span>User Accounts</span></a></div>
-          <div class="nav-item"><a href="<?php echo SITE_URL ?>/?page=admin_profile" class="py-2"><i class="bi bi-person"></i><span>Profile Settings</span></a></div>
-          <div class="nav-item"><a href="<?php echo SITE_URL ?>/?page=admin_settings" class="py-2"><i class="bi bi-gear"></i><span> Settings</span></a></div>
+          <div class="nav-item <?php echo ($_GET['page'] === 'admin_business_reg') ? 'active' : ''; ?>"><a href="<?php echo SITE_URL ?>/?page=admin_business_reg" class="py-2"><i class="bi bi-list-check"></i><span>Registrations</span></i></a></div>
+          <div class="nav-item <?php echo ($_GET['page'] === 'admin-bus-list') ? 'active' : ''; ?>"><a style="width:100rem" href="<?php echo SITE_URL ?>/?page=admin-bus-list" class="py-2"><i class="bi bi-briefcase"></i><span>Businesses</span></a></div>
+          <div class="nav-item <?php echo ($_GET['page'] === 'admin-users') ? 'active' : ''; ?>"><a href="<?php echo SITE_URL ?>/?page=admin-users" class="py-2"><i class="bi bi-people"></i><span>User Accounts</span></a></div>
+          <div class="nav-item <?php echo ($_GET['page'] === 'admin_profile') ? 'active' : ''; ?>"><a href="<?php echo SITE_URL ?>/?page=admin_profile" class="py-2"><i class="bi bi-person"></i><span>Profile Settings</span></a></div>
+          <div class="nav-item <?php echo ($_GET['page'] === 'admin_settings') ? 'active' : ''; ?>"><a href="<?php echo SITE_URL ?>/?page=admin_settings" class="py-2"><i class="bi bi-gear"></i><span> Settings</span></a></div>
       
         </div>
         <?php } ?>

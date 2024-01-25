@@ -44,19 +44,22 @@ else {
           <?php foreach ($results as $business): ?>
             <?php $cardCount++; ?>
             <div class="col-md-3 mb-4">
-              <div class="card shadow-sm p-3 mb-5 bg-white bg-opacity-75" style="width: 100%; height: 50vh">
+              <div class="card shadow-sm p-3 mb-5 bg-white bg-opacity-75 justify-content-between" style="width: 100%; height: auto">
+              <div >
                 <?php
                 $imagePath = !empty($business['busImage']) ? $business['busImage'] : 'assets/images/default.jpg';
                 ?>
-                <img class="card-img-top rounded-3 img-fluid"  src="<?= $imagePath ?>" alt="Card image cap">
-                <div class="card-body">
+                <img class="card-img-top rounded-3 img-fluid"  src="<?= $imagePath ?>" alt="Card image cap" style="height:190px">
+                <div class="card-body" style="height:100px;">
                   <h5 class="card-title"><?= $business['busName'] ?></h5>
                   <p class="card-text"><?= $business['city_municipality'] . ' ' . $business['province'] ?></p>
-                  <form action="?page=client_business_details&businessCode=<?= $business['businessCode'] ?>" method="post">
-                    <input type="hidden" name="businessCode" value="<?= $business['businessCode'] ?>">
-                    <button type="submit" class="btn btn-primary view-business">View</button>
-                  </form>
+                  
                 </div>
+          </div>
+                <form action="?page=client_business_details&businessCode=<?= $business['businessCode'] ?>" method="post">
+                    <input type="hidden" name="businessCode" value="<?= $business['businessCode'] ?>">
+                    <button type="submit" class="btn btn-primary view-business m-0 d-flex align-items-end">View</button>
+                  </form>
               </div>
             </div>
             <?php if ($cardCount % 4 === 0): ?>

@@ -8,15 +8,18 @@
     <?php } ?>
         <hr class="mx-3">
         <div class="">
-          <div class="nav-item"><a href="<?php echo SITE_URL ?>/?page=client_profile" class="py-2"><i class="bi bi-person"></i><span>My Profile</span></i></a></div>
-          <div class="nav-item"><a href="<?php echo SITE_URL ?>/?page=client-order-history"><i class="bi bi-bag"></i><span>Order History</span></i></a></div>
+          <div class="nav-item <?php echo ($_GET['page'] === 'client_profile') ? 'active' : ''; ?>"><a href="<?php echo SITE_URL ?>/?page=client_profile" class="py-2"><i class="bi bi-person"></i><span>My Profile</span></i></a></div>
+          <div class="nav-item <?php echo ($_GET['page'] === 'client-order-history') ? 'active' : ''; ?>"><a href="<?php echo SITE_URL ?>/?page=client-order-history"><i class="bi bi-bag"></i><span>Order History</span></i></a></div>
            </div>
            <?php } ?>
       </div>
 
       
 <style>
-    @media (max-width: 1100px) {
+  
+
+
+    @media (max-width: 1300px) {
   .side-nav .nav-item span, h3{
     visibility: hidden;
 
@@ -31,7 +34,7 @@
   .side-nav{
     width: 15vw;
   }
- 
+  
   }
   
 

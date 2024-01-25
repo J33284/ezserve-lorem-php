@@ -20,7 +20,7 @@ if ($businessesResult) {
 
 <div class="admin-settings" id="admin-settings" style="width: 70vw; height:100vh; margin: 120px 0 0 20%">
     <div class="">
-        <h1 class="text-light">Settings</h1>
+        <h1 >Settings</h1>
     </div>
     <div class="card p-5">
         <h3>Manage Business Type</h3>

@@ -2,7 +2,7 @@
 <?= element('admin-side-nav') ?>
 
 <script src="assets/js/script.js"></script>
-<div id="profile" class="profile">
+<div id="profile" class="profile" style="margin: 120px 0 0 22%; width: 70vw">
   <div class="d-flex justify-content-between p-3">
     <h1>My Profile</h1>
     <a href="#" class="btn-edit btn-lg float-end mt-4" onclick="toggleEdit()">
