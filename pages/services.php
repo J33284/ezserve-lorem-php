@@ -3,7 +3,10 @@
 <?php
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
-$businesses = $DB->query("SELECT * FROM business WHERE status = 1");
+$businesses = $DB->query("SELECT *
+FROM business
+JOIN branches ON business.businessCode = branches.businessCode
+WHERE status = '1' ");
 
 $keyword = "";
 $results = [];

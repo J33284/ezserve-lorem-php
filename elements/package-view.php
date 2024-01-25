@@ -38,7 +38,7 @@ $itemsResults = $DB->query($itemsQuery);
                     <!-- Code for 'per pax' pricing type -->
                     <div class="card flex-row my-3" style="padding: 30px;">
                         <div class="col-5">
-                            <img src="<?php echo $item['itemImage']; ?>" alt="Item Image" style="width: 20rem">
+                            <img src="<?php echo $item['itemImage'];?>" alt="Item Image" style="width: 20rem">
                         </div>
                         <div class="col-6">
                             <h4><?php echo $item['itemName']; ?></h4>
@@ -51,18 +51,21 @@ $itemsResults = $DB->query($itemsQuery);
                         </div>
                     </div>
                 <?php } else { ?>
-                    <div class="card" style="padding: 30px; margin: 20px;">
-                    <img class="imgItem" src="<?php echo $item['itemImage']; ?>" alt="Item Image" style="padding: 100px;  ">
-                        <br>    
-                        <h4><?php echo $item['itemName']; ?></h4>
-                        <hr>
-                        <label><strong>Description:</strong></label>
-                        <p><?php echo $item['description']; ?></p>
-                        <p>Quantity: <?php echo $item['quantity'] ." ".  $item['unit']; ?></p>
-                        <p>Price: <?php echo $item['price']; ?></p>
-                        <?php while ($detail = $detailsResults->fetch_assoc()) { ?>
-                            <p><strong><?php echo $detail['detailName']; ?>:</strong> <?php echo $detail['detailValue']; ?></p>
-                        <?php } ?>
+                    <div class="card flex-row my-3" style="padding: 30px;">
+                        <div class="col-5">
+                            <img src="<?php echo $item['itemImage'];?>" alt="Item Image" style="width: 20rem">
+                        </div>
+                        <div class="col-6">
+                            <h4><?php echo $item['itemName']; ?></h4>
+                            <hr>
+                            <label><strong>Description:</strong></label>
+                            <p><?php echo $item['description']; ?></p>
+                            <p>Quantity: <?php echo $item['quantity'] ." ".  $item['unit']; ?></p>
+                            <p>Price: <?php echo $item['price']; ?></p>
+                            <?php while ($detail = $detailsResults->fetch_assoc()) { ?>
+                                <p><strong><?php echo $detail['detailName']; ?>:</strong> <?php echo $detail['detailValue']; ?></p>
+                            <?php } ?>
+                        </div>
                     </div>
                 <?php } ?>
             <?php } ?>
