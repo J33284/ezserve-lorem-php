@@ -24,7 +24,7 @@ WHERE c.branchCode = '$branchCode'");
 </div>
 
 <div class="row d-flex p-5 g-5">
-    <div id="package-info" class="package-info col-4" style="width: 50vw; height: 65vh; margin: 100px 0 0 280px;">
+    <div id="package-info" class="package-info col-5" style="width: 50vw; height: 65vh; margin: 100px 0 0 250px;">
 
         <!-- Accordion -->
         <div id="accordion">
@@ -36,17 +36,17 @@ WHERE c.branchCode = '$branchCode'");
                         echo '</div></div></div>';
                     endif;
             ?>
-                    <div class="card">
-                        <div class="card-header" id="heading<?= $row['customCategoryCode'] ?>">
-                            <h5 class="mb-0">
-                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapse<?= $row['customCategoryCode'] ?>" aria-expanded="true" aria-controls="collapse<?= $row['customCategoryCode'] ?>">
-                                    <?= $row['categoryName'] ?>
+                    <div class="accordion">
+                        <div class="packagescus accordion-item" id="heading<?= $row['customCategoryCode'] ?>">
+                            <h5 class="accordion-header p-0">
+                                <button class="btn accordion-button text-start" data-toggle="collapse" data-target="#collapse<?= $row['customCategoryCode'] ?>" aria-expanded="true" aria-controls="collapse<?= $row['customCategoryCode'] ?>">
+                                    <p class="padcategory"><?= $row['categoryName'] ?></p>
                                 </button>
                             </h5>
                         </div>
 
                         <div id="collapse<?= $row['customCategoryCode'] ?>" class="collapse" aria-labelledby="heading<?= $row['customCategoryCode'] ?>" data-parent="#accordion">
-                            <div class="card-body">
+                            <div class="accordion-body">
                                 <!-- Item list -->
             <?php 
                     $currentCategoryCode = $row['customCategoryCode'];
@@ -67,11 +67,10 @@ WHERE c.branchCode = '$branchCode'");
         </div>
     </div>
 
-    <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded overflow-auto" style="height: 80vh">
-        <h3 class="order-header sticky-top p-3">Order List</h3>
-        <hr class="m-0">
-        <div class="order justify-content-center px-4 overflow-scroll">
-            <hr>
+    <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded " style="height: 80vh">
+        <h3 class="order-header sticky-top p-3 mx-2">Order List</h3>
+        <div class="order justify-content-center px-4 overflow-auto" style="height:60vh">
+            
             <table class="table">
                 <thead>
                     <tr class="sticky-top">
@@ -83,6 +82,7 @@ WHERE c.branchCode = '$branchCode'");
                 <tbody class="order-body">
                 </tbody>
             </table>
+            </div>
             <div class="total row d-flex sticky-bottom">
                 <h3 class="col-7">Total</h3>
                 <h4 class="col-5 total-price">0.00</h4>
@@ -106,6 +106,19 @@ WHERE c.branchCode = '$branchCode'");
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
+<style>
+    .packagecus h5:hover>.btn{
+        text-decoration:none;
+    
+    }
+    .padcategory{
+        padding:0!important;
+    }
+    .accordion-button:not(.collapsed){
+        background-color:#0000;
+    }
+    
+</style>
 <!-- Custom JavaScript -->
 <script>
     $(document).ready(function () {
