@@ -1,4 +1,8 @@
-<?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); ?>
+<?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); 
+
+$current_page = isset($_GET['page']) ? $_GET['page'] : 'default'; // Get the current page or default to 'default'
+
+?>
 
 
 <!DOCTYPE html>
@@ -33,11 +37,12 @@
         <nav class="d-flex  align-items-center ">
         <ul class="burger-menu " id="burgerDropdown" >
                 
-                <li><a href="<?php echo SITE_URL ?>/?page=default">Home</a></li>
-                <li><a href="<?php echo SITE_URL ?>/?page=services">Service</a></li>
-                <li><a href="<?php echo SITE_URL ?>/?page=about">About</a></li>
-           
-            <?php if (isset($_SESSION[AUTH_ID])) { ?>
+        <li><a class="burger-item <?php echo ($current_page === 'default') ? 'active' : ''; ?>" href="<?= SITE_URL ?>/?page=default">Home</a></li>
+    <li><a class="burger-item <?php echo ($current_page === 'services') ? 'active' : ''; ?>" href="<?= SITE_URL ?>/?page=services">Service</a></li>
+    <li><a class="burger-item <?php echo ($current_page === 'about') ? 'active' : ''; ?>" href="<?= SITE_URL ?>/?page=about">About Us</a></li>
+
+          
+                <?php if (isset($_SESSION[AUTH_ID])) { ?>
             <li class="dropdown">
                 <a class="" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class=" profile-logo bi-person-fill"></i>
@@ -94,8 +99,26 @@
 
 <style>
     .dropdown-menu li:hover>.dropdown-item {
-        color: #ffa630!important;
-  }
+        
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; ;
+  background:linear-gradient(to left, #ccffff 0%, #99ccff 58%);
+  
+}
+.burger-menu li:hover>.burger-item {
+        padding: 5px;
+        border-radius: 5px;
+  box-shadow:  #3385a6 0px 3px 8px; ;
+        
+      }
+      .burger-menu .burger-item.active {
+        padding: 5px;
+        border-radius: 5px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; ;
+        background:linear-gradient(to bottom, #0f3a4b 0%, #3385a6 100%);
+}
+
+
     .dropdown-item{
         color: #000000!important;
     }

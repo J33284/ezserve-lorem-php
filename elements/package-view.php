@@ -21,13 +21,18 @@ $itemsResults = $DB->query($itemsQuery);
 <div class="row justify-content-center align-items-center" style="margin:120px 0 0 20%; width: 70vw">
     <div>
         <div class="d-flex justify-content-between align-items-center " >
+            <div class="d-flex">
+            <a href="?page=package&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class="col-1 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
+            <i class="bi bi-arrow-left"></i>
+        </a>
             <h3 style="font-size: 34px; padding: 20px; ">
                 <?php echo $package['packName']; ?> 
             </h3>
+</div>
             <a href="?page=add_item&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?=$packCode?>" class="btn btn-primary">Add Items</a>
         </div>
 
-        <div class="container" >
+        <div  >
             <?php while ($item = $itemsResults->fetch_assoc()) { ?>
                 <?php
                 // Query to get details associated with the item

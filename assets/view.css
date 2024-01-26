@@ -50,13 +50,7 @@ header{
     color: #ffff;
     font-size: 20px;
   }
-  nav a:hover,
-  nav .active,
-  nav .active:focus,
-  nav li:hover>a {
-    color: #ffa630;
-    
-  }
+  
   nav i{
     font-size: 40px;
   }
@@ -81,11 +75,7 @@ header{
  .dropdown:hover>ul{
     visibility: visible; 
   }
-  .dropdown ul li a:hover,
-  .dropdown ul .active:hover,
-  .dropdown-menu ul li:hover>a {
-    color: #b64900;
-  }
+  
 
  /* home page */
 
@@ -173,13 +163,7 @@ footer p{
   
 }
 
-.links a:hover,
-.links .active,
-.links .active:focus,
-.links li:hover>a {
-    border-bottom: 3px solid #fb7e00;
-    
-  }
+
 
 .branches{
   width: 100vw;
@@ -216,11 +200,15 @@ footer p{
   padding: 3px;
   font-style: normal;
 }
+
+
 .side-nav .nav-item:hover,
 .side-nav div a:hover>a {
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; ;
 }
+
+
 .side-nav .nav-item.active  {
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; ;

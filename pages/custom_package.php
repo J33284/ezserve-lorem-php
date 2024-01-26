@@ -11,10 +11,20 @@ $categoriesResult = $DB->query($categoriesQuery);
 ?>
 
 <?php if ($categoriesResult->num_rows > 0): ?>
-    <div class="package-details" id="packageDetails<?= $branchCode ?>" style="display: block; height: 100vh">
-        <div class="d-flex align-items-center" style="height: 200px; margin-top: 350px; margin-left: 20%; width: 80vw; ">
+    <div class="package-details" id="packageDetails<?= $branchCode ?>" style="height: 100vh; margin: 120px 0 0 23%">
+    <div class="d-flex justify-content-between align-items-center mb-4" >
+                <div class="d-flex"> 
+                    <a href="?page=choose_package&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class=" mx-3 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+                <h1>
+                    Custom Package
+                    
+                </h1>
+                </div>
+</div>
+        <div class="d-flex align-items-center" >
             <div class="package-details overflow-auto col-5 card bg-opacity-25 bg-white py-5 mx-4 px-4" style="height: 100vh; width: 70vw;">
-                <h2>Custom Items</h2>
                 <div class="accordion" id="accordionFlushExample">
                     <?php
                     while ($category = $categoriesResult->fetch_assoc()) {
@@ -35,7 +45,7 @@ $categoriesResult = $DB->query($categoriesQuery);
                                                 <th scope="col">Description</th>
                                                 <th scope="col">Price</th>
                                                 <th scope="col">Other Details</th>
-                                                <th scope="colspan=2">Action</th> 
+                                                <th scope="col" style="width:190px">Action</th> 
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -63,12 +73,12 @@ $categoriesResult = $DB->query($categoriesQuery);
                                                         ?>
                                                     </td>
 
-                                                    <td>
-                                                        <div>
-                                                            <i class="bi bi-pencil"></i>
+                                                    <td class="flex-column">
+                                                        <div class="btn btn-primary btn-sm">
+                                                            <i class="bi bi-pencil "></i>
                                                             <span>Edit</span>
                                                         </div>
-                                                        <div>
+                                                        <div class="btn btn-danger btn-sm">
                                                             <i class="bi bi-trash"></i>
                                                             <span>Delete</span>
                                                         </div>
@@ -90,7 +100,7 @@ $categoriesResult = $DB->query($categoriesQuery);
                         </div>
                     <?php } ?>
                     <div class="text-end mt-3">
-                            <a href="?page=add_custom_package&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class="btn-edit btn btn-primary btn-lg mt-4">
+                            <a href="?page=add_custom_package&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class="btn-edit btn btn-primary btn-md text-white mt-4">
                             <i class="bi bi-plus-square"></i>
                             <span>Add Category</span>
                         </a>

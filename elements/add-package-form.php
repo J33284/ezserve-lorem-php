@@ -22,7 +22,7 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
                 <input type="hidden" name="businessCode" value="<?= $businessCode ?>">
                 <input type="hidden" name="branchCode" value="<?= $branchCode ?>">
 
-                <div class="form-check" style="display: inline-block; margin-right: 20px;">
+                <div class="form-check mt-3" style="display: inline-block; margin-right: 20px;">
                     <h6>Pricing</h6>
                     <input class="form-check-input" type="checkbox" name="perPaxCheckbox" onclick="handlePricingCheckbox(this)">
                     <label class="form-check-label" for="perPaxCheckbox">Per Pax</label>
@@ -103,12 +103,13 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
 
         newItemGroup.innerHTML = `
             <div class="form-group">
+                <h4 class="item-indicator">Item #${itemIndex}.</h4>
                 <br>
-                <label for="${itemNameId}">ITEM INFORMATION</label>
-                <br>
-                <span class="item-indicator">Item #${itemIndex}.</span>
-                <input class="form-control" type="text" id="${itemNameId}" name="itemName[${itemIndex}][]" placeholder="Item Name">
-                <textarea class="form-control" id="${itemDescriptionId}" name="itemDescription[${itemIndex}][]" placeholder="Description"></textarea>
+                <label for="${itemNameId}">Item Information</label>
+                
+                
+                <input class="form-control mb-3" type="text" id="${itemNameId}" name="itemName[${itemIndex}][]" placeholder="Item Name">
+                <textarea class="form-control mb-3" id="${itemDescriptionId}" name="itemDescription[${itemIndex}][]" placeholder="Description"></textarea>
                 <input class="form-control mb-3" type="number" id="${quantityId}" name="quantity[${itemIndex}][]" placeholder="Quantity">
                 <select class="form-select mb-3" id="${unitId}" name="unit[${itemIndex}][]">
                     <option value="" disabled selected>Select a unit</option>
@@ -120,11 +121,12 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
                 
                 <div id="${priceId}Section">
                     <label for="${priceId}">Price per unit</label>
-                    <input class="form-control" type="number" id="${priceId}" name="price[${itemIndex}][]" placeholder="Price per unit">
+                    <input class="form-control mb-3" type="number" id="${priceId}" name="price[${itemIndex}][]" placeholder="Price per unit">
                 </div>
-                <div class="form-group">
-            <label for="${itemImageId}">Item Image</label>
-            <input type="file" id="${itemImageId}" name="itemImage[${itemIndex}][]" accept="image/*" multiple>
+                <div class="form-group mb-3">
+            <label for="${itemImageId}">Upload Image</label>
+            <input type="file" id="${itemImageId}" name="itemImage[${itemIndex}][]" accept="image/*" onchange="previewImage(this, 'preview_${itemImageId}')" multiple>
+            <img id="preview_${itemImageId}" style="max-width: 100px; max-height: 100px; margin-top: 10px;" src="assets/images/preview-placeholder.jpg" alt="Image Preview">
         </div>
             </div>
             
@@ -132,6 +134,7 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="${toggleSwitchId}" name="userInput[${itemIndex}][]" checked>
                 <label class="form-check-label" for="${toggleSwitchId}">Enable User Input</label>
+                <p style="font-size:15px; color: green"> *Activate the user input feature to allow your clients to input their preferences for specific items.</p>
             </div>
             <hr>
             <button type="button" class="add-details-btn btn btn-primary mb-3" onclick="cloneDetails(this, ${itemIndex})">Add Other Details</button>
@@ -200,5 +203,18 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
                 input.value = '';
             }
         });
+    }
+    function previewImage(input, previewId) {
+        const preview = document.getElementById(previewId);
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
     }
 </script>

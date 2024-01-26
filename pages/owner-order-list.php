@@ -37,14 +37,14 @@ $payments = $DB->query("
         <tbody>
             <?php foreach ($payments as $payment) : ?>
                 <tr>
-                    <th scope="row">1</th>
-                    <td><?= $payment['fname'] ." ". $payment['lname']?></td>
-                    <td><?= $payment['itemName'] ?></td>
-                    <td><?= $payment['paymentMethod'] ?></td>
-                    <td>₱<?= number_format($payment['amount'], 2) ?></td>
+                    <th class="bg-transparent border border-white" scope="row">1</th>
+                    <td class="bg-transparent border border-white"><?= $payment['fname'] ." ". $payment['lname']?></td>
+                    <td class="bg-transparent border border-white"><?= $payment['itemName'] ?></td>
+                    <td class="bg-transparent border border-white"><?= $payment['paymentMethod'] ?></td>
+                    <td class="bg-transparent border border-white">₱<?= number_format($payment['amount'], 2) ?></td>
 
-                    <td>
-                        <!--<button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasPayment<?= $payment['itemName'] ?>">View</button>-->
+                    <td class="bg-transparent border border-white">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasPayment<?= $payment['itemName'] ?>">View</button>
 
                         <div class="offcanvas offcanvas-top rounded-3" tabindex="-1" id="offcanvasPayment<?= $payment['packCode'] ?>" style="width: 50vw; height: 50vh; margin: 150px 0 0 25vw;">
                             <div class="offcanvas-header">

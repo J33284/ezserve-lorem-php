@@ -22,20 +22,22 @@ $result = $DB->query($sql);
 
 <?php while ($row = $result->fetch_assoc()): ?>
 <div id="own-bus" class="own-bus">
-    <div class=" row d-flex justify-content-center align-items-center p-3">
-        <a href="?page=owner_business" id="backButton" class=" col-1 btn-back">
-                <i class="bi bi-arrow-left" style="color: black;"></i>
-            </a>
-        <h1 class=" col" style="color: black;">My Business</h1>
-        <a class="col" href="?page=bus-register" id="registerButton">
-            <i class="bi bi-plus-square" style="color: black;">Register your business here!</i>
-        </a>
-        <div>
-           
-        </div>
-    </div>
+            <div class="d-flex justify-content-between p-3">
+                <div class="d-flex ">
+                <a href="?page=owner_business" id="backButton" class=" btn-back mx-5">
+                    <i class="bi bi-arrow-left" style="color: black;"></i>
+                </a>
+                <h1 >My Business</h1>
+                </div>
+                
+                <a href="?page=bus-register" id="registerButton" class="btn-edit btn-md btn btn-outline-dark float-end mt-4 " >
+                <i class="bi bi-plus-square" style="color: black;">Register your business here!</i>
+                </a>
+            </div>
 
-    <div id="detailsForm" class="bus-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded">
+    
+
+    <div id="detailsForm" class="bus-info card border-0 rounded-3 shadow p-3 mb-5  bg-white rounded">
         <div class="business-details justify-content-between p-4" id="businessDetails<?= $row['businessCode'] ?>">
             <div class="row">
                 
@@ -118,7 +120,7 @@ $result = $DB->query($sql);
 
 <!-- Add this in the "add-branch" section -->
 <div class="add-branch" id="branch<?= $businessCode ?>" style="display: none;">
-    <div class="branch-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded" style="height: auto">
+    <div class="branch-info card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" style="height: auto">
         <div class="d-flex justify-content-between p-4">
             <h2>Branch Information</h2>
         </div>
@@ -170,7 +172,7 @@ $result = $DB->query($sql);
 <!-- View Branch -->
 <div class="branch-details" id="branchDetails<?= $businessCode ?>" style="display: none;">
     <?php while ($branchData = $branchResult->fetch_assoc()): ?>
-        <div class="branch-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded" id="branchDetails_<?= $branchData['branchCode'] ?>">
+        <div class="branch-info card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" id="branchDetails_<?= $branchData['branchCode'] ?>">
             <div class="d-flex justify-content-between p-4">
               <h2>Branch Information</h2>
               <a id="editBranch_<?= $branchData['branchCode'] ?>" class="btn-edit float-end mt-4" onclick="toggleEditBranch('<?= $branchData['branchCode'] ?>')">
