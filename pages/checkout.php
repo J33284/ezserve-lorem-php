@@ -1,7 +1,21 @@
+
+<!--php
+
+$checkoutDataJSON = $_GET['checkoutData'];
+$checkoutData = json_decode(urldecode($checkoutDataJSON), true);
+
+// Print all data in JSON format
+echo '<pre>';
+print_r($checkoutData);
+echo '</pre>'; ?>
+
+
 <?php
 
 $businessCode = $_GET['businessCode'];
 $branchCode = $_GET['branchCode'];
+$packCode = $_GET['packCode'];
+
 
 $clientID = $_SESSION['userID'];
 $clientType = $_SESSION['usertype'];
@@ -10,11 +24,11 @@ $client = $DB->query("SELECT * FROM client WHERE clientID = '$clientID' AND user
 
 if ($client) {
     $clientInfo = $client->fetch_assoc();
-}
+}         
 
-if (isset($_GET['checkoutDetails'])) {
+if (isset($_GET['checkoutData'])) {
     // Retrieve the encoded JSON string from the URL
-    $encodedDetails = $_GET['checkoutDetails'];
+    $encodedDetails = $_GET['checkoutData'];
 
     // Decode the JSON string to an array
     $checkoutDetails = json_decode(urldecode($encodedDetails), true);
@@ -34,7 +48,7 @@ if (isset($_GET['numberOfPersons'])) {
 <div id="client-custom" class="client-custom" style="margin-top: 90px">
     <div class="container pack-head" style="top: 50px;">
         <div class="container row">
-            <a href="?page=client_view_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>&packCode=<?= $packCode = $_GET['packCode']; ?>" class="col-xl-1 btn-back btn-lg float-end">
+            <a href="?page=client_view_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?=$packCode?>" class="col-xl-1 btn-back btn-lg float-end">
                 <i class="bi bi-arrow-left"></i>
             </a>
             <h1 class="col-xl-7 d-flex justify-content-start">Check Out</h1>
@@ -112,80 +126,106 @@ if (isset($_GET['numberOfPersons'])) {
     </div>
         <!-- Order List -->
         <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" style="height: auto">
-            <h3 class="order-header sticky-top p-3">Order List</h3>
-            <hr class="m-0">
-            <div class="order justify-content-center px-4 overflow-scroll">
-                <hr>
-                <table class="table">
-                    <thead>
-                        <tr class="sticky-top">
-                            <th scope="col">Item</th>
-                            <th scope="col">Customization</th>
-                            <th scope="col">Quantity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($checkoutDetails as $item) : ?>
-                            <tr>
-                                <td><?= $item['itemName'] ?></td>
-                                <td><?= $item['customization'] ?></td>
-                                <td><?= $item['quantity'] ?></td>                                
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-                <!-- ... (Total and other order details) ... -->
-                <?php
-                // Assuming $perPax is your associative array with packageAmount and numberOfPersons
-                $amountPerPax = floatval($perPax['packageAmount']);
-                $numberOfPersons = intval($perPax['numberOfPersons']);
+    <h3 class="order-header sticky-top p-3">Order List</h3>
+    <hr class="m-0">
+    <div class="order justify-content-center px-4 overflow-scroll">
+        <hr>
+        <table class="table">
+            <thead>
+                <?php if ($checkoutDetails['pricingType'] === 'per pax') : ?>
+                    <tr class="sticky-top">
+                        <th scope="col">Item</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Customization</th>
+                    </tr>
+                <?php else : ?>
+                    <tr class="sticky-top">
+                        <th scope="col">Item</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Customization</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                <?php endif; ?>
+            </thead>
+            <tbody>
+                <?php foreach ($checkoutDetails['items'] as $item) : ?>
+                    <tr>
+                        <td><?= $item['itemName'] ?></td>
+                        <td><?= $item['description'] ?></td>
+                        <td><?= $item['customizationValue'] ?></td>
+                        <?php if ($checkoutDetails['pricingType'] !== 'per pax') : ?>
+                            <td><?= $item['quantityValue'] ?></td>
+                            <td><?= '₱' . number_format($item['price'], 2) ?></td>
+                        <?php endif; ?>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
 
-                // Calculate the overall total
-                $overallTotal = $amountPerPax * $numberOfPersons;
-                ?>
-                <div style="padding: 10px;">
-                    <h5><?= '₱' . number_format($amountPerPax, 2). " (per pax) x " . $numberOfPersons ?></h5>
-                    <p style="font-size: 30px;">Total: <?= '₱' . number_format($overallTotal, 2) ?></p>
-                </div>
-                <!--
-                <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"
-                href="?page=voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>&grandTotal=<?= $grandTotal ?>">
-                <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
-                <i class="bi bi-chevron-right float end col-2"></i>
-                </a>-->
+        <div style="padding: 10px;">
+            <?php
+            $numericTotal = 0;
 
-                <form action="?action=payMongo" method="post">
-                    <input type="hidden" name="packCode" value="<?= $packCode ?>">
-                    <input type="hidden" name="clientName" value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>">
-                    <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">
-                    <input type="hidden" name="email" value="<?= $clientInfo['email'] ?>" >
-                    <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
-                    <input type="hidden" name="packName" value="<?= $item['itemName'] ?>" >
-                    <input type="hidden" name="grandTotal" value="<?= $overallTotal ?>">
-                    <button type="submit" class="btn btn-primary" style="width:100%" id="placeOrderButton">
-                    Place Order
-                    </button>
-                </form>
-
-                <form action="?action=onsite" method="post">
-                    <input type="hidden" name="packCode" value="<?= $packCode ?>">
-                    <input type="hidden" name="clientName" value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>">
-                    <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">
-                    <input type="hidden" name="email" value="<?= $clientInfo['email'] ?>" >
-                    <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
-                    <input type="hidden" name="grandTotal" value="<?= $overallTotal ?>">
-                    <input type="hidden" name="clientID" value="<?= $clientID ?>">
-                    <input type="hidden" name="pDate">
-                    <input type="hidden" name="deliveryAddress">
-                    <input type="hidden" name="deliveryDate">
-                    <input type="hidden" name="itemList" value="<?= htmlspecialchars(json_encode($checkoutDetails)) ?>">
-
-                    <button type="submit" class="btn btn-primary" style="width:100%" id="placeOrderButton2" onclick="submitSecondForm()">
-                    Place Order
-                    </button>
-                </form>
-            </div>
+            if ($checkoutDetails['pricingType'] === 'per pax') {
+                preg_match('/\d+\.\d+/', $checkoutDetails['initialTotal'], $matches);
+                $initial = $matches[0];
+                preg_match('/\d+\.\d+/', $checkoutDetails['total'], $matches);
+                $numericTotal = $matches[0];
+            } else {
+                preg_match('/\d+\.\d+/', $checkoutDetails['total'], $matches);
+                $numericTotal = $matches[0];
+            }
+            ?>
+            
+            <?php if ($checkoutDetails['pricingType'] === 'per pax') : ?>
+                <p style="font-size: 30px;"><?= '₱' . $initial . ' x ' . $checkoutDetails['quantityMeter'] ?></p>
+                <p style="font-size: 30px;">Total: <?= '₱' . number_format($numericTotal, 2) ?></p>
+            <?php else : ?>
+                <p style="font-size: 30px;">Total: <?= '₱' . number_format($numericTotal, 2) ?></p>
+            <?php endif; ?>
         </div>
+
+
+        <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"  href="?page=voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>&grandTotal=<?= $grandTotal ?>">
+        <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
+        <i class="bi bi-chevron-right float end col-2"></i>
+        </a>
+
+               
+
+        <form action="?action=payMongo" method="post">
+            <input type="hidden" name="packCode" value="<?= $packCode ?>">
+            <input type="hidden" name="clientName" value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>">
+            <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">
+            <input type="hidden" name="email" value="<?= $clientInfo['email'] ?>" >
+            <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
+            <input type="hidden" name="packName" value="<?= $item['itemName'] ?>" >
+            <input type="hidden" name="grandTotal" value="<?= $overallTotal ?>">
+            <button type="submit" class="btn btn-primary" style="width:100%" id="placeOrderButton">
+            Place Order
+            </button>
+        </form>
+
+        <form action="?action=onsite" method="post">
+            <input type="hidden" name="packCode" value="<?= $packCode ?>">
+            <input type="hidden" name="clientName" value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>">
+            <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">
+            <input type="hidden" name="email" value="<?= $clientInfo['email'] ?>" >
+            <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
+            <input type="hidden" name="grandTotal" value="<?= $overallTotal ?>">
+            <input type="hidden" name="clientID" value="<?= $clientID ?>">
+            <input type="hidden" name="pDate">
+            <input type="hidden" name="deliveryAddress">
+            <input type="hidden" name="deliveryDate">
+            <input type="hidden" name="itemList" value="<?= htmlspecialchars(json_encode($checkoutDetails)) ?>">
+
+            <button type="submit" class="btn btn-primary" style="width:100%" id="placeOrderButton2" onclick="submitSecondForm()">
+            Place Order
+            </button>
+        </form>
+        </div>
+    </div>
    
 
 

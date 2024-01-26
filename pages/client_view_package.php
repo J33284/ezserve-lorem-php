@@ -49,16 +49,43 @@
         color: #fff;
         cursor: pointer;
     }
+
+    #loginAsClientPopup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        background-color: #001f3f; /* Dark blue background color */
+        color: #ffffff; /* White text color */
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        z-index: 1000;
+    }
+
+    #loginAsClientPopup button {
+        margin-top: 10px;
+        padding: 10px 15px;
+        background-color: #0074cc; /* Blue button color */
+        color: #ffffff; /* White text color */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
 </style>
 
 <?php
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
-$clientID = $_SESSION['userID'];
-$clientType = $_SESSION['usertype'];
+
+$clientType = $_SESSION['usertype'] ?? null;
 $businessCode = isset($_GET['businessCode']) ? $_GET['businessCode'] : '';
 $branchCode =  isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
 $packCode = isset($_GET['packCode']) ? $_GET['packCode'] : '';
+
 
 // Fetch package details
 $packageDetailsQ = $DB->query("SELECT p.*, i.*
@@ -125,7 +152,7 @@ if ($packageDetailsQ) {
                         <?php if ($packageDetails['pricingType'] === 'per pax') : ?>
                         <?php else : ?>
                             <td><?= $row['quantity']." ". $row['unit'] ?></td>
-                            <td><?= '₱' . number_format($packageDetails['price'], 2)  ?></td>
+                            <td><?= '₱' . number_format($row['price'], 2)  ?></td>
                         <?php endif; ?>
                         
                     </tr>
@@ -149,7 +176,7 @@ if ($packageDetailsQ) {
                 $total = 'Total: ' . '₱' . number_format($total, 2);
             }
             ?>
-            <p style="font-size: 30px;"><?= $total ?></p>
+            <p id="initialTotal" style="font-size: 30px;"><?= $total ?></p>
 
             <!-- Quantity Meter Container -->
             <div id="quantityMeterContainer" style="margin-top: 10px; display:none;">
@@ -173,14 +200,30 @@ if ($packageDetailsQ) {
     <table id="checkoutTable" class="table rounded table-bordered table-responsive" style="margin-top: 130px;">
         <!-- Table Header -->
         <thead>
-    <tr>
-        <th>Item Name</th>
-        <th>Description</th>
-        <th>Image</th>
-        <th>Customized</th>
-        <th>Quantity</th>
-    </tr>
-</thead>
+            <?php
+            $pricingType = $packageDetails['pricingType'];
+            if ($pricingType === 'per pax') :
+            ?>
+                <tr>
+                    <th>Image</th>
+                    <th>Item Name</th>
+                    <th>Description</th>
+                    <th>Additional Detail</th>
+                    <th>Customization</th>
+                </tr>
+            <?php else : ?>
+                <tr>
+                    <th>Image</th>
+                    <th>Item Name</th>
+                    <th>Description</th>
+                    <th>Additional Detail</th>
+                    <th>Price</th>
+                    <th>Customization</th>
+                    <th></th> 
+
+                </tr>
+            <?php endif; ?>
+        </thead>
 
         <!-- Table Body -->
         <tbody id="checkoutTableBody">
@@ -188,12 +231,26 @@ if ($packageDetailsQ) {
         </tbody>
     </table>
 
+    <div class="container mt-3 text-center" style="background-color: white; padding: 10px; height: auto;">
+        <h2 id="checkoutTotal">Total: ₱0.00</h2>
+    </div>
+    
     <!-- Back and Checkout Buttons -->
     <div class="container mt-3 text-center">
             <button id="backToCustomization" class="btn btn-secondary d-none" onclick="backToCustomization()">Back to Customization</button>
             <button id="proceedToCheckout" class="btn btn-success d-none" onclick="proceedToCheckout()">Proceed to Checkout</button>
         </div>
     </div>
+
+    <div id="loginAsClientPopup">
+        <p>You need to log in as a client to proceed.</p>
+        <?php if ($clientType === 'business owner') : ?>
+            <button onclick="redirectLogout()">Logout</button>
+        <?php elseif ($clientType === null) : ?>
+            <button onclick="redirectLogin()">Login</button>
+        <?php endif; ?>
+    </div>
+
 
     <!-- Modal for displaying full-size image -->
     <div id="imageModal" class="modal">
@@ -337,5 +394,168 @@ function customizePerPax() {
     customizationApplied = false;
 }
 
+
+
+function saveCustomization() {
+    // Hide the package view
+    document.getElementById('package-view').classList.add('d-none');
+
+    var packageDetails = <?php echo json_encode($packageDetails); ?>;
+    var pricingType = packageDetails['pricingType'];
+
+    var checkoutTableBody = document.getElementById('checkoutTableBody');
+    checkoutTableBody.innerHTML = ''; // Clear existing content
+
+    var tableBody = document.querySelector('#package-view table tbody');
+    var rows = tableBody.querySelectorAll('tr');
+
+    var total = 0; // Initialize the total variable
+
+    rows.forEach(function (row) {
+        var itemName = row.children[1].innerText;
+        var description = row.children[2].innerText;
+        var additionalDetail = row.children[3].innerText;
+
+        var checkoutRow = document.createElement('tr');
+        checkoutRow.innerHTML = '<td><img src="' + row.children[0].querySelector('img').src + '" alt="' + itemName + '" style="max-width: 100px; height: 80px;"></td>' +
+            '<td>' + itemName + '</td>' +
+            '<td>' + description + '</td>' +
+            '<td>' + additionalDetail + '</td>';
+
+        var customizationValue = '';
+        var quantityValue = 1; // Default quantity value
+
+        if (pricingType === 'per pax') {
+            // Add textarea for 'per pax' pricing
+            customizationValue = row.children[4].querySelector('textarea').value;
+            checkoutRow.innerHTML += '<td>' + customizationValue + '</td>';
+
+            // Multiply the total by the number of persons (quantity meter)
+            var quantityMeterValue = document.getElementById('quantityMeter').value;
+            total = parseFloat(packageDetails['amount']) * parseFloat(quantityMeterValue);
+        } else {
+            var priceText = row.children[5].innerText;
+            // Extract numeric part from price text (assuming it's formatted as "₱X,XXX.XX")
+            var price = parseFloat(priceText.replace('₱', '').replace(',', ''));
+
+            customizationValue = row.children[6].querySelector('textarea').value;
+            quantityValue = parseFloat(row.children[7].querySelector('input').value);
+
+            checkoutRow.innerHTML +=
+                '<td>' + '₱' + price.toFixed(2) + '</td>' +
+                '<td>' + customizationValue + '</td>' +
+                '<td>' + quantityValue + '</td>';
+
+            // Calculate total for other pricing types
+            total += price * quantityValue;
+
+        }
+
+        checkoutTableBody.appendChild(checkoutRow);
+    });
+
+    // Show the checkout container
+    document.getElementById('checkoutContainer').classList.remove('d-none');
+
+    // Show the "Back to Customization" and "Proceed to Checkout" buttons
+    document.getElementById('backToCustomization').classList.remove('d-none');
+    document.getElementById('proceedToCheckout').classList.remove('d-none');
+
+    // Update the total in the checkout container
+    document.getElementById('checkoutTotal').innerText = 'Total: ₱' + total.toFixed(2);
+}
+
+
+    function backToCustomization() {
+    // Show the package view and hide the checkout container
+    document.getElementById('package-view').classList.remove('d-none');
+    document.getElementById('checkoutContainer').classList.add('d-none');
+}
+
+
+    function proceedToCheckout() {
+        // Collect data from the customization
+        var packageDetails = <?php echo json_encode($packageDetails); ?>;
+        var pricingType = packageDetails['pricingType'];
+        var totalValue = document.getElementById('initialTotal').innerText;
+
+        var checkoutData = {};
+
+        // Include pricing type in the JSON
+        checkoutData['pricingType'] = pricingType;
+        checkoutData['initialTotal'] = totalValue;
+
+        var tableBody = document.querySelector('#package-view table tbody');
+        var rows = tableBody.querySelectorAll('tr');
+
+        var itemsData = [];
+
+        rows.forEach(function (row) {
+            var itemName = row.children[1].innerText;
+            var description = row.children[2].innerText;
+
+            var customizationValue = '';
+            var quantityValue = 1; // Default quantity value
+
+            if (pricingType === 'per pax') {
+                customizationValue = row.children[4].querySelector('textarea').value;
+                var quantityMeterValue = document.getElementById('quantityMeter').value;
+            } else {
+                customizationValue = row.children[6].querySelector('textarea').value;
+                quantityValue = parseFloat(row.children[7].querySelector('input').value);
+            }
+
+            itemsData.push({
+                itemName: itemName,
+                description: description,
+                customizationValue: customizationValue,
+                quantityValue: quantityValue
+            });
+        });
+
+        // Include values from the quantity meter container
+        var quantityMeterValue = document.getElementById('quantityMeter').value;
+        checkoutData['quantityMeter'] = quantityMeterValue;
+
+        // Include the total calculation
+        var total = document.getElementById('checkoutTotal').innerText;
+        checkoutData['total'] = total;
+
+        // Include items data
+        checkoutData['items'] = itemsData;
+
+        // Convert the checkoutData object to JSON
+        var checkoutDataJSON = JSON.stringify(checkoutData);
+        var clientType = <?php echo json_encode($clientType); ?>;
+
+        if (clientType === 'business owner' || clientType === null) {
+            // Display the pop-up container
+            document.getElementById('loginAsClientPopup').style.display = 'block';
+
+            // Set a timeout to hide the pop-up after 3 seconds
+            setTimeout(function () {
+                document.getElementById('loginAsClientPopup').style.display = 'none';
+            }, 2000);        
+        } else {
+            
+            window.location.href = '?page=checkout&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?=$packCode?>&checkoutData=' + encodeURIComponent(checkoutDataJSON);
+
+        }
+        
+    }
+    
+    function redirectLogout() {
+    window.location.href = '?action=logout';
+    }
+
+    function redirectLogin() {
+        // Redirect to login page
+        window.location.href = '?page=login';
+    }
+
 </script>
+
+
+
+
 
