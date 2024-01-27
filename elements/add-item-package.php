@@ -74,12 +74,14 @@ $row = $result->fetch_assoc();
 
     newItemGroup.innerHTML = `
         <div class="form-group">
+        
+            <h4 class="item-indicator">Item #${itemIndex}.</h4>
             <br>
-            <label for="${itemNameId}">ITEM INFORMATION</label>
-            <br>
-            <span class="item-indicator">Item #${itemIndex}.</span>
-            <input class="form-control" type="text" id="${itemNameId}" name="itemName[${itemIndex}][]" placeholder="Item Name">
-            <textarea class="form-control" id="${itemDescriptionId}" name="itemDescription[${itemIndex}][]" placeholder="Description"></textarea>
+            <label for="${itemNameId}">Item Information</label>
+            
+           
+            <input class="form-control mb-3" type="text" id="${itemNameId}" name="itemName[${itemIndex}][]" placeholder="Item Name">
+            <textarea class="form-control mb-3" id="${itemDescriptionId}" name="itemDescription[${itemIndex}][]" placeholder="Description"></textarea>
             <input class="form-control mb-3" type="number" id="${quantityId}" name="quantity[${itemIndex}][]" placeholder="Quantity">
             <select class="form-select mb-3" id="${unitId}" name="unit[${itemIndex}][]">
                 <option value="" disabled selected>Select a unit</option>

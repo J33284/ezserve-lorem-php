@@ -128,7 +128,7 @@ if (isset($_GET['numberOfPersons'])) {
         <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" style="height: auto">
     <h3 class="order-header sticky-top p-3">Order List</h3>
     <hr class="m-0">
-    <div class="order justify-content-center px-4 overflow-scroll">
+    <div class="order justify-content-center px-4 overflow-auto">
         <hr>
         <table class="table">
             <thead>
@@ -152,8 +152,8 @@ if (isset($_GET['numberOfPersons'])) {
                 <?php foreach ($checkoutDetails['items'] as $item) : ?>
                     <tr>
                         <td><?= $item['itemName'] ?></td>
-                        <td><?= $item['description'] ?></td>
-                        <td><?= $item['customizationValue'] ?></td>
+                        <td style="max-width: 200px;"><?= $item['description'] ?></td>
+                        <td style="max-width: 150px; overflow: hidden;  ellipsis;"><?= $item['customizationValue'] ?></td>
                         <?php if ($checkoutDetails['pricingType'] !== 'per pax') : ?>
                             <td><?= $item['quantityValue'] ?></td>
                             <td><?= '₱' . number_format($item['price'], 2) ?></td>
