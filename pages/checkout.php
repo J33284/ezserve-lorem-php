@@ -156,7 +156,7 @@ if (isset($_GET['numberOfPersons'])) {
                         <td><?= $item['customizationValue'] ?></td>
                         <?php if ($checkoutDetails['pricingType'] !== 'per pax') : ?>
                             <td><?= $item['quantityValue'] ?></td>
-                            <td><?= '₱' . number_format($item['price'], 2) ?></td>
+                            <td><?= '₱' .number_format($item['price'],2) ?></td>
                         <?php endif; ?>
                     </tr>
                 <?php endforeach; ?>
@@ -208,13 +208,12 @@ if (isset($_GET['numberOfPersons'])) {
         </form>
 
         <form action="?action=onsite" method="post">
+            <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
             <input type="hidden" name="packCode" value="<?= $packCode ?>">
+            <input type="hidden" name="clientID" value="<?= $clientID ?>">
             <input type="hidden" name="clientName" value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>">
             <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">
-            <input type="hidden" name="email" value="<?= $clientInfo['email'] ?>" >
-            <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
-            <input type="hidden" name="grandTotal" value="<?= $overallTotal ?>">
-            <input type="hidden" name="clientID" value="<?= $clientID ?>">
+            <input type="hidden" name="email" value="<?= $clientInfo['email'] ?>" > 
             <input type="hidden" name="pDate">
             <input type="hidden" name="deliveryAddress">
             <input type="hidden" name="deliveryDate">
@@ -232,56 +231,72 @@ if (isset($_GET['numberOfPersons'])) {
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
-        var pickUpCheckbox = document.getElementById('pickUpCheckbox');
-        var pickUpDateField = document.getElementById('pick-up');
-        var deliveryCheckbox = document.getElementById('deliveryCheckbox');
-        var deliveryFields = document.getElementById('deliveryFields');
+    var pickUpCheckbox = document.getElementById('pickUpCheckbox');
+    var pickUpDateField = document.getElementById('pick-up');
+    var deliveryCheckbox = document.getElementById('deliveryCheckbox');
+    var deliveryFields = document.getElementById('deliveryFields');
 
-        pickUpCheckbox.addEventListener('change', function () {
-            if (pickUpCheckbox.checked) {
-                pickUpDateField.style.display = 'block';
-                deliveryFields.style.display = 'none';
-            } else {
-                pickUpDateField.style.display = 'none';
-            }
-        });
-
-        deliveryCheckbox.addEventListener('change', function () {
-            if (deliveryCheckbox.checked) {
-                deliveryFields.style.display = 'block';
-                pickUpDateField.style.display = 'none';
-            } else {
-                deliveryFields.style.display = 'none';
-            }
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        // Get references to the checkboxes and buttons
-        var onsitePaymentCheckbox = document.getElementById('onsitePaymentCheckbox');
-        var onlinePaymentCheckbox = document.getElementById('onlinePaymentCheckbox');
-        var placeOrderButton = document.getElementById('placeOrderButton');
-        var placeOrderButton2 = document.getElementById('placeOrderButton2');
-
-        // Initial check on page load
-        togglePlaceOrderButtons();
-
-        // Add event listener for checkbox change
-        onsitePaymentCheckbox.addEventListener('change', togglePlaceOrderButtons);
-
-        // Function to toggle the "Place Order" buttons visibility based on checkbox state
-        function togglePlaceOrderButtons() {
-            if (onsitePaymentCheckbox.checked) {
-                // Onsite payment is checked, show placeOrderButton2 and hide placeOrderButton
-                placeOrderButton.style.display = 'none';
-                placeOrderButton2.style.display = 'block';
-            } else {
-                // Onsite payment is not checked, show placeOrderButton and hide placeOrderButton2
-                placeOrderButton.style.display = 'block';
-                placeOrderButton2.style.display = 'none';
-            }
+    pickUpCheckbox.addEventListener('change', function () {
+        if (pickUpCheckbox.checked) {
+            pickUpDateField.style.display = 'block';
+            deliveryCheckbox.checked = false; // Uncheck delivery if pickup is checked
+            deliveryFields.style.display = 'none';
+        } else {
+            pickUpDateField.style.display = 'none';
         }
     });
+
+    deliveryCheckbox.addEventListener('change', function () {
+        if (deliveryCheckbox.checked) {
+            deliveryFields.style.display = 'block';
+            pickUpCheckbox.checked = false; // Uncheck pickup if delivery is checked
+            pickUpDateField.style.display = 'none';
+        } else {
+            deliveryFields.style.display = 'none';
+        }
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Get references to the checkboxes and buttons
+    var onsitePaymentCheckbox = document.getElementById('onsitePaymentCheckbox');
+    var onlinePaymentCheckbox = document.getElementById('onlinePaymentCheckbox');
+    var placeOrderButton = document.getElementById('placeOrderButton');
+    var placeOrderButton2 = document.getElementById('placeOrderButton2');
+
+    // Initial check on page load
+    togglePlaceOrderButtons();
+
+    // Add event listeners for checkbox changes
+    onsitePaymentCheckbox.addEventListener('change', function () {
+        if (onsitePaymentCheckbox.checked) {
+            onlinePaymentCheckbox.checked = false; // Uncheck online payment if onsite is checked
+        }
+        togglePlaceOrderButtons();
+    });
+
+    onlinePaymentCheckbox.addEventListener('change', function () {
+        if (onlinePaymentCheckbox.checked) {
+            onsitePaymentCheckbox.checked = false; // Uncheck onsite payment if online is checked
+        }
+        togglePlaceOrderButtons();
+    });
+
+    // Function to toggle the "Place Order" buttons visibility based on checkbox state
+    function togglePlaceOrderButtons() {
+        if (onsitePaymentCheckbox.checked) {
+            // Onsite payment is checked, show placeOrderButton2 and hide placeOrderButton
+            placeOrderButton.style.display = 'none';
+            placeOrderButton2.style.display = 'block';
+        } else {
+            // Onsite payment is not checked, show placeOrderButton and hide placeOrderButton2
+            placeOrderButton.style.display = 'block';
+            placeOrderButton2.style.display = 'none';
+        }
+    }
+});
+
 
 
     function submitSecondForm() {

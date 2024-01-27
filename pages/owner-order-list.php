@@ -2,9 +2,9 @@
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
 $payments = $DB->query("
-    SELECT transaction.*, client.*
-    FROM transaction
-    JOIN client ON transaction.clientID = client.clientID
+    SELECT transact.*, client.*
+    FROM transact
+    JOIN client ON transact.clientID = client.clientID
 ");
 ?>
 

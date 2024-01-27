@@ -487,13 +487,12 @@ function saveCustomization() {
 
         var tableBody = document.querySelector('#package-view table tbody');
         var rows = tableBody.querySelectorAll('tr');
-
         var itemsData = [];
 
         rows.forEach(function (row) {
             var itemName = row.children[1].innerText;
             var description = row.children[2].innerText;
-
+            
             var customizationValue = '';
             var quantityValue = 1; // Default quantity value
 
@@ -501,6 +500,8 @@ function saveCustomization() {
                 customizationValue = row.children[4].querySelector('textarea').value;
                 var quantityMeterValue = document.getElementById('quantityMeter').value;
             } else {
+                var priceText = row.children[5].innerText;
+                var price = parseFloat(priceText.replace('₱', '').replace(',', ''));
                 customizationValue = row.children[6].querySelector('textarea').value;
                 quantityValue = parseFloat(row.children[7].querySelector('input').value);
             }
@@ -509,7 +510,9 @@ function saveCustomization() {
                 itemName: itemName,
                 description: description,
                 customizationValue: customizationValue,
-                quantityValue: quantityValue
+                quantityValue: quantityValue,
+                price: price
+
             });
         });
 

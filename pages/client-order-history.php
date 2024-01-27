@@ -2,14 +2,14 @@
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
 $clientID = $_SESSION['userID'];
-$payment = $DB->query("SELECT * FROM transaction WHERE clientID = '$clientID' ");
+$payment = $DB->query("SELECT * FROM transact WHERE clientID = '$clientID' ");
 
 $keyword = "";
 $results = [];
 
 if (isset($_POST['keyword'])) {
     $keyword = $_POST['keyword'];
-    $sql = $DB->query("SELECT * FROM transaction");
+    $sql = $DB->query("SELECT * FROM transact");
 
     $results = $DB->query($sql);
 } else {
