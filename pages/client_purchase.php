@@ -26,7 +26,7 @@ function saveToDatabase($clientID, $dateCreated, $businessName, $itemName, $amou
     $packCode = "275";
 
     // Insert data into the 'payment' table (customize this query based on your database structure)
-    $sql = "INSERT INTO transaction (clientID, sourceID, paymentDate, busName, itemName, amount, paymentMethod, status, businessCode, packCode) 
+    $sql = "INSERT INTO transact (clientID, sourceID, paymentDate, busName, itemName, amount, paymentMethod, status, businessCode, packCode) 
             VALUES ('$clientID', '$sourceId','$dateCreated', '$businessName', '$itemName', '$amount', '$paymentMethod', '$status', '$busCode', '$packCode')";
 
     if ($DB->query($sql) === TRUE) {
