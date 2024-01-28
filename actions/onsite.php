@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['ac
     // Combine item names into a comma-separated string
     $combinedItemNames = implode(', ', $itemNames);
 
-    $insertQuery = "INSERT INTO transaction (packCode, clientID, clientName, mobileNumber, email, businessCode, itemName, amount, paymentMethod, status, pDate, dDate, dAddress )
+    $insertQuery = "INSERT INTO transact (packCode, clientID, clientName, mobileNumber, email, businessCode, itemName, amount, paymentMethod, status, pDate, dDate, dAddress )
                     VALUES ('$packCode', '$clientID', '$clientName', '$mobileNumber', '$email', '$businessCode', '$combinedItemNames', '$grandTotal', '$paymentMethod', '$status', '$pDate', '$dDate', '$dAddress')";
 
     // Execute the query
