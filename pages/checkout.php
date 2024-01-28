@@ -49,7 +49,7 @@ if (isset($_GET['numberOfPersons'])) {
     <div class="container pack-head" style="top: 50px;">
         <div class="container row">
             <a href="?page=client_view_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?=$packCode?>" class="col-xl-1 btn-back btn-lg float-end">
-                <i class="bi bi-arrow-left"></i>
+                <i class="bi bi-arrow-left text-dark"></i>
             </a>
             <h1 class="col-xl-7 d-flex justify-content-start">Check Out</h1>
         </div>
@@ -125,7 +125,7 @@ if (isset($_GET['numberOfPersons'])) {
     </div>
     </div>
         <!-- Order List -->
-        <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" style="height: auto">
+        <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" style="height: auto; margin-left: 50px">
     <h3 class="order-header sticky-top p-3">Order List</h3>
     <hr class="m-0">
     <div class="order justify-content-center px-4 overflow-auto">

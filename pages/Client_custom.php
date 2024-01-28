@@ -14,7 +14,7 @@ WHERE c.branchCode = '$branchCode'");
 
 <div id="client-custom" class="client-custom">
     <div class="container pack-head" style="top: 100px;">
-        <div class="row">
+        <div class="row mb-5">
             <a href="?page=client_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="col-xl-1 text-dark float-end">
                 <i class="bi bi-arrow-left"></i>
             </a>
@@ -24,7 +24,7 @@ WHERE c.branchCode = '$branchCode'");
 </div>
 
 <div class="row d-flex p-5 g-5">
-    <div id="package-info" class="package-info col-5" style="width: 50vw; height: 65vh; margin: 100px 0 0 250px;">
+    <div id="package-info" class="package-info col-5" style="width: 50vw; height: 65vh; margin: 120px 0 0 250px;">
 
         <!-- Accordion -->
         <div id="accordion">
@@ -46,18 +46,20 @@ WHERE c.branchCode = '$branchCode'");
                         </div>
 
                         <div id="collapse<?= $row['customCategoryCode'] ?>" class="collapse" aria-labelledby="heading<?= $row['customCategoryCode'] ?>" data-parent="#accordion">
-                            <div class="accordion-body">
+                            <div class="accordion-body" style="background-color:#FFFFFF">
                                 <!-- Item list -->
             <?php 
                     $currentCategoryCode = $row['customCategoryCode'];
                 endif;
             ?>
-                                <div class="form-check">
-                                    <input class="form-check-input item-checkbox" type="checkbox" value="<?= $row['itemCode'] ?>" id="item<?= $row['itemCode'] ?>">
-                                    <label class="form-check-label" for="item<?= $row['itemCode'] ?>">
-                                        <?= $row['itemName'] ?>
-                                    </label>
-                                    <input type="number" class="form-control quantity-input" placeholder="Quantity" id="quantity<?= $row['itemCode'] ?>" data-item-code="<?= $row['itemCode'] ?>" min="1" value="1">
+                                <div class="form-check d-flex justify-content-between">
+                                    <div>
+                                        <input class="form-check-input item-checkbox" type="checkbox" value="<?= $row['itemCode'] ?>" id="item<?= $row['itemCode'] ?>">
+                                        <label class="form-check-label" for="item<?= $row['itemCode'] ?>">
+                                            <?= $row['itemName'] ?>
+                                        </label>
+                                    </div>
+                                    <input type="number" class="form-control quantity-input w-50" placeholder="Quantity" id="quantity<?= $row['itemCode'] ?>" data-item-code="<?= $row['itemCode'] ?>" min="1" value="1">
                                     <input type="hidden" class="form-control price-input" value="<?= $row['price'] ?>" data-item-code="<?= $row['itemCode'] ?>">
                                 </div>
             <?php endwhile; ?>
