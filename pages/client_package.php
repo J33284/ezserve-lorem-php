@@ -5,9 +5,10 @@ $branchCode = $_GET['branchCode'];
 $businessCode = $_GET['businessCode'];
 
 // Retrieve all branches for the given business
-$branchesQ = $DB->query("SELECT br.*, p.*
+$branchesQ = $DB->query("SELECT br.*, p.*, i.*
   FROM branches br
   JOIN package p ON br.branchCode = p.branchCode
+  JOIN items i ON p.packCode = i.packCode
   WHERE br.branchCode = '$branchCode'");
 
 // Check if the query was successful before trying to fetch data
@@ -78,7 +79,8 @@ if ($branchesQ) {
                                 <h5 > <?= $package['packName'] ?> </h5>
                                 <?php
                                   // Fetch services for the selected branch
-                                  $itemCode = $item['itemCode'];
+                                  $itemCode = $item['itemCode'] ?? '';
+
 
                                   $item_detailsQ = $DB->query("SELECT i.*, d.*
                                       FROM items i
