@@ -60,11 +60,15 @@ function toggleButtonVisibility(buttonId) {
 
 
 //Branch=============================================
-function toggleAddBranch(event) {
+function toggleAddBranch(element, event) {
     const button = event.currentTarget;
     const businessCode = button.getAttribute("data-businesscode");
     const branchDetails = document.querySelector("#branch" + businessCode);
     branchDetails.style.display = branchDetails.style.display === "none" ? "block" : "none";
+
+    // Scroll to the "add-branch" section
+    const addBranchSection = document.getElementById(`branch${element.dataset.businesscode}`);
+    addBranchSection.scrollIntoView({ behavior: 'smooth' });
 }
 
 document.addEventListener("DOMContentLoaded", function() {
