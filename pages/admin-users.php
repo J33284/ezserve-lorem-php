@@ -42,7 +42,7 @@ if (isset($_POST['keyword'])) {
 
         <form method="post" action="">
         <div id="searchbar" class="d-flex my-3 float-end">
-            <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" name="keyword" value="<?= $keyword ?>" />
+            <input type="search" class="form-control rounded" id="searchKeyword" placeholder="Search" aria-label="Search" aria-describedby="search-addon" name="keyword" value="<?= $keyword ?>" />
             <span class="search-btn input-group-text border-0">
                 <i class="bi bi-search"></i>
             </span>
@@ -158,7 +158,7 @@ if (isset($_POST['keyword'])) {
                     
                     <p>You are about to delete the owner's account.</p>
                     <p class="text-justify">Before proceeding with the deletion of the owner's account, kindly specify the reason(s) for this action. The owner will receive an email notification stating the reason for the account deletion.</p>
-                    <textarea class="form-control mb-3" id="deleteReason" rows="3"></textarea>
+                    <textarea class="form-control mb-3" id="deleteReason<?= $account['ownerID'] ?>" rows="3"></textarea>
                     <form method="post" action="delete_owner.php" >
                         <input type="hidden" name="ownerID" value="<?= $account['ownerID'] ?>">
                         <button type="submit" class="btn btn-danger float-end">Confirm Delete</button>

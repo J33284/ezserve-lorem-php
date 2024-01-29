@@ -1,81 +1,5 @@
 <?= element('header') ?>
-<!-- Styles -->
-<style>
-    @media (min-width: 1000px) {
-        .package-view {
-            margin: 120px;
-            width: auto;
-        }
-    }
 
-    @media (max-width: 700px) {
-        .package-view {
-            margin-top: 120px;
-        }
-
-        .total {
-            margin: 0 !important;
-        }
-    }
-
-    /* Additional styling for the modal */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgb(0, 0, 0);
-        background-color: rgba(0, 0, 0, 0.9);
-        padding-top: 160px;
-    }
-
-    .modal-content {
-        margin: auto;
-        display: block;
-        max-width: 50%;
-        max-height: 50%;
-        position: relative;
-    }
-
-    .close {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        font-size: 30px;
-        color: #fff;
-        cursor: pointer;
-    }
-
-    #loginAsClientPopup {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 20px;
-        background-color: #001f3f; /* Dark blue background color */
-        color: #ffffff; /* White text color */
-        border-radius: 5px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        z-index: 1000;
-    }
-
-    #loginAsClientPopup button {
-        margin-top: 10px;
-        padding: 10px 15px;
-        background-color: #0074cc; /* Blue button color */
-        color: #ffffff; /* White text color */
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-</style>
 
 <?php
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
@@ -97,6 +21,9 @@ $packageDetailsQ = $DB->query("SELECT p.*, i.*
 if ($packageDetailsQ) {
     $packageDetails = $packageDetailsQ->fetch_assoc();
 }
+
+$customCategoryQ = $DB->query("SELECT * FROM custom_category");
+$customItemsQ = $DB->query("SELECT * FROM custom_items");
 ?>
 
 <div id="package-view" class="package-view h-100">
@@ -118,6 +45,7 @@ if ($packageDetailsQ) {
                     <th>Image</th>
                     <th>Item Name</th>
                     <th>Description</th>
+                    <th></th>
                     <th>Additional Detail</th>
                     <?php if ($packageDetails['pricingType'] === 'per pax') : ?>
                     <?php else : ?>
@@ -142,7 +70,9 @@ if ($packageDetailsQ) {
                         </td>
                         <td><?= $row['itemName'] ?></td>
                         <td><?= $row['description'] ?></td>
-                        <td>
+                        <td> <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#menuOffcanvas">Menu</button>
+                </td>
+                <td>
                     <?php if (!empty($itemDetails['detailName']) && !empty($itemDetails['detailValue'])) : ?>
                         <strong><?= $itemDetails['detailName'] ?></strong>: <?= $itemDetails['detailValue'] ?>
                     <?php else : ?>
@@ -158,7 +88,40 @@ if ($packageDetailsQ) {
                     </tr>
                 <?php endforeach; ?>
             </tbody>
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="menuOffcanvas" data-bs-backdrop="false" data-bs-scroll="true">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title my-3">Catering Menu</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <!-- Place your menu items or content here -->
+        <!-- Example: -->
+        <?php 
+    // Fetch categories
+    $customCategoryQ = $DB->query("SELECT * FROM custom_category");
+    
+    while ($category = $customCategoryQ->fetch_assoc()) : ?>
+        <li style="list-style-type:none;">
+           <strong><?= $category['categoryName'] ?></strong> 
+            <ul>
+                <?php 
+                // Fetch items for each category
+                $categoryId = $category['customCategoryCode'];
+                $customItemsQ = $DB->query("SELECT * FROM custom_items WHERE customCategoryCode = '$categoryId'");
+                
+                while ($item = $customItemsQ->fetch_assoc()) : ?>
+                    <li><?= $item['itemName'] ?></li>
+                <?php endwhile; ?>
+            </ul>
+        </li>
+    <?php endwhile; ?>
+</ul>
+    </div>
+</div>
         </table>
+
+        
+
     </div>
 
     <!-- Total Container -->
@@ -557,6 +520,83 @@ function saveCustomization() {
     }
 
 </script>
+<!-- Styles -->
+<style>
+    @media (min-width: 1000px) {
+        .package-view {
+            margin: 120px;
+            width: auto;
+        }
+    }
+
+    @media (max-width: 700px) {
+        .package-view {
+            margin-top: 120px;
+        }
+
+        .total {
+            margin: 0 !important;
+        }
+    }
+
+    /* Additional styling for the modal */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.9);
+        padding-top: 160px;
+    }
+
+    .modal-content {
+        margin: auto;
+        display: block;
+        max-width: 50%;
+        max-height: 50%;
+        position: relative;
+    }
+
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 30px;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    #loginAsClientPopup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        background-color: #001f3f; /* Dark blue background color */
+        color: #ffffff; /* White text color */
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        z-index: 1000;
+    }
+
+    #loginAsClientPopup button {
+        margin-top: 10px;
+        padding: 10px 15px;
+        background-color: #0074cc; /* Blue button color */
+        color: #ffffff; /* White text color */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+</style>
 
 
 
