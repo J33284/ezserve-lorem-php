@@ -43,7 +43,7 @@ if (isset($encodedDetails[0]['itemName'])) {
     $checkoutData = [
         'data' => [
             'attributes' => [
-                'cancel_url' => 'https://example.com/cancel',
+                'cancel_url' => 'http://localhost/webworks-lorem-php/?page=services',
                 'billing' => [
                     'name' => $name,
                     'email' => $email,
@@ -54,7 +54,7 @@ if (isset($encodedDetails[0]['itemName'])) {
                     [
                         'amount' => $amount * 100, 
                         'currency' => 'PHP',
-                        'name' => 'Custom',
+                        'name' => $itemList,
                         'quantity' => 1,
                     ],
                 ],

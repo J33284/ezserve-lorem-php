@@ -30,7 +30,7 @@ if (isset($_POST['data'])) {
 
     // Check password strength
     if (!isStrongPassword($plainPassword)) {
-        set_message("Password is not strong enough. Please use a password with a minimum of 8 characters, including at least one uppercase letter, one lowercase letter, and one special character.", "danger");
+        set_message("Password is not strong enough.", "danger");
         register_redirect("?page=register&", $_POST['data']);
         exit();
     }
