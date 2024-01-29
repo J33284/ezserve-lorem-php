@@ -29,7 +29,7 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
                 </div>
                 <div class="form-check" style="display: inline-block;">
                     <input class="form-check-input" type="checkbox" name="totalItemsCheckbox" onclick="handlePricingCheckbox(this)">
-                    <label class="form-check-label" for="totalItemsCheckbox">Total of Items</label>
+                    <label class="form-check-label" for="totalItemsCheckbox">Per Item</label>
                 </div>
 
                 <div id="pricePerPax" style="display: none;">

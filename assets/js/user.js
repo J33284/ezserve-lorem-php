@@ -103,11 +103,17 @@ function previewAddBranch(input) {
     }
 }
 
-function toggleViewBranch(event) {
+function toggleViewBranch(element, event) {
+    event.preventDefault();
+
     const button = event.currentTarget;
     const businessCode = button.getAttribute("data-businesscode");
     const branchDetails = document.querySelector("#branchDetails" + businessCode);
     branchDetails.style.display = branchDetails.style.display === "none" ? "block" : "none";
+
+    // Scroll to the "branchDetails" section
+    const branchDetailsSection = document.getElementById(`branchDetails${element.dataset.businesscode}`);
+    branchDetailsSection.scrollIntoView({ behavior: 'smooth' });
     
 }
 
