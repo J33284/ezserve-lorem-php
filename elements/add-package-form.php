@@ -17,14 +17,14 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
                 <h2>Pre-made Package</h2>
                 <br>
                 <label for="packageName">PACKAGE INFORMATION</label>
-                <input class="form-control mb-3" type="text" id="packageName" name="packageName" placeholder="Package Name">
+                <input class="form-control mb-3" type="text" id="packageName" name="packageName" placeholder="Package Name" required>
                 <textarea class="form-control" id="packageDescription" name="packageDescription" placeholder="Description"></textarea>
                 <input type="hidden" name="businessCode" value="<?= $businessCode ?>">
                 <input type="hidden" name="branchCode" value="<?= $branchCode ?>">
 
                 <div class="form-check mt-3" style="display: inline-block; margin-right: 20px;">
                     <h6>Pricing</h6>
-                    <input class="form-check-input" type="checkbox" name="perPaxCheckbox" onclick="handlePricingCheckbox(this)">
+                    <input class="form-check-input" type="checkbox" name="perPaxCheckbox" onclick="handlePricingCheckbox(this)" >
                     <label class="form-check-label" for="perPaxCheckbox">Per Pax</label>
                 </div>
                 <div class="form-check" style="display: inline-block;">
@@ -43,7 +43,7 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
             <hr>
             <button type="button" class="add-item-btn btn btn-primary" onclick="cloneItemFields()">Add Item</button>
             <hr>
-            <button type="submit" class="submit-btn btn btn-primary float-end">Save</button>
+            <button type="submit" class="submit-btn btn btn-primary float-end" onclick="validateCheckbox()">Save</button>
         </form>
     </div>
 </div>
@@ -52,12 +52,15 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
     let itemCounter = 0;
 
     function handlePricingCheckbox(checkbox) {
+        const perPaxCheckbox = document.querySelector('[name="perPaxCheckbox"]');
+        const totalItemsCheckbox = document.querySelector('[name="totalItemsCheckbox"]');
         const priceFields = document.querySelectorAll('[id^="price_"]');
         const quantityFields = document.querySelectorAll('[id^="quantity_"]');
         const unitFields = document.querySelectorAll('[id^="unit_"]');
         const pricePerPaxField = document.getElementById('pricePerPax');
 
         if (checkbox.name === 'perPaxCheckbox' && checkbox.checked) {
+            totalItemsCheckbox.checked = false;
             priceFields.forEach(field => {
                 field.style.display = 'none';
             });
@@ -71,7 +74,8 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
             });
 
             pricePerPaxField.style.display = 'block';
-        } else {
+        } else if (checkbox.name === 'totalItemsCheckbox' && checkbox.checked) {
+            perPaxCheckbox.checked = false;
             priceFields.forEach(field => {
                 field.style.display = 'block';
             });
@@ -87,6 +91,7 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
             pricePerPaxField.style.display = 'none';
         }
     }
+
 
     function createItemGroup(itemIndex) {
         const newItemGroup = document.createElement('div');
@@ -215,6 +220,16 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
             };
 
             reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function validateCheckbox() {
+        const perPaxCheckbox = document.querySelector('[name="perPaxCheckbox"]');
+        const totalItemsCheckbox = document.querySelector('[name="totalItemsCheckbox"]');
+
+        if (!perPaxCheckbox.checked && !totalItemsCheckbox.checked) {
+            alert('Please check either "Per Pax" or "Total of Items" before saving.');
+            return false; // Prevent form submission
         }
     }
 </script>

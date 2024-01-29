@@ -74,8 +74,8 @@ WHERE c.branchCode = '$branchCode'");
             <table class="table">
                 <thead>
                     <tr class="sticky-top">
+                        <th scope="col">Item</th>
                         <th scope="col">Quantity</th>
-                        <th scope="col">Description</th>
                         <th scope="col">Price</th>
                     </tr>
                 </thead>
@@ -138,8 +138,8 @@ WHERE c.branchCode = '$branchCode'");
 
             $('.item-checkbox:checked').each(function () {
                 var itemCode = $(this).val();
-                var itemName = $('#item' + itemCode).next().text();
                 var quantity = $('#quantity' + itemCode).val();
+                var itemName = $('#item' + itemCode).next().text();
                 var price = $('.price-input[data-item-code="' + itemCode + '"]').val();
                 var subtotal = quantity * price;
 
@@ -160,7 +160,7 @@ WHERE c.branchCode = '$branchCode'");
 
             for (var i = 0; i < orderDetails.length; i++) {
                 var orderItem = orderDetails[i];
-                orderBody.append('<tr><td>' + orderItem.quantity + '</td><td>' + orderItem.itemName + '</td><td>₱' + orderItem.subtotal.toFixed(2) + '</td></tr>');
+                orderBody.append('<tr><td>' + orderItem.itemName + '</td><td>' + orderItem.quantity + '</td><td>₱' + orderItem.subtotal.toFixed(2) + '</td></tr>');
             }
 
             // Update total price

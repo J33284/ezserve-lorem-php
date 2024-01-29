@@ -1,10 +1,13 @@
 <?php
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
+$businessID = $_SESSION['userID'];
+
 $payments = $DB->query("
-    SELECT transact.*, client.*
+    SELECT *
     FROM transact
-    JOIN client ON transact.clientID = client.clientID
+    JOIN business ON transact.businessCode = business.businessCode
+    WHERE business.ownerID = '$businessID'
 ");
 ?>
 
@@ -26,8 +29,11 @@ $payments = $DB->query("
     <table class="table table-hover table-responsive">
         <thead class="table-dark">
             <tr>
+                <th scope="col"></th>
                 <th scope="col">Transaction No.</th>
                 <th scope="col">Client Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Contact No.</th>
                 <th scope="col">Package Name</th>
                 <th scope="col">Payment Method</th>
                 <th scope="col">Total Amount</th>
@@ -35,16 +41,26 @@ $payments = $DB->query("
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($payments as $payment) : ?>
-                <tr>
-                    <th class="bg-transparent border border-white" scope="row">1</th>
-                    <td class="bg-transparent border border-white"><?= $payment['fname'] ." ". $payment['lname']?></td>
-                    <td class="bg-transparent border border-white"><?= $payment['itemName'] ?></td>
+            <?php $rowNumber = 1;
+             foreach ($payments as $payment) :
+            ?>
+                <tr>          
+                    <th class="bg-transparent border border-white" scope="row"><?= $rowNumber ?></th>
+                    <td class="bg-transparent border border-white"><?= $payment['transCode']?></td>
+                    <td class="bg-transparent border border-white"><?= $payment['clientName']?></td>
+                    <td class="bg-transparent border border-white"><?= $payment['email']?></td>
+                    <td class="bg-transparent border border-white"><?= $payment['mobileNumber']?></td>
+                    <td class= "bg-transparent border border-white">
+                    <?php
+                                $packageResult = $DB->query("SELECT * FROM package WHERE packCode = '{$payment['packCode']}' LIMIT 1")->fetch_assoc();
+                                echo $packageResult ? $packageResult['packName'] : 'N/A';
+                    ?>
+                    </td>
                     <td class="bg-transparent border border-white"><?= $payment['paymentMethod'] ?></td>
-                    <td class="bg-transparent border border-white">₱<?= number_format($payment['amount'], 2) ?></td>
+                    <td class="bg-transparent border border-white">₱<?= number_format($payment['totalAmount'], 2) ?></td>
 
                     <td class="bg-transparent border border-white">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasPayment<?= $payment['itemName'] ?>">View</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasPayment<?= $payment['itemList'] ?>">View</button>
 
                         <div class="offcanvas offcanvas-top rounded-3" tabindex="-1" id="offcanvasPayment<?= $payment['packCode'] ?>" style="width: 50vw; height: 50vh; margin: 150px 0 0 25vw;">
                             <div class="offcanvas-header">
@@ -57,7 +73,10 @@ $payments = $DB->query("
                         </div>
                     </td>
                 </tr>
-            <?php endforeach; ?>
+
+            <?php 
+             $rowNumber++;
+            endforeach; ?>
         </tbody>
     </table>
 </div>

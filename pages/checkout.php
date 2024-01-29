@@ -1,5 +1,5 @@
 
-<!--php
+<?php
 
 $checkoutDataJSON = $_GET['checkoutData'];
 $checkoutData = json_decode(urldecode($checkoutDataJSON), true);
@@ -7,7 +7,8 @@ $checkoutData = json_decode(urldecode($checkoutDataJSON), true);
 // Print all data in JSON format
 echo '<pre>';
 print_r($checkoutData);
-echo '</pre>'; ?>
+echo '</pre>';  
+?>
 
 
 <?php
@@ -34,13 +35,6 @@ if (isset($_GET['checkoutData'])) {
     $checkoutDetails = json_decode(urldecode($encodedDetails), true);
 }
 
-if (isset($_GET['numberOfPersons'])) {
-    // Retrieve the encoded JSON string from the URL
-    $perPax = $_GET['numberOfPersons'];
-
-    // Decode the JSON string to an array
-    $perPax = json_decode(urldecode($perPax), true);
-}
 ?>
 
 <?= element('header') ?>
@@ -187,28 +181,33 @@ if (isset($_GET['numberOfPersons'])) {
         </div>
 
 
-        <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"  href="?page=voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>&grandTotal=<?= $grandTotal ?>">
+        <!--a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"  href="?page=voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>&grandTotal=<?= $grandTotal ?>">
         <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
         <i class="bi bi-chevron-right float end col-2"></i>
-        </a>
+        </a>-->
 
                
 
         <form action="?action=payMongo" method="post">
+            <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
+            <input type="hidden" name="branchCode" value="<?= $branchCode ?>" >
             <input type="hidden" name="packCode" value="<?= $packCode ?>">
+            <input type="hidden" name="clientID" value="<?= $clientID ?>">
             <input type="hidden" name="clientName" value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>">
             <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">
             <input type="hidden" name="email" value="<?= $clientInfo['email'] ?>" >
-            <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
-            <input type="hidden" name="packName" value="<?= $item['itemName'] ?>" >
-            <input type="hidden" name="grandTotal" value="<?= $overallTotal ?>">
-            <button type="submit" class="btn btn-primary" style="width:100%" id="placeOrderButton">
+            <input type="hidden" name="itemList" value="<?= htmlspecialchars(json_encode($checkoutDetails)) ?>">
+            <input type="hidden" name="pDate">
+            <input type="hidden" name="deliveryAddress">
+            <input type="hidden" name="deliveryDate">
+            <button type="submit" class="btn btn-primary" style="width:100%" id="placeOrderButton" onclick="submitSecondForm()">
             Place Order
             </button>
         </form>
 
         <form action="?action=onsite" method="post">
             <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
+            <input type="hidden" name="branchCode" value="<?= $branchCode ?>" >
             <input type="hidden" name="packCode" value="<?= $packCode ?>">
             <input type="hidden" name="clientID" value="<?= $clientID ?>">
             <input type="hidden" name="clientName" value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>">

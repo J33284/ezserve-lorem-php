@@ -1,7 +1,7 @@
 <?php
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['action'] === 'onsite') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['action'] === 'customOnsite') {
     $businessCode = $_POST['businessCode'];
     $branchCode = $_POST['branchCode'];
     $packCode = $_POST['packCode'];
@@ -14,27 +14,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['ac
     $dDate = isset($_POST['deliveryDate']) ? $_POST['deliveryDate'] : '';
     $paymentMethod = "on site payment";
     $status = "unpaid";
-    $encodedDetails = json_decode(htmlspecialchars_decode($_POST['itemList']), true);
     $transCode = generateRandomTransID();
     // Array to store item names
     $itemNames = array();
 
-    foreach ($encodedDetails['items'] as $item) {
-        // Assuming each item has an 'itemName' property
-        $itemName = $item['itemName'];
+    $encodedDetails = json_decode(htmlspecialchars_decode($_POST['orderDetails']), true);
+    $serializedItems = array();
 
-        // Store each item name in the array
-        $itemNames[] = $itemName;
+    foreach ($encodedDetails as $item) {
+        $serializedItem = serialize($item);
+        $serializedItems[] = $serializedItem;
     }
 
-    // Combine item names into a comma-separated string
-    $combinedItemNames = implode(', ', $itemNames);
 
-    // Extract numeric part from '[total] => Total: ₱320.00'
-    $totalAmount = filter_var($encodedDetails['total'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    $serializedItemsString = implode(',', $serializedItems);
+
+
+    $totalAmount = $_POST['totalAmount'];
 
     $insertQuery = "INSERT INTO transact (branchCode, transCode, packCode, clientID, clientName, mobileNumber, email, businessCode, itemList, totalAmount, paymentMethod, status, pickupDate, deliveryDate, deliveryAddress )
-                    VALUES ('$branchCode', '$transCode', '$packCode', '$clientID', '$clientName', '$mobileNumber', '$email', '$businessCode', '$combinedItemNames', '$totalAmount', '$paymentMethod', '$status', '$pDate', '$dDate', '$dAddress')";
+                    VALUES ('$branchCode', '$transCode', '$packCode', '$clientID', '$clientName', '$mobileNumber', '$email', '$businessCode', '$serializedItemsString', '$totalAmount', '$paymentMethod', '$status', '$pDate', '$dDate', '$dAddress')";
 
     // Execute the query
     $DB->query($insertQuery);

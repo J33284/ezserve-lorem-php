@@ -16,18 +16,28 @@ $response = $client->request('GET', 'https://api.paymongo.com/v1/checkout_sessio
     ],
 ]);
 
-function saveToDatabase($clientID, $dateCreated, $businessName, $itemName, $amount, $paymentMethod, $status, $sourceId)
+function saveToDatabase( $dateCreated, $itemName, $amount, $paymentMethod, $status, $paymentId)
 {
     global $DB;
 
     // Divide amount by 100
     $amount /= 100;
-    $busCode = "24";
-    $packCode = "275";
+    $businessCode = isset($_GET['businessCode']) ? $_GET['businessCode'] : null;
+    $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : null;
+    $packCode = isset($_GET['packCode']) ? $_GET['packCode'] : null;
+    $clientID = isset($_GET['clientID']) ? $_GET['clientID'] : null;
+    $clientName = isset($_GET['clientName']) ? $_GET['clientName'] : null;
+    $mobileNumber = isset($_GET['mobileNumber']) ? $_GET['mobileNumber'] : null;
+    $email = isset($_GET['email']) ? $_GET['email'] : null;
+    $pDate = isset($_GET['pDate']) ? $_GET['pDate'] : null;
+    $deliveryDate = isset($_GET['deliveryDate']) ? $_GET['deliveryDate'] : null;
+    $deliveryAddress = isset($_GET['deliveryAddress']) ? $_GET['deliveryAddress'] : null;
+    
+    
 
     // Insert data into the 'payment' table (customize this query based on your database structure)
-    $sql = "INSERT INTO transact (clientID, sourceID, paymentDate, busName, itemName, amount, paymentMethod, status, businessCode, packCode) 
-            VALUES ('$clientID', '$sourceId','$dateCreated', '$businessName', '$itemName', '$amount', '$paymentMethod', '$status', '$busCode', '$packCode')";
+    $sql = "INSERT INTO transact (businessCode, branchCode, packCode, clientID, clientName, mobileNumber, email, pickupDate, deliveryDate, deliveryAddress, transID, paymentDate, itemList, totalAmount, paymentMethod, status) 
+            VALUES ('$businessCode', '$branchCode', '$packCode','$clientID', '$clientName','$mobileNumber', '$email', '$pDate', '$deliveryDate', '$deliveryAddress','$paymentId','$dateCreated', '$itemName', '$amount', '$paymentMethod', '$status')";
 
     if ($DB->query($sql) === TRUE) {
         header ("Location: ?page=client-order-history");
@@ -47,14 +57,14 @@ if (isset($data['data'])) {
     $dateCreatedTimestamp  = $data['data']['attributes']['created_at'];
     $dateCreated           = date('Y-m-d H:i:s', $dateCreatedTimestamp);
     $itemName              = $data['data']['attributes']['line_items'][0]['name'] ?? '';
-    $status                = $data['data']['attributes']['status'] ?? '';
+    $status                = "paid";
     $sourceInfo = $data['data']['attributes']['payments'][0]['attributes']['source'] ?? null;
-    $sourceId = $sourceInfo['id'] ?? '';
+    $paymentId = $data['data']['id']; 
     $paymentMethod = $sourceInfo['type'] ?? '';
 
     
     // Save the information to the 'payment' table
-    saveToDatabase($clientID, $dateCreated, $businessName, $itemName, $amount, $paymentMethod, $status, $sourceId);
+    saveToDatabase($dateCreated, $itemName, $amount, $paymentMethod, $status, $paymentId);
 } else {
     echo 'No data received from the API.';
 }

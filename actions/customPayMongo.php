@@ -9,10 +9,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $businessCode = $_POST['businessCode'];
     $email = $_POST['email'];
     $phone = $_POST['mobileNumber'];
-    $encodedDetails = json_decode(htmlspecialchars_decode($_POST['itemList']), true);
-    $amount = preg_replace('/[^0-9.]/', '', $encodedDetails['total']);
+    $amount = $_POST['totalAmount'];
     $businessCode = $_POST['businessCode'];
-    $packCode = $_POST['branchCode'];
+    $branchCode = $_POST['branchCode'];
     $packCode = $_POST['packCode'];
     $clientID = $_POST['clientID'];
     $clientName = $_POST['clientName'];
@@ -22,19 +21,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $deliveryDate = $_POST['deliveryDate'];
     $deliveryAddress = $_POST['deliveryAddress'];
 
-    if (isset($encodedDetails['items'])) {
-        $itemNames = array();
-    
-        foreach ($encodedDetails['items'] as $item) {
-            if (isset($item['itemName'])) {
-                $itemNames[] = $item['itemName'];
-            }
+    $encodedDetails = json_decode(htmlspecialchars_decode($_POST['orderDetails']), true);
+
+    // Check if 'itemName' key exists in the decoded details
+    $itemNames = array();
+
+// Check if 'itemName' key exists in the decoded details
+if (isset($encodedDetails[0]['itemName'])) {
+    // Loop through the decoded details and extract 'itemName'
+    foreach ($encodedDetails as $item) {
+        if (isset($item['itemName'])) {
+            $itemNames[] = $item['itemName'];
         }
-    
-    } else {
-        echo "Items not found in the decoded details.";
     }
 
+    // Save $itemNames in the itemList column or use it as needed
+    $itemList = implode(', ', $itemNames);
+    
+    }
 
     $checkoutData = [
         'data' => [
@@ -50,12 +54,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     [
                         'amount' => $amount * 100, 
                         'currency' => 'PHP',
-                        'name' => $itemNames,
+                        'name' => 'Custom',
                         'quantity' => 1,
                     ],
                 ],
                 'payment_method_types' => ['card', 'gcash'],
-                'reference_number' => 'EzServe',
+                'reference_number' => 'Webworks',
                 'send_email_receipt' => true,
                 'show_description' => true,
                 'show_line_items' => true,

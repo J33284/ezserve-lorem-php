@@ -45,12 +45,10 @@ if (isset($_POST['keyword'])) {
             <table class="table table-hover table-bordered" >
                 <thead class="table-dark">
                     <tr>
-                        <th scope="col" class="align-items-start">Payment ID</th>
-                        <th scope="col">Payment Date</th>
+                        <th scope="col" class="align-items-start">Transaction No.</th>
+                        <th scope="col">Business Name</th>
                         <th scope="col">Package Name</th>
-                        <th scope="col">Pick-up Date</th>
-                        <th scope="col">Delivery</th>
-                        <th scope="col">Delivery Address</th>
+                        <th scope="col">Date of Transaction</th>
                         <th scope="col">Total Amount</th>
                         <th scope="col">Mode of Payment</th>
                         <th scope="col">Status</th>
@@ -60,18 +58,24 @@ if (isset($_POST['keyword'])) {
                 <tbody>
                     <?php while ($row = $payment->fetch_assoc()): ?>
                         <tr>
-                            <td ><?= $row['sourceID'] != '' ? $row['sourceID'] : 'N/A' ?></td>
-                            <td><?= $row['paymentDate'] ?></td>
+                            <td ><?= $row['transCode'] != '' ? $row['transCode'] : 'N/A' ?></td>
+                            <td>
+                                <?php
+                                // Fetch business name based on businessCode
+                                $businessCode = $row['businessCode'];
+                                $businessResult = $DB->query("SELECT busName FROM business WHERE businessCode = '$businessCode'");
+                                $businessRow = $businessResult->fetch_assoc();
+                                echo $businessRow ? $businessRow['busName'] : 'N/A';
+                                ?>
+                            </td>
                             <td>
                                 <?php
                                 $packageResult = $DB->query("SELECT * FROM package WHERE packCode = '{$row['packCode']}' LIMIT 1")->fetch_assoc();
-                                echo $packageResult ? $packageResult['packName'] : 'N/A';
+                                echo $packageResult ? $packageResult['packName'] : 'Custom Package';
                                 ?>
                             </td>
-                            <td><?= $row['pDate']?></td>
-                            <td><?= $row['dDate']?></td>
-                            <td><?= $row['dAddress'] ?></td>
-                            <td><?= '₱' . number_format($row['amount'], 2) ?></td>
+                            <td><?= $row['paymentDate'] ?></td>
+                            <td><?= '₱' . number_format($row['totalAmount'], 2) ?></td>
                             <td><?= $row['paymentMethod'] ?></td>
                             <td><?= $row['status'] ?></td>
                             <td><button class="btn btn-sm btn-primary view-btn" data-toggle="modal" data-target="#itemModal<?= $row['packCode'] ?>">View</button></td>
@@ -96,10 +100,42 @@ if (isset($_POST['keyword'])) {
                     </button>
                 </div>
                 <div class="modal-body">
-                    <?=
-                        $row['itemName'];
-                    ?>
-                                
+                <?php
+                                // Fetch business name based on businessCode
+                                $businessCode = $row['businessCode'];
+                                $businessResult = $DB->query("SELECT busName FROM business WHERE businessCode = '$businessCode'");
+                                $businessRow = $businessResult->fetch_assoc();
+                                echo $businessRow ? $businessRow['busName'] : 'N/A';
+                                ?>
+                    <br>
+                    <td><?= $row['paymentDate'] ?></td>
+                    <br>
+                    <br>
+                    <?php
+                            $itemList = $row['itemList'];
+
+                            // Explode the itemList string based on commas
+                            $items = explode(', ', $itemList);
+
+                            // Echo each item in a new line
+                            foreach ($items as $item) {
+                                echo $item . "<br>";
+                            }
+                            ?>
+                    <hr>
+                            <td>Total:<?= '₱' . number_format($row['totalAmount'], 2) ?></td>
+                            <br>
+                            <?= $row['pickupDate']?>
+                            <br>
+                            <?= $row['deliveryDate']?>
+                            <br>
+                            <?= $row['deliveryAddress'] ?> 
+                            <br>
+                            <td>Purchased by: <?= $row['clientName']?></td>
+                            <br>
+                            <td>Email: <?= $row['email']?></td>
+                            <br>
+                            <td>Mobile Number: <?= $row['mobileNumber'] ?></td>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -118,3 +154,4 @@ if (isset($_POST['keyword'])) {
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
