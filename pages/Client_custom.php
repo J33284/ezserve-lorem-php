@@ -18,13 +18,13 @@ WHERE c.branchCode = '$branchCode'");
             <a href="?page=client_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="col-xl-1 text-dark float-end">
                 <i class="bi bi-arrow-left"></i>
             </a>
-            <h1 class="col-xl-7 d-flex justify-content-start text-dark">Package Customization</h1>
+            <h1 class="col-xl-5 d-flex justify-content-start text-dark">Package Customization</h1>
         </div>
     </div>
 </div>
 
 <div class="row d-flex p-5 g-5">
-    <div id="package-info" class="package-info col-5" style="width: 50vw; height: 65vh; margin: 120px 0 0 250px;">
+    <div id="package-info" class="package-info col-5" style="width: 50vw; height: 65vh; margin: 120px 0 0 10%;">
 
         <!-- Accordion -->
         <div id="accordion">
@@ -52,15 +52,21 @@ WHERE c.branchCode = '$branchCode'");
                     $currentCategoryCode = $row['customCategoryCode'];
                 endif;
             ?>
-                                <div class="form-check d-flex justify-content-between">
-                                    <div>
+                                <div class="form-check row d-flex justify-content-between">
+                                    <div class="col-7">
                                         <input class="form-check-input item-checkbox" type="checkbox" value="<?= $row['itemCode'] ?>" id="item<?= $row['itemCode'] ?>">
                                         <label class="form-check-label" for="item<?= $row['itemCode'] ?>">
                                             <?= $row['itemName'] ?>
                                         </label>
+                                        <p class="mx-4"><?= $row['description'] ?></p>
                                     </div>
-                                    <input type="number" class="form-control quantity-input w-50" placeholder="Quantity" id="quantity<?= $row['itemCode'] ?>" data-item-code="<?= $row['itemCode'] ?>" min="1" value="1">
+                                    <div class=" col-5 d-flex float-end " >
+                                    <p class="mx-4">₱<?= $row['price'] ?></p>
+                                    <input type="number" class="form-control quantity-input w-25" placeholder="Quantity" id="quantity<?= $row['itemCode'] ?>" data-item-code="<?= $row['itemCode'] ?>" min="1" value="1" style="height:30px">
                                     <input type="hidden" class="form-control price-input" value="<?= $row['price'] ?>" data-item-code="<?= $row['itemCode'] ?>">
+                                    </div>
+                                    
+                                    
                                 </div>
             <?php endwhile; ?>
                             </div>
@@ -105,7 +111,6 @@ WHERE c.branchCode = '$branchCode'");
 
 <!-- Include Bootstrap and jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 <style>
@@ -178,3 +183,4 @@ WHERE c.branchCode = '$branchCode'");
     });
 </script>
 </html>
+
