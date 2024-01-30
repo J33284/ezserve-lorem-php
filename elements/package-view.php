@@ -51,19 +51,19 @@ $itemsResults = $DB->query($itemsQuery);
                                 <input type="text" class="form-control" id="editItemName" placeholder="Enter new item name" style="display:none; height:40px; width:50%" value="<?php echo $item['itemName']; ?>">
 
                                 <div class="d-flex">
-                                <a href="#" id="editButton" class="btn-edit btn btn-outline-dark" onclick="toggleEditable('<?php echo $item['itemCode']; ?>')">
+                                <a href="#" id="editButton" class="btn-edit btn btn-primary" onclick="toggleEditable('<?php echo $item['itemCode']; ?>')">
                                 <i class="bi bi-pencil-fill"></i>
                                 <span>Edit</span>
                                 </a>
-                                <a href="#" id="deleteButton" class="btn-delete btn btn-outline-dark" style="display:block">
+                                <a href="#" id="deleteButton" class="btn-delete btn btn-danger" style="display:block">
                                 <i class="bi bi-trash"></i>
                                 <span>Delete</span>
                                  </a>
-                                 <a href="#" id="saveButton" class="btn-delete btn btn-outline-dark" style="display:none;" >
+                                 <a href="#" id="saveButton" class="btn-delete btn btn-primary" style="display:none;" >
                                 <i class="bi bi-trash"></i>
                                 <span>Save</span>
                                  </a>
-                                 <a href="#" id="cancelButton" class="btn-delete btn btn-outline-dark" style="display:none" onclick="cancelEdit('<?php echo $item['itemCode']; ?>')">
+                                 <a href="#" id="cancelButton" class="btn-delete btn btn-secondary" style="display:none" onclick="cancelEdit('<?php echo $item['itemCode']; ?>')">
                                 <i class="bi bi-trash"></i>
                                 <span>Cancel</span>
                                  </a>
