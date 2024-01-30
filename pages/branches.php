@@ -101,17 +101,14 @@ $result = $DB->query($sql);
                 ?>
                 
               
-                <a href="#" id="ViewBranch" class="btn-view-branches align-items-center justify-content-center view-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleViewBranch(this, event)">
+                <a href="#branch-details" id="ViewBranch" class="btn-view-branches align-items-center justify-content-center view-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleViewBranch(this, event)">
                     <i class="bi bi-eye"></i>
                     <span>View Branch</span>
                 </a>
-                
-
-                <br>
                 <a href="#add-branch" id="AddBranch" class="btn-add-branch align-items-center justify-content-center add-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleAddBranch(this, event)">
-                <i class="bi bi-plus-square"></i>
-                <span>Add Branch</span>
-            </a>
+                    <i class="bi bi-plus-square"></i>
+                    <span>Add Branch</span>
+                </a>
 
             </form>
         </div>
@@ -336,6 +333,14 @@ function updateCoordinatesInputBranchDetails(branchCode, lat, lng) {
     var coordinatesInput = document.getElementById('coordinates_' + branchCode);
     coordinatesInput.value = lat + ', ' + lng;
 }
+
+    // Assuming you have a JavaScript variable hasBranchResults that indicates whether there are branch results
+    var hasBranchResults = <?php echo $branchResult->num_rows > 0 ? 'true' : 'false'; ?>;
+
+    // Set the visibility of the "View Branch" button based on the JavaScript variable
+    document.getElementById('ViewBranch').style.display = hasBranchResults ? 'block' : 'none';
+
+    
 
 </script>
 

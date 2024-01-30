@@ -60,11 +60,15 @@ function toggleButtonVisibility(buttonId) {
 
 
 //Branch=============================================
-function toggleAddBranch(event) {
+function toggleAddBranch(element, event) {
     const button = event.currentTarget;
     const businessCode = button.getAttribute("data-businesscode");
     const branchDetails = document.querySelector("#branch" + businessCode);
     branchDetails.style.display = branchDetails.style.display === "none" ? "block" : "none";
+
+    // Scroll to the "add-branch" section
+    const addBranchSection = document.getElementById(`branch${element.dataset.businesscode}`);
+    addBranchSection.scrollIntoView({ behavior: 'smooth' });
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -99,11 +103,17 @@ function previewAddBranch(input) {
     }
 }
 
-function toggleViewBranch(event) {
+function toggleViewBranch(element, event) {
+    event.preventDefault();
+
     const button = event.currentTarget;
     const businessCode = button.getAttribute("data-businesscode");
     const branchDetails = document.querySelector("#branchDetails" + businessCode);
     branchDetails.style.display = branchDetails.style.display === "none" ? "block" : "none";
+
+    // Scroll to the "branchDetails" section
+    const branchDetailsSection = document.getElementById(`branchDetails${element.dataset.businesscode}`);
+    branchDetailsSection.scrollIntoView({ behavior: 'smooth' });
     
 }
 

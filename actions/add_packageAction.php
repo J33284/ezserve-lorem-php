@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pricingType = 'per pax';
         $amount = isset($_POST['pricePerPax']) ? $_POST['pricePerPax'] : 0;
     } elseif (isset($_POST['totalItemsCheckbox']) && $_POST['totalItemsCheckbox'] == 'on') {
-        $pricingType = 'total of items';
+        $pricingType = 'per item';
     }
 
     // Insert package information into the 'package' table

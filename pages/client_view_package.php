@@ -45,7 +45,6 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                     <th>Image</th>
                     <th>Item Name</th>
                     <th>Description</th>
-                    <th></th>
                     <th>Additional Detail</th>
                     <?php if ($packageDetails['pricingType'] === 'per pax') : ?>
                     <?php else : ?>
@@ -69,8 +68,8 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                             onclick="openModal('<?= $row['itemImage'] ?>', '<?= $row['itemName'] ?>')">
                         </td>
                         <td><?= $row['itemName'] ?></td>
-                        <td><?= $row['description'] ?></td>
-                        <td> <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#menuOffcanvas">Menu</button>
+                        <td><?= $row['description'] ?>
+                         <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#menuOffcanvas">Menu</button>
                 </td>
                 <td>
                     <?php if (!empty($itemDetails['detailName']) && !empty($itemDetails['detailValue'])) : ?>
