@@ -275,12 +275,8 @@ h1{
   #searchbar input{
     width: 20em;
   }
-  .search-btn{
-    background-color: #fb7e00;
-  }
-  .search-btn:hover{
-    background-color: #007ea7;
-  }
+  
+  
 /*service*/
   .body-content .card{
   width: 90%;
