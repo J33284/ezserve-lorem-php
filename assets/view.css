@@ -17,12 +17,6 @@ h1 {
   color: #000000;
 }
 
-.btn-primary,
-.search-btn {
-  background-color: #ffa630;
-  border: none;
-}
-
 .message {
   z-index: 999;
 }
@@ -267,11 +261,6 @@ h1{
 }
 
 
-
-
-.btn-back{
- color: #ffff;
-}
 .bi-arrow-left{
   font-size: 30px;
   
