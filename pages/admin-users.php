@@ -61,8 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($results as $index => $account) : ?>
-                    <tr>
+            <?php foreach (empty($results) ? $accounts : $results as $index => $account) : ?>
+       <tr>
                         <td scope="row" class="bg-transparent border border-white"><?= $index + 1 ?></td>
                         <td class="bg-transparent border border-white d-flex justify-content-between">
                             <div class="d-flex justify-content-center align-items-center">
