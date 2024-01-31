@@ -59,26 +59,13 @@ if (isset($_POST['keyword'])) {
                     <?php while ($row = $payment->fetch_assoc()): ?>
                         <tr>
                             <td ><?= $row['transCode'] != '' ? $row['transCode'] : 'N/A' ?></td>
-                            <td>
-                                <?php
-                                // Fetch business name based on businessCode
-                                $businessCode = $row['businessCode'];
-                                $businessResult = $DB->query("SELECT busName FROM business WHERE businessCode = '$businessCode'");
-                                $businessRow = $businessResult->fetch_assoc();
-                                echo $businessRow ? $businessRow['busName'] : 'N/A';
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                $packageResult = $DB->query("SELECT * FROM package WHERE packCode = '{$row['packCode']}' LIMIT 1")->fetch_assoc();
-                                echo $packageResult ? $packageResult['packName'] : 'Custom Package';
-                                ?>
-                            </td>
+                            <td><?= $row['busName']. "<br>(" . $row['branchName'] .")"?></td>
+                            <td><?= $row['packName'] ?></td>
                             <td><?= $row['paymentDate'] ?></td>
                             <td><?= '₱' . number_format($row['totalAmount'], 2) ?></td>
                             <td><?= $row['paymentMethod'] ?></td>
                             <td><?= $row['status'] ?></td>
-                            <td><button class="btn btn-sm btn-primary view-btn" data-toggle="modal" data-target="#itemModal<?= $row['packCode'] ?>">View</button></td>
+                            <td><button class="btn btn-sm btn-primary view-btn" data-toggle="modal" data-target="#itemModal<?= $row['transID'] ?>">View</button></td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
@@ -90,52 +77,78 @@ if (isset($_POST['keyword'])) {
 <!-- Modals placed outside the loop -->
 <?php $payment->data_seek(0); // Reset the result set pointer ?>
 <?php while ($row = $payment->fetch_assoc()): ?>
-    <div class="modal fade" id="itemModal<?= $row['packCode'] ?>" tabindex="-1" role="dialog" aria-labelledby="itemModalLabel" aria-hidden="true">
+    <div class="modal fade" id="itemModal<?= $row['transID'] ?>" tabindex="-1" role="dialog" aria-labelledby="itemModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="itemModalLabel">Item Names and Prices</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-title" id="itemModalLabel">Order Details</h5>
+                    
                 </div>
                 <div class="modal-body">
-                <?php
-                                // Fetch business name based on businessCode
-                                $businessCode = $row['businessCode'];
-                                $businessResult = $DB->query("SELECT busName FROM business WHERE businessCode = '$businessCode'");
-                                $businessRow = $businessResult->fetch_assoc();
-                                echo $businessRow ? $businessRow['busName'] : 'N/A';
-                                ?>
+                    <?= $row['busName']. "<br>(" . $row['branchName'] .")"?>
                     <br>
-                    <td><?= $row['paymentDate'] ?></td>
+                    <?= $row['paymentDate'] ?>
                     <br>
                     <br>
+                    <p>Order Details: </p>
                     <?php
+
                             $itemList = $row['itemList'];
 
-                            // Explode the itemList string based on commas
-                            $items = explode(', ', $itemList);
+                            // Check if itemList contains square brackets
+                            if (strpos($itemList, '[') !== false) {
+                                // Remove square brackets, quotation marks, and commas, and split the items by newline
+                                $items = explode(", ", trim(str_replace(['[', ']', '"'], '', $itemList)));
+                            } else {
+                                // Remove commas and split the items by newline
+                                $items = explode(", ", $itemList);
+                            }
 
-                            // Echo each item in a new line
+                            // Echo each item in a new line without commas
                             foreach ($items as $item) {
                                 echo $item . "<br>";
                             }
                             ?>
+
+
                     <hr>
                             <td>Total:<?= '₱' . number_format($row['totalAmount'], 2) ?></td>
                             <br>
-                            <?= $row['pickupDate']?>
                             <br>
-                            <?= $row['deliveryDate']?>
-                            <br>
-                            <?= $row['deliveryAddress'] ?> 
-                            <br>
-                            <td>Purchased by: <?= $row['clientName']?></td>
-                            <br>
-                            <td>Email: <?= $row['email']?></td>
-                            <br>
-                            <td>Mobile Number: <?= $row['mobileNumber'] ?></td>
+
+                            <?php
+                                if (isset($row['pickupDate']) && !empty($row['pickupDate'])) {
+                                    echo "Pick-up Date: " . $row['pickupDate'] . "<br>";
+                                }
+
+                                if (isset($row['deliveryDate']) && !empty($row['deliveryDate'])) {
+                                    echo "Delivery Date: " . $row['deliveryDate'] . "<br>";
+                                }
+
+                                if (isset($row['deliveryAddress']) && !empty($row['deliveryAddress'])) {
+                                    echo "Delivery Address: " . $row['deliveryAddress'] . "<br>";
+                                }
+
+                                if (isset($row['clientName']) && !empty($row['clientName'])) {
+                                    echo "Purchased by: " . $row['clientName'] . "<br>";
+                                }
+
+                                if (isset($row['email']) && !empty($row['email'])) {
+                                    echo "Email: " . $row['email'] . "<br>";
+                                }
+
+                                if (isset($row['mobileNumber']) && !empty($row['mobileNumber'])) {
+                                    $mobileNumber = $row['mobileNumber'];
+                                
+                                    // Check if the mobile number starts with '9'
+                                    if (substr($mobileNumber, 0, 1) === '9') {
+                                        // Add a leading '0' to the mobile number
+                                        $mobileNumber = '0' . $mobileNumber;
+                                    }
+                                
+                                    echo "Mobile Number: " . $mobileNumber . "<br>";
+                                }
+                            ?>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
