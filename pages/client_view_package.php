@@ -29,11 +29,16 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
 <div id="package-view" class="package-view h-100">
 
     <!-- Navigation Bar -->
-    <div class="row d-flex justify-content-start align-items-center" style="margin-left: 50px">
-        <a href="?page=client_package&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class="col-1 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
+    <div class="d-flex justify-content-between align-items-center" style="margin-left: 50px">
+        
+        <div class="d-flex">
+        <a href="?page=client_package&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class=" btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
             <i class="bi bi-arrow-left"></i>
         </a>
-        <h1 class="col-10 d-flex justify-content-start"><?= $packageDetails['packName'] ?></h1>
+        <h1 class=" d-flex justify-content-start mx-3"><?= $packageDetails['packName'] ?></h1>
+        
+        </div>
+        <button type="button" class="btn btn-primary w-25" data-bs-toggle="offcanvas" data-bs-target="#menuOffcanvas">Options</button>
     </div>
 
     <!-- Package Details Table -->
@@ -63,15 +68,15 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                     $itemDetails = $itemDetailsQ->fetch_assoc();
                     ?>
                     <tr>
-                        <td>
-                            <img src="<?= $row['itemImage'] ?>" alt="<?= $row['itemName'] ?>" style="max-width: 200px; height: 180px;"
+                        <td style="width: 250px;">
+                            <img src="<?= $row['itemImage'] ?>" alt="<?= $row['itemName'] ?>" style="width: 200px; height: 180px;"
                             onclick="openModal('<?= $row['itemImage'] ?>', '<?= $row['itemName'] ?>')">
                         </td>
-                        <td><?= $row['itemName'] ?></td>
-                        <td><?= $row['description'] ?>
-                         <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#menuOffcanvas">Menu</button>
+                        <td style="width: 200px;"><?= $row['itemName'] ?></td>
+                        <td style="width: 300px;"><?= $row['description'] ?> (see options)
+                         
                 </td>
-                <td>
+                <td style="width: 300px;">
                     <?php if (!empty($itemDetails['detailName']) && !empty($itemDetails['detailValue'])) : ?>
                         <strong><?= $itemDetails['detailName'] ?></strong>: <?= $itemDetails['detailValue'] ?>
                     <?php else : ?>
@@ -87,17 +92,27 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                     </tr>
                 <?php endforeach; ?>
             </tbody>
-            <div class="offcanvas offcanvas-start" tabindex="-1" id="menuOffcanvas" data-bs-backdrop="false" data-bs-scroll="true">
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="menuOffcanvas" data-bs-backdrop="false" data-bs-scroll="true" style="width: 350px;">
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title my-3">Catering Menu</h5>
+        <?php
+            $packageInfoQ = $DB->query("SELECT p.*, b.*, bs.* 
+            FROM package AS p 
+            JOIN branches AS b ON p.branchCode = b.branchCode 
+            JOIN business AS bs ON b.businessCode = bs.businessCode 
+            WHERE p.branchCode = '$branchCode'");
+
+    if ($row = $packageInfoQ->fetch_assoc()) :
+        ?>
+        <h5 class="offcanvas-title my-3"><?= $row['busType'] ?> Options</h5>
+        <?php endif; ?>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
         <!-- Place your menu items or content here -->
         <!-- Example: -->
         <?php 
-    // Fetch categories
-    $customCategoryQ = $DB->query("SELECT * FROM custom_category");
+   
+    $customCategoryQ = $DB->query("SELECT * FROM custom_category WHERE branchCode = '$branchCode'");
     
     while ($category = $customCategoryQ->fetch_assoc()) : ?>
         <li style="list-style-type:none;">
@@ -107,7 +122,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                 // Fetch items for each category
                 $categoryId = $category['customCategoryCode'];
                 $customItemsQ = $DB->query("SELECT * FROM custom_items WHERE customCategoryCode = '$categoryId'");
-                
+
                 while ($item = $customItemsQ->fetch_assoc()) : ?>
                     <li><?= $item['itemName'] ?></li>
                 <?php endwhile; ?>
@@ -285,6 +300,7 @@ function customizePerPax() {
             textarea.placeholder = 'Enter customization';
             textarea.className = 'form-control';
             textareaCell.appendChild(textarea);
+            textareaCell.style.width = '250px';
             row.appendChild(textareaCell);
         });
 
