@@ -6,13 +6,11 @@ $client = new \GuzzleHttp\Client();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $name = $_POST['clientName'];
-    $businessCode = $_POST['businessCode'];
     $email = $_POST['email'];
     $phone = $_POST['mobileNumber'];
     $amount = $_POST['totalAmount'];
     $businessCode = $_POST['businessCode'];
     $branchCode = $_POST['branchCode'];
-    $packCode = $_POST['packCode'];
     $clientID = $_POST['clientID'];
     $clientName = $_POST['clientName'];
     $mobileNumber = $_POST['mobileNumber'];
@@ -60,11 +58,10 @@ if (isset($encodedDetails[0]['itemName'])) {
                 ],
                 'payment_method_types' => ['card', 'gcash'],
                 'reference_number' => 'Webworks',
-                'send_email_receipt' => true,
+                'send_email_receipt' => false,
                 'show_description' => true,
-                'show_line_items' => true,
+                'show_line_items' => false,
                 'success_url' => 'http://localhost/webworks-lorem-php/?page=client_purchase&businessCode=' . $businessCode . 
-                '&packCode=' . urlencode($packCode) . 
                 '&branchCode=' . urlencode($branchCode) . 
                 '&clientID=' . urlencode($clientID) . 
                 '&clientName=' . urlencode($clientName) . 

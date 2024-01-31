@@ -1,7 +1,6 @@
 <?php
 
 $clientID = $_SESSION['userID'];
-$businessName = $_SESSION['businessName'];
 
 require_once('vendor/autoload.php');
 
@@ -24,7 +23,9 @@ function saveToDatabase( $dateCreated, $itemName, $amount, $paymentMethod, $stat
     $amount /= 100;
     $businessCode = isset($_GET['businessCode']) ? $_GET['businessCode'] : null;
     $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : null;
-    $packCode = isset($_GET['packCode']) ? $_GET['packCode'] : null;
+    $busName = isset($_GET['busName']) ? $_GET['busName'] : null;
+    $branchName = isset($_GET['branchName']) ? $_GET['branchName'] : null;
+    $packName = isset($_GET['packName']) ? $_GET['packName'] : null;
     $clientID = isset($_GET['clientID']) ? $_GET['clientID'] : null;
     $clientName = isset($_GET['clientName']) ? $_GET['clientName'] : null;
     $mobileNumber = isset($_GET['mobileNumber']) ? $_GET['mobileNumber'] : null;
@@ -36,8 +37,8 @@ function saveToDatabase( $dateCreated, $itemName, $amount, $paymentMethod, $stat
     
 
     // Insert data into the 'payment' table (customize this query based on your database structure)
-    $sql = "INSERT INTO transact (businessCode, branchCode, packCode, clientID, clientName, mobileNumber, email, pickupDate, deliveryDate, deliveryAddress, transID, paymentDate, itemList, totalAmount, paymentMethod, status) 
-            VALUES ('$businessCode', '$branchCode', '$packCode','$clientID', '$clientName','$mobileNumber', '$email', '$pDate', '$deliveryDate', '$deliveryAddress','$paymentId','$dateCreated', '$itemName', '$amount', '$paymentMethod', '$status')";
+    $sql = "INSERT INTO transact (businessCode, branchCode, busName, branchName, packName, clientID, clientName, mobileNumber, email, pickupDate, deliveryDate, deliveryAddress, transCode, paymentDate, itemList, totalAmount, paymentMethod, status) 
+            VALUES ('$businessCode', '$branchCode','$busName', '$branchName', '$packName','$clientID', '$clientName','$mobileNumber', '$email', '$pDate', '$deliveryDate', '$deliveryAddress','$paymentId','$dateCreated', '$itemName', '$amount', '$paymentMethod', '$status')";
 
     if ($DB->query($sql) === TRUE) {
         header ("Location: ?page=client-order-history");
@@ -54,13 +55,13 @@ $data = json_decode($response->getBody(), true);
 if (isset($data['data'])) {
     // Extract relevant information
     $amount                = $data['data']['attributes']['line_items'][0]['amount'];
+    $itemName              = $data['data']['attributes']['line_items'][0]['name'] ?? '';
     $dateCreatedTimestamp  = $data['data']['attributes']['created_at'];
     $dateCreated           = date('Y-m-d H:i:s', $dateCreatedTimestamp);
-    $itemName              = $data['data']['attributes']['line_items'][0]['name'] ?? '';
     $status                = "paid";
-    $sourceInfo = $data['data']['attributes']['payments'][0]['attributes']['source'] ?? null;
-    $paymentId = $data['data']['id']; 
-    $paymentMethod = $sourceInfo['type'] ?? '';
+    $sourceInfo            = $data['data']['attributes']['payments'][0]['attributes']['source'] ?? null;
+    $paymentId             = $data['data']['attributes']['payments'][0]['id'];
+    $paymentMethod         = $sourceInfo['type'] ?? '';
 
     
     // Save the information to the 'payment' table

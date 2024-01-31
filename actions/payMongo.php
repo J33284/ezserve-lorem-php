@@ -4,16 +4,13 @@ require_once('vendor/autoload.php');
 $client = new \GuzzleHttp\Client();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $name = $_POST['clientName'];
     $businessCode = $_POST['businessCode'];
-    $email = $_POST['email'];
-    $phone = $_POST['mobileNumber'];
+    $branchCode = $_POST['branchCode'];
+    $busName = $_POST['busName'];
+    $branchName = $_POST['branchName'];
+    $packName = $_POST['packName'];
     $encodedDetails = json_decode(htmlspecialchars_decode($_POST['itemList']), true);
     $amount = preg_replace('/[^0-9.]/', '', $encodedDetails['total']);
-    $businessCode = $_POST['businessCode'];
-    $packCode = $_POST['branchCode'];
-    $packCode = $_POST['packCode'];
     $clientID = $_POST['clientID'];
     $clientName = $_POST['clientName'];
     $mobileNumber = $_POST['mobileNumber'];
@@ -41,11 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'attributes' => [
                 'cancel_url' => 'https://example.com/cancel',
                 'billing' => [
-                    'name' => $name,
+                    'name' => $clientName,
                     'email' => $email,
-                    'phone' => $phone,
+                    'phone' => $mobileNumber,
                 ],
-                'description' => 'Order Description',
+                'description' => $packName,
                 'line_items' => [
                     [
                         'amount' => $amount * 100, 
@@ -55,13 +52,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ],
                 ],
                 'payment_method_types' => ['card', 'gcash'],
-                'reference_number' => 'EzServe',
-                'send_email_receipt' => true,
+                'reference_number' => 'Reference',
+                'send_email_receipt' => false,
                 'show_description' => true,
-                'show_line_items' => true,
-                'success_url' => 'http://localhost/webworks-lorem-php/?page=client_purchase&businessCode=' . $businessCode . 
-                '&packCode=' . urlencode($packCode) . 
-                '&branchCode=' . urlencode($branchCode) . 
+                'show_line_items' => false,
+                'success_url' => 'http://localhost/webworks-lorem-php/?page=client_purchase&busName=' . $busName . 
+                '&packName=' . urlencode($packName) . 
+                '&branchName=' . urlencode($branchName) . 
+                '&businessCode=' . urlencode($businessCode) .
+                '&branchCode=' . urlencode($branchCode) .
                 '&clientID=' . urlencode($clientID) . 
                 '&clientName=' . urlencode($clientName) . 
                 '&mobileNumber=' . urlencode($mobileNumber) . 
@@ -70,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 '&deliveryDate=' . urlencode($deliveryDate) . 
                 '&deliveryAddress=' . urlencode($deliveryAddress),
 
-                'statement_descriptor' => 'Payment Example',
+                'statement_descriptor' => 'Payment',
             ],
         ],
     ];

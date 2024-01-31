@@ -4,7 +4,6 @@ if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['action'] === 'customOnsite') {
     $businessCode = $_POST['businessCode'];
     $branchCode = $_POST['branchCode'];
-    $packCode = $_POST['packCode'];
     $clientID = $_POST['clientID'];
     $clientName = $_POST['clientName'];
     $mobileNumber = $_POST['mobileNumber'];
@@ -32,8 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['ac
 
     $totalAmount = $_POST['totalAmount'];
 
-    $insertQuery = "INSERT INTO transact (branchCode, transCode, packCode, clientID, clientName, mobileNumber, email, businessCode, itemList, totalAmount, paymentMethod, status, pickupDate, deliveryDate, deliveryAddress )
-                    VALUES ('$branchCode', '$transCode', '$packCode', '$clientID', '$clientName', '$mobileNumber', '$email', '$businessCode', '$serializedItemsString', '$totalAmount', '$paymentMethod', '$status', '$pDate', '$dDate', '$dAddress')";
+    $insertQuery = "INSERT INTO transact (businessCode, branchCode, transCode, clientID, clientName, mobileNumber, email, itemList, totalAmount, paymentMethod, status, pickupDate, deliveryDate, deliveryAddress )
+                    VALUES ('$businessCode', '$branchCode', '$transCode', '$clientID', '$clientName', '$mobileNumber', '$email', '$serializedItemsString', '$totalAmount', '$paymentMethod', '$status', '$pDate', '$dDate', '$dAddress')";
 
     // Execute the query
     $DB->query($insertQuery);
@@ -46,14 +45,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['ac
 
 
 <?php
-function generateRandomTransID($length = 10) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+function generateRandomTransID($length = 20) {
+    $characters = '0123456789';
     $randomString = '';
 
     for ($i = 0; $i < $length; $i++) {
         $randomString .= $characters[rand(0, strlen($characters) - 1)];
     }
 
-    return $randomString;
+    return  'EzServe_' . $randomString;
 }
 ?>

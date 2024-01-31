@@ -1,5 +1,5 @@
 
-<?php
+<!--php
 
 $checkoutDataJSON = $_GET['checkoutData'];
 $checkoutData = json_decode(urldecode($checkoutDataJSON), true);
@@ -8,7 +8,7 @@ $checkoutData = json_decode(urldecode($checkoutDataJSON), true);
 echo '<pre>';
 print_r($checkoutData);
 echo '</pre>';  
-?>
+? -->
 
 
 <?php
@@ -79,7 +79,7 @@ if (isset($_GET['checkoutData'])) {
                 <label class="form-check-label" for="pickUpCheckbox">Pick-up</label>
             </div>
             <div class="col-5">
-                <input type="date" class="form-control" name="pDate" id="pick-up" style="display: none;">
+                <input type="date" class="form-control" id="pDate" name="pDate"  style="display: none;">
             </div>
         </div>
         <div class="form-check">
@@ -181,17 +181,37 @@ if (isset($_GET['checkoutData'])) {
         </div>
 
 
-        <!--a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"  href="?page=voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>&grandTotal=<?= $grandTotal ?>">
+        <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"  href="?page=voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>&grandTotal=<?= $numericTotal ?>">
         <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
         <i class="bi bi-chevron-right float end col-2"></i>
-        </a>-->
+        </a>
 
-               
+        <?php
+        $selectBusinessQuery = "SELECT BusName FROM business WHERE businessCode = '$businessCode'";
+        $businessResult = $DB->query($selectBusinessQuery);
+        $businessRow = $businessResult->fetch_assoc();
+        $busName = $businessRow['BusName'];
+        
+        // Query to select branch name based on branch code
+        $selectBranchQuery = "SELECT branchName FROM branches WHERE branchCode = '$branchCode'";
+        $branchResult = $DB->query($selectBranchQuery);
+        $branchRow = $branchResult->fetch_assoc();
+        $branchName = $branchRow['branchName'];
+        
+        // Query to select package name based on package code
+        $selectPackageQuery = "SELECT packName FROM package WHERE packCode = '$packCode'";
+        $packageResult = $DB->query($selectPackageQuery);
+        $packageRow = $packageResult->fetch_assoc();
+        $packName = $packageRow['packName'];
+        
+        ?>
 
         <form action="?action=payMongo" method="post">
             <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
             <input type="hidden" name="branchCode" value="<?= $branchCode ?>" >
-            <input type="hidden" name="packCode" value="<?= $packCode ?>">
+            <input type="hidden" name="busName" value="<?= $busName ?>" >
+            <input type="hidden" name="branchName" value="<?= $branchName ?>" >
+            <input type="hidden" name="packName" value="<?= $packName ?>">
             <input type="hidden" name="clientID" value="<?= $clientID ?>">
             <input type="hidden" name="clientName" value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>">
             <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">
@@ -208,7 +228,9 @@ if (isset($_GET['checkoutData'])) {
         <form action="?action=onsite" method="post">
             <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
             <input type="hidden" name="branchCode" value="<?= $branchCode ?>" >
-            <input type="hidden" name="packCode" value="<?= $packCode ?>">
+            <input type="hidden" name="busName" value="<?= $busName ?>" >
+            <input type="hidden" name="branchName" value="<?= $branchName ?>" >
+            <input type="hidden" name="packName" value="<?= $packName ?>">
             <input type="hidden" name="clientID" value="<?= $clientID ?>">
             <input type="hidden" name="clientName" value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>">
             <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">
@@ -222,8 +244,9 @@ if (isset($_GET['checkoutData'])) {
             Place Order
             </button>
         </form>
-        </div>
+    
     </div>
+</div>
    
 
 
@@ -231,7 +254,7 @@ if (isset($_GET['checkoutData'])) {
 
 document.addEventListener('DOMContentLoaded', function () {
     var pickUpCheckbox = document.getElementById('pickUpCheckbox');
-    var pickUpDateField = document.getElementById('pick-up');
+    var pickUpDateField = document.getElementById('pDate');
     var deliveryCheckbox = document.getElementById('deliveryCheckbox');
     var deliveryFields = document.getElementById('deliveryFields');
 
@@ -298,20 +321,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    function submitSecondForm() {
-        // Get values from the first set of input fields
-        var pDate = document.getElementById("pick-up").value;
-        var deliveryAddress = document.getElementById("deliveryAddress").value;
-        var deliveryDate = document.getElementById("deliveryDate").value;
 
-        // Set values in the second form
-        document.getElementsByName("pDate")[0].value = pDate;
-        document.getElementsByName("deliveryAddress")[0].value = deliveryAddress;
-        document.getElementsByName("deliveryDate")[0].value = deliveryDate;
+function submitSecondForm() {
+    // Get the values from the first form
+    var pDateValue = document.getElementById('pDate').value;
+    var deliveryDateValue = document.getElementById('deliveryDate').value;
+    var deliveryAddressValue = document.getElementById('deliveryAddress').value;
 
-        // Submit the second form
-        document.getElementById("secondForm").submit();
-    }
+    // Set the values for the hidden inputs in the second form
+    document.querySelector('form[action="?action=onsite"] input[name="pDate"]').value = pDateValue;
+    document.querySelector('form[action="?action=onsite"] input[name="deliveryDate"]').value = deliveryDateValue;
+    document.querySelector('form[action="?action=onsite"] input[name="deliveryAddress"]').value = deliveryAddressValue;
+
+    // Continue with form submission
+}
+
+
+
 </script>
 
 

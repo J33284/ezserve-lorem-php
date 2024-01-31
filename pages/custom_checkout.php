@@ -83,7 +83,7 @@ if (isset($_POST['orderDetails'])) {
                 <label class="form-check-label" for="pickUpCheckbox">Pick-up</label>
             </div>
             <div class="col-5">
-                <input type="date" class="form-control" name="pDate" id="pick-up" style="display: none;">
+                <input type="date" class="form-control" name="pDate" id="pDate" style="display: none;">
             </div>
         </div>
         <div class="form-check">
@@ -166,17 +166,16 @@ if (isset($_POST['orderDetails'])) {
 
 
 
-        <!--a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"  href="?page=voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>&grandTotal=<?= $grandTotal ?>">
+        <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"  href="?page=voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>&grandTotal=<?= $grandTotal ?>">
         <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
         <i class="bi bi-chevron-right float end col-2"></i>
-        </a>-->
+        </a>
 
                
 
         <form action="?action=customPayMongo" method="post">
             <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
             <input type="hidden" name="branchCode" value="<?= $branchCode ?>" >
-            <input type="hidden" name="packCode" value="0">
             <input type="hidden" name="clientID" value="<?= $clientID ?>">
             <input type="hidden" name="clientName" value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>">
             <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">
@@ -194,7 +193,6 @@ if (isset($_POST['orderDetails'])) {
         <form action="?action=customOnsite" method="post">
             <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
             <input type="hidden" name="branchCode" value="<?= $branchCode ?>" >
-            <input type="hidden" name="packCode" value="0">
             <input type="hidden" name="clientID" value="<?= $clientID ?>">
             <input type="hidden" name="clientName" value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>">
             <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">
@@ -290,20 +288,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    function submitSecondForm() {
-        // Get values from the first set of input fields
-        var pDate = document.getElementById("pick-up").value;
-        var deliveryAddress = document.getElementById("deliveryAddress").value;
-        var deliveryDate = document.getElementById("deliveryDate").value;
+function submitSecondForm() {
+    // Get the values from the first form
+    var pDateValue = document.getElementById('pDate').value;
+    var deliveryDateValue = document.getElementById('deliveryDate').value;
+    var deliveryAddressValue = document.getElementById('deliveryAddress').value;
 
-        // Set values in the second form
-        document.getElementsByName("pDate")[0].value = pDate;
-        document.getElementsByName("deliveryAddress")[0].value = deliveryAddress;
-        document.getElementsByName("deliveryDate")[0].value = deliveryDate;
+    // Set the values for the hidden inputs in the second form
+    document.querySelector('form[action="?action=onsite"] input[name="pDate"]').value = pDateValue;
+    document.querySelector('form[action="?action=onsite"] input[name="deliveryDate"]').value = deliveryDateValue;
+    document.querySelector('form[action="?action=onsite"] input[name="deliveryAddress"]').value = deliveryAddressValue;
 
-        // Submit the second form
-        document.getElementById("secondForm").submit();
-    }
+    // Continue with form submission
+}
 </script>
 
 
