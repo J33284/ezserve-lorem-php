@@ -11,24 +11,24 @@ if (isset($_GET['ownerID'])) {
 $keyword = "";
 $results = [];
 
-if (isset($_POST['keyword'])) {
-    $keyword = $_POST['keyword'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['keyword'])) {
+        $keyword = $_POST['keyword'];
 
-    $sql = "SELECT b.*, bo.fname, bo.lname
-        FROM business b
-        LEFT JOIN business_owner bo ON b.ownerID = bo.ownerID
-        WHERE b.status = 1
-        AND (
-            b.busName COLLATE utf8mb4_unicode_ci LIKE '%$keyword%'
-            OR b.busType COLLATE utf8mb4_unicode_ci LIKE '%$keyword%'
-            OR bo.fname COLLATE utf8mb4_unicode_ci LIKE '%$keyword%'
-            OR bo.lname COLLATE utf8mb4_unicode_ci LIKE '%$keyword%'
-        )";
+        // Use prepared statements to prevent SQL injection
+        $sql = "SELECT bo.*
+                FROM business_owner bo
+                WHERE bo.status = 1
+                AND (
+                    fname COLLATE utf8mb4_unicode_ci LIKE '%$keyword%' OR lname COLLATE utf8mb4_unicode_ci LIKE '%$keyword%'
+                )";
 
-    $results = $DB->query($sql);
-} else {
-    $results = $businesses;
-}
+       
+        $results = $DB->query($sql);
+    }
+    else {
+      $results = $accounts;
+    }}
 
 ?>
 
@@ -43,9 +43,9 @@ if (isset($_POST['keyword'])) {
         <form method="post" action="">
         <div id="searchbar" class="d-flex my-3 float-end">
             <input type="search" class="form-control rounded" id="searchKeyword" placeholder="Search" aria-label="Search" aria-describedby="search-addon" name="keyword" value="<?= $keyword ?>" />
-            <span class="search-btn input-group-text border-0">
+            <button type="submit" class="search-btn btn btn-primary input-group-text border-0">
                 <i class="bi bi-search"></i>
-            </span>
+            </button>
         </div>
     </form>
     </div>
@@ -61,7 +61,7 @@ if (isset($_POST['keyword'])) {
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($accounts as $index => $account) : ?>
+                <?php foreach ($results as $index => $account) : ?>
                     <tr>
                         <td scope="row" class="bg-transparent border border-white"><?= $index + 1 ?></td>
                         <td class="bg-transparent border border-white d-flex justify-content-between">
@@ -79,8 +79,13 @@ if (isset($_POST['keyword'])) {
         </table>
 
         <?php foreach ($accounts as $account) : ?>
+            <?php
+            // Fetch businesses for each owner
+            $ownerID = $account['ownerID'];
+            $businesses = $DB->query("SELECT b.* FROM business b WHERE b.status = 1 AND b.ownerID = $ownerID");
+            ?>
             <div class="offcanvas offcanvas-top overflow-auto p-3 rounded" style="width: 50vw; height: 90vh; margin:40px 0 0 25vw;" tabindex="-1" id="offcanvasAccount<?= $account['ownerID'] ?>" data-bs-backdrop="static">
-                <div class="p-3">
+                  <div class="p-3">
                     <div class="offcanvas-header p-0">
                         <h2 class="offcanvas-title" id="offcanvasExampleLabel">Owner's Account Information</h2>
                         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -109,45 +114,38 @@ if (isset($_POST['keyword'])) {
                         </div>
                        
                         <div class="Business-list">
-                            <table class="table table-hover table-responsive table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Business Name</th>
-                                        <th>Business Type</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                  
-                                    
-                                <?php
-                                    if ($results !== null) {
-                                        if ($results->num_rows > 0) {
-                                            while ($business = $results->fetch_assoc()) {
-                                                ?>
-                                                <tr>
-                                                    <td><?= $business['busName'] ?></td>
-                                                    <td><?= $business['busType'] ?></td>
-                                                </tr>
-                                                <?php
-                                            }
-                                        } else {
-                                            ?>
-                                            <tr>
-                                                <td colspan="2">No businesses found.</td>
-                                            </tr>
-                                            <?php
-                                        }
-                                    }
+                    <table class="table table-hover table-responsive table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Business Name</th>
+                                <th>Business Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            if ($businesses !== null && $businesses->num_rows > 0) {
+                                while ($business = $businesses->fetch_assoc()) {
                                     ?>
-
-
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                                    <tr>
+                                        <td><?= $business['busName'] ?></td>
+                                        <td><?= $business['busType'] ?></td>
+                                    </tr>
+                                    <?php
+                                }
+                            } else {
+                                ?>
+                                <tr>
+                                    <td colspan="2">No businesses found.</td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
+                        </tbody>
+                    </table>
                 </div>
-            </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
 
             <div class="offcanvas offcanvas-top overflow-auto p-3 rounded" style="width: 50vw; height: 60vh; margin: 50px 0 0 25vw;" tabindex="-1" id="offcanvasDelete<?= $account['ownerID'] ?>"  data-bs-backdrop="static" >
                 <div class="p-3">
@@ -158,7 +156,25 @@ if (isset($_POST['keyword'])) {
                     
                     <p>You are about to delete the owner's account.</p>
                     <p class="text-justify">Before proceeding with the deletion of the owner's account, kindly specify the reason(s) for this action. The owner will receive an email notification stating the reason for the account deletion.</p>
-                    <textarea class="form-control mb-3" id="deleteReason<?= $account['ownerID'] ?>" rows="3"></textarea>
+                    <div class="reasons my-4">
+                        <p> Select a reason for the deletion request</p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault"> Created another account</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault"> Requested for account deletion</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault"> Violation of Terms and Condition</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault"> Account Inactivity</label>
+                        </div>
+                    </div>
                     <form method="post" action="delete_owner.php" >
                         <input type="hidden" name="ownerID" value="<?= $account['ownerID'] ?>">
                         <button type="submit" class="btn btn-danger float-end">Confirm Delete</button>
