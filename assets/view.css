@@ -243,9 +243,7 @@ profile page*/
 h1{
   font-family: "Arvo";
 }
-.btn-edit{
-  color: #161616;
-}
+
 /* cards*/
 .purchase .card, .voucher .card, .own_vouch .card{
   margin: 20px 0px;
