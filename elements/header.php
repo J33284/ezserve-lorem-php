@@ -1,6 +1,6 @@
 <?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); 
 
-$current_page = isset($_GET['page']) ? $_GET['page'] : 'default'; // Get the current page or default to 'default'
+$current_page = isset($_GET['page']) ? $_GET['page'] : 'default'; 
 
 ?>
 
@@ -44,9 +44,15 @@ $current_page = isset($_GET['page']) ? $_GET['page'] : 'default'; // Get the cur
           
                 <?php if (isset($_SESSION[AUTH_ID])) { ?>
             <li class="dropdown">
-                <a class="" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class=" profile-logo bi-person-fill"></i>
+            <?php if (isset($_SESSION[AUTH_NAME])): ?>
+                <a class="d-flex" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle" style="font-size: 45px"></i>
                 </a>
+            <?php else: ?>
+                <a class="d-flex" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-fill"></i>
+                </a>
+            <?php endif; ?>
                 <ul class="dropdown-menu w-auto" aria-labelledby="navbarDropdown">
                     <?php if ($_SESSION[AUTH_TYPE] === 'client') { ?>
                         <div class="d-flex mx-3 justify-content-start align-items-center">
@@ -146,7 +152,7 @@ $current_page = isset($_GET['page']) ? $_GET['page'] : 'default'; // Get the cur
             justify-content: center;
         }
         .burger-menu li a{
-                display: block!important;
+                
                 color: #f1f1f1;
                 text-decoration: none;
                 font-size: 20px;

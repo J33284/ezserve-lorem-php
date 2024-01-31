@@ -30,9 +30,6 @@ $result = $DB->query($sql);
                 <h1 >My Business</h1>
                 </div>
                 
-                <a href="?page=bus-register" id="registerButton" class="btn-edit btn-md btn btn-outline-dark float-end mt-4 " >
-                <i class="bi bi-plus-square" style="color: black;">Register your business here!</i>
-                </a>
             </div>
 
     

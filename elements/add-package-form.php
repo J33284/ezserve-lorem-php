@@ -117,11 +117,41 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
                 <textarea class="form-control mb-3" id="${itemDescriptionId}" name="itemDescription[${itemIndex}][]" placeholder="Description"></textarea>
                 <input class="form-control mb-3" type="number" id="${quantityId}" name="quantity[${itemIndex}][]" placeholder="Quantity">
                 <select class="form-select mb-3" id="${unitId}" name="unit[${itemIndex}][]">
-                    <option value="" disabled selected>Select a unit</option>
+                    <option value="" disabled selected>--Select a unit--</option>
+                    <option disabled>--Container--</option>
                     <option value="bag">bag</option>
                     <option value="box">box</option>
                     <option value="bottle">bottle</option>
                     <option value="bundle">bundle</option>
+                    <option value="bundle">packet</option>
+                    <option disabled>--Portion--</option>
+                    <option value="bag">platter</option>
+                    <option value="box">tray</option>
+                    <option value="bottle">plate</option>
+                    <option value="bundle">bowl</option>
+                    <option value="bundle">bucket</option>
+                    <option disabled>--Liqiuds--</option>
+                    <option value="bag">gallon</option>
+                    <option value="box">liter</option>
+                    <option value="bottle">ounce(oz)</option>
+                    <option value="bundle">cups</option>
+                    <option value="bundle">pitcher</option>
+                    <option value="bundle">can</option>
+                    <option disabled>--Dimension--</option>
+                    <option value="bag">kilometer(km)</option>
+                    <option value="box">meter(m)</option>
+                    <option value="bottle">centimeter(cm)</option>
+                    <option value="bundle">inch(in)</option>
+                    <option value="bundle">foot(ft)</option>
+                    <option value="bundle">yard(yd)</option>
+                    <option disabled>--Time--</option>
+                    <option value="bag">hour</option>
+                    <option value="box">minute</option>
+                    <option value="bottle">day</option>
+                    <option value="bundle">week</option>
+                    <option value="bundle">shift</option>
+                    <option value="bundle">session</option>
+                    <option value="bundle">month</option>
                 </select>
                 
                 <div id="${priceId}Section">
