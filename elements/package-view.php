@@ -41,7 +41,7 @@ $itemsResults = $DB->query($itemsQuery);
                 ?>
                 <?php if ($package['pricingType'] == 'per pax') { ?>
                     <!-- Code for 'per pax' pricing type -->
-                    <div class="card flex-row my-3" style="padding: 30px;" data-item-code="<?php echo $item['itemCode']; ?>">
+                    <div class="card flex-row my-3" style="padding: 30px;" data-item-code="<?php echo $item['itemCode']; ?>" >
                         <div class="col-3">
                             <img class="rounded-5" src="<?php echo $item['itemImage'];?>" alt="Item Image" style="width: 10rem; height: 10rem">
                         </div>
@@ -51,7 +51,7 @@ $itemsResults = $DB->query($itemsQuery);
                                 <input type="text" class="form-control" id="editItemName" placeholder="Enter new item name" style="display:none; height:40px; width:50%" value="<?php echo $item['itemName']; ?>">
 
                                 <div class="d-flex">
-                                <a href="#" id="editButton" class="btn-edit btn btn-primary" onclick="toggleEditable('<?php echo $item['itemCode']; ?>')">
+                                <a href="#" id="editButton" class="btn-edit btn btn-primary mx-3" onclick="toggleEditable('<?php echo $item['itemCode']; ?>')">
                                 <i class="bi bi-pencil-fill"></i>
                                 <span>Edit</span>
                                 </a>
@@ -59,7 +59,7 @@ $itemsResults = $DB->query($itemsQuery);
                                 <i class="bi bi-trash"></i>
                                 <span>Delete</span>
                                  </a>
-                                 <a href="#" id="saveButton" class="btn-delete btn btn-primary" style="display:none;" >
+                                 <a href="#" id="saveButton" class="btn-delete btn btn-primary mx-3" style="display:none;" onclick="saveChanges('<?php echo $item['itemCode']; ?>')">
                                 <i class="bi bi-trash"></i>
                                 <span>Save</span>
                                  </a>
@@ -88,32 +88,49 @@ $itemsResults = $DB->query($itemsQuery);
                 <?php } else { ?>
                     <div class="card flex-row my-3" style="padding: 30px;" data-item-code="<?php echo $item['itemCode']; ?>">
                         <div class="col-3">
-                            <img src="<?php echo $item['itemImage'];?>" alt="Item Image" style="width: 10rem; height: 10rem">
-                        </div>
-                        <div class="col-6">
+                            <img class="rounded-5" src="<?php echo $item['itemImage'];?>" alt="Item Image" style="width: 10rem; height: 10rem">
+                        </div >
+                        <div class="col-8">
                             <div class="d-flex justify-content-between">
-                                <h4><?php echo $item['itemName']; ?></h4>
-                                <div>
-                                <a href="#" id="editButton" class="btn-edit btn btn-outline-dark" onclick="toggleEditable('<?php echo $item['itemCode']; ?>')">
+                                <h4 id="itemNameDisplay" style="display:block"><?php echo $item['itemName']; ?></h4>
+                                <input type="text" class="form-control" id="editItemName" placeholder="Enter new item name" style="display:none; height:40px; width:50%" value="<?php echo $item['itemName']; ?>">
+
+                                <div class="d-flex">
+                                <a href="#" id="editButton" class="btn-edit btn btn-primary mx-3" onclick="toggleEditable('<?php echo $item['itemCode']; ?>')">
                                 <i class="bi bi-pencil-fill"></i>
                                 <span>Edit</span>
                                 </a>
-                                <a href="#" id="deleteButton" class="btn-delete btn btn-outline-dark" style="display:block" >
+                                <a href="#" id="deleteButton" class="btn-delete btn btn-danger" style="display:block">
                                 <i class="bi bi-trash"></i>
                                 <span>Delete</span>
                                  </a>
-                                 
-                                </div>
+                                 <a href="#" id="saveButton" class="btn-delete btn btn-primary mx-3" style="display:none;" onclick="saveChanges('<?php echo $item['itemCode']; ?>')">
+                                <i class="bi bi-trash"></i>
+                                <span>Save</span>
+                                 </a>
+                                 <a href="#" id="cancelButton" class="btn-delete btn btn-secondary" style="display:none" onclick="cancelEdit('<?php echo $item['itemCode']; ?>')">
+                                <i class="bi bi-trash"></i>
+                                <span>Cancel</span>
+                                 </a>
+                            </div>
+                                
                             </div>
                             
+                            
                             <hr>
+                            <div>
                             <label><strong>Description:</strong></label>
-                            <p><?php echo $item['description']; ?></p>
-                            <p>Quantity: <?php echo $item['quantity'] ." ".  $item['unit']; ?></p>
-                            <p>Price: <?php echo $item['price']; ?></p>
-                            <?php while ($detail = $detailsResults->fetch_assoc()) { ?>
+                            <p class="m-0" id="descriptionDisplay" style="display:block; "><?php echo $item['description']; ?></p>
+                            <input class="form-control" id="editDescription" style="display:none; margin-bottom: 10px;" value="<?php echo $item['description']; ?>"></input>
+                            <p class="m-0" id="quantityDisplay" style="display:block;">Quantity: <?php echo $item['quantity'] ." ".  $item['unit']; ?></p>
+                            <input class="form-control" id="editQuantity" style="display:none;margin-bottom: 10px; " value="<?php echo $item['quantity']; ?>"></input>
+                            <p class="m-0" id="priceDisplay" style="display:block;"><strong>Price: <?php echo $item['price']; ?></strong></p>
+                            <input class="form-control" id="editPrice" style="display:none; " value="<?php echo $item['price']; ?>"></input>
+                               <?php while ($detail = $detailsResults->fetch_assoc()) { ?>
                                 <p><strong><?php echo $detail['detailName']; ?>:</strong> <?php echo $detail['detailValue']; ?></p>
                             <?php } ?>
+                            </div>
+                            
                         </div>
                     </div>
                 <?php } ?>
@@ -128,6 +145,10 @@ $itemsResults = $DB->query($itemsQuery);
 
         toggleVisibility("descriptionDisplay", itemCode);
         toggleVisibility("editDescription", itemCode);
+        toggleVisibility("quantityDisplay", itemCode);
+        toggleVisibility("editQuantity", itemCode);
+        toggleVisibility("priceDisplay", itemCode);
+        toggleVisibility("editPrice", itemCode);
 
         toggleVisibility("deleteButton", itemCode);
         toggleVisibility("saveButton", itemCode);
@@ -168,5 +189,46 @@ $itemsResults = $DB->query($itemsQuery);
     // Reset display
     toggleEditable(itemCode);
 }
+
+
+
+
+
+
+function saveChanges(itemCode) {
+    var newItemName = document.getElementById("editItemName").value;
+    var newDescription = document.getElementById("editDescription").value;
+    var newQuantity = document.getElementById("editQuantity").value;
+    var newPrice = document.getElementById("editPrice").value;
+
+    // Perform AJAX request to save changes
+    $.ajax({
+        type: "POST",
+        url: "update_changes.php", 
+        data: {
+            itemCode: itemCode,
+            newItemName: newItemName,
+            newDescription: newDescription,
+            newQuantity: newQuantity,
+            newPrice: newPrice
+        },
+        success: function(response) {
+            // Update displayed values
+            document.getElementById("itemNameDisplay").innerText = newItemName;
+            document.getElementById("descriptionDisplay").innerText = newDescription;
+            document.getElementById("quantityDisplay").innerText = newQuantity;
+            document.getElementById("priceDisplay").innerText = newPrice;
+
+            // Reset display
+            toggleEditable(itemCode);
+        },
+        error: function(error) {
+            // Handle error
+            console.error("Error saving changes:", error);
+        }
+    });
+}
+
+
 </script>
 

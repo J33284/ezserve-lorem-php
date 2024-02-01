@@ -118,6 +118,7 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
                 <input class="form-control mb-3" type="number" id="${quantityId}" name="quantity[${itemIndex}][]" placeholder="Quantity">
                 <select class="form-select mb-3" id="${unitId}" name="unit[${itemIndex}][]">
                     <option value="" disabled selected>--Select a unit--</option>
+                    <option value="bag">piece/s</option>
                     <option disabled>--Container--</option>
                     <option value="bag">bag</option>
                     <option value="box">box</option>
