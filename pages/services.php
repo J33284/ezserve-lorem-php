@@ -15,7 +15,8 @@ $results = [];
 if (isset($_POST['keyword'])) {
   $keyword = $_POST['keyword'];
 
-  $sql = "SELECT * FROM business WHERE status = 1 AND (busName COLLATE utf8mb4_unicode_ci LIKE '%$keyword%' OR busType COLLATE utf8mb4_unicode_ci LIKE '%$keyword%')";
+  $sql = "SELECT * FROM business WHERE status = 1 
+  AND (busName COLLATE utf8mb4_unicode_ci LIKE '%$keyword%' OR busType COLLATE utf8mb4_unicode_ci LIKE '%$keyword%')";
 
   $results = $DB->query($sql);
 }

@@ -153,18 +153,31 @@ $businesses = $DB->query("SELECT b.*, bo.* FROM business b
                             $taxPath = $business['tax']; // Assuming the file path is stored in the 'tax' field
 
                             // Function to display file information and content
-                            function displayFile($filePath, $fileType)
+                            function displayFile($filePath, $fileType, $portraitWidth = null, $portraitHeight = null, $landscapeWidth = null, $landscapeHeight = null)
                             {
                                 if (file_exists($filePath)) {
                                     $fileInfo = pathinfo($filePath);
                                     $fileName = $fileInfo['basename'];
 
                                     echo "<p>File Name: $fileName</p>";
+                                    // Get image dimensions
+                                    list($originalWidth, $originalHeight) = getimagesize($filePath);
+
+                                    // Calculate aspect ratio
+                                    $aspectRatio = $originalWidth / $originalHeight;
+
+                                    // Determine whether the image is portrait or landscape
+                                    $isPortrait = ($aspectRatio < 1);
+
+                                    // Set the width and height based on orientation
+                                    $width = $isPortrait ? $portraitWidth : $landscapeWidth;
+                                    $height = $isPortrait ? $portraitHeight : $landscapeHeight;
 
                                     // Display file content for images
                                     $allowedImageFormats = array("jpg", "jpeg", "png");
                                     if (in_array(strtolower($fileInfo['extension']), $allowedImageFormats)) {
-                                        echo "<img src='$filePath' alt='Uploaded Image' class='img-fluid'>";
+                                         echo "<img src='$filePath' alt='$fileType' style='width:{$width}px; height:{$height}px;'>";
+
                                     } else {
                                         // Display file content for other file types using appropriate tags
                                         if ($fileInfo['extension'] === 'pdf') {
@@ -182,15 +195,15 @@ $businesses = $DB->query("SELECT b.*, bo.* FROM business b
 
                             // Display permits
                             echo "<h6><strong>Permits</strong></h6>";
-                            displayFile($permitPath, 'Permits');
+                            displayFile($permitPath, 'Permits',  500, 900, 800, 400);
 
                             // Display sanitary
                             echo "<h6><strong>Sanitary</strong></h6>";
-                            displayFile($sanitaryPath, 'Sanitary');
+                            displayFile($sanitaryPath, 'Sanitary', 500, 900,  800, 400);
 
                             // Display tax
                             echo "<h6><strong>Tax</strong></h6>";
-                            displayFile($taxPath, 'Tax');
+                            displayFile($taxPath, 'Tax',500, 900,  800, 400);
                             ?>
 
                      

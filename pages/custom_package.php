@@ -24,7 +24,13 @@ $categoriesResult = $DB->query($categoriesQuery);
                 </div>
 </div>
         <div class="d-flex align-items-center" >
-            <div class="package-details overflow-auto col-5 card bg-opacity-25 bg-white py-5 mx-4 px-4" style="height: 100vh; width: 70vw;">
+            <div class="package-details overflow-auto col-5 card bg-opacity-25 bg-white mx-4 px-4" style="height: 100vh; width: 70vw;">
+                        <div class="text-end mb-3">
+                            <a href="?page=add_custom_package&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class="btn-edit btn btn-primary btn-md text-white mt-4">
+                            <i class="bi bi-plus-square"></i>
+                            <span>Add Category</span>
+                        </a>
+                    </div>
                 <div class="accordion" id="accordionFlushExample">
                     <?php
                     while ($category = $categoriesResult->fetch_assoc()) {
@@ -36,6 +42,7 @@ $categoriesResult = $DB->query($categoriesQuery);
                                     <?= $category['categoryName'] ?>
                                 </button>
                             </h2>
+                            
                             <div id="flush-collapse<?= $categoryCode ?>" class="accordion-collapse collapse" aria-labelledby="flush-heading<?= $categoryCode ?>" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body overflow-auto" style="height: 65vh">
                                     <table class="table table-hover table-responsive">
@@ -59,28 +66,54 @@ $categoriesResult = $DB->query($categoriesQuery);
                                                 $detailsResult = $DB->query($detailsQuery);
                                                 $details = $detailsResult->fetch_assoc();
                                                 ?>
-                                                <tr>
-                                                    <td><?= $item['itemName'] ?></td>
-                                                    <td><?= $item['description'] ?></td>
-                                                    <td><?= $item['price'] ?></td>
+                                                <tr data-item-code="<?php echo $item['itemCode']; ?>">
                                                     <td>
-                                                        <?php
-                                                        if (!empty($details['detailName']) && !empty($details['detailValue'])) {
-                                                            echo $details['detailName'] . ': ' . $details['detailValue'];
-                                                        } else {
-                                                            echo 'N/A';
-                                                        }
+                                                        <p id="nameDisplay<?= $item['itemCode']; ?>" style="display:block"><?= $item['itemName'] ?></p>
+                                                        <input type="text" class="form-control" id="editName<?= $item['itemCode']; ?>" placeholder="Enter new item name" style="display:none;" value="<?php echo $item['itemName']; ?>">
+                                                    </td>
+                                                    <td>
+                                                        <p id="descriptionDisplay<?= $item['itemCode']; ?>" style="display:block"><?= $item['description'] ?></p>
+                                                        <input type="text" class="form-control" id="editDescription<?= $item['itemCode']; ?>" placeholder="Enter new description" style="display:none;" value="<?php echo $item['description']; ?>">
+                                                    
+                                                    </td>
+                                                    <td>
+                                                        <p id="priceDisplay<?= $item['itemCode']; ?>" style="display:block"><?= $item['price'] ?></p>
+                                                        <input type="text" class="form-control" id="editPrice<?= $item['itemCode']; ?>" placeholder="Enter new price" style="display:none; width: 80px" value="<?php echo $item['price']; ?>">
+                                                    
+                                                    </td>
+                                                    <td>
+                                                    <?php if (!empty($details['detailName']) && !empty($details['detailValue'])) { ?>
+                                                        <p id="detailsDisplay<?= $item['itemCode']; ?>" style="display: block;"><?php echo $details['detailName'] . ': ' . $details['detailValue']; ?></p>
+                                                        <div id="editDetails<?= $item['itemCode']; ?>" style="display: none;">
+                                                            <input type="text" class="form-control" id="editDetailName<?= $item['itemCode']; ?>" placeholder="Enter new detail name" value="<?php echo $details['detailName']; ?>">
+                                                            <input type="text" class="form-control" id="editDetailValue<?= $item['itemCode']; ?>" placeholder="Enter new detail value" value="<?php echo $details['detailValue']; ?>">
+                                                        </div>
+                                                    <?php } else { 
+                                                        echo 'N/A';
+                                                    }
                                                         ?>
+                                                       
                                                     </td>
 
                                                     <td class="flex-column">
-                                                        <div class="btn btn-primary btn-sm">
-                                                            <i class="bi bi-pencil "></i>
-                                                            <span>Edit</span>
-                                                        </div>
-                                                        <div class="btn btn-danger btn-sm">
-                                                            <i class="bi bi-trash"></i>
-                                                            <span>Delete</span>
+                                                    <div class="d-flex">
+                                                    <a href="#" id="editButton" class="btn-edit btn btn-primary " onclick="toggleEditable('<?php echo $item['itemCode']; ?>')">
+                                                        <i class="bi bi-pencil-fill"></i>
+                                                        <span>Edit</span>
+                                                    </a>
+                                                    <a href="#" id="deleteButton" class="btn-delete btn btn-danger mx-3" style="display:block">
+                                                        <i class="bi bi-trash"></i>
+                                                        <span>Delete</span>
+                                                    </a>
+                                                    <a href="#" id="saveButton" class="btn-delete btn btn-primary" style="display:none;" >
+                                                        <i class="bi bi-trash"></i>
+                                                        <span>Save</span>
+                                                    </a>
+                                                    <a href="#" id="cancelButton" class="btn-delete btn btn-secondary mx-3" style="display:none" onclick="cancelEdit('<?php echo $item['itemCode']; ?>')">
+                                                        <i class="bi bi-trash"></i>
+                                                        <span>Cancel</span>
+                                                    </a>
+
                                                         </div>
                                                     </td>
 
@@ -90,7 +123,7 @@ $categoriesResult = $DB->query($categoriesQuery);
                                     </table>
                                     <!-- Add "Add Item" button -->
                                     <div class="text-end mt-3">
-                                        <a href="?page=add_customItem&customCategoryCode=<?= $categoryCode ?>&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="btn btn-outline-primary">
+                                        <a href="?page=add_customItem&customCategoryCode=<?= $categoryCode ?>&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="btn btn-primary">
                                             <i class="bi bi-plus-square"></i>
                                             <span>Add Item</span>
                                         </a>
@@ -99,12 +132,7 @@ $categoriesResult = $DB->query($categoriesQuery);
                             </div>
                         </div>
                     <?php } ?>
-                    <div class="text-end mt-3">
-                            <a href="?page=add_custom_package&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class="btn-edit btn btn-primary btn-md text-white mt-4">
-                            <i class="bi bi-plus-square"></i>
-                            <span>Add Category</span>
-                        </a>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -126,3 +154,39 @@ $categoriesResult = $DB->query($categoriesQuery);
     </div>
   </div>
 <?php endif; ?>
+
+<script>
+     
+function toggleEditable(itemCode) {
+        toggleVisibility("nameDisplay", itemCode);
+        toggleVisibility("editName", itemCode);
+
+        toggleVisibility("descriptionDisplay", itemCode);
+        toggleVisibility("editDescription", itemCode);
+
+        toggleVisibility("priceDisplay", itemCode);
+        toggleVisibility("editPrice", itemCode);
+
+        toggleVisibility("detailsDisplay", itemCode);
+        toggleVisibility("editDetails", itemCode);
+
+      ['nameDisplay', 'editName', 'descriptionDisplay', 'editDescription', 'priceDisplay', 'editPrice', 'detailsDisplay', 'editDetails'].forEach(function(elementId) {
+        toggleVisibility(elementId, itemCode);
+    });
+
+    // For buttons inside <td> elements
+    ['btn-edit', 'btn-delete', 'btn-save', 'btn-cancel'].forEach(function(buttonClass) {
+        toggleButtonVisibility(buttonClass, itemCode);
+    });
+}
+    
+    
+    function toggleVisibility(elementId, itemCode) {
+    var element = document.getElementById(elementId + itemCode);
+    if (element.style.display === "none" || element.style.display === "") {
+        element.style.display = "block";
+    } else {
+        element.style.display = "none";
+    }
+}
+</script>

@@ -29,7 +29,7 @@ $branch = $branchResult->fetch_assoc();
                     
                 </h1>
                 </div>
-                <a href="?page=add_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="  btn btn-md btn btn-outline-dark"><i class="bi bi-plus-square"> Add Package</i></a>
+                <a href="?page=add_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="  btn btn-md btn btn-primary"><i class="bi bi-plus-square"> Add Package</i></a>
             </div>
 
         <?php

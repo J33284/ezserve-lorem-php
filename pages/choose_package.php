@@ -33,7 +33,7 @@ if (!empty($businessCode) && !empty($branchCode)) {
 
         <div class="package-details">
               <div class="justify-items-center align-items-center d-flex row mb-4">
-                  <a href="?page=branches&branchCode=<?= $branchCode ?>" class=" col-1 btn-back btn-lg text-dark float-center d-flex">
+                  <a href="?page=branches&branchCode=<?= $branchCode ?>" class=" col-1 btn-back btn-md text-dark float-center d-flex">
                       <i class="bi bi-arrow-left"></i>
                   </a>
                   <h1 class="d-flex justify-content-start align-items-center col-8"><?= $branch['branchName'] ?> </h1>
@@ -44,12 +44,12 @@ if (!empty($businessCode) && !empty($branchCode)) {
                 <h6>This section lets you create pre-made packages for your customers.</h6>
                 <div class="accordion" id="accordionFlushExample">
                   <div class="m-3">
-                    <a href="?page=package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
+                    <a href="?page=package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="btn-edit btn-md mt-4 text-dark">
                       <i class="bi bi-eye"></i>
                       <span>View Package</span>
                     </a>
                   <br>
-                    <a href="?page=add_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
+                    <a href="?page=add_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="btn-edit btn-md mt-4 text-dark">
                       <i class="bi bi-plus-square"></i>
                       <span>Add Package</span>
                     </a>
@@ -66,12 +66,12 @@ if (!empty($businessCode) && !empty($branchCode)) {
         <h6>This section lets you create custom packages for your customers.</h6>
         <div class="accordion" id="accordionFlushExample">
           <div class="m-3">
-            <a href="?page=custom_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
+            <a href="?page=custom_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="btn-edit btn-md mt-4 text-dark">
               <i class="bi bi-eye"></i>
               <span>View Custom Items</span>
             </a>
             <br>
-            <a href="?page=add_custom_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="btn-edit btn-lg mt-4">
+            <a href="?page=add_custom_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="btn-edit btn-md mt-4 text-dark">
               <i class="bi bi-plus-square"></i>
               <span>Add Custom Items</span>
             </a>
