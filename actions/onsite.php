@@ -32,9 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['ac
     // Combine item names into a comma-separated string
     $combinedItemNames = implode(', ', $itemNames);
 
-    // Extract numeric part from '[total] => Total: ₱320.00'
-    $totalAmount = filter_var($encodedDetails['total'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] : null;
+    $totalAmount = isset($encodedDetails['total']) ? filter_var($encodedDetails['total'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION) : null;
 
+    // Set $totalAmount to $discountedTotal if $discountedTotal is not empty
+    if (!empty($discountedTotal)) {
+        $totalAmount = $discountedTotal;
+    }
     $insertQuery = "INSERT INTO transact (businessCode, branchCode, branchName, transCode, packName, clientID, clientName, mobileNumber, email, busName, itemList, totalAmount, paymentMethod, status, pickupDate, deliveryDate, deliveryAddress )
                     VALUES ('$businessCode', '$branchCode', '$branchName', '$transCode', '$packName', '$clientID', '$clientName', '$mobileNumber', '$email', '$busName', '$combinedItemNames', '$totalAmount', '$paymentMethod', '$status', '$pDate', '$dDate', '$dAddress')";
 

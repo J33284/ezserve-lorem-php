@@ -17,6 +17,9 @@ $businessCode = $_GET['businessCode'];
 $branchCode = $_GET['branchCode'];
 $packCode = $_GET['packCode'];
 
+$discountedTotal = $_GET['discountedTotal'] ?? null;
+
+
 
 $clientID = $_SESSION['userID'];
 $clientType = $_SESSION['usertype'];
@@ -180,11 +183,20 @@ if (isset($_GET['checkoutData'])) {
             <?php endif; ?>
         </div>
 
+        <!-- Display discounted total only if it's not zero -->
+        <?php 
+        
+        if ($discountedTotal != 0): ?>
+            <p style="font-size: 30px;"> Discounted Total: <?= '₱' . number_format($discountedTotal, 2) ?></p>
+        <?php endif; ?>
 
-        <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"  href="?page=voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>&grandTotal=<?= $numericTotal ?>">
-        <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
-        <i class="bi bi-chevron-right float end col-2"></i>
+        <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"  
+            href="?page=voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>&grandTotal=<?= $numericTotal ?>&checkoutData=<?= urlencode(json_encode($checkoutDetails)) ?>">
+            <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
+            <i class="bi bi-chevron-right float end col-2"></i>
         </a>
+
+
 
         <?php
         $selectBusinessQuery = "SELECT BusName FROM business WHERE businessCode = '$businessCode'";
@@ -212,6 +224,7 @@ if (isset($_GET['checkoutData'])) {
             <input type="hidden" name="busName" value="<?= $busName ?>" >
             <input type="hidden" name="branchName" value="<?= $branchName ?>" >
             <input type="hidden" name="packName" value="<?= $packName ?>">
+            <input type="hidden" name="discountedTotal" value="<?= $discountedTotal ?>">
             <input type="hidden" name="clientID" value="<?= $clientID ?>">
             <input type="hidden" name="clientName" value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>">
             <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">
@@ -231,6 +244,7 @@ if (isset($_GET['checkoutData'])) {
             <input type="hidden" name="busName" value="<?= $busName ?>" >
             <input type="hidden" name="branchName" value="<?= $branchName ?>" >
             <input type="hidden" name="packName" value="<?= $packName ?>">
+            <input type="hidden" name="discountedTotal" value="<?= $discountedTotal ?>">
             <input type="hidden" name="clientID" value="<?= $clientID ?>">
             <input type="hidden" name="clientName" value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>">
             <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">

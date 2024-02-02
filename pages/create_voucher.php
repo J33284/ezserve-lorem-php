@@ -22,6 +22,8 @@ $packages = $DB->query("SELECT * FROM package");
                 }
                 ?>
             </select>
+            <input type="hidden" name="packCode" id="hiddenPackageCode" value="">
+            <input type="hidden" name="ownerID" id="ownerID" value="<?=$ownerID?>">
             <br>
 
             <label for="branchCode">Select Branch:</label>
@@ -31,11 +33,11 @@ $packages = $DB->query("SELECT * FROM package");
             <label for="voucherCode">Voucher Code:</label>
             <input type="text" class="form-control mb-3" name="voucherCode"><br>
 
-            <label for="condition">Condition:</label>
+            <label for="condition">Voucher Type:</label>
             <select name="condition" class="form-control mb-3" id="condition" onchange="updateDiscountFields()">
-                <option value="percentage">Gift Card</option>
-                <option value="specific_package">Specific Package</option>
-                <option value="minimum_spend">Minimum Spend</option>
+                <option value="Gift Card">Gift Card</option>
+                <option value="Specific Package">Specific Package</option>
+                <option value="Minimum Spend">Minimum Spend</option>
             </select><br>
 
             <div id="specificPackageField" style="display: none;">
@@ -46,6 +48,8 @@ $packages = $DB->query("SELECT * FROM package");
                         echo "<option value='" . $row["packageCode"] . "' data-min-spend='" . $row["minSpend"] . "'>" . $row["packageName"] . "</option>";
                     }
                     ?>
+                       <input type="hidden" name="packageCode" id="hiddenPackageCode" value="">
+
                 </select><br>
             </div>
 
@@ -91,27 +95,30 @@ $packages = $DB->query("SELECT * FROM package");
     }
 
     function updatePackages() {
-    var branchCode = document.getElementById("branchCode").value;
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "?action=getPackages&branchCode=" + branchCode, true);
+        var branchCode = document.getElementById("branchCode").value;
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "?action=getPackages&branchCode=" + branchCode, true);
 
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            document.getElementById("selectedPackage").innerHTML = xhr.responseText;
-        }
-    };
-    xhr.send();
-}
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                document.getElementById("selectedPackage").innerHTML = xhr.responseText;
+                // Update the hidden input field with the first packageCode in the list
+                var firstPackageCode = document.querySelector("#selectedPackage option:first-child").value;
+                document.getElementById("hiddenPackageCode").value = firstPackageCode;
+            }
+        };
+        xhr.send();
+    }
 
     function updateDiscountFields() {
         var condition = document.getElementById("condition").value;
         var specificPackageField = document.getElementById("specificPackageField");
         var minimumSpendField = document.getElementById("minimumSpendField");
 
-        if (condition === "specific_package") {
+        if (condition === "Specific Package") {
             specificPackageField.style.display = "block";
             minimumSpendField.style.display = "none";
-        } else if (condition === "minimum_spend") {
+        } else if (condition === "Minimum Spend") {
             specificPackageField.style.display = "none";
             minimumSpendField.style.display = "block";
         } else {

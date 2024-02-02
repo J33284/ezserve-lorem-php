@@ -1,29 +1,15 @@
-
-
 <div id="voucher-tbl" style="margin: 120px 0 0 20%">
     <h2>Voucher</h2>
 
     <?php
     global $DB;
-
+    $ownerID = $_SESSION['userID'];
     // Fetch voucher data from the database
-    $result = $DB->query("SELECT * FROM voucher");
+    $result = $DB->query("SELECT * FROM voucher WHERE ownerID = '$ownerID'");
 
     if ($result->num_rows > 0) {
     ?>
-        <table class="table table-responsive" style="width: 75vw">
-        <thead class="table-dark">
-            <tr>
-                <th>Business Name</th>
-                <th>Branch Name</th>
-                <th>Voucher Code</th>
-                <th>Condition</th>
-                <th>Discount Value</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-            </tr>
-            </thead>
-            <tbody>
+        <div class="card-deck">
             <?php
             while ($row = $result->fetch_assoc()) {
                 // Fetch business name based on businessCode
@@ -36,28 +22,36 @@
                 $branchNameResult = $DB->query("SELECT branchName FROM branches WHERE branchCode = '$branchCode'");
                 $branchName = ($branchNameResult->num_rows > 0) ? $branchNameResult->fetch_assoc()["branchName"] : '';
             ?>
-                <tr>
-                    <td class="bg-transparent border border-white"><?= $busName ?></td>
-                    <td class="bg-transparent border border-white"><?= $branchName ?></td>
-                    <td class="bg-transparent border border-white"><?= $row["voucherCode"] ?></td>
-                    <td class="bg-transparent border border-white"><?= $row["cond"] ?></td>
-                    <td class="bg-transparent border border-white"><?= ($row["discountType"] === 'percentage') ? $row["discountValue"] . '%' : '₱' . $row["discountValue"] ?></td>
-                    <td class="bg-transparent border border-white"><?= $row["startDate"] ?></td>
-                    <td class="bg-transparent border border-white"><?= $row["endDate"] ?></td>
-                </tr>
+                <div class="card">
+                    <div class="card-header">
+                        <?= $busName ?>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $branchName ?></h5>
+                        <p class="card-text">
+                            <strong>Voucher Code:</strong> <?= $row["voucherCode"] ?><br>
+                            <strong>Voucher Type:</strong> <?= $row["cond"] ?><br>
+                            <strong>Discount Value:</strong> <?= ($row["discountType"] === 'percentage') ? $row["discountValue"] . '%' : '₱' . $row["discountValue"] ?><br>
+                            <strong>Start Date:</strong> <?= $row["startDate"] ?><br>
+                            <strong>End Date:</strong> <?= $row["endDate"] ?>
+                        </p>
+                    </div>
+                </div>
             <?php
             }
             ?>
-</tbody>
-        </table>
-      
-    <?php
-    } else {
-        echo "<p>No vouchers found.</p>";
-    }
-    ?>
-
+        </div>
+        <?php } else { ?>
+            <div class="card-deck d-flex justify-content-center align-items-center" style="height: 60vh;">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <p>No vouchers found.</p>
+                        <!-- Button to add a voucher -->
+                        <a href="?page=create_voucher" class="btn btn-primary">Add Voucher</a>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
     <!-- Button to add a voucher -->
-    <a href="?page=create_voucher"><button class="btn btn-primary">Add Voucher</button></a>
-
-    </div>
+    <a href="?page=create_voucher" class="btn btn-primary">Add Voucher</a>
+</div>

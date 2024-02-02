@@ -1,20 +1,22 @@
 <!--
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['orderDetails'])) {
-    // Decode the JSON data from the hidden input field
-    $orderDetailsJson = $_POST['orderDetails'];
-    $orderDetails = json_decode($orderDetailsJson, true);
+if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
-    // Now, $orderDetails is an associative array containing the order details
-    // You can access individual elements like $orderDetails[0]['itemCode'], $orderDetails[0]['itemName'], etc.
+$businessCode = $_GET['businessCode'];
+$branchCode = $_GET['branchCode'];
 
-    // Example: Print the order details
-    echo '<pre>';
-    print_r($orderDetails);
-    echo '</pre>';
-    
-    // Proceed with further processing or redirect to the checkout page
-}-->
+// Retrieve order details from the URL
+$orderDetailsJSON = $_GET['orderDetails'];
 
+// Decode the JSON string to an array
+$orderDetails = json_decode(urldecode($orderDetailsJSON), true);
+
+// Print the order details for debugging purposes
+echo '<pre>';
+print_r($orderDetails);
+echo '</pre>';
+
+// ... (rest of your code for custom_checkout page) ...
+-->
 
 <?php
 
@@ -31,13 +33,15 @@ if ($client) {
     $clientInfo = $client->fetch_assoc();
 }         
 
-if (isset($_POST['orderDetails'])) {
+if (isset($_GET['orderDetails'])) {
     // Retrieve the encoded JSON string from the URL
-    $orderDetailsJson = $_POST['orderDetails'];
+    $orderDetailsJSON = $_GET['orderDetails'];
     // Decode the JSON string to an array
-    $checkoutDetails = json_decode($orderDetailsJson, true);
-
+    $checkoutDetails = json_decode(urldecode($orderDetailsJSON), true);
+    
 }
+
+$discountedTotal = $_GET['discountedTotal'] ?? null;
 
 ?>
 
@@ -74,37 +78,37 @@ if (isset($_POST['orderDetails'])) {
 
             <!-- Delivery Information -->
             <div class="delivery mb-3">
-    <h4 class="p-3 mb-4" style="border-bottom: 3px solid #fb7e00;">2. Delivery</h4>
-    <h6></h6>
-    <div class="row d-flex align-items-center my-2 px-5">
-        <div class="form-check row d-flex">
-            <div class="col-5">
-                <input class="form-check-input" type="checkbox"  id="pickUpCheckbox" name="pickUpCheckbox">
-                <label class="form-check-label" for="pickUpCheckbox">Pick-up</label>
-            </div>
-            <div class="col-5">
-                <input type="date" class="form-control" name="pDate" id="pDate" style="display: none;">
-            </div>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox"  id="deliveryCheckbox" name="deliveryCheckbox">
-            <label class="form-check-label" for="deliveryCheckbox">Delivery</label>
-        </div>
-    </div>
+                <h4 class="p-3 mb-4" style="border-bottom: 3px solid #fb7e00;">2. Delivery</h4>
+                <h6></h6>
+                <div class="row d-flex align-items-center my-2 px-5">
+                    <div class="form-check row d-flex">
+                        <div class="col-5">
+                            <input class="form-check-input" type="checkbox"  id="pickUpCheckbox" name="pickUpCheckbox">
+                            <label class="form-check-label" for="pickUpCheckbox">Pick-up</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="date" class="form-control" name="pDate" id="pDate" style="display: none;">
+                        </div>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox"  id="deliveryCheckbox" name="deliveryCheckbox">
+                        <label class="form-check-label" for="deliveryCheckbox">Delivery</label>
+                    </div>
+                </div>
 
-    <!-- Hidden fields for delivery address and delivery date -->
-    <div id="deliveryFields" style="display: none;">
-        <!-- Add your delivery address and date fields here -->
-        <div class="form-group">
-            <label for="deliveryAddress">Delivery Address</label>
-            <input type="text" class="form-control" id="deliveryAddress" name="dAddress">
-        </div>
-        <div class="form-group">
-            <label for="deliveryDate">Delivery Date</label>
-            <input type="date" class="form-control" id="deliveryDate" name="dDate">
-        </div>
-    </div>
-</div>
+                <!-- Hidden fields for delivery address and delivery date -->
+                <div id="deliveryFields" style="display: none;">
+                    <!-- Add your delivery address and date fields here -->
+                    <div class="form-group">
+                        <label for="deliveryAddress">Delivery Address</label>
+                        <input type="text" class="form-control" id="deliveryAddress" name="dAddress">
+                    </div>
+                    <div class="form-group">
+                        <label for="deliveryDate">Delivery Date</label>
+                        <input type="date" class="form-control" id="deliveryDate" name="dDate">
+                    </div>
+                </div>
+            </div>
 
         
         <div class="payment">
@@ -142,7 +146,7 @@ if (isset($_POST['orderDetails'])) {
                 $totalPrice = 0;
                 if (is_array($checkoutDetails) && isset($checkoutDetails[0]['itemName'])) {
                     foreach ($checkoutDetails as $item) :
-                        $totalPrice += $item['price']; // Sum up prices
+                        $totalPrice += $item['price'] * $item['quantity']; // Sum up prices
                         ?>
                         <tr>
                             <td><?= trim($item['itemName']) ?></td>
@@ -162,26 +166,46 @@ if (isset($_POST['orderDetails'])) {
         <!-- Total Price Paragraph -->
         <p>Total Price: ₱<?= number_format($totalPrice, 2) ?></p>
 
+        <?php if ($discountedTotal != 0): ?>
+            <p style="font-size: 30px;"> Discounted Total: <?= '₱' . number_format($discountedTotal, 2) ?></p>
+        <?php endif; ?>
+
+        
+
     </div>
 
 
-
-        <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"  href="?page=voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>&grandTotal=<?= $grandTotal ?>">
-        <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
-        <i class="bi bi-chevron-right float end col-2"></i>
+    <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"  
+            href="?page=custom_voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&grandTotal=<?= $totalPrice ?>&checkoutData=<?= urlencode(json_encode($checkoutDetails)) ?>">
+            <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
+            <i class="bi bi-chevron-right float end col-2"></i>
         </a>
 
-               
+        <?php
+        $selectBusinessQuery = "SELECT BusName FROM business WHERE businessCode = '$businessCode'";
+        $businessResult = $DB->query($selectBusinessQuery);
+        $businessRow = $businessResult->fetch_assoc();
+        $busName = $businessRow['BusName'];
+        
+        // Query to select branch name based on branch code
+        $selectBranchQuery = "SELECT branchName FROM branches WHERE branchCode = '$branchCode'";
+        $branchResult = $DB->query($selectBranchQuery);
+        $branchRow = $branchResult->fetch_assoc();
+        $branchName = $branchRow['branchName'];
+        ?>
 
         <form action="?action=customPayMongo" method="post">
             <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
             <input type="hidden" name="branchCode" value="<?= $branchCode ?>" >
+            <input type="hidden" name="busName" value="<?= $busName ?>" >
+            <input type="hidden" name="branchName" value="<?= $branchName ?>" >
             <input type="hidden" name="clientID" value="<?= $clientID ?>">
             <input type="hidden" name="clientName" value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>">
             <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">
             <input type="hidden" name="email" value="<?= $clientInfo['email'] ?>" >
+            <input type="hidden" name="discountedTotal" value="<?= $discountedTotal ?>">
             <input type="hidden" name="totalAmount" value="<?= $totalPrice ?>">
-            <input type="hidden" name="orderDetails" value="<?= htmlspecialchars(json_encode($orderDetailsJson)) ?>">
+            <input type="hidden" name="orderDetails" value="<?= htmlspecialchars(json_encode($checkoutDetails)) ?>">
             <input type="hidden" name="pDate">
             <input type="hidden" name="deliveryAddress">
             <input type="hidden" name="deliveryDate">
@@ -193,19 +217,18 @@ if (isset($_POST['orderDetails'])) {
         <form action="?action=customOnsite" method="post">
             <input type="hidden" name="businessCode" value="<?= $businessCode ?>" >
             <input type="hidden" name="branchCode" value="<?= $branchCode ?>" >
+            <input type="hidden" name="busName" value="<?= $busName ?>" >
+            <input type="hidden" name="branchName" value="<?= $branchName ?>" >
             <input type="hidden" name="clientID" value="<?= $clientID ?>">
             <input type="hidden" name="clientName" value="<?= $clientInfo['fname'] . ' ' . $clientInfo['lname'] ?>">
             <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">
             <input type="hidden" name="email" value="<?= $clientInfo['email'] ?>" >
+            <input type="hidden" name="discountedTotal" value="<?= $discountedTotal ?>">
             <input type="hidden" name="totalAmount" value="<?= $totalPrice ?>">
             <input type="hidden" name="pDate">
             <input type="hidden" name="deliveryAddress">
             <input type="hidden" name="deliveryDate">
-            <input type="hidden" name="deliveryDate">
-            <input type="hidden" name="orderDetails" value="<?= htmlspecialchars(json_encode($orderDetailsJson)) ?>">
-            
-            
-
+            <input type="hidden" name="orderDetails" value="<?= htmlspecialchars(json_encode($checkoutDetails)) ?>">
             <button type="submit" class="btn btn-primary" style="width:100%" id="placeOrderButton2" onclick="submitSecondForm()">
             Place Order
             </button>
@@ -221,7 +244,7 @@ if (isset($_POST['orderDetails'])) {
 
 document.addEventListener('DOMContentLoaded', function () {
     var pickUpCheckbox = document.getElementById('pickUpCheckbox');
-    var pickUpDateField = document.getElementById('pick-up');
+    var pickUpDateField = document.getElementById('pDate');
     var deliveryCheckbox = document.getElementById('deliveryCheckbox');
     var deliveryFields = document.getElementById('deliveryFields');
 
@@ -287,7 +310,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-
 function submitSecondForm() {
     // Get the values from the first form
     var pDateValue = document.getElementById('pDate').value;
@@ -295,11 +317,11 @@ function submitSecondForm() {
     var deliveryAddressValue = document.getElementById('deliveryAddress').value;
 
     // Set the values for the hidden inputs in the second form
-    document.querySelector('form[action="?action=onsite"] input[name="pDate"]').value = pDateValue;
-    document.querySelector('form[action="?action=onsite"] input[name="deliveryDate"]').value = deliveryDateValue;
-    document.querySelector('form[action="?action=onsite"] input[name="deliveryAddress"]').value = deliveryAddressValue;
+    document.querySelector('form[action="?action=customOnsite"] input[name="pDate"]').value = pDateValue;
+    document.querySelector('form[action="?action=customOnsite"] input[name="deliveryDate"]').value = deliveryDateValue;
+    document.querySelector('form[action="?action=customOnsite"] input[name="deliveryAddress"]').value = deliveryAddressValue;
 
-    // Continue with form submission
+    
 }
 </script>
 

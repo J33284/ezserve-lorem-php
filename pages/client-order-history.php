@@ -60,7 +60,7 @@ if (isset($_POST['keyword'])) {
                         <tr>
                             <td ><?= $row['transCode'] != '' ? $row['transCode'] : 'N/A' ?></td>
                             <td><?= $row['busName']. "<br>(" . $row['branchName'] .")"?></td>
-                            <td><?= $row['packName'] ?></td>
+                            <td ><?= $row['packName'] != '' ? $row['packName'] : 'Custom Package' ?></td>
                             <td><?= $row['paymentDate'] ?></td>
                             <td><?= '₱' . number_format($row['totalAmount'], 2) ?></td>
                             <td><?= $row['paymentMethod'] ?></td>
@@ -106,9 +106,19 @@ if (isset($_POST['keyword'])) {
 
                             // Echo each item in a new line without commas
                             foreach ($items as $item) {
-                                echo $item . "<br>";
+                                // Check if the item is in the special format {" Shrimp ":"1"," Royal ":"1"}
+                                if (preg_match_all('/"([^"]+)":\s*"(\d+)"/', $item, $matches, PREG_SET_ORDER)) {
+                                    // Iterate over all matches and output each item with quantity
+                                    foreach ($matches as $match) {
+                                        echo $match[1] . " (Quantity: " . $match[2] . ")<br>";
+                                    }
+                                } else {
+                                    // Output the item without modification
+                                    echo $item . "<br>";
+                                }
                             }
-                            ?>
+                        ?>
+
 
 
                     <hr>

@@ -99,11 +99,11 @@ WHERE c.branchCode = '$branchCode'");
                     <i class="bi bi-chevron-right float-end col-2"></i>
                 </div>-->
                 <form action="?page=custom_checkout&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" method="post">
-                    <input type="hidden" name="orderDetails" id="orderDetails" value="">
-                    <button type="submit" class="btn btn-primary" style="width:100%">
-                        Checkout
-                    </button>
-                </form>
+    <input type="hidden" name="orderDetails" id="orderDetails" value="">
+    <button type="submit" class="btn btn-primary checkout-btn" style="width:100%" data-order-details="">
+        Checkout
+    </button>
+</form>
             </div>
         </div>
     </div>
@@ -173,12 +173,12 @@ WHERE c.branchCode = '$branchCode'");
             // Update total price
             $('.total-price').text('₱' + total.toFixed(2));
 
-            // Update hidden input with order details
-            $('#orderDetails').val(JSON.stringify(orderDetails));
-
-             // Update checkout button data attribute
-             $('.checkout-btn').attr('data-order-details', JSON.stringify(orderDetails));
-        
+            var orderDetailsJson = JSON.stringify(orderDetails);
+            $('.checkout-btn').attr('data-order-details', orderDetailsJson);
+    
+            // Append encoded order details as a query parameter to the form action URL
+            var checkoutURL = "?page=custom_checkout&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&orderDetails=" + encodeURIComponent(orderDetailsJson);
+            $('form').attr('action', checkoutURL);
         }
     });
 </script>

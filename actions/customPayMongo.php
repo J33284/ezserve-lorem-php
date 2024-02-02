@@ -4,13 +4,15 @@ require_once('vendor/autoload.php');
 $client = new \GuzzleHttp\Client();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $name = $_POST['clientName'];
-    $email = $_POST['email'];
-    $phone = $_POST['mobileNumber'];
-    $amount = $_POST['totalAmount'];
     $businessCode = $_POST['businessCode'];
     $branchCode = $_POST['branchCode'];
+    $busName = $_POST['busName'];
+    $branchName = $_POST['branchName'];
+    $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] : null;
+    $amount = $_POST['totalAmount'];
+    if (!empty($discountedTotal)) {
+        $amount = $discountedTotal;
+    }
     $clientID = $_POST['clientID'];
     $clientName = $_POST['clientName'];
     $mobileNumber = $_POST['mobileNumber'];
@@ -21,33 +23,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $encodedDetails = json_decode(htmlspecialchars_decode($_POST['orderDetails']), true);
 
-    // Check if 'itemName' key exists in the decoded details
-    $itemNames = array();
+    $itemsData = array();
 
-// Check if 'itemName' key exists in the decoded details
-if (isset($encodedDetails[0]['itemName'])) {
-    // Loop through the decoded details and extract 'itemName'
     foreach ($encodedDetails as $item) {
-        if (isset($item['itemName'])) {
-            $itemNames[] = $item['itemName'];
-        }
+        // Assuming each item has 'itemName' and 'quantity' properties
+        $itemName = $item['itemName'];
+        $quantity = $item['quantity'];
+        // Store each item name and quantity in the associative array
+        $itemsData[$itemName] = $quantity;
     }
-
-    // Save $itemNames in the itemList column or use it as needed
-    $itemList = implode(', ', $itemNames);
     
-    }
-
+    // Convert the associative array into a JSON string
+    $itemList = json_encode($itemsData);
+    
     $checkoutData = [
         'data' => [
             'attributes' => [
                 'cancel_url' => 'http://localhost/webworks-lorem-php/?page=services',
                 'billing' => [
-                    'name' => $name,
+                    'name' => $clientName,
                     'email' => $email,
-                    'phone' => $phone,
+                    'phone' => $mobileNumber,
                 ],
-                'description' => 'Order Description',
+                'description' => 'Custom Package (See Order History to see full order details)',
                 'line_items' => [
                     [
                         'amount' => $amount * 100, 
@@ -57,12 +55,14 @@ if (isset($encodedDetails[0]['itemName'])) {
                     ],
                 ],
                 'payment_method_types' => ['card', 'gcash'],
-                'reference_number' => 'Webworks',
+                'reference_number' => 'Reference',
                 'send_email_receipt' => false,
                 'show_description' => true,
                 'show_line_items' => false,
                 'success_url' => 'http://localhost/webworks-lorem-php/?page=client_purchase&businessCode=' . $businessCode . 
                 '&branchCode=' . urlencode($branchCode) . 
+                '&busName=' . urlencode($busName) . 
+                '&branchName=' . urlencode($branchName) . 
                 '&clientID=' . urlencode($clientID) . 
                 '&clientName=' . urlencode($clientName) . 
                 '&mobileNumber=' . urlencode($mobileNumber) . 

@@ -28,8 +28,10 @@
 global $DB;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $ownerID = $_POST['ownerID'];
     $businessCode = $_POST["businessCode"];
     $branchCode = $_POST["branchCode"];
+    $packCode = $_POST["packCode"];
     $voucherCode = $_POST["voucherCode"];
     $discountType = $_POST["discountType"];
     $discountValue = $_POST["discountValue"];
@@ -44,18 +46,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Perform any necessary validation on the input data
 
     // Insert voucher details into the database
-    if ($discountType === "specific_package") {
+    if ($condition === "Specific Package") {
         // If the discount type is specific package, save the package code
-        $sql = "INSERT INTO voucher (businessCode, branchCode, voucherCode, cond, discountType, discountValue, startDate, endDate, packCode)
-                VALUES ('$businessCode', '$branchCode', '$voucherCode', '$condition','$discountType', '$discountValue', '$startDate', '$endDate', '$selectedPackage')";
-    }else if ($condition === "minimum_spend") {
+        $sql = "INSERT INTO voucher (ownerID, businessCode, branchCode, voucherCode, cond, discountType, discountValue, startDate, endDate, packCode)
+                VALUES ('$ownerID', '$businessCode', '$branchCode', '$voucherCode', '$condition','$discountType', '$discountValue', '$startDate', '$endDate', '$packCode')";
+    }else if ($condition === "Minimum Spend") {
     // If the condition is minimum spend, save the minimum spend value
-    $sql = "INSERT INTO voucher (businessCode, branchCode, voucherCode, cond, discountType, discountValue, startDate, endDate, min_spend)
-            VALUES ('$businessCode', '$branchCode', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate', '$minSpend')";
+    $sql = "INSERT INTO voucher (ownerID, businessCode, branchCode, voucherCode, cond, discountType, discountValue, startDate, endDate, min_spend)
+            VALUES ('$ownerID', '$businessCode', '$branchCode', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate', '$minSpend')";
     } else {
         // For other conditions
-        $sql = "INSERT INTO voucher (businessCode, branchCode, voucherCode, cond, discountType, discountValue, startDate, endDate)
-                VALUES ('$businessCode', '$branchCode', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate')";
+        $sql = "INSERT INTO voucher (ownerID, businessCode, branchCode, voucherCode, cond, discountType, discountValue, startDate, endDate)
+                VALUES ('$ownerID','$businessCode', '$branchCode', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate')";
     }
 
     if ($DB->query($sql) === TRUE) {

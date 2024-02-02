@@ -10,7 +10,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $branchName = $_POST['branchName'];
     $packName = $_POST['packName'];
     $encodedDetails = json_decode(htmlspecialchars_decode($_POST['itemList']), true);
+    $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] : null;
     $amount = preg_replace('/[^0-9.]/', '', $encodedDetails['total']);
+    if (!empty($discountedTotal)) {
+        $amount = $discountedTotal;
+    }
+
+// Now you can use $amount as the total amount
+    
     $clientID = $_POST['clientID'];
     $clientName = $_POST['clientName'];
     $mobileNumber = $_POST['mobileNumber'];

@@ -51,7 +51,7 @@ $payments = $DB->query("
                     <td class="bg-transparent border border-white"><?= $payment['clientName']?></td>
                     <td class="bg-transparent border border-white"><?= $payment['email']?></td>
                     <td class="bg-transparent border border-white"><?= $payment['mobileNumber']?></td>
-                    <td class="bg-transparent border border-white"><?= $payment['packName']?></td>
+                    <td class="bg-transparent border border-white"><?= $payment['packName'] != '' ? $payment['packName'] : 'Custom Package' ?></td>
                     <td class="bg-transparent border border-white"><?= $payment['paymentMethod'] ?></td>
                     <td class="bg-transparent border border-white">₱<?= number_format($payment['totalAmount'], 2) ?></td>
                     <td class="bg-transparent border border-white"><?= $payment['transaction_status'] ?>
@@ -71,7 +71,7 @@ $payments = $DB->query("
                                                 <label for="statusSelect" class="form-label">Select Status</label>
                                                 <select class="form-select" id="statusSelect" name="status">
                                                     <option value="paid">Paid</option>
-                                                    <option value="partially_paid">Partially Paid</option>
+                                                    <option value="partially paid">Partially Paid</option>
                                                     <option value="unpaid">Unpaid</option>
                                                 </select>
                                             </div>
@@ -115,9 +115,18 @@ $payments = $DB->query("
 
                             // Echo each item in a new line without commas
                             foreach ($items as $item) {
-                                echo $item . "<br>";
+                                // Check if the item is in the special format {" Shrimp ":"1"," Royal ":"1"}
+                                if (preg_match_all('/"([^"]+)":\s*"(\d+)"/', $item, $matches, PREG_SET_ORDER)) {
+                                    // Iterate over all matches and output each item with quantity
+                                    foreach ($matches as $match) {
+                                        echo $match[1] . " (Quantity: " . $match[2] . ")<br>";
+                                    }
+                                } else {
+                                    // Output the item without modification
+                                    echo $item . "<br>";
+                                }
                             }
-                            ?>
+                        ?>
 
 
                             <hr>

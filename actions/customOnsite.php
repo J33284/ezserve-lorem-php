@@ -4,6 +4,8 @@ if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['action'] === 'customOnsite') {
     $businessCode = $_POST['businessCode'];
     $branchCode = $_POST['branchCode'];
+    $busName = $_POST['busName'];
+    $branchName = $_POST['branchName'];
     $clientID = $_POST['clientID'];
     $clientName = $_POST['clientName'];
     $mobileNumber = $_POST['mobileNumber'];
@@ -13,26 +15,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['ac
     $dDate = isset($_POST['deliveryDate']) ? $_POST['deliveryDate'] : '';
     $paymentMethod = "on site payment";
     $status = "unpaid";
+    $encodedDetails = json_decode(htmlspecialchars_decode($_POST['orderDetails']), true);
     $transCode = generateRandomTransID();
     // Array to store item names
-    $itemNames = array();
-
-    $encodedDetails = json_decode(htmlspecialchars_decode($_POST['orderDetails']), true);
-    $serializedItems = array();
+    $itemsData = array();
 
     foreach ($encodedDetails as $item) {
-        $serializedItem = serialize($item);
-        $serializedItems[] = $serializedItem;
+        // Assuming each item has 'itemName' and 'quantity' properties
+        $itemName = $item['itemName'];
+        $quantity = $item['quantity'];
+        // Store each item name and quantity in the associative array
+        $itemsData[$itemName] = $quantity;
     }
-
-
-    $serializedItemsString = implode(',', $serializedItems);
-
-
+    
+    // Convert the associative array into a JSON string
+    $itemList = json_encode($itemsData);
+    
+    $discountedTotal = $_POST['discountedTotal'];
     $totalAmount = $_POST['totalAmount'];
-
-    $insertQuery = "INSERT INTO transact (businessCode, branchCode, transCode, clientID, clientName, mobileNumber, email, itemList, totalAmount, paymentMethod, status, pickupDate, deliveryDate, deliveryAddress )
-                    VALUES ('$businessCode', '$branchCode', '$transCode', '$clientID', '$clientName', '$mobileNumber', '$email', '$serializedItemsString', '$totalAmount', '$paymentMethod', '$status', '$pDate', '$dDate', '$dAddress')";
+ 
+    if (!empty($discountedTotal)) {
+        $totalAmount = $discountedTotal;
+    }
+    $insertQuery = "INSERT INTO transact (busName, branchName, businessCode, branchCode, transCode, clientID, clientName, mobileNumber, email, itemList, totalAmount, paymentMethod, status, pickupDate, deliveryDate, deliveryAddress )
+                    VALUES ('$busName', '$branchName', '$businessCode', '$branchCode', '$transCode', '$clientID', '$clientName', '$mobileNumber', '$email', '$itemList', '$totalAmount', '$paymentMethod', '$status', '$pDate', '$dDate', '$dAddress')";
 
     // Execute the query
     $DB->query($insertQuery);
