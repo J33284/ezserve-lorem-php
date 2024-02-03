@@ -11,7 +11,7 @@
                     <?= csrf_token()?>
                     <input type="hidden" name="action" value="validate_user">
                         <div class="row p-3">
-                            <input type="text" class="form-control mb-3" name="username" required placeholder="Username or Email Address">
+                            <input type="text" class="form-control mb-3" name="username" required placeholder="Username">
                             <input type="password" class="form-control" name="password" required placeholder="Password">
                         </div>
                         

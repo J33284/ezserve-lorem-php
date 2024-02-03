@@ -127,7 +127,7 @@ $discountedTotal = $_GET['discountedTotal'] ?? null;
     </div>
     </div>
         <!-- Order List -->
-        <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" style="height: auto">
+        <div  class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" style="height: auto; margin-left: 50px">
     <h3 class="order-header sticky-top p-3">Order List</h3>
     <hr class="m-0">
     <div class="order justify-content-center px-4 overflow-auto">
