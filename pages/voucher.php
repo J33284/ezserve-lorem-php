@@ -23,34 +23,58 @@ $hasVouchers = $voucherResult->num_rows > 0;
 ?>
 
 <!-- Display vouchers in Bootstrap cards -->
-<div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
-    <div class="w-75">
-        <div class="row">
-            <div class="col-md-12 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Search Voucher</h5>
+<div class="container" style="min-height: 100vh; margin-top: 150px">
+    
+        
+            <div class=" mb-4">
+                
+                    <div class="d-flex justify-content-center align-items-center">
                         <form method="post">
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" placeholder="Enter Voucher Code" name="searchedVoucherCode" value="<?= $searchedVoucherCode ?>">
-                                <button class="btn btn-outline-secondary" type="submit">Search</button>
+                                <button class="btn btn-primary" type="submit">Search</button>
                             </div>
                         </form>
-                    </div>
+                   
                 </div>
             </div>
-        </div>
+        
 
         <?php if ($hasVouchers) : ?>
-    <div class="row">
+    <div class="">
         <?php while ($voucher = $voucherResult->fetch_assoc()) : ?>
-            <div class="col-md-4 mb-4">
-                <div class="card">
+            <div class=" mb-4 d-flex">
+            <div class="card ">
+            <?php if ($voucher['cond'] === 'Minimum Spend') : ?>
+                <div class="card-body d-flex justify-content-center align-items-center">
+                    <img src="assets/images/min-spend.png" alt="" style="width: 150px; height: 150px;">
+                </div>
+            <?php endif; ?>
+
+            <?php if ($voucher['cond'] === 'Specific Package') : ?>
+                <div class="card-body d-flex justify-content-center align-items-center">
+                    <img src="assets/images/discountpackage.png" alt="" style="width: 150px; height: 150px;">
+                </div>
+            <?php elseif ($voucher['cond'] === 'Gift Card') : ?>
+                <div class="card-body d-flex justify-content-center align-items-center">
+                    <img src="assets/images/gift-card.png" alt="" style="width: 150px; height: 150px;">
+                </div>
+            <?php endif; ?>
+                    
+                    </div>
+        
+                <div class="card " style="width: 30vw">
                     <div class="card-body">
-                        <!-- Card details as before -->
+                    <h1>
+                        <?php if ($voucher['discountType'] === 'amount') : ?>
+                            &#8369; <?= $voucher['discountValue'] ?> <!-- Peso sign for amount -->
+                        <?php elseif ($voucher['discountType'] === 'percentage') : ?>
+                            <?= $voucher['discountValue'] ?>% <!-- Percentage symbol for percentage -->
+                        <?php endif; ?>
+                    </h1>
+
                         <h5 class="card-title"><?= $voucher['voucherCode'] ?></h5>
                         <p class="card-text">Condition: <?= $voucher['cond'] ?></p>
-                        
                         <?php if ($voucher['min_spend'] > 0) : ?>
                             <p class="card-text">Minimum Spend: <?= '₱' . number_format($voucher['min_spend'], 2) ?></p>
                         <?php endif; ?>
@@ -61,8 +85,12 @@ $hasVouchers = $voucherResult->num_rows > 0;
                             <p class="card-text">Discount: <?= '₱' . number_format($voucher['discountValue'], 2) ?></p>
                         <?php endif; ?>
                         
-                        <a href="#" class="btn btn-primary" onclick="applyVoucher('<?= $voucher['voucherCode'] ?>', '<?= $voucher['packCode'] ?>', '<?= $voucher['cond'] ?>', '<?= $voucher['discountType'] ?>', <?= $voucher['discountValue'] ?>, <?= $grandTotal ?>, '<?= $packCode ?>', '<?= $voucher['startDate'] ?>', '<?= $voucher['endDate'] ?>')">Use Voucher</a>
-                    </div>
+                        <a href="#" class="btn btn-primary float-end" onclick="applyVoucher('<?= $voucher['voucherCode'] ?>', '<?= $voucher['packCode'] ?>', '<?= $voucher['cond'] ?>', '<?= $voucher['discountType'] ?>', <?= $voucher['discountValue'] ?>, <?= $grandTotal ?>, '<?= $packCode ?>', '<?= $voucher['startDate'] ?>', '<?= $voucher['endDate'] ?>')">Use Voucher</a>
+                    
+                       </div>
+                </div>
+                
+
                 </div>
             </div>
         <?php endwhile; ?>
