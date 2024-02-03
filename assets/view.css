@@ -241,7 +241,7 @@ footer p{
 /*
 profile page*/
 h1{
-  font-family: "Arvo";
+  font-family: "Arvo"!important;
 }
 
 /* cards*/

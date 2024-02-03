@@ -176,10 +176,10 @@ if (isset($_GET['checkoutData'])) {
             ?>
             
             <?php if ($checkoutDetails['pricingType'] === 'per pax') : ?>
-                <p style="font-size: 30px;"><?= '₱' . $initial . ' x ' . $checkoutDetails['quantityMeter'] ?></p>
-                <p style="font-size: 30px;">Total: <?= '₱' . number_format($numericTotal, 2) ?></p>
+                <h5 ><?= '₱' . $initial . ' x ' . $checkoutDetails['quantityMeter'] ?></h5>
+                <p >Subtotal: <?= '₱' . number_format($numericTotal, 2) ?></p>
             <?php else : ?>
-                <p style="font-size: 30px;">Total: <?= '₱' . number_format($numericTotal, 2) ?></p>
+                <h5 >Subtotal: <?= '₱' . number_format($numericTotal, 2) ?></h5>
             <?php endif; ?>
         </div>
 
@@ -187,7 +187,8 @@ if (isset($_GET['checkoutData'])) {
         <?php 
         
         if ($discountedTotal != 0): ?>
-            <p style="font-size: 30px;"> Discounted Total: <?= '₱' . number_format($discountedTotal, 2) ?></p>
+            <!-- <p style="font-size: 30px;"> Discount: <?= '₱' . number_format($discountedTotal, 2) ?></p> -->
+            <h2> Total: <?= '₱' . number_format($discountedTotal, 2) ?></h2>
         <?php endif; ?>
 
         <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"  
