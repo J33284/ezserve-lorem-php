@@ -174,22 +174,27 @@ if (isset($_GET['checkoutData'])) {
                 $numericTotal = $matches[0];
             }
             ?>
-            
+            <div class="mb-3">
             <?php if ($checkoutDetails['pricingType'] === 'per pax') : ?>
                 <h5 ><?= '₱' . $initial . ' x ' . $checkoutDetails['quantityMeter'] ?></h5>
-                <p >Subtotal: <?= '₱' . number_format($numericTotal, 2) ?></p>
+                <p class="m-0">Subtotal: <?= '₱' . number_format($numericTotal, 2) ?></p>
             <?php else : ?>
-                <h5 >Subtotal: <?= '₱' . number_format($numericTotal, 2) ?></h5>
+                <h5 class="m-0" >Subtotal: <?= '₱' . number_format($numericTotal, 2) ?></h5>
             <?php endif; ?>
-        </div>
-
-        <!-- Display discounted total only if it's not zero -->
-        <?php 
+           
+            <?php 
         
         if ($discountedTotal != 0): ?>
-            <!-- <p style="font-size: 30px;"> Discount: <?= '₱' . number_format($discountedTotal, 2) ?></p> -->
+           
+            <p class="m-0">Discount: <?= '₱' . number_format($numericTotal - $discountedTotal, 2) ?></p>
+            </div>
             <h2> Total: <?= '₱' . number_format($discountedTotal, 2) ?></h2>
-        <?php endif; ?>
+            </div>
+            <?php endif; ?>
+            
+
+        <!-- Display discounted total only if it's not zero -->
+        
 
         <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"  
             href="?page=voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>&grandTotal=<?= $numericTotal ?>&checkoutData=<?= urlencode(json_encode($checkoutDetails)) ?>">
