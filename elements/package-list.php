@@ -84,11 +84,15 @@ $branch = $branchResult->fetch_assoc();
                 <?php } ?>
             </div>
         <?php } else { ?>
-            <div class="col-md-12 mt-4">
-                <div class="alert alert-info" role="alert" style="text-align: center; margin-left: 200px;">
-                    No packages found.
-                </div>
-            </div>
+            <div class="d-flex align-items-center justify-content-center" style="margin-top: 100px"  >
+            <div class="" style="height: 200px; ;">
+      <div class="package-details card py-5 mx-4 px-4" style="width: 50vw">
+      <h2><span style="color: red;">&#9888;</span> No Records Found</h2>
+        
+       
+      </div>
+    </div>
+    </div>
         <?php } ?>
     </div>
 </div>
