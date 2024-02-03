@@ -75,9 +75,9 @@ $hasVouchers = $voucherResult->num_rows > 0;
                     <div class="card-body">
                     <h1>
                         <?php if ($voucher['discountType'] === 'amount') : ?>
-                            &#8369; <?= $voucher['discountValue'] ?> <!-- Peso sign for amount -->
+                            &#8369; <?= $voucher['discountValue'] ?> off <!-- Peso sign for amount -->
                         <?php elseif ($voucher['discountType'] === 'percentage') : ?>
-                            <?= $voucher['discountValue'] ?>% <!-- Percentage symbol for percentage -->
+                            <?= $voucher['discountValue'] ?>% off<!-- Percentage symbol for percentage -->
                         <?php endif; ?>
                     </h1>
 
