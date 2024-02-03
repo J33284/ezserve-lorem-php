@@ -138,18 +138,19 @@ $categoriesResult = $DB->query($categoriesQuery);
         </div>
     </div>
 <?php else: ?>
+   
     <div class="package-details" id="packageDetails<?= $branchCode ?>" style="display: block;">
     <div class="d-flex align-items-center" style="height: 200px; margin-top: 300px; margin-left: 390px; width: 140%;">
       <div class="package-details col-5 card py-5 mx-4 px-4">
       <h2><span style="color: red;">&#9888;</span> No Records Found</h2>
-        <div class="accordion" id="accordionFlushExample">
-          <div class="m-3">
+        
+          <div >
             <a href="?page=add_custom_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="btn-edit btn btn-primary btn-lg mt-4">
               <i class="bi bi-plus-square"></i>
               <span>Create Custom Items</span>
             </a>
           </div>
-        </div>
+
       </div>
     </div>
   </div>
