@@ -42,7 +42,7 @@ if (isset($_GET['checkoutData'])) {
 
 <?= element('header') ?>
 
-<div id="client-custom" class="client-custom" style="margin-top: 90px">
+<div id="client-custom" class="client-custom" style="margin-top: 120px">
     <div class="container pack-head" style="top: 50px;">
         <div class="container row">
             <a href="?page=client_view_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?=$packCode?>" class="col-xl-1 btn-back btn-lg float-end">
