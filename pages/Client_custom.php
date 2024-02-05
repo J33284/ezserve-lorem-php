@@ -75,7 +75,7 @@ WHERE c.branchCode = '$branchCode'");
         </div>
     </div>
 
-    <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded " style="height: 80vh">
+    <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded fixed-top" style="height: 80vh; margin: 150px 50px 0 62vw">
         <h3 class="order-header sticky-top p-3 mx-2">Order List</h3>
         <div class="order justify-content-center px-4 overflow-auto" style="height:60vh">
             
