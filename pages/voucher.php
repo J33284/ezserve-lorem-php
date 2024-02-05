@@ -12,9 +12,9 @@ $searchedVoucherCode = isset($_POST['searchedVoucherCode']) ? $_POST['searchedVo
 
 
 if ($searchedVoucherCode) {
-    $voucherQuery = "SELECT * FROM voucher WHERE businessCode = '$businessCode' AND branchCode = '$branchCode' AND cond = 'Gift Card' AND voucherCode = '$searchedVoucherCode'";
+    $voucherQuery = "SELECT * FROM voucher WHERE businessCode = '$businessCode' AND branchCode = '$branchCode' AND voucherType = 'Gift Card' AND voucherCode = '$searchedVoucherCode'";
 } else {
-    $voucherQuery = "SELECT * FROM voucher WHERE businessCode = '$businessCode' AND branchCode = '$branchCode' AND cond <> 'Gift Card'";
+    $voucherQuery = "SELECT * FROM voucher WHERE businessCode = '$businessCode' AND branchCode = '$branchCode' AND voucherType <> 'Gift Card'";
 }
 
 $voucherResult = $DB->query($voucherQuery);
@@ -53,17 +53,17 @@ $hasVouchers = $voucherResult->num_rows > 0;
             <div class="d-flex justify-content-center align-items-center">
             <div class=" mb-4 d-flex">
             <div class="card ">
-            <?php if ($voucher['cond'] === 'Minimum Spend') : ?>
+            <?php if ($voucher['voucherType'] === 'Minimum Spend') : ?>
                 <div class="card-body d-flex justify-content-center align-items-center">
                     <img src="assets/images/min-spend.png" alt="" style="width: 150px; height: 150px;">
                 </div>
             <?php endif; ?>
 
-            <?php if ($voucher['cond'] === 'Specific Package') : ?>
+            <?php if ($voucher['voucherType'] === 'Specific Package') : ?>
                 <div class="card-body d-flex justify-content-center align-items-center">
                     <img src="assets/images/discountpackage.png" alt="" style="width: 150px; height: 150px;">
                 </div>
-            <?php elseif ($voucher['cond'] === 'Gift Card') : ?>
+            <?php elseif ($voucher['voucherType'] === 'Gift Card') : ?>
                 <div class="card-body d-flex justify-content-center align-items-center">
                     <img src="assets/images/gift-card.png" alt="" style="width: 150px; height: 150px;">
                 </div>
@@ -82,10 +82,10 @@ $hasVouchers = $voucherResult->num_rows > 0;
                     </h1>
 
                         <h5 class="card-title"><?= $voucher['voucherCode'] ?></h5>
-                        <p class="card-text m-0"><?= $voucher['cond'] ?></p>
+                        <p class="card-text m-0"><?= $voucher['voucherType'] ?></p>
                         <p class="card-text m-0" style="color:  #ff1a1a"><?= $voucher['startDate'] ?> - <?= $voucher['endDate'] ?></p>
                         
-                        <a href="#" class="btn btn-primary float-end" onclick="applyVoucher('<?= $voucher['voucherCode'] ?>', '<?= $voucher['packCode'] ?>', '<?= $voucher['cond'] ?>', '<?= $voucher['discountType'] ?>', <?= $voucher['discountValue'] ?>, <?= $grandTotal ?>, '<?= $packCode ?>', '<?= $voucher['startDate'] ?>', '<?= $voucher['endDate'] ?>')">Use Voucher</a>
+                        <a href="#" class="btn btn-primary float-end" onclick="applyVoucher('<?= $voucher['voucherCode'] ?>', '<?= $voucher['packCode'] ?>', '<?= $voucher['voucherType'] ?>', '<?= $voucher['discountType'] ?>', <?= $voucher['discountValue'] ?>, <?= $grandTotal ?>, '<?= $packCode ?>', '<?= $voucher['startDate'] ?>', '<?= $voucher['endDate'] ?>')">Use Voucher</a>
                     
                        </div>
                 </div>
@@ -106,7 +106,7 @@ $hasVouchers = $voucherResult->num_rows > 0;
 <!-- ... Previous HTML and PHP code ... -->
 
 <script>
-function applyVoucher(voucherCode, vpackCode, cond, discountType, discountValue, grandTotal, packCode, startDate, endDate) {
+function applyVoucher(voucherCode, vpackCode, voucherType, discountType, discountValue, grandTotal, packCode, startDate, endDate) {
     // Get the current date in the format YYYY-MM-DD
     var currentDate = new Date().toISOString().split('T')[0];
 
@@ -119,7 +119,7 @@ function applyVoucher(voucherCode, vpackCode, cond, discountType, discountValue,
     // Logic to apply the voucher and send the discounted total back to the checkout page
     var discountedTotal;
 
-    if (cond === 'Minimum Spend') {
+    if (voucherType === 'Minimum Spend') {
         // Check if the grand total meets the minimum spend criteria
         if (grandTotal >= parseFloat(discountValue)) {
             if (discountType === 'percentage') {
@@ -133,7 +133,7 @@ function applyVoucher(voucherCode, vpackCode, cond, discountType, discountValue,
             // Grand total doesn't meet the minimum spend criteria, no discount applied
             discountedTotal = grandTotal;
         }
-    } else if (cond === 'Specific Package' && vpackCode === '<?= $packCode ?>') {
+    } else if (voucherType === 'Specific Package' && vpackCode === '<?= $packCode ?>') {
         // Check if the voucher is for the specific package and packCode matches
         if (discountType.toLowerCase() === 'percentage') {
             // Calculate the discount based on percentage
@@ -142,11 +142,11 @@ function applyVoucher(voucherCode, vpackCode, cond, discountType, discountValue,
             // Subtract the discount value from the grand total
             discountedTotal = grandTotal - parseFloat(discountValue);
         }
-    } else if (cond === 'Specific Package' && vpackCode !== '<?= $packCode ?>') {
+    } else if (voucherType === 'Specific Package' && vpackCode !== '<?= $packCode ?>') {
         displayMessage('This voucher is not applicable for this package.');
         return;
 
-    } else if (cond === 'Gift Card') {
+    } else if (voucherType === 'Gift Card') {
         // Check if the discount type is percentage or amount
         if (discountType.toLowerCase() === 'percentage') {
             // Calculate the discount based on percentage

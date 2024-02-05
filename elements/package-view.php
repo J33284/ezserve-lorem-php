@@ -50,7 +50,7 @@ $itemsResults = $DB->query($itemsQuery);
                                 <h4 id="itemNameDisplay" style="display:block"><?php echo $item['itemName']; ?></h4>
                                 <input type="text" class="form-control" id="editItemName" placeholder="Enter new item name" style="display:none; height:40px; width:50%" value="<?php echo $item['itemName']; ?>">
 
-                                <div class="d-flex">
+                            <div class="d-flex">
                                 <a href="#" id="editButton" class="btn-edit btn btn-primary mx-3" onclick="toggleEditable('<?php echo $item['itemCode']; ?>')">
                                 <i class="bi bi-pencil-fill"></i>
                                 <span>Edit</span>
@@ -67,7 +67,7 @@ $itemsResults = $DB->query($itemsQuery);
                                 <i class="bi bi-trash"></i>
                                 <span>Cancel</span>
                                  </a>
-                                </div>
+                            </div>
                                 
                             </div>
                             
@@ -105,7 +105,7 @@ $itemsResults = $DB->query($itemsQuery);
                                 <span>Delete</span>
                                  </a>
                                  <a href="#" id="saveButton" class="btn-delete btn btn-primary mx-3" style="display:none;" onclick="saveChanges('<?php echo $item['itemCode']; ?>')">
-                                <i class="bi bi-trash"></i>
+                                <i class="bi bi-save"></i>
                                 <span>Save</span>
                                  </a>
                                  <a href="#" id="cancelButton" class="btn-delete btn btn-secondary" style="display:none" onclick="cancelEdit('<?php echo $item['itemCode']; ?>')">
@@ -138,96 +138,50 @@ $itemsResults = $DB->query($itemsQuery);
         </div>
     </div>
 </div>
+
 <script>
-     function toggleEditable(itemCode) {
-        toggleVisibility("itemNameDisplay", itemCode);
-        toggleVisibility("editItemName", itemCode);
+function toggleEditable(itemCode) {
+    toggleVisibility("itemNameDisplay", itemCode);
+    toggleVisibility("editItemName", itemCode);
 
-        toggleVisibility("descriptionDisplay", itemCode);
-        toggleVisibility("editDescription", itemCode);
-        toggleVisibility("quantityDisplay", itemCode);
-        toggleVisibility("editQuantity", itemCode);
-        toggleVisibility("priceDisplay", itemCode);
-        toggleVisibility("editPrice", itemCode);
+    toggleVisibility("descriptionDisplay", itemCode);
+    toggleVisibility("editDescription", itemCode);
 
-        toggleVisibility("deleteButton", itemCode);
-        toggleVisibility("saveButton", itemCode);
-        toggleVisibility("cancelButton", itemCode);
+    toggleVisibility("quantityDisplay", itemCode);
+    toggleVisibility("editQuantity", itemCode);
 
-        var editButton = document.querySelector('[data-item-code="' + itemCode + '"] #editButton');
-        editButton.style.display = editButton.style.display === "none" ? "block" : "none";
-    }
+    toggleVisibility("priceDisplay", itemCode);
+    toggleVisibility("editPrice", itemCode);
 
-    function toggleVisibility(elementId, itemCode) {
-        var element = document.querySelector('[data-item-code="' + itemCode + '"] #' + elementId);
-        if (element.style.display === "none" || element.style.display === "") {
-            element.style.display = "block";
-        } else {
-            element.style.display = "none";
-        }
-    }
-    
-        function saveChanges(itemCode) {
-    var newItemName = document.getElementById("editItemName").value;
-    var newDescription = document.getElementById("editDescription").value;
+    toggleVisibility("editButton", itemCode);
+    toggleVisibility("deleteButton", itemCode);
 
-    // Perform AJAX request or other actions to save changes to the server
-
-    // Update displayed values
-    document.getElementById("itemNameDisplay").innerText = newItemName;
-    document.getElementById("descriptionDisplay").innerText = newDescription;
-
-    // Reset display
-    toggleEditable(itemCode);
+    toggleVisibility("saveButton", itemCode);
+    toggleVisibility("cancelButton", itemCode);
 }
 
-    function cancelEdit(itemCode) {
+function toggleVisibility(elementId, itemCode) {
+    var element = document.querySelector('[data-item-code="' + itemCode + '"] #' + elementId);
+    if (element.style.display === "none") {
+        element.style.display = "block";
+    } else {
+        element.style.display = "none";
+    }
+}
+
+
+
+function cancelEdit(itemCode) {
     // Reset input fields to their initial values
     document.getElementById("editItemName").value = document.getElementById("itemNameDisplay").innerText;
     document.getElementById("editDescription").value = document.getElementById("descriptionDisplay").innerText;
+    document.getElementById("editQuantity").value = document.getElementById("quantityDisplay").innerText;
+    document.getElementById("editPrice").value = document.getElementById("priceDisplay").innerText;
 
     // Reset display
     toggleEditable(itemCode);
 }
 
-
-
-
-
-
-function saveChanges(itemCode) {
-    var newItemName = document.getElementById("editItemName").value;
-    var newDescription = document.getElementById("editDescription").value;
-    var newQuantity = document.getElementById("editQuantity").value;
-    var newPrice = document.getElementById("editPrice").value;
-
-    // Perform AJAX request to save changes
-    $.ajax({
-        type: "POST",
-        url: "update_changes.php", 
-        data: {
-            itemCode: itemCode,
-            newItemName: newItemName,
-            newDescription: newDescription,
-            newQuantity: newQuantity,
-            newPrice: newPrice
-        },
-        success: function(response) {
-            // Update displayed values
-            document.getElementById("itemNameDisplay").innerText = newItemName;
-            document.getElementById("descriptionDisplay").innerText = newDescription;
-            document.getElementById("quantityDisplay").innerText = newQuantity;
-            document.getElementById("priceDisplay").innerText = newPrice;
-
-            // Reset display
-            toggleEditable(itemCode);
-        },
-        error: function(error) {
-            // Handle error
-            console.error("Error saving changes:", error);
-        }
-    });
-}
 
 
 </script>

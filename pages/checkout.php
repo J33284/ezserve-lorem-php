@@ -236,9 +236,9 @@ if (isset($_GET['checkoutData'])) {
             <input type="hidden" name="mobileNumber" value="<?= $clientInfo['number'] ?>">
             <input type="hidden" name="email" value="<?= $clientInfo['email'] ?>" >
             <input type="hidden" name="itemList" value="<?= htmlspecialchars(json_encode($checkoutDetails)) ?>">
-            <input type="hidden" name="pDate">
-            <input type="hidden" name="deliveryAddress">
-            <input type="hidden" name="deliveryDate">
+            <input type="hidden" name="pDateM">
+            <input type="hidden" name="deliveryAddressM">
+            <input type="hidden" name="deliveryDateM">
             <button type="submit" class="btn btn-primary" style="width:100%" id="placeOrderButton" onclick="submitSecondForm()">
             Place Order
             </button>
@@ -353,7 +353,10 @@ function submitSecondForm() {
     document.querySelector('form[action="?action=onsite"] input[name="deliveryDate"]').value = deliveryDateValue;
     document.querySelector('form[action="?action=onsite"] input[name="deliveryAddress"]').value = deliveryAddressValue;
 
-    // Continue with form submission
+    document.querySelector('form[action="?action=payMongo"] input[name="pDateM"]').value = pDateValue;
+    document.querySelector('form[action="?action=payMongo"] input[name="deliveryDateM"]').value = deliveryDateValue;
+    document.querySelector('form[action="?action=payMongo"] input[name="deliveryAddressM"]').value = deliveryAddressValue;
+
 }
 
 

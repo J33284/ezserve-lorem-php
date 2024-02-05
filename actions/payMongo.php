@@ -22,9 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $clientName = $_POST['clientName'];
     $mobileNumber = $_POST['mobileNumber'];
     $email = $_POST['email'];
-    $pDate = $_POST['pDate'];
-    $deliveryDate = $_POST['deliveryDate'];
-    $deliveryAddress = $_POST['deliveryAddress'];
+    $pDate = $_POST['pDateM'];
+    $deliveryDate = $_POST['deliveryDateM'];
+    $deliveryAddress = $_POST['deliveryAddressM'];
 
     if (isset($encodedDetails['items'])) {
         $itemNames = array();
