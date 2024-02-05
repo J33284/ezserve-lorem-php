@@ -30,8 +30,11 @@ $packages = $DB->query("SELECT * FROM package");
             <select name="branchCode" class="form-control" id="branchCode" onchange="updatePackages()">
             </select><br>
 
+            <label for="voucherName">Voucher Name:</label>
+            <input type="text" class="form-control" name="voucherName" required><br>
+
             <label for="voucherCode">Voucher Code:</label>
-            <input type="text" class="form-control" name="voucherCode"><br>
+            <input type="text" class="form-control" name="voucherCode"required><br>
 
             <label for="condition">Voucher Type:</label>
             <select name="condition" class="form-control" id="condition" onchange="updateDiscountFields()">
@@ -39,7 +42,6 @@ $packages = $DB->query("SELECT * FROM package");
                 <option value="Specific Package">Specific Package</option>
                 <option value="Minimum Spend">Minimum Spend</option>
             </select><br>
-
             <div id="specificPackageField" style="display: none;">
                 <label for="selectedPackage">Select Package:</label>
                 <select name="selectedPackage" class="form-control" id="selectedPackage">
@@ -55,7 +57,7 @@ $packages = $DB->query("SELECT * FROM package");
 
             <div id="minimumSpendField" style="display: none;">
                 <label for="minSpend">Minimum Spend:</label>
-                <input type="text" class="form-control" name="minSpend"><br>
+                <input type="number" class="form-control" name="minSpend" min="1"><br>
             </div>
 
             <label for="discountType">Discount Type:</label>
@@ -65,13 +67,13 @@ $packages = $DB->query("SELECT * FROM package");
             </select><br>
 
             <label for="discountValue">Discount Value:</label>
-            <input type="text" class="form-control" name="discountValue"><br>
+            <input type="text" class="form-control" name="discountValue" required><br>
 
             <label for="startDate">Start Date:</label>
-            <input type="date"class="form-control" name="startDate"><br>
+            <input type="date"class="form-control" name="startDate" required><br>
 
             <label for="endDate">End Date:</label>
-            <input type="date" class="form-control" name="endDate"><br>
+            <input type="date" class="form-control" name="endDate" required><br>
 
             <input type="submit" class="btn btn-primary" style="float: right;" value="Create Voucher">
         </form>
@@ -114,16 +116,20 @@ $packages = $DB->query("SELECT * FROM package");
         var condition = document.getElementById("condition").value;
         var specificPackageField = document.getElementById("specificPackageField");
         var minimumSpendField = document.getElementById("minimumSpendField");
+        var minSpendInput = document.querySelector("input[name='minSpend']");
 
         if (condition === "Specific Package") {
             specificPackageField.style.display = "block";
             minimumSpendField.style.display = "none";
+            minSpendInput.removeAttribute("required"); // Remove the required attribute
         } else if (condition === "Minimum Spend") {
             specificPackageField.style.display = "none";
             minimumSpendField.style.display = "block";
+            minSpendInput.setAttribute("required", "required"); // Add the required attribute
         } else {
             specificPackageField.style.display = "none";
             minimumSpendField.style.display = "none";
+            minSpendInput.removeAttribute("required"); // Remove the required attribute
         }
     }
 

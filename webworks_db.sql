@@ -280,13 +280,19 @@ INSERT INTO `items` (`itemCode`, `packCode`, `itemName`, `description`, `quantit
 (355, 275, '2 Side Dish', '2 side dish of your choice (see menu)', 0, '', 0, '', 'assets/uploads/packages/420038104_1413551699238034_7737994293452447082_n.jpg', 'enable', 0),
 (356, 275, 'Softdrinks', '1L of softdrinks of your choice', 0, '', 0, '', 'assets/uploads/packages/softdrinks.jpg', 'enable', 0),
 (357, 275, 'Utensils', 'Includes spoon, fork, serving spoon, glasses', 0, '', 0, '', 'assets/uploads/packages/cutlery.jpg', 'enable', 0),
-(358, 280, 'Item 1', 'Item 1', 1, 'box', 200, '', 'assets/uploads/packages/_fanart__1_year_anniversary_by_akemono_df5tb3n-350t.jpg', 'enable', 0),
-(359, 280, 'item2', 'item2', 1, 'bag', 100, '', 'assets/uploads/packages/uki.jpg', 'enable', 0),
-(360, 280, 'item3', 'item3', 1, 'bottle', 1700, '', 'assets/uploads/packages/43888211608381124upload_1608381075850.png', 'enable', 0),
 (363, 286, 'Coffin', 'Solid Mahogany', 1, 'box', 100000, '', 'assets/uploads/packages/5.Mahogany.jpg', 'enable', 0),
 (364, 286, 'Flowers', '', 1, 'bundle', 200, '', 'assets/uploads/packages/305398834_446716360809741_7457097433161130092_n.jpg', 'enable', 0),
-(365, 288, 'alisahhhh', 'ave alisah', 0, '', 0, '', 'assets/uploads/packages/—Pngtree—garden rose flower centifolia roses_3762756.png', 'disable', 0),
-(366, 288, 'ohlala', 'heyhey', 0, '', 0, '', 'assets/uploads/packages/—Pngtree—red glitter light effect abstract_5475466.png', 'disable', 0);
+(367, 289, '3 Main Dishes', '3 Main dishes of your choice', 0, '', 0, '', 'assets/uploads/packages/420045990_917586769805131_1358493736596732913_n.jpg', 'enable', 0),
+(368, 289, '1 side dish', '1 side dish of your choice', 0, '', 0, '', 'assets/uploads/packages/420038104_1413551699238034_7737994293452447082_n.jpg', 'enable', 0),
+(369, 289, 'Rice', '', 0, '', 0, '', 'assets/uploads/packages/rice.jpg', 'enable', 0),
+(370, 289, 'Salad', '', 0, '', 0, '', 'assets/uploads/packages/', 'enable', 0),
+(371, 289, 'SoftDrinks', '', 0, '', 0, '', 'assets/uploads/packages/', 'enable', 0),
+(372, 289, '', '', 0, '', 0, '', 'assets/uploads/packages/', 'enable', 0),
+(373, 290, '4 Main Dishes', '4 main dishes of your choice', 0, '', 0, '', 'assets/uploads/packages/', 'enable', 0),
+(374, 290, '2 Side Dish', '2 side dish of your choice', 0, '', 0, '', 'assets/uploads/packages/', 'enable', 0),
+(375, 290, 'Rice', '', 0, '', 0, '', 'assets/uploads/packages/', 'enable', 0),
+(376, 290, 'Salad', '', 0, '', 0, '', 'assets/uploads/packages/', 'enable', 0),
+(377, 290, 'Softdrinks', 'Softdrinks of your choice', 0, '', 0, '', 'assets/uploads/packages/', 'enable', 0);
 
 -- --------------------------------------------------------
 
@@ -321,11 +327,11 @@ CREATE TABLE `package` (
 --
 
 INSERT INTO `package` (`packCode`, `branchCode`, `packName`, `packDesc`, `pricingType`, `amount`) VALUES
-(275, 33, 'Package 1', 'tbc', 'per pax', 320),
-(280, 33, 'Packag Total of Items', 'Total of Items', 'per item', 0),
-(284, 34, 'jghghgh', '', 'per pax', 200),
+(275, 33, 'Package 1', '*includes food waiter/ attendant *regular setup *utensils', 'per pax', 320),
 (286, 32, 'Funeral Package', 'Basic Funeral Package', 'per item', 0),
-(288, 33, 'Alisah Test Package', 'hey hey hey ', 'per pax', 800);
+(289, 33, 'Package 2', '*includes food waiter/ attendant *regular setup *utensils', 'per pax', 350),
+(290, 33, 'Package 3', '*includes food waiter/ attendant *regular setup *utensils', 'per pax', 400);
+
 
 -- --------------------------------------------------------
 
