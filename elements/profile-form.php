@@ -11,8 +11,6 @@ $password = $userData->password;
 $ownerAddress = $userData->ownerAddress;
 $profileImage = $userData->profileImage;
 
-
-
 ?>
 
 <script src="assets/js/script.js"></script>
@@ -25,7 +23,7 @@ $profileImage = $userData->profileImage;
     </a>
   </div>
 
-  <form id="profileForm" method="POST" class="pb-5 ">
+  <form id="profileForm" method="POST" class="pb-5 " enctype="multipart/form-data">
         <?= csrf_token() ?>
         <input type="hidden" name="action" value="usersAction">
         <div class="form">
@@ -33,7 +31,9 @@ $profileImage = $userData->profileImage;
             <div class="row g-3">
                 <div class="d-flex justify-content-center align-items-center mb-2 ">
                 <div>
-                    <img class="profileImg rounded-circle shadow p-1 mb-5 bg-white" id="preview_profileImage" alt="Profile Image" src="assets/images/profile-placeholder.jpg" style="width: 180px ">
+                        <img class="profileImg rounded-circle shadow p-1 mb-5 bg-white" id="preview_profileImage" alt="Profile Image" 
+                        src="<?php echo !empty($profileImage) ? $profileImage : 'assets/images/profile-placeholder.jpg'; ?>" 
+                        style="width: 180px">
                         <div class="d-flex justify-content-center align-items-center">
                             <input id="ProfPic" type="file" class="form-control" id="addProfileImage" name="addProfileImage" accept="image/*" onchange="previewImage(this, 'preview_profileImage')" style="display:none; width:135px">
                         </div>

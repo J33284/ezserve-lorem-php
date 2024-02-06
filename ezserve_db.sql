@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 02, 2024 at 04:15 PM
+-- Generation Time: Feb 06, 2024 at 03:38 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `webworks_db`
+-- Database: `ezserve_db`
 --
 
 -- --------------------------------------------------------
@@ -143,6 +143,7 @@ CREATE TABLE `business_owner` (
   `password` varchar(100) NOT NULL,
   `repassword` varchar(100) NOT NULL,
   `usertype` varchar(50) NOT NULL,
+  `profileImage` longblob NOT NULL,
   `status` tinyint(4) NOT NULL,
   `created` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated` timestamp NOT NULL DEFAULT current_timestamp()
@@ -152,10 +153,10 @@ CREATE TABLE `business_owner` (
 -- Dumping data for table `business_owner`
 --
 
-INSERT INTO `business_owner` (`ownerID`, `fname`, `lname`, `birthday`, `email`, `verification_code`, `number`, `ownerAddress`, `username`, `password`, `repassword`, `usertype`, `status`, `created`, `updated`) VALUES
-(28, 'Jose ', 'Puga', '1985-10-21', 'lalalaamb@gmail.com', '462081', '09452781051', '', 'JosePuga', '$argon2i$v=19$m=65536,t=4,p=1$dlYzVWM3ZTB6WHlZMjRkWQ$uXqRlJ7A6I70lW8qQnKYcYYzWPRRsc4LhSqouUXAgDU', '', 'business owner', 1, '2023-12-18 01:51:48', '2023-12-18 01:51:48'),
-(31, 'Ma Gloria', 'Hinolan', '1962-04-21', 'magloria@gmail.com', '674098', '09452781051', '', 'magloria', '$argon2i$v=19$m=65536,t=4,p=1$QU9DTDM2RFBjSml3QUxWaw$2eEPbJIUBT/BeDWIV+6Oyy/h4D0V5xuo0IE1/1zLNHU', '', 'business owner', 1, '2024-01-05 04:05:52', '2024-01-05 04:05:52'),
-(42, 'ALISAH MAE', 'BOLIVAR', '2001-07-01', 'bvrlisah@gmail.com', '610792', '09452781051', '', 'Alisah12', '$argon2i$v=19$m=65536,t=4,p=1$NEJuLndIcUtrQi81OFRVRQ$aHSySuU/oGvmsxHGyijGN0jyGPetKvX5wl2BjOLx91k', '@123asdA', 'business owner', 1, '2024-01-23 07:01:42', '2024-01-23 07:01:42');
+INSERT INTO `business_owner` (`ownerID`, `fname`, `lname`, `birthday`, `email`, `verification_code`, `number`, `ownerAddress`, `username`, `password`, `repassword`, `usertype`, `profileImage`, `status`, `created`, `updated`) VALUES
+(28, 'Jose ', 'Puga', '1985-10-21', 'lalalaamb@gmail.com', '462081', '09452781051', '', 'JosePuga', '$argon2i$v=19$m=65536,t=4,p=1$dlYzVWM3ZTB6WHlZMjRkWQ$uXqRlJ7A6I70lW8qQnKYcYYzWPRRsc4LhSqouUXAgDU', '', 'business owner', '', 1, '2023-12-18 01:51:48', '2023-12-18 01:51:48'),
+(31, 'Ma Gloria', 'Hinolan', '1962-04-21', 'magloria@gmail.com', '674098', '09452781051', '', 'magloria', '$argon2i$v=19$m=65536,t=4,p=1$QU9DTDM2RFBjSml3QUxWaw$2eEPbJIUBT/BeDWIV+6Oyy/h4D0V5xuo0IE1/1zLNHU', '', 'business owner', 0x6173736574732f75706c6f6164732f70726f66696c652f3432303139303633355f313633393331323735363539393133305f363532363538353830363837383230303335325f6e2e6a7067, 1, '2024-01-05 04:05:52', '2024-01-05 04:05:52'),
+(42, 'ALISAH MAE', 'BOLIVAR', '2001-07-01', 'bvrlisah@gmail.com', '610792', '09452781051', '', 'Alisah12', '$argon2i$v=19$m=65536,t=4,p=1$NEJuLndIcUtrQi81OFRVRQ$aHSySuU/oGvmsxHGyijGN0jyGPetKvX5wl2BjOLx91k', '@123asdA', 'business owner', '', 1, '2024-01-23 07:01:42', '2024-01-23 07:01:42');
 
 -- --------------------------------------------------------
 
@@ -176,6 +177,7 @@ CREATE TABLE `client` (
   `password` varchar(100) NOT NULL,
   `repassword` varchar(100) NOT NULL,
   `usertype` varchar(50) NOT NULL,
+  `profileImage` longblob NOT NULL,
   `status` tinyint(4) NOT NULL,
   `created` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated` timestamp NOT NULL DEFAULT current_timestamp()
@@ -185,10 +187,10 @@ CREATE TABLE `client` (
 -- Dumping data for table `client`
 --
 
-INSERT INTO `client` (`clientID`, `fname`, `lname`, `birthday`, `email`, `verification_code`, `number`, `ownerAddress`, `username`, `password`, `repassword`, `usertype`, `status`, `created`, `updated`) VALUES
-(18, 'Vianney', 'Sobrevega', '2002-01-02', 'vianneysobrevega@gmail.com', 113308, '09452781051', 'pasil', 'vianney', '$argon2i$v=19$m=65536,t=4,p=1$bktGSURMZkFMRklkSWZ3eA$FGYsvzu3j5f7Qvtt3ZTs5PEk5crEQ3mELiGWu6sps2w', '', 'client', 1, '2024-01-08 14:52:35', '2024-01-08 14:52:35'),
-(20, 'Alisah Mae', 'Bolivar', '2001-07-01', 'bvrlisa@gmail.com', 284725, '09452781051', '', 'alisahMae', '$argon2i$v=19$m=65536,t=4,p=1$UnZGVGRkVS9uQTdjd0dXaw$odR1DIjLN87DEas4ba/fqPKTy/9k05ahvQK01jIxQtI', '12345', 'client', 1, '2024-01-23 01:05:06', '2024-01-23 01:05:06'),
-(33, 'Alisah', 'Bolivar', '2001-07-01', 'bvrlisah@gmail.com', 84770, '09564200614', '', 'Client', '$argon2i$v=19$m=65536,t=4,p=1$QmJZV1Q2ZWpzaHdkZVVTSA$KKnFD31AJWee/MJU4xsBWCKuS4ZguDglxFnIhZ31JEk', 'Alisah12345$', 'client', 1, '2024-01-30 05:32:27', '2024-01-30 05:32:27');
+INSERT INTO `client` (`clientID`, `fname`, `lname`, `birthday`, `email`, `verification_code`, `number`, `ownerAddress`, `username`, `password`, `repassword`, `usertype`, `profileImage`, `status`, `created`, `updated`) VALUES
+(18, 'Vianney', 'Sobrevega', '2002-01-02', 'vianneysobrevega@gmail.com', 113308, '09452781051', 'pasil', 'vianney', '$argon2i$v=19$m=65536,t=4,p=1$bktGSURMZkFMRklkSWZ3eA$FGYsvzu3j5f7Qvtt3ZTs5PEk5crEQ3mELiGWu6sps2w', '', 'client', '', 1, '2024-01-08 14:52:35', '2024-01-08 14:52:35'),
+(20, 'Alisah Mae', 'Bolivar', '2001-07-01', 'bvrlisa@gmail.com', 284725, '09452781051', '', 'alisahMae', '$argon2i$v=19$m=65536,t=4,p=1$UnZGVGRkVS9uQTdjd0dXaw$odR1DIjLN87DEas4ba/fqPKTy/9k05ahvQK01jIxQtI', '12345', 'client', '', 1, '2024-01-23 01:05:06', '2024-01-23 01:05:06'),
+(33, 'Alisah', 'Bolivar', '2001-07-01', 'bvrlisah@gmail.com', 84770, '09564200614', '', 'Client', '$argon2i$v=19$m=65536,t=4,p=1$QmJZV1Q2ZWpzaHdkZVVTSA$KKnFD31AJWee/MJU4xsBWCKuS4ZguDglxFnIhZ31JEk', 'Alisah12345$', 'client', '', 1, '2024-01-30 05:32:27', '2024-01-30 05:32:27');
 
 -- --------------------------------------------------------
 
@@ -310,6 +312,22 @@ CREATE TABLE `item_details` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `orderlist`
+--
+
+CREATE TABLE `orderlist` (
+  `orderListID` int(11) NOT NULL,
+  `itemName` varchar(200) NOT NULL,
+  `description` varchar(1000) NOT NULL,
+  `quantity` int(255) NOT NULL,
+  `unit` varchar(200) NOT NULL,
+  `price` bigint(255) NOT NULL,
+  `custom` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `package`
 --
 
@@ -331,7 +349,6 @@ INSERT INTO `package` (`packCode`, `branchCode`, `packName`, `packDesc`, `pricin
 (286, 32, 'Funeral Package', 'Basic Funeral Package', 'per item', 0),
 (289, 33, 'Package 2', '*includes food waiter/ attendant *regular setup *utensils', 'per pax', 350),
 (290, 33, 'Package 3', '*includes food waiter/ attendant *regular setup *utensils', 'per pax', 400);
-
 
 -- --------------------------------------------------------
 
@@ -361,6 +378,14 @@ CREATE TABLE `transact` (
   `status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `transact`
+--
+
+INSERT INTO `transact` (`transID`, `clientID`, `businessCode`, `branchCode`, `busName`, `branchName`, `packName`, `transCode`, `clientName`, `email`, `mobileNumber`, `totalAmount`, `paymentDate`, `itemList`, `paymentMethod`, `pickupDate`, `deliveryDate`, `deliveryAddress`, `status`) VALUES
+(130, 33, 24, 33, 'Bahay Kusina De Tangra', 'Lambunao Branches', 'Package 1', 'pay_sg3u8XQBpfHXynM5KCCCUjzu', 'Alisah Bolivar', 'bvrlisah@gmail.com', 9564200614, 320, '2024-02-05', '[\"3 Main Dish\", \"2 Side Dish\", \"Softdrinks\", \"Utensils\"]', 'gcash', '2024-03-01', '', '', 'paid'),
+(131, 33, 24, 33, 'Bahay Kusina De Tangra', 'Lambunao Branches', 'Package 1', 'pay_sg3u8XQBpfHXynM5KCCCUjzu', 'Alisah Bolivar', 'bvrlisah@gmail.com', 9564200614, 320, '2024-02-05', '[\"3 Main Dish\", \"2 Side Dish\", \"Softdrinks\", \"Utensils\"]', 'gcash', '2024-03-01', '', '', 'paid');
+
 -- --------------------------------------------------------
 
 --
@@ -373,8 +398,9 @@ CREATE TABLE `voucher` (
   `businessCode` int(11) NOT NULL,
   `branchCode` int(11) NOT NULL,
   `packCode` int(11) NOT NULL,
+  `voucherName` varchar(200) NOT NULL,
   `voucherCode` varchar(200) NOT NULL,
-  `cond` varchar(100) NOT NULL,
+  `voucherType` varchar(100) NOT NULL,
   `min_spend` int(100) NOT NULL,
   `discountValue` int(100) NOT NULL,
   `discountType` varchar(100) NOT NULL,
@@ -388,10 +414,10 @@ CREATE TABLE `voucher` (
 -- Dumping data for table `voucher`
 --
 
-INSERT INTO `voucher` (`voucherID`, `ownerID`, `businessCode`, `branchCode`, `packCode`, `voucherCode`, `cond`, `min_spend`, `discountValue`, `discountType`, `startDate`, `endDate`, `redemptionStatus`, `creationDate`) VALUES
-(243, 31, 24, 33, 0, 'Voucher', 'Gift Card', 0, 200, 'amount', '2024-02-01', '2024-03-08', 0, '2024-02-02'),
-(244, 31, 24, 33, 275, 'Voucher 2', 'Specific Package', 0, 20, 'percentage', '2024-02-01', '2024-03-08', 0, '2024-02-02'),
-(245, 31, 24, 33, 0, 'Voucher 3', 'Minimum Spend', 200, 200, 'amount', '2024-02-02', '2024-03-09', 0, '2024-02-02');
+INSERT INTO `voucher` (`voucherID`, `ownerID`, `businessCode`, `branchCode`, `packCode`, `voucherName`, `voucherCode`, `voucherType`, `min_spend`, `discountValue`, `discountType`, `startDate`, `endDate`, `redemptionStatus`, `creationDate`) VALUES
+(243, 31, 24, 33, 0, '', 'Voucher', 'Gift Card', 0, 200, 'amount', '2024-02-01', '2024-03-08', 0, '2024-02-02'),
+(244, 31, 24, 33, 275, '', 'Voucher 2', 'Specific Package', 0, 20, 'percentage', '2024-02-01', '2024-03-08', 0, '2024-02-02'),
+(245, 31, 24, 33, 0, '', 'Voucher 3', 'Minimum Spend', 200, 200, 'amount', '2024-02-02', '2024-03-09', 0, '2024-02-02');
 
 --
 -- Indexes for dumped tables
@@ -558,7 +584,7 @@ ALTER TABLE `custom_item_details`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=367;
+  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=378;
 
 --
 -- AUTO_INCREMENT for table `item_details`
@@ -570,13 +596,13 @@ ALTER TABLE `item_details`
 -- AUTO_INCREMENT for table `package`
 --
 ALTER TABLE `package`
-  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=289;
+  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=291;
 
 --
 -- AUTO_INCREMENT for table `transact`
 --
 ALTER TABLE `transact`
-  MODIFY `transID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
+  MODIFY `transID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 
 --
 -- AUTO_INCREMENT for table `voucher`

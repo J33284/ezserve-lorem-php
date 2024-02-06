@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'send_email_receipt' => false,
                 'show_description' => true,
                 'show_line_items' => false,
-                'success_url' => 'http://localhost/webworks-lorem-php/?page=client_purchase&busName=' . $busName . 
+                'success_url' => 'http://localhost/ezserve/?page=client_purchase&busName=' . $busName . 
                 '&packName=' . urlencode($packName) . 
                 '&branchName=' . urlencode($branchName) . 
                 '&businessCode=' . urlencode($businessCode) .

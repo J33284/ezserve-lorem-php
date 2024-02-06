@@ -29,6 +29,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['updateProfile'])) {
         'ownerAddress' => $_POST['ownerAddress']
     );
 
+    // Handle image upload
+    if ($_FILES['addProfileImage']['error'] === UPLOAD_ERR_OK) {
+        $tempName = $_FILES['addProfileImage']['tmp_name'];
+        $uploadPath = 'assets/uploads/profile/';
+        $imageName = $_FILES['addProfileImage']['name'];
+        $imagePath = $uploadPath . $imageName;
+
+        move_uploaded_file($tempName, $imagePath);
+
+        // Update profile image path in the database
+        $updatedData['profileImage'] = $imagePath;
+    }
+
     $userID = $_SESSION[AUTH_ID]; // Use the appropriate AUTH_ID based on user type
     $userType = $_SESSION[AUTH_TYPE]; // Get the user type from the session
 

@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $checkoutData = [
         'data' => [
             'attributes' => [
-                'cancel_url' => 'http://localhost/webworks-lorem-php/?page=services',
+                'cancel_url' => 'http://localhost/ezserve/?page=services',
                 'billing' => [
                     'name' => $clientName,
                     'email' => $email,
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'send_email_receipt' => false,
                 'show_description' => true,
                 'show_line_items' => false,
-                'success_url' => 'http://localhost/webworks-lorem-php/?page=client_purchase&businessCode=' . $businessCode . 
+                'success_url' => 'http://localhost/ezserve/?page=client_purchase&businessCode=' . $businessCode . 
                 '&branchCode=' . urlencode($branchCode) . 
                 '&busName=' . urlencode($busName) . 
                 '&branchName=' . urlencode($branchName) . 
