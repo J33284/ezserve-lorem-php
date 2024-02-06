@@ -97,10 +97,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                   
                 
-                <form method="post" action="delete_owner.php" >
-                    <input type="hidden" name="ownerID" value="">
-                    <button type="submit" class="btn btn-danger float-end">Confirm Delete</button>
-                </form>
+                <form method="post" action="?action=delete_business">
+                        <input type="hidden" name="businessCode" value="<?= $business['businessCode'] ?>">
+                        <button type="submit" class="btn btn-danger float-end">Confirm Delete</button>
+                    </form>
             </div>
         </div>
     <?php endforeach; ?>
