@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <th scope="col">Business Name</th>
                 <th scope="col">Business Owner</th>
                 <th scope="col">Business Type</th>
-                <th></th>
+                <th scope="col" style="width:220px;"    ></th>
             </tr>
         </thead>
         <tbody>
@@ -68,8 +68,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <td class="bg-transparent border border-white" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample<?= $business['businessCode'] ?>" role="button">
                     <?= $business['busType'] ?>
                 </td>
-                <td class="bg-transparent border border-white " style="width: 110px;">
-                    <button type="button" class="btn btn-sm btn-danger " data-bs-toggle="offcanvas" data-bs-target="#offcanvasDelete<?= $business['businessCode'] ?>"> <i class="bi bi-trash"></i><span> Delete</span></button>
+                <td class="bg-transparent border border-white d-flex " style="width:220px;">
+                    <form action="?page=business-branches" method="post">
+                        <input type="hidden" name="businessCode" value="<?= $business['businessCode'] ?>">
+                        <button type="submit" class="btn btn-sm btn-primary view-package m-2" data-business-code="<?= $business['businessCode'] ?>"> <i class="bi bi-eye"></i>
+                            View
+                        </button>
+                    </form>
+                    <button type="button" class="btn btn-sm btn-danger m-2 " data-bs-toggle="offcanvas" data-bs-target="#offcanvasDelete<?= $business['businessCode'] ?>"> <i class="bi bi-trash"></i><span> Delete</span></button>
+                    
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -88,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <p class="text-justify">The business owner will receive a notification confirming that their request to delete the business has been successfully processed. </p>
                 <p>Click 'Confirm delete' to proceed with the deletion.</p>
                 </div>
-               
+                  
                 
                 <form method="post" action="delete_owner.php" >
                     <input type="hidden" name="ownerID" value="">

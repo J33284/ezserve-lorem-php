@@ -134,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <form action="?page=business-details-form" method="post">
                         <input type="hidden" name="businessCode" value="<?= $business['businessCode'] ?>">
                         <button type="submit" class="btn btn-primary view-package m-2" data-business-code="<?= $business['businessCode'] ?>">
-                            View
+                        <i class="bi bi-eye mx-1"></i><span>View</span> 
                         </button>
                     </form>
                     </td>
