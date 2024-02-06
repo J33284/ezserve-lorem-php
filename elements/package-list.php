@@ -41,8 +41,8 @@ $branch = $branchResult->fetch_assoc();
             <div>
                 <?php while ($row = $packageResult->fetch_assoc()) { ?>
                     <div class="card mb-4 flex-row" style="width: 70vw">
-                        <div class="col-5 justify-content-center align-items-center d-flex">
-                            <img src="./assets/images/new logo.png" alt="Package Image" style="width: 25rem">
+                        <div class="col-4 justify-content-center align-items-center d-flex">
+                            <img src="./assets/images/preview-placeholder.jpg" alt="Package Image" style="width: 15rem; height: 15rem">
                         </div>
                         <div class="col-7">
                             <div class="card-body">

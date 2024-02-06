@@ -223,7 +223,7 @@ footer p{
 }
 /*profile pages main content*/
  .purchase, .voucher,
-.own_vouch, .admin-reg, .owner-order-list, .own-bus, .admin-users{
+.own_vouch, .admin-reg, .owner-order-list, .admin-users{
   margin: 120px 10px 50px 20vw;
   width: 75vw;
   scroll-margin-top:100px;

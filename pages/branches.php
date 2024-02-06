@@ -21,7 +21,7 @@ $result = $DB->query($sql);
 ?>
 
 <?php while ($row = $result->fetch_assoc()): ?>
-<div id="own-bus" class="own-bus">
+<div id="own-bus" class="own-bus mb-5" style="height: 100vh; margin: 120px 0 0 22%">
             <div class="d-flex justify-content-between p-3">
                 <div class="d-flex ">
                 <a href="?page=owner_business" id="backButton" class=" btn-back mx-5">
@@ -39,7 +39,7 @@ $result = $DB->query($sql);
             <div class="row">
                 
                 <h2 class=" col-10 bus-info-header">Business Information</h2>
-                <a href="#" id="editButton" class=" col-2 btn-edit float-end mt-2" onclick="toggleEditable()">
+                <a href="#" id="editButton" class=" col-2 btn-edit btn-lg btn  float-end m-2" style="width: 150px" onclick="toggleEditable()">
                     <i class="bi bi-pencil-fill"></i>
                     <span>Edit</span>
                 </a>
@@ -122,15 +122,20 @@ $result = $DB->query($sql);
             <input type="hidden" name="add_branch" value="<?= $row['businessCode'] ?>">
             <div class="column d-flex row justify-content-between">
                 <div class="col-md-7 flex-column">
+                    <div class="mb-3">
                     <h6>Branch Name</h6>
-                    <input type="text" class="about-field form-control" name="data[branchName]" placeholder="Tell something about your business" required>
+                    <input type="text" class="about-field form-control" name="data[branchName]" placeholder="Tell something about your business"  style="height: 50px;" required>
+                    </div>
+                    <div class="mb-3">
                     <h6>Address</h6>
-                    <input type="text" class="about-field form-control" name="data[address]" placeholder="Bldg No., Street, Brgy., City/Province" required>
+                    <input type="text" class="about-field form-control" name="data[address]" placeholder="Bldg No., Street, Brgy., City/Province" style="height: 50px;" required>
+                    </div>
+                    
 
                     <!-- Coordinates -->
                     <h6>Coordinates</h6>
                     <div>
-                        <input type="text" class="about-field form-control" name="data[coordinates]" id="coordinatesInputAddBranch" placeholder="Enter Branch Map Location" required>
+                        <input type="text" class="about-field form-control" name="data[coordinates]" id="coordinatesInputAddBranch" placeholder="Enter Branch Map Location"  style="height: 50px;" required>
                         <button type="button" class="btn btn-primary mt-2" onclick="openMapInAddBranch()">Browse Map</button>
                         <div id="mapAddBranch" style="display: none; height: 400px; width: 700px;"></div>
                     </div>
@@ -150,7 +155,7 @@ $result = $DB->query($sql);
                     <br>
                 </div>
 
-                <div class="mt-4 p-4 d-flex ">
+                <div class=" p-4 d-flex ">
                     <button type="submit" button class="btn btn-primary" name=createBranch id="createBranch<?= $branchData['branchCode'] ?>">Create Branch</button>
                     <button type="button" button class="btn btn-secondary mx-3" name=cancelCreate id="cancelCreate<?= $branchData['branchCode'] ?>" onclick="hideAddBranch('<?= $businessCode ?>')">Cancel</button>
                 </div>
@@ -169,7 +174,7 @@ $result = $DB->query($sql);
         <div class="branch-info card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" id="branchDetails_<?= $branchData['branchCode'] ?>">
             <div class="d-flex justify-content-between p-4">
               <h2>Branch Information</h2>
-              <a id="editBranch_<?= $branchData['branchCode'] ?>" class="btn-edit float-end mt-4" onclick="toggleEditBranch('<?= $branchData['branchCode'] ?>')">
+              <a id="editBranch_<?= $branchData['branchCode'] ?>" class="btn-edit btn-lg btn  float-end mt-4" onclick="toggleEditBranch('<?= $branchData['branchCode'] ?>')">
                 <i class="bi bi-pencil-fill"></i>
                 <span>Edit</span>
                 </a>
