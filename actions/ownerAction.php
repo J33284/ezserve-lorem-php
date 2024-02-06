@@ -89,6 +89,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
                     set_message("Failed Registration: " . $stmt->error);
                 }
 
+                $businessID = $DB->insert_id;
+
+                if(isset($_FILES['permits']) && !empty($_FILES['permits']['name'])) {
+                    $permitFileName = $_FILES['permits']['name'];
+                    $permitTempName = $_FILES['permits']['tmp_name'];
+                    $permitType = 'BIR';
+                    move_uploaded_file($permitTempName, "/assets/uploads/" . $permitFileName);
+                    $DB->query("UPDATE business SET BIR = '$permitFileName' WHERE businessCode = '$businessID'");
+                }
+
+                if(isset($_FILES['permits']) && !empty($_FILES['permits']['name'])) {
+                    $permitFileName = $_FILES['permits']['name'];
+                    $permitTempName = $_FILES['permits']['tmp_name'];
+                    $permitType = 'clearance';
+                    move_uploaded_file($permitTempName, "/assets/uploads/" . $permitFileName);
+                    $DB->query("UPDATE business SET clearance  = '$permitFileName' WHERE businessCode = '$businessID'");
+                }
+
+                if(isset($_FILES['permits']) && !empty($_FILES['permits']['name'])) {
+                    $permitFileName = $_FILES['permits']['name'];
+                    $permitTempName = $_FILES['permits']['tmp_name'];
+                    $permitType = 'DTI';
+                    move_uploaded_file($permitTempName, "/assets/uploads/" . $permitFileName);
+                    $DB->query("UPDATE business SET DTI  = '$permitFileName' WHERE businessCode = '$businessID'");
+                }
+
+                if(isset($_FILES['permits']) && !empty($_FILES['permits']['name'])) {
+                    $permitFileName = $_FILES['permits']['name'];
+                    $permitTempName = $_FILES['permits']['tmp_name'];
+                    $permitType = 'ECC';
+                    move_uploaded_file($permitTempName, "/assets/uploads/" . $permitFileName);
+                    $DB->query("UPDATE businesses SET ECC  = '$permitFileName' WHERE businessCode = '$businessID'");
+                }
+
+                if(isset($_FILES['permits']) && !empty($_FILES['permits']['name'])) {
+                    $permitFileName = $_FILES['permits']['name'];
+                    $permitTempName = $_FILES['permits']['tmp_name'];
+                    $permitType = 'firesafety';
+                    move_uploaded_file($permitTempName, "/assets/uploads/" . $permitFileName);
+                    $DB->query("UPDATE business SET firesafety  = '$permitFileName' WHERE businessCode = '$businessID'");
+                }
+
+                if(isset($_FILES['permits']) && !empty($_FILES['permits']['name'])) {
+                    $permitFileName = $_FILES['permits']['name'];
+                    $permitTempName = $_FILES['permits']['tmp_name'];
+                    $permitType = 'SEC';
+                    move_uploaded_file($permitTempName, "/assets/uploads/" . $permitFileName);
+                    $DB->query("UPDATE business SET SEC  = '$permitFileName' WHERE businessCode = '$businessID'");
+                }
     $stmt->close();
 }
 ?>

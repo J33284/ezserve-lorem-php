@@ -62,10 +62,10 @@ $businessesResult = $DB->query("SELECT * FROM businesstypes");
                         </div>
                         <div class="row g-3">
                             <div class="col">
-                                <input type="text" class="form-control col" name="data[phone]" id="phone" placeholder="Phone Number" >
+                                <input type="number" class="form-control col" name="data[phone]" id="phone" placeholder="Phone Number" >
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control col" name="data[mobile]" id="mobile" placeholder="Mobile Number" >
+                                <input type="number" class="form-control col" name="data[mobile]" id="mobile" placeholder="Mobile Number" >
                             </div>
                         </div>
                     </div>
@@ -73,19 +73,23 @@ $businessesResult = $DB->query("SELECT * FROM businesstypes");
                     <div class="p-0">
                         <h6 class="page-title text-light">Upload Business Permits <br> (Allowed File Types: pdf, jpeg, jpg, png)</h6>
                         <div class="row align-items-center d-flex justify-content-center">
-                            <span class="col-3">Bus</span>
+                            <span class="col-3">Business Permit</span>
                             <input class="col form-control mt-3" name="permits" type="file" id="formFile" required>
-                        </div>
-                        <div class="row align-items-center d-flex justify-content-center">
-                            <span class="col-3">Sanitary Permit</span>
-                            <input class="col form-control mt-3" name="sanitary" type="file" id="formFile" required>
                         </div>
                         <div class="row align-items-center d-flex justify-content-center">
                             <span class="col-3">Tax Permit</span>
                             <input class="col form-control mt-3" name="tax" type="file" id="formFile" required>
                         </div>
+                        <div class="row align-items-center d-flex justify-content-center">
+                            <span class="col-3">Health and Sanitary Permit</span>
+                            <input class="col form-control mt-3" name="sanitary" type="file" id="formFile" required>
+                        </div>
                     </div>
-
+                    <div class="p-0">
+                        <div id="permit-fields-container">
+                        </div>
+                        <button type="button" class="btn btn-secondary mt-3" id="add-permit-field">Add Another Permit</button>
+                    </div>
 
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="termsCheckbox" name="termsCheckbox" required>
@@ -153,3 +157,60 @@ $businessesResult = $DB->query("SELECT * FROM businesstypes");
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("add-permit-field").addEventListener("click", function () {
+            var container = document.getElementById("permit-fields-container");
+            var permitField = document.createElement('div');
+            permitField.className = 'row align-items-center d-flex justify-content-center permit-field';
+            permitField.innerHTML = `
+                <div class="col-3">
+                    <select class="form-select permit-type" name="permit_type[]" required>
+                        <option value="" selected disabled>Select Permit Type</option>
+                        <option value="clearance">Barangay Clearance</option>
+                        <option value="BIR">BIR Clearance</option>
+                        <option value="fireSafety">Fire Safety Inspection Certificate</option>
+                        <option value="DTI">DTI Business Name Registration</option>
+                        <option value="ECC">Environmental Compliance Certificate</option>
+                        <option value="SEC">SEC permit</option>
+                        <option value="Others">Others</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <input class="form-control mt-3 permit-file" type="file" name="permit_files[]" required>
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-danger remove-permit">Remove</button>
+                </div>
+            `;
+            container.appendChild(permitField);
+
+            // Remove selected permit type from subsequent dropdowns
+            var permitDropdowns = document.querySelectorAll('.permit-type');
+            var lastDropdown = permitDropdowns[permitDropdowns.length - 1]; // Get the newly added dropdown
+            var selectedPermit = lastDropdown.value;
+            permitDropdowns.forEach(function (dropdown) {
+                if (dropdown !== lastDropdown) { // Exclude the newly added dropdown
+                    dropdown.querySelectorAll('option').forEach(function (option) {
+                        if (option.value === selectedPermit) {
+                            option.remove();
+                        }
+                    });
+                }
+            });
+
+            // Attach event listener to remove permit button
+            permitField.querySelector('.remove-permit').addEventListener('click', function () {
+                permitField.remove();
+                // Restore removed permit type back to dropdowns
+                permitDropdowns.forEach(function (dropdown) {
+                    var permitType = permitField.querySelector('.permit-type').value;
+                    var option = document.createElement('option');
+                    option.value = permitType;
+                    option.text = permitType;
+                    dropdown.appendChild(option);
+                });
+            });
+        });
+    });
+</script>

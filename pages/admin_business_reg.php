@@ -151,7 +151,7 @@ $businesses = $DB->query("SELECT b.*, bo.* FROM business b
             $permitPath = $business['permits']; // Assuming the file path is stored in the 'permits' field
             $sanitaryPath = $business['sanitary']; // Assuming the file path is stored in the 'sanitary' field
             $taxPath = $business['tax']; // Assuming the file path is stored in the 'tax' field
-
+            $BIRPath = $business['clearance'];
             // Function to display file names with links
             function displayFileName($filePath, $fileType)
             {
@@ -174,6 +174,9 @@ $businesses = $DB->query("SELECT b.*, bo.* FROM business b
             // Display tax
             echo "<h6><strong>Tax</strong></h6>";
             displayFileName($taxPath, 'Tax');
+
+            echo "<h6><strong>Tax</strong></h6>";
+            displayFileName($BIRPath, 'clearance');
             ?>
 
             <!-- Script to display image when clicked -->
