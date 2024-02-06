@@ -17,3 +17,28 @@
         </div>
         <?php } ?>
       </div>
+
+      <style>
+  
+
+
+    @media (max-width: 1300px) {
+  .side-nav .nav-item span, h3{
+    visibility: hidden;
+
+  }
+  .side-nav .nav-item span{
+    visibility: hidden;
+
+  }
+  .side-nav i{
+    font-size: 25px;
+  }
+  .side-nav{
+    width: 15vw;
+  }
+  
+  }
+  
+
+  </style>
