@@ -2,6 +2,9 @@
 
 $current_page = isset($_GET['page']) ? $_GET['page'] : 'default'; 
 
+$userData = viewUser($_SESSION['userID']);
+$profileImage = $userData->profileImage;
+
 ?>
 
 
@@ -46,7 +49,11 @@ $current_page = isset($_GET['page']) ? $_GET['page'] : 'default';
             <li class="dropdown">
             <?php if (isset($_SESSION[AUTH_NAME])): ?>
                 <a class="d-flex" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-person-circle" style="font-size: 45px"></i>
+                    <?php if (isset($_SESSION[AUTH_ID]) && !empty($profileImage)): ?>
+                        <img class=" rounded-circle shadow " src="<?php echo $profileImage; ?>" alt="User's Picture" style="width: 45px; height: 45px;">
+                    <?php else: ?>
+                        <i class="bi bi-person-circle" style="font-size: 45px"></i>
+                    <?php endif; ?>
                 </a>
             <?php else: ?>
                 <a class="d-flex" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -56,15 +63,25 @@ $current_page = isset($_GET['page']) ? $_GET['page'] : 'default';
                 <ul class="dropdown-menu w-auto" aria-labelledby="navbarDropdown">
                     <?php if ($_SESSION[AUTH_TYPE] === 'client') { ?>
                         <div class="d-flex mx-3 justify-content-start align-items-center">
-                        <i class="bi bi-person-circle" style="font-size: 45px"></i>
-                        <h4 class="mt-4 mx-2"><?php echo $_SESSION[AUTH_NAME]; ?></h4>
+                            <?php if (!empty($profileImage)): ?>
+                                <img class="profileImg rounded-circle shadow p-1 bg-white" id="preview_profileImage" alt="Profile Image" 
+                                    src="<?php echo $profileImage; ?>" style="width:5rem; height: 5rem">
+                            <?php else: ?>
+                                <i class="bi bi-person-circle" style="font-size: 2rem"></i>
+                            <?php endif; ?>
+                            <h3 class="mt-4 mx-2"><?php echo $_SESSION[AUTH_NAME]; ?></h3>
                         </div>
                         <hr class="p-0 m-3">
                         <li><a class="dropdown-item" href="<?php echo SITE_URL ?>/?page=client_profile">Profile</a></li>
                     <?php } elseif ($_SESSION[AUTH_TYPE] === 'business owner') { ?>
                         <div class="d-flex mx-3 justify-content-start align-items-center">
-                        <i class="bi bi-person-circle" style="font-size: 45px"></i>
-                        <h4 class="mt-4 mx-2"><?php echo $_SESSION[AUTH_NAME]; ?></h4>
+                            <?php if (!empty($profileImage)): ?>
+                                <img class="profileImg rounded-circle shadow p-1 bg-white" id="preview_profileImage" alt="Profile Image" 
+                                    src="<?php echo $profileImage; ?>" style="width:5rem; height: 5rem">
+                            <?php else: ?>
+                                <i class="bi bi-person-circle" style="font-size: 2rem"></i>
+                            <?php endif; ?>
+                            <h3 class="mt-4 mx-2"><?php echo $_SESSION[AUTH_NAME]; ?></h3>
                         </div>
                         <hr class="p-0 m-3">
                         <li><a class="dropdown-item" href="<?php echo SITE_URL ?>/?page=owner_profile">Profile</a></li>
