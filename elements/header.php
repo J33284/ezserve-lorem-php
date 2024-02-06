@@ -2,9 +2,12 @@
 
 $current_page = isset($_GET['page']) ? $_GET['page'] : 'default'; 
 
-$userData = viewUser($_SESSION['userID']);
-$profileImage = $userData->profileImage;
-
+if (isset($_SESSION['userID'])) {
+    $userData = viewUser($_SESSION['userID']);
+    $profileImage = !empty($userData->profileImage) ? $userData->profileImage : ''; // Set profileImage if not empty, otherwise set it to an empty string
+} else {
+    $profileImage = ''; // Set profileImage to an empty string if user is not logged in
+}
 ?>
 
 
@@ -87,8 +90,13 @@ $profileImage = $userData->profileImage;
                         <li><a class="dropdown-item" href="<?php echo SITE_URL ?>/?page=owner_profile">Profile</a></li>
                     <?php } elseif ($_SESSION[AUTH_TYPE] === 'admin') { ?>
                         <div class="d-flex mx-3 justify-content-start align-items-center">
-                        <i class="bi bi-person-circle" style="font-size: 45px"></i>
-                        <h4 class="mt-4 mx-2"><?php echo $_SESSION[AUTH_NAME]; ?></h4>
+                            <?php if (!empty($profileImage)): ?>
+                                <img class="profileImg rounded-circle shadow p-1 bg-white" id="preview_profileImage" alt="Profile Image" 
+                                    src="<?php echo $profileImage; ?>" style="width:5rem; height: 5rem">
+                            <?php else: ?>
+                                <i class="bi bi-person-circle" style="font-size: 2rem"></i>
+                            <?php endif; ?>
+                            <h3 class="mt-4 mx-2"><?php echo $_SESSION[AUTH_NAME]; ?></h3>
                         </div>
                         <hr class="p-0 m-3">
                         <li><a class="dropdown-item text-dark" href="<?php echo SITE_URL ?>/?page=admin_profile">Profile</a></li>

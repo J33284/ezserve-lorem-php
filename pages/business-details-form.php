@@ -130,9 +130,74 @@ WHERE b.businessCode = '$businessCode'");
                 }
             </script>
         </div>
+        <div class="bus-branch mx-2 mb-3">
+    <h3>Branches</h3>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Branch Name</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($businesses as $branch): ?>
+                    <tr>
+                        <td><?= $branch['branchName'] ?></td>
+                        <td><?= $branch['address'] ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<?php
+
+
+// SQL query to retrieve pending transactions with future pickup or delivery dates
+$sql = "SELECT 
+            t.clientName,
+            t.totalAmount,
+            t.status,
+            t.paymentDate,
+            t.pickupDate,
+            t.deliveryDate
+        FROM 
+            transact t
+        WHERE 
+            (t.pickupDate > CURDATE() OR t.deliveryDate > CURDATE())";
+
+
+$transactions = $DB->query($sql);
+?>
         <div>
-            <p>henlo agen</p>
+            <h3>Pending Transactions</h3>
+            <table class="table table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Client Name</th>
+                    <th>Amount</th>
+                    <th>Payment Status</th>
+                    <th>Transaction Date</th>
+                    <th>Pickup/Delivery Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($transactions as $transact): ?>
+                    <tr>
+                        <td><?= $transact['clientName'] ?></td>
+                        <td><?= $transact['totalAmount'] ?></td>
+                        <td><?= $transact['status'] ?></td>
+                        <td><?= $transact['paymentDate'] ?></td>
+                        <td><?= !empty($transact['pickupDate']) ? $transact['pickupDate'] : $transact['deliveryDate'] ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
         </div>
+
     </div>
 <?php else : ?>
     <p>No business found.</p>
