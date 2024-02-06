@@ -19,14 +19,13 @@ if (!defined('ACCESS')) {
 function viewUser($userID) {
     global $DB;
 
-    $usertype = $_SESSION[AUTH_TYPE]; // Get the user type from the session
+    $usertype = $_SESSION[AUTH_TYPE]; 
 
     if ($usertype === 'client') {
         $query = $DB->prepare("SELECT * FROM client WHERE clientID = ?");
     } elseif ($usertype === 'business owner') {
         $query = $DB->prepare("SELECT * FROM business_owner WHERE ownerID = ?");
     } else {
-        // Handle other user types or errors as needed
         return null;
     }
 

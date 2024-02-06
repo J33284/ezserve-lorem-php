@@ -8,9 +8,9 @@ date_default_timezone_set("Asia/Manila");
 define( 'DBHOST', 'localhost' );
 define( 'DBUSER', 'root' );
 define( 'DBPASS', '' );
-define( 'DBNAME', 'webworks_db' ); 
+define( 'DBNAME', 'ezserve_db' ); 
 
-define( 'SITE_TITLE', 'WEBWORKS' );
+define( 'SITE_TITLE', 'ezServe' );
 
 
 ?>
