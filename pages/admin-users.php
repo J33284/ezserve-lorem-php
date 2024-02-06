@@ -114,39 +114,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                        
                         <div class="Business-list">
-                    <table class="table table-hover table-responsive table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Business Name</th>
-                                <th>Business Type</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            if ($businesses !== null && $businesses->num_rows > 0) {
-                                while ($business = $businesses->fetch_assoc()) {
-                                    ?>
-                                    <tr>
-                                        <td><?= $business['busName'] ?></td>
-                                        <td><?= $business['busType'] ?></td>
-                                    </tr>
-                                    <?php
-                                }
-                            } else {
-                                ?>
-                                <tr>
-                                    <td colspan="2">No businesses found.</td>
-                                </tr>
-                                <?php
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+                        <table class="table table-hover table-responsive table-bordered">
+    <thead>
+        <tr>
+            <th>Business Name</th>
+            <th>Business Type</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        if ($businesses !== null && $businesses->num_rows > 0) {
+            while ($business = $businesses->fetch_assoc()) {
+                ?>
+                <tr>
+                    <td><?= $business['busName'] ?></td>
+                    <td><?= $business['busType'] ?></td>
+                    <td>
+                    <form action="?page=business-details-form" method="post">
+                        <input type="hidden" name="businessCode" value="<?= $business['businessCode'] ?>">
+                        <button type="submit" class="btn btn-primary view-package m-2" data-business-code="<?= $business['businessCode'] ?>">
+                            View
+                        </button>
+                    </form>
+                    </td>
+                </tr>
+                <?php
+            }
+        } else {
+            ?>
+            <tr>
+                <td colspan="3">No businesses found.</td>
+            </tr>
+            <?php
+        }
+        ?>
+    </tbody>
+</table>
+
                 </div>
+               
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-
+         
             <div class="offcanvas offcanvas-top overflow-auto p-3 rounded" style="width: 50vw; height: 60vh; margin: 50px 0 0 25vw;" tabindex="-1" id="offcanvasDelete<?= $account['ownerID'] ?>"  data-bs-backdrop="static" >
                 <div class="p-3">
                     <div class="offcanvas-header p-0 mb-3">
@@ -183,6 +194,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         <?php endforeach; ?>
     </div>
+                    
+    <hr>
+   
 </div>
 
+
 <script src="assets/js/user.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
