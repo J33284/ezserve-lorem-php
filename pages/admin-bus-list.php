@@ -26,10 +26,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $results = $DB->query($sql);
     }
     else {
-      $results = $businesses;
-    }}
-
+        $results = $businesses;
+    }
+}
 ?>
+
 <?= element('header') ?>
 
 <?= element('admin-side-nav') ?>
@@ -51,25 +52,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <th scope="col">Business Name</th>
                 <th scope="col">Business Owner</th>
                 <th scope="col">Business Type</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
         <?php foreach (empty($results) ? $businesses : $results as $key => $business) : ?>
-                <tr class="sticky-top mt-3">
-                    <th scope="row" class="bg-transparent border border-white"><?= $key + 1 ?></th>
-                    <td class="bg-transparent border border-white" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample<?= $business['businessCode'] ?>" role="button">
-                        <?= $business['busName'] ?>
-                    </td>
-                    <td class="bg-transparent border border-white" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample<?= $business['businessCode'] ?>" role="button">
-                        <?= $business['fname'] . ' ' . $business['lname'] ?>
-                    </td>
-                    <td class="bg-transparent border border-white" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample<?= $business['businessCode'] ?>" role="button">
-                        <?= $business['busType'] ?>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
+            <tr class="sticky-top mt-3">
+                <th scope="row" class="bg-transparent border border-white"><?= $key + 1 ?></th>
+                <td class="bg-transparent border border-white" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample<?= $business['businessCode'] ?>" role="button">
+                    <?= $business['busName'] ?>
+                </td>
+                <td class="bg-transparent border border-white" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample<?= $business['businessCode'] ?>" role="button">
+                    <?= $business['fname'] . ' ' . $business['lname'] ?>
+                </td>
+                <td class="bg-transparent border border-white" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample<?= $business['businessCode'] ?>" role="button">
+                    <?= $business['busType'] ?>
+                </td>
+                <td class="bg-transparent border border-white " style="width: 110px;">
+                    <button type="button" class="btn btn-sm btn-danger " data-bs-toggle="offcanvas" data-bs-target="#offcanvasDelete<?= $business['businessCode'] ?>"> <i class="bi bi-trash"></i><span> Delete</span></button>
+                </td>
+            </tr>
+        <?php endforeach; ?>
         </tbody>
     </table>
+
+    <?php foreach (empty($results) ? $businesses : $results as $business) : ?>
+        <div class="offcanvas offcanvas-top overflow-auto p-3 rounded" style="width: 50vw; height: 65vh; margin: 50px 0 0 25vw;" tabindex="-1" id="offcanvasDelete<?= $business['businessCode'] ?>"  data-bs-backdrop="static" >
+            <div class="p-3">
+                <div class="offcanvas-header p-0 mb-3" >
+                    <h3 class="offcanvas-title" id="offcanvasExampleLabel">Are you sure to delete business?</h3>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div style="height: 18rem">
+                <p>You are about to delete the business .</p>
+                <p class="text-justify">The business owner will receive a notification confirming that their request to delete the business has been successfully processed. </p>
+                <p>Click 'Confirm delete' to proceed with the deletion.</p>
+                </div>
+               
+                
+                <form method="post" action="delete_owner.php" >
+                    <input type="hidden" name="ownerID" value="">
+                    <button type="submit" class="btn btn-danger float-end">Confirm Delete</button>
+                </form>
+            </div>
+        </div>
+    <?php endforeach; ?>
 </div>
 
 <?= element('footer') ?>

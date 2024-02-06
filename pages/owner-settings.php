@@ -76,7 +76,8 @@ global $DB;
     <div class="card p-5 my-5">
         <h3>Account Deletion Request</h3>
         <hr>
-        <p>Send a request to delete your account that is stored in our system. You will receive an email to verify your request. Once the email have been verified, we will take care of deleting your business</p>
+        <p>Send a request to delete your account that is stored in our system. You will receive an email to verify your request. Once the email have been verified, we will take care of deleting your business.</p>
+        <p><strong>Note: Please be informed that all your business, branches, packages, and items registered under this account will also be deleted.</strong></p>
         <p><strong>Note: Please be informed that your account will be deleted once the administrators have reviewed your account.</strong></p>       
     
     <div class="d-flex">
