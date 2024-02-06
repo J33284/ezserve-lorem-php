@@ -14,7 +14,7 @@ $result = $DB->query($sql);
 
 ?>
 
-<div id="own-bus" class="own-bus">
+<div id="own-bus" class="own-bus" style="margin: 120px 0 0 22%;width: 75vw;">
     
 <div class="d-flex justify-content-between p-3">
         <h1>My Business</h1>

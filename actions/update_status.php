@@ -8,4 +8,4 @@ else {
     $businessCode = $_POST['business_Code'];
     $DB->query("UPDATE business SET status = -1 WHERE businessCode = '$businessCode'");
 }
-redirect ("?page=admin_business_reg");
+header ("Location: ?page=admin_business_reg");
