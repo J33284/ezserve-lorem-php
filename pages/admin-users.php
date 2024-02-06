@@ -64,13 +64,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php foreach (empty($results) ? $accounts : $results as $index => $account) : ?>
        <tr>
                         <td scope="row" class="bg-transparent border border-white"><?= $index + 1 ?></td>
-                        <td class="bg-transparent border border-white d-flex justify-content-between">
-                            <div class="d-flex justify-content-center align-items-center">
+                        <td class="bg-transparent border border-white ">
+                            
                                 <?= $account['fname'] . ' ' . $account['lname'] ?>
-                            </div>
-                            <button class="btn btn-primary mx-5" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccount<?= $account['ownerID'] ?>"><i class="bi bi-eye"></i> View</button>
-                        </td>
-                        <td class="bg-transparent border border-white " style="width: 110px;">
+                           
+                             </td>
+                        <td class="bg-transparent border border-white " style="width: 200px;">
+                        <button class="btn btn-sm btn-primary " data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccount<?= $account['ownerID'] ?>"><i class="bi bi-eye"></i> View</button>
+                       
                             <button type="button" class="btn btn-sm btn-danger " data-bs-toggle="offcanvas" data-bs-target="#offcanvasDelete<?= $account['ownerID'] ?>"> <i class="bi bi-trash"></i><span> Delete</span></button>
                         </td>
                     </tr>
@@ -134,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <form action="?page=business-details-form" method="post">
                         <input type="hidden" name="businessCode" value="<?= $business['businessCode'] ?>">
                         <button type="submit" class="btn btn-primary view-package m-2" data-business-code="<?= $business['businessCode'] ?>">
-                            View
+                        <i class="bi bi-eye mx-1"></i><span>View</span> 
                         </button>
                     </form>
                     </td>
@@ -186,9 +187,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <label class="form-check-label" for="flexCheckDefault"> Account Inactivity</label>
                         </div>
                     </div>
-                    <form method="post" action="delete_owner.php" >
+                    <form method="post" action="?action=delete_owner">
                         <input type="hidden" name="ownerID" value="<?= $account['ownerID'] ?>">
-                        <button type="submit" class="btn btn-danger float-end">Confirm Delete</button>
+                        <button type="submit" class="btn btn-danger float-end" onclick="return confirm('Are you sure you want to delete this owner?');">Confirm Delete</button>
                     </form>
                 </div>
             </div>
