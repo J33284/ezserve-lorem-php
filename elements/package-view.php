@@ -33,111 +33,52 @@ $itemsResults = $DB->query($itemsQuery);
         </div>
 
         <div  >
-            <?php while ($item = $itemsResults->fetch_assoc()) { ?>
-                <?php
-                // Query to get details associated with the item
-                $detailsQuery = "SELECT * FROM item_details WHERE itemCode = '{$item['itemCode']}';";
-                $detailsResults = $DB->query($detailsQuery);
-                ?>
-                <?php if ($package['pricingType'] == 'per pax') { ?>
-                    <!-- Code for 'per pax' pricing type -->
-                    <div class="card flex-row my-3" style="padding: 30px;" data-item-code="<?php echo $item['itemCode']; ?>" >
-                        <div class="col-3">
-                            <img class="rounded-5" src="<?php echo $item['itemImage'];?>" alt="Item Image" style="width: 10rem; height: 10rem">
-                        </div>
-                        <div class="col-8">
-                            <div class="d-flex justify-content-between">
-                                <h4 id="itemNameDisplay" style="display:block"><?php echo $item['itemName']; ?></h4>
-                                <input type="text" class="form-control" id="editItemName" placeholder="Enter new item name" style="display:none; height:40px; width:50%" value="<?php echo $item['itemName']; ?>">
-
-                            <div class="d-flex">
-                                <a href="#" id="editButton" class="btn-edit btn btn-primary mx-3" onclick="toggleEditable('<?php echo $item['itemCode']; ?>')">
-                                <i class="bi bi-pencil-fill"></i>
-                                <span>Edit</span>
-                                </a>
-                                <a href="#" id="deleteButton" class="btn-delete btn btn-danger" style="display:block">
-                                <i class="bi bi-trash"></i>
-                                <span>Delete</span>
-                                 </a>
-                                 <a href="#" id="saveButton" class="btn-delete btn btn-primary mx-3" style="display:none;" onclick="saveChanges('<?php echo $item['itemCode']; ?>')">
-                                <i class="bi bi-trash"></i>
-                                <span>Save</span>
-                                 </a>
-                                 <a href="#" id="cancelButton" class="btn-delete btn btn-secondary" style="display:none" onclick="cancelEdit('<?php echo $item['itemCode']; ?>')">
-                                <i class="bi bi-trash"></i>
-                                <span>Cancel</span>
-                                 </a>
-                            </div>
-                                
-                            </div>
-                            
-                            <hr>
-                            <div>
-                                <label><strong>Description:</strong></label>
-                                <p id="descriptionDisplay" style="display:block"><?php echo $item['description']; ?></p>
-                                <input class="form-control" id="editDescription" style="display:none; height: 80px;" value="<?php echo $item['description']; ?>"></input>
-                                <?php while ($detail = $detailsResults->fetch_assoc()) { ?>
-                                <p><strong><?php echo $detail['detailName']; ?>:</strong> <?php echo $detail['detailValue']; ?></p>
-                            <?php } ?>
-
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                <?php } else { ?>
-                    <div class="card flex-row my-3" style="padding: 30px;" data-item-code="<?php echo $item['itemCode']; ?>">
-                        <div class="col-3">
-                            <img class="rounded-5" src="<?php echo $item['itemImage'];?>" alt="Item Image" style="width: 10rem; height: 10rem">
-                        </div >
-                        <div class="col-8">
-                            <div class="d-flex justify-content-between">
-                                <h4 id="itemNameDisplay" style="display:block"><?php echo $item['itemName']; ?></h4>
-                                <input type="text" class="form-control" id="editItemName" placeholder="Enter new item name" style="display:none; height:40px; width:50%" value="<?php echo $item['itemName']; ?>">
-
-                                <div class="d-flex">
-                                <a href="#" id="editButton" class="btn-edit btn btn-primary mx-3" onclick="toggleEditable('<?php echo $item['itemCode']; ?>')">
-                                <i class="bi bi-pencil-fill"></i>
-                                <span>Edit</span>
-                                </a>
-                                <a href="#" id="deleteButton" class="btn-delete btn btn-danger" style="display:block">
-                                <i class="bi bi-trash"></i>
-                                <span>Delete</span>
-                                 </a>
-                                 <a href="#" id="saveButton" class="btn-delete btn btn-primary mx-3" style="display:none;" onclick="saveChanges('<?php echo $item['itemCode']; ?>')">
-                                <i class="bi bi-save"></i>
-                                <span>Save</span>
-                                 </a>
-                                 <a href="#" id="cancelButton" class="btn-delete btn btn-secondary" style="display:none" onclick="cancelEdit('<?php echo $item['itemCode']; ?>')">
-                                <i class="bi bi-trash"></i>
-                                <span>Cancel</span>
-                                 </a>
-                            </div>
-                                
-                            </div>
-                            
-                            
-                            <hr>
-                            <div>
-                            <label><strong>Description:</strong></label>
-                            <p class="m-0" id="descriptionDisplay" style="display:block; "><?php echo $item['description']; ?></p>
-                            <input class="form-control" id="editDescription" style="display:none; margin-bottom: 10px;" value="<?php echo $item['description']; ?>"></input>
-                            <p class="m-0" id="quantityDisplay" style="display:block;">Quantity: <?php echo $item['quantity'] ." ".  $item['unit']; ?></p>
-                            <input class="form-control" id="editQuantity" style="display:none;margin-bottom: 10px; " value="<?php echo $item['quantity']; ?>"></input>
-                            <p class="m-0" id="priceDisplay" style="display:block;"><strong>Price: <?php echo $item['price']; ?></strong></p>
-                            <input class="form-control" id="editPrice" style="display:none; " value="<?php echo $item['price']; ?>"></input>
-                               <?php while ($detail = $detailsResults->fetch_assoc()) { ?>
-                                <p><strong><?php echo $detail['detailName']; ?>:</strong> <?php echo $detail['detailValue']; ?></p>
-                            <?php } ?>
-                            </div>
-                            
-                        </div>
-                    </div>
+        <?php while ($item = $itemsResults->fetch_assoc()) { ?>
+    <?php
+    // Query to get details associated with the item
+    $detailsQuery = "SELECT * FROM item_details WHERE itemCode = '{$item['itemCode']}';";
+    $detailsResults = $DB->query($detailsQuery);
+    ?>
+    <div class="card flex-row my-3" style="padding: 30px;" data-item-code="<?php echo $item['itemCode']; ?>">
+        <div class="col-3">
+            <img class="rounded-5" src="<?php echo $item['itemImage']; ?>" alt="Item Image" style="width: 10rem; height: 10rem">
+        </div>
+        <div class="col-8">
+            <div class="d-flex justify-content-between">
+                <h4 id="itemNameDisplay" style="display:block"><?php echo $item['itemName']; ?></h4>
+                <input type="text" class="form-control" id="editItemName" placeholder="Enter new item name" style="display:none; height:40px; width:50%" value="<?php echo $item['itemName']; ?>">
+                <div class="d-flex">
+                    <a href="#" id="editButton" class="btn-edit btn btn-primary mx-3" onclick="toggleEditable('<?php echo $item['itemCode']; ?>')">
+                        <i class="bi bi-pencil-fill"></i>
+                        <span>Edit</span>
+                    </a>
+                    <a href="#" id="deleteButton" class="btn-delete btn btn-danger" style="display:block">
+                        <i class="bi bi-trash"></i>
+                        <span>Delete</span>
+                    </a>
+                    <a href="#" id="saveButton" class="btn-delete btn btn-primary mx-3" style="display:none;" onclick="saveChanges('<?php echo $item['itemCode']; ?>')">
+                        <i class="bi bi-save"></i>
+                        <span>Save</span>
+                    </a>
+                    <a href="#" id="cancelButton" class="btn-delete btn btn-secondary" style="display:none" onclick="cancelEdit('<?php echo $item['itemCode']; ?>')">
+                        <i class="bi bi-trash"></i>
+                        <span>Cancel</span>
+                    </a>
+                </div>
+            </div>
+            <hr>
+            <div>
+                <label><strong>Description:</strong></label>
+                <p id="descriptionDisplay" style="display:block"><?php echo $item['description']; ?></p>
+                <input class="form-control" id="editDescription" style="display:none; height: 80px;" value="<?php echo $item['description']; ?>"></input>
+                <?php while ($detail = $detailsResults->fetch_assoc()) { ?>
+                    <p><strong><?php echo $detail['detailName']; ?>:</strong> <?php echo $detail['detailValue']; ?></p>
                 <?php } ?>
-            <?php } ?>
+            </div>
         </div>
     </div>
-</div>
+<?php } ?>
+
 
 <script>
 function toggleEditable(itemCode) {
