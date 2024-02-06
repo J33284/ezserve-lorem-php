@@ -40,7 +40,6 @@ $itemsResults = $DB->query($itemsQuery);
                 $detailsResults = $DB->query($detailsQuery);
                 ?>
                 <?php if ($package['pricingType'] == 'per pax') { ?>
-                    <!-- Code for 'per pax' pricing type -->
                     <div class="card flex-row my-3" style="padding: 30px;" data-item-code="<?php echo $item['itemCode']; ?>" >
                         <div class="col-3">
                             <img class="rounded-5" src="<?php echo $item['itemImage'];?>" alt="Item Image" style="width: 10rem; height: 10rem">
