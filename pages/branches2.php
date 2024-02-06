@@ -21,26 +21,25 @@ $result = $DB->query($sql);
 ?>
 
 <?php while ($row = $result->fetch_assoc()): ?>
-<div id="own-bus" class="own-bus">
-    <div class=" row d-flex justify-content-center align-items-center p-3">
-        <a href="?page=owner_business" id="backButton" class=" col-1 btn-back">
-                <i class="bi bi-arrow-left" style="color: black;"></i>
-            </a>
-        <h1 class=" col" style="color: black;">My Business</h1>
-        <a class="col" href="?page=bus-register" id="registerButton">
-            <i class="bi bi-plus-square" style="color: black;">Register your business here!</i>
-        </a>
-        <div>
-           
-        </div>
-    </div>
+<div id="own-bus" class="own-bus mb-5" style="height: 100vh; margin: 120px 0 0 22%">
+            <div class="d-flex justify-content-between p-3">
+                <div class="d-flex ">
+                <a href="?page=owner_business" id="backButton" class=" btn-back mx-5">
+                    <i class="bi bi-arrow-left" style="color: black;"></i>
+                </a>
+                <h1 >My Business</h1>
+                </div>
+                
+            </div>
 
-    <div id="detailsForm" class="bus-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded">
+    
+
+    <div id="detailsForm" class="bus-info card border-0 rounded-3 shadow p-3 mb-5  bg-white rounded">
         <div class="business-details justify-content-between p-4" id="businessDetails<?= $row['businessCode'] ?>">
             <div class="row">
                 
                 <h2 class=" col-10 bus-info-header">Business Information</h2>
-                <a href="#" id="editButton" class=" col-2 btn-edit float-end mt-2" onclick="toggleEditable()">
+                <a href="#" id="editButton" class=" col-2 btn-edit btn-lg btn  float-end m-2" style="width: 150px" onclick="toggleEditable()">
                     <i class="bi bi-pencil-fill"></i>
                     <span>Edit</span>
                 </a>
@@ -99,17 +98,14 @@ $result = $DB->query($sql);
                 ?>
                 
               
-                <a href="#" id="ViewBranch" class="btn-view-branches align-items-center justify-content-center view-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleViewBranch(this, event)">
+                <a href="#branch-details" id="ViewBranch" class="btn-view-branches align-items-center justify-content-center view-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleViewBranch(this, event)">
                     <i class="bi bi-eye"></i>
                     <span>View Branch</span>
                 </a>
-                
-
-                <br>
                 <a href="#add-branch" id="AddBranch" class="btn-add-branch align-items-center justify-content-center add-branch-button" data-businesscode="<?= $row['businessCode'] ?>" onclick="toggleAddBranch(this, event)">
-                <i class="bi bi-plus-square"></i>
-                <span>Add Branch</span>
-            </a>
+                    <i class="bi bi-plus-square"></i>
+                    <span>Add Branch</span>
+                </a>
 
             </form>
         </div>
@@ -118,7 +114,7 @@ $result = $DB->query($sql);
 
 <!-- Add this in the "add-branch" section -->
 <div class="add-branch" id="branch<?= $businessCode ?>" style="display: none;">
-    <div class="branch-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded" style="height: auto">
+    <div class="branch-info card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" style="height: auto">
         <div class="d-flex justify-content-between p-4">
             <h2>Branch Information</h2>
         </div>
@@ -126,15 +122,20 @@ $result = $DB->query($sql);
             <input type="hidden" name="add_branch" value="<?= $row['businessCode'] ?>">
             <div class="column d-flex row justify-content-between">
                 <div class="col-md-7 flex-column">
+                    <div class="mb-3">
                     <h6>Branch Name</h6>
-                    <input type="text" class="about-field form-control" name="data[branchName]" placeholder="Tell something about your business" required>
+                    <input type="text" class="about-field form-control" name="data[branchName]" placeholder="Tell something about your business"  style="height: 50px;" required>
+                    </div>
+                    <div class="mb-3">
                     <h6>Address</h6>
-                    <input type="text" class="about-field form-control" name="data[address]" placeholder="Bldg No., Street, Brgy., City/Province" required>
+                    <input type="text" class="about-field form-control" name="data[address]" placeholder="Bldg No., Street, Brgy., City/Province" style="height: 50px;" required>
+                    </div>
+                    
 
                     <!-- Coordinates -->
                     <h6>Coordinates</h6>
                     <div>
-                        <input type="text" class="about-field form-control" name="data[coordinates]" id="coordinatesInputAddBranch" placeholder="Enter Branch Map Location" required>
+                        <input type="text" class="about-field form-control" name="data[coordinates]" id="coordinatesInputAddBranch" placeholder="Enter Branch Map Location"  style="height: 50px;" required>
                         <button type="button" class="btn btn-primary mt-2" onclick="openMapInAddBranch()">Browse Map</button>
                         <div id="mapAddBranch" style="display: none; height: 400px; width: 700px;"></div>
                     </div>
@@ -154,7 +155,7 @@ $result = $DB->query($sql);
                     <br>
                 </div>
 
-                <div class="mt-4 p-4 d-flex ">
+                <div class=" p-4 d-flex ">
                     <button type="submit" button class="btn btn-primary" name=createBranch id="createBranch<?= $branchData['branchCode'] ?>">Create Branch</button>
                     <button type="button" button class="btn btn-secondary mx-3" name=cancelCreate id="cancelCreate<?= $branchData['branchCode'] ?>" onclick="hideAddBranch('<?= $businessCode ?>')">Cancel</button>
                 </div>
@@ -170,10 +171,10 @@ $result = $DB->query($sql);
 <!-- View Branch -->
 <div class="branch-details" id="branchDetails<?= $businessCode ?>" style="display: block;">
     <?php while ($branchData = $branchResult->fetch_assoc()): ?>
-        <div class="branch-info card border-0 rounded-5 shadow p-3 mb-5 bg-white rounded" id="branchDetails_<?= $branchData['branchCode'] ?>">
+        <div class="branch-info card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" id="branchDetails_<?= $branchData['branchCode'] ?>">
             <div class="d-flex justify-content-between p-4">
               <h2>Branch Information</h2>
-              <a id="editBranch_<?= $branchData['branchCode'] ?>" class="btn-edit float-end mt-4" onclick="toggleEditBranch('<?= $branchData['branchCode'] ?>')">
+              <a id="editBranch_<?= $branchData['branchCode'] ?>" class="btn-edit btn-lg btn  float-end mt-4" onclick="toggleEditBranch('<?= $branchData['branchCode'] ?>')">
                 <i class="bi bi-pencil-fill"></i>
                 <span>Edit</span>
                 </a>
@@ -334,6 +335,14 @@ function updateCoordinatesInputBranchDetails(branchCode, lat, lng) {
     var coordinatesInput = document.getElementById('coordinates_' + branchCode);
     coordinatesInput.value = lat + ', ' + lng;
 }
+
+    // Assuming you have a JavaScript variable hasBranchResults that indicates whether there are branch results
+    var hasBranchResults = <?php echo $branchResult->num_rows > 0 ? 'true' : 'false'; ?>;
+
+    // Set the visibility of the "View Branch" button based on the JavaScript variable
+    document.getElementById('ViewBranch').style.display = hasBranchResults ? 'block' : 'none';
+
+    
 
 </script>
 

@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <script>
                 setTimeout(function() {
                     window.location.href = '?page=owner_voucher';
-                }, 1000); // Redirect after 3 seconds
+                }, 3000); // Redirect after 3 seconds
               </script>";
     } else {
         echo "Error: " . $sql . "<br>" . $DB->error;

@@ -47,24 +47,37 @@
                     $branchCode = $row["branchCode"];
                     $branchNameResult = $DB->query("SELECT branchName FROM branches WHERE branchCode = '$branchCode'");
                     $branchName = ($branchNameResult->num_rows > 0) ? $branchNameResult->fetch_assoc()["branchName"] : '';
+
+                    $packCode = $row["packCode"];
+                    $packNameResult = $DB->query("SELECT packName FROM package WHERE packCode = '$packCode'");
+                    $packName = ($packNameResult->num_rows > 0) ? $packNameResult->fetch_assoc()["packName"] : '';
                 ?>
                     <tr>
-                        <td class="bg-transparent border border-white"><?= $busName ?></td>
-                        <td class="bg-transparent border border-white"><?= $branchName ?></td>
-                        <td class="bg-transparent border border-white"><?= $row["voucherName"] ?></td>
-                        <td class="bg-transparent border border-white"><?= $row["voucherCode"] ?></td>
-                        <td class="bg-transparent border border-white"><?= $row["voucherType"] ?></td>
-                        <td class="bg-transparent border border-white">
+                        <td><?= $busName ?></td>
+                        <td><?= $branchName ?></td>
+                        <td><?= $row["voucherName"] ?></td>
+                        <td><?= $row["voucherCode"] ?></td>
+                        <td>
+                        <?php
+                        echo $row["voucherType"];
+                        if ($row["voucherType"] === "Specific Package") {
+                            echo " ($packName)";
+                        } elseif ($row["voucherType"] === "Minimum Spend") {
+                            echo " (₱" . $row["min_spend"] . ")";
+                        }
+                        ?>
+                        </td>
+                        <td>
                             <?= ($row["discountType"] === 'percentage') ? $row["discountValue"] . '%' : '₱' . $row["discountValue"] ?>
                         </td>
-                        <td class="bg-transparent border border-white"><?= $row["startDate"] ?></td>
-                        <td class="bg-transparent border border-white"><?= $row["endDate"] ?></td>
-                        <td class="bg-transparent border border-white">
+                        <td ><?= $row["startDate"] ?></td>
+                        <td ><?= $row["endDate"] ?></td>
+                        <td >
                             <div class="d-flex ">
                                 <a href="?page=edit_voucher&id=<?= $row["voucherID"] ?>" class="btn btn-warning mx-2">
                                     <i class="fas fa-edit"></i> <!-- Edit icon -->
                                 </a>
-                                <a href="?page=delete_voucher&id=<?= $row["voucherID"] ?>" class="btn btn-danger">
+                                <a href="#" class="btn btn-danger" onclick="confirmDelete(<?= $row["voucherID"] ?>)">
                                     <i class="fas fa-trash-alt"></i> <!-- Delete icon -->
                                 </a>
                             </div>
@@ -84,3 +97,33 @@
         </div>
     <?php } ?>
 </div>
+
+<div id="deleteConfirmationModal" class="modal" tabindex="-1">
+    <div class="modal-dialog" style= "margin-top: 180px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this voucher?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a id="deleteVoucherButton" href="#" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmDelete(voucherID) {
+        // Set the href attribute of the delete button in the modal
+        var deleteButton = document.getElementById("deleteVoucherButton");
+        deleteButton.setAttribute("href", "?action=delete_voucher&id=" + voucherID);
+
+        // Show the modal
+        var deleteConfirmationModal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'));
+        deleteConfirmationModal.show();
+    }
+</script>

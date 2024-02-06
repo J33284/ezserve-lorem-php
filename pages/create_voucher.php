@@ -1,7 +1,5 @@
 <?= element('header') ?>
 
-
-
 <?php
 global $DB;
 $ownerID = isset($_SESSION['userID']) ? $_SESSION['userID'] : null;
@@ -34,7 +32,7 @@ $packages = $DB->query("SELECT * FROM package");
             <input type="text" class="form-control" name="voucherName" required><br>
 
             <label for="voucherCode">Voucher Code:</label>
-            <input type="text" class="form-control" name="voucherCode"required><br>
+            <input type="text" class="form-control" name="voucherCode"><br>
 
             <label for="condition">Voucher Type:</label>
             <select name="condition" class="form-control" id="condition" onchange="updateDiscountFields()">
