@@ -19,18 +19,18 @@ $payments = $DB->query("
     <div class="d-flex justify-content-between p-3">
         <h1 class="page-title">Client Orders</h1>
     </div>
-    <div id="searchbar" class="d-flex my-3 ">
+    <!-- <div id="searchbar" class="d-flex my-3 ">
         <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-        <span class="search-btn input-group-text border-0">
+        <span class="search-btn btn btn-primary input-group-text border-0">
             <i class="bi bi-search"></i>
         </span>
-    </div>
-<div>
-    <table class="table table-hover table-responsive">
+    </div> -->
+<div class="table-responsive" style="overflow-x:auto; height: 100vh; width:auto;">
+    <table class="table table-hover ">
         <thead class="table-dark">
             <tr>
                 <th scope="col"></th>
-                <th scope="col">Transaction No.</th>
+                <th scope="col" class="w-25 text-wrap">Transaction No.</th>
                 <th scope="col">Client Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Contact No.</th>
@@ -47,15 +47,18 @@ $payments = $DB->query("
             ?>
                 <tr>          
                     <th class="bg-transparent border border-white" scope="row"><?= $rowNumber ?></th>
-                    <td class="bg-transparent border border-white"><?= $payment['transCode']?></td>
-                    <td class="bg-transparent border border-white"><?= $payment['clientName']?></td>
+                    <td class="bg-transparent border border-white" ><?= $payment['transCode']?></td>
+                    <td class="bg-transparent border border-white "><?= $payment['clientName']?></td>
                     <td class="bg-transparent border border-white"><?= $payment['email']?></td>
                     <td class="bg-transparent border border-white"><?= $payment['mobileNumber']?></td>
                     <td class="bg-transparent border border-white"><?= $payment['packName'] != '' ? $payment['packName'] : 'Custom Package' ?></td>
                     <td class="bg-transparent border border-white"><?= $payment['paymentMethod'] ?></td>
                     <td class="bg-transparent border border-white">₱<?= number_format($payment['totalAmount'], 2) ?></td>
+                    <div class="status flex-containeri">
                     <td class="bg-transparent border border-white"><?= $payment['transaction_status'] ?>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateStatusModal<?= $payment['transID'] ?>">Update</button>
+                    </div>
+                    
                         <!-- Modal for updating status -->
                         <div class="modal fade" id="updateStatusModal<?= $payment['transID'] ?>" tabindex="-1" aria-labelledby="updateStatusModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -88,7 +91,7 @@ $payments = $DB->query("
                         <td class="bg-transparent border border-white">
                             <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasPayment<?= $payment['transID'] ?>">View</button>
 
-                            <div class="offcanvas offcanvas-top rounded-3" tabindex="-1" id="offcanvasPayment<?= $payment['transID'] ?>" style="width: 50vw; height: 50vh; margin: 150px 0 0 25vw;">
+                            <div class="offcanvas offcanvas-top rounded-3 overflow-auto" tabindex="-1" id="offcanvasPayment<?= $payment['transID'] ?>" style="width: 50vw; height: 80vh; margin: 50px 0 0 25vw; ">
                                 <div class="offcanvas-header">
                                     <h3 class="offcanvas-title p-3">Transaction Receipt</h3>
                                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
@@ -179,3 +182,9 @@ $payments = $DB->query("
         </tbody>
     </table>
 </div>
+
+<style>
+    td, th{
+        max-width: 500px!important;
+    }
+</style>

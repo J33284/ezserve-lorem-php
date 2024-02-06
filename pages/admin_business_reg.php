@@ -92,119 +92,125 @@ $businesses = $DB->query("SELECT b.*, bo.* FROM business b
                             <div class="card-body">
                             <h1>Business Registration</h1>
                             <hr>
-                            <h5 class="text-light bg-info">Owner Information</h5>
+                            <h5 class="text-light bg-info p-2">Owner Information</h5>
                             <div class="row d-flex align-items-center mb-2">
-                                <label class="mb-2 col-3" for="ownerName">Owner's Name</label>
-                                <input type="text" class="form-control col" name="data[ownerName]" id="fname" value="<?= $business['fname'] . ' ' . $business['lname'] ?>" readonly>
+                                <label class="mb-2 col-4" for="ownerName">Owner's Name</label>
+                                <input type="text" class="form-control col mx-3" name="data[ownerName]" id="fname" value="<?= $business['fname'] . ' ' . $business['lname'] ?>" readonly>
                             </div>
                             <div class="row d-flex align-items-center mb-2">
-                                <label class="mb-2 col-3" for="ownerAddress">Owner's Address</label>
-                                <input type="text" class="form-control col" name="data[ownerAddress]" id="ownerAddress" value="<?= $business['ownerAddress'] ?>" readonly>
+                                <label class="mb-2 col-4" for="ownerAddress">Owner's Address</label>
+                                <input type="text" class="form-control col mx-3" name="data[ownerAddress]" id="ownerAddress" value="<?= $business['ownerAddress'] ?>" readonly>
                             </div>
-                            <h5 class="text-light bg-info">Business Information</h5>
+                            <h5 class="text-light bg-info p-2">Business Information</h5>
                             <div class="row d-flex align-items-center mb-2">
-                                <label class="mb-2 col-3" for="busName">Business Name</label>
-                                <input type="text" class="form-control col" name="data[busName]" id="busName" value="<?= $business['busName'] ?>" readonly>
+                                <label class="mb-2 col-4" for="busName">Business Name</label>
+                                <input type="text" class="form-control col mx-3" name="data[busName]" id="busName" value="<?= $business['busName'] ?>" readonly>
                             </div>
                             <div class="row d-flex align-items-center mb-2">
-                                <label class="mb-2 col-3" for="busType">Business Type</label>
-                                <input type="text" class="form-control col" name="data[busType]" id="busType" value="<?= $business['busType'] ?>" readonly>
+                                <label class="mb-2 col-4" for="busType">Business Type</label>
+                                <input type="text" class="form-control col mx-3" name="data[busType]" id="busType" value="<?= $business['busType'] ?>" readonly>
                             </div>
 
-                            <h6 class="text-light bg-info">Business Address</h6>
+                            <h6 class="text-light bg-info p-2">Business Address</h6>
                             <p class="note mb-3">*Address of the Main Branch</p>
                             <div class="row mb-2">
                             <label class=" col-4" for="house-building">House/Building No. & Name</label>
-                            <input type="text" class="form-control col" name="data[house_building]" id="house_building"  value="<?= $business['house_building'] ?>"readonly>
+                            <input type="text" class="form-control col mx-3" name="data[house_building]" id="house_building"  value="<?= $business['house_building'] ?>"readonly>
                         </div>
                         <div class="row mb-2">
                             <label class="col-4" for="street">Street</label>
-                            <input type="text" class="form-control col" name="data[street]" id="street" value="<?= $business['street'] ?>" readonly>
+                            <input type="text" class="form-control col mx-3" name="data[street]" id="street" value="<?= $business['street'] ?>" readonly>
                         </div>
                         <div class="row mb-2">
                             <label class="col-4" for="barangay">Barangay</label>
-                            <input type="text" class="form-control col" name="data[barangay]" id="barangay" value="<?= $business['barangay'] ?>" readonly>
+                            <input type="text" class="form-control col mx-3" name="data[barangay]" id="barangay" value="<?= $business['barangay'] ?>" readonly>
                         </div> 
                         <div class="row mb-2">
                             <label class="col-4" for="city_municipality">City/ Municipality</label>
-                            <input type="text" class="form-control col" name="data[city_municipality]" id="city_municipality" value="<?= $business['city_municipality'] ?>" readonly>
+                            <input type="text" class="form-control col mx-3" name="data[city_municipality]" id="city_municipality" value="<?= $business['city_municipality'] ?>" readonly>
                         </div>
                         <div class="row mb-2">
                             <label class="col-4" for="province">Province</label>
-                            <input type="text" class="form-control col" name="data[province]" id="Province" value="<?= $business['province'] ?>" readonly>
+                            <input type="text" class="form-control col mx-3" name="data[province]" id="Province" value="<?= $business['province'] ?>" readonly>
                         </div>
                         <div class="row mb-2">
                             <label class="col-4" for="region">Region</label>
-                            <input type="text" class="form-control col" name="data[region]" id="region" value="<?= $business['region'] ?>" readonly>
+                            <input type="text" class="form-control col mx-3" name="data[region]" id="region" value="<?= $business['region'] ?>" readonly>
                         </div>
                         <div class="row mb-2">
                             <label class="col-4" for="phone">Telephone Number</label>
-                            <input type="text" class="form-control col" name="data[phone]" id="phone" value="<?= $business['phone'] ?>" readonly>
+                            <input type="text" class="form-control col mx-3" name="data[phone]" id="phone" value="<?= $business['phone'] ?>" readonly>
                         </div>
                         <div class="row mb-2">
                             <label class="col-4" for="mobile">Mobile Number</label>
-                            <input type="text" class="form-control col" name="data[mobile]" id="mobile" value="<?= $business['mobile'] ?>" readonly>
+                            <input type="text" class="form-control col mx-3" name="data[mobile]" id="mobile" value="<?= $business['mobile'] ?>" readonly>
                         </div>
 
-                        <h5 class="text-light bg-info">Business Permits</h5>      
-                            <?php
-                            $permitPath = $business['permits']; // Assuming the file path is stored in the 'permits' field
-                            $sanitaryPath = $business['sanitary']; // Assuming the file path is stored in the 'sanitary' field
-                            $taxPath = $business['tax']; // Assuming the file path is stored in the 'tax' field
+                        <h5 class="text-light bg-info p-2">Business Permits</h5>      
+                        <?php
+            $permitPath = $business['permits']; // Assuming the file path is stored in the 'permits' field
+            $sanitaryPath = $business['sanitary']; // Assuming the file path is stored in the 'sanitary' field
+            $taxPath = $business['tax']; // Assuming the file path is stored in the 'tax' field
 
-                            // Function to display file information and content
-                            function displayFile($filePath, $fileType, $portraitWidth = null, $portraitHeight = null, $landscapeWidth = null, $landscapeHeight = null)
-                            {
-                                if (file_exists($filePath)) {
-                                    $fileInfo = pathinfo($filePath);
-                                    $fileName = $fileInfo['basename'];
+            // Function to display file names with links
+            function displayFileName($filePath, $fileType)
+            {
+                if (file_exists($filePath)) {
+                    $fileName = pathinfo($filePath, PATHINFO_BASENAME);
+                    echo "<p><a href='javascript:void(0);' onclick='showImage(\"$filePath\", \"$fileType\");'>$fileName</a></p>";
+                } else {
+                    echo "<p>No file uploaded for $fileType.</p>";
+                }
+            }
 
-                                    echo "<p>File Name: $fileName</p>";
-                                    // Get image dimensions
-                                    list($originalWidth, $originalHeight) = getimagesize($filePath);
+            // Display permits
+            echo "<h6><strong>Permits</strong></h6>";
+            displayFileName($permitPath, 'Permits');
 
-                                    // Calculate aspect ratio
-                                    $aspectRatio = $originalWidth / $originalHeight;
+            // Display sanitary
+            echo "<h6><strong>Sanitary</strong></h6>";
+            displayFileName($sanitaryPath, 'Sanitary');
 
-                                    // Determine whether the image is portrait or landscape
-                                    $isPortrait = ($aspectRatio < 1);
+            // Display tax
+            echo "<h6><strong>Tax</strong></h6>";
+            displayFileName($taxPath, 'Tax');
+            ?>
 
-                                    // Set the width and height based on orientation
-                                    $width = $isPortrait ? $portraitWidth : $landscapeWidth;
-                                    $height = $isPortrait ? $portraitHeight : $landscapeHeight;
+            <!-- Script to display image when clicked -->
+            <script>
+                function showImage(filePath, fileType) {
+                    if (filePath.toLowerCase().endsWith('.pdf')) {
+                        // If it's a PDF, open in a new tab
+                        window.open(filePath, '_blank');
+                    } else {
+                        // If it's an image, display it in a modal or lightbox
+                        var image = new Image();
+                        image.src = filePath;
 
-                                    // Display file content for images
-                                    $allowedImageFormats = array("jpg", "jpeg", "png");
-                                    if (in_array(strtolower($fileInfo['extension']), $allowedImageFormats)) {
-                                         echo "<img src='$filePath' alt='$fileType' style='width:{$width}px; height:{$height}px;'>";
+                        var modal = document.createElement('div');
+                        modal.style.position = 'fixed';
+                        modal.style.top = '0';
+                        modal.style.left = '0';
+                        modal.style.width = '100%';
+                        modal.style.height = '100%';
+                        modal.style.background = 'rgba(0, 0, 0, 0.8)';
+                        modal.style.display = 'flex';
+                        modal.style.alignItems = 'center';
+                        modal.style.justifyContent = 'center';
 
-                                    } else {
-                                        // Display file content for other file types using appropriate tags
-                                        if ($fileInfo['extension'] === 'pdf') {
-                                            // Example: Use an <a> tag with target="_blank" for PDF files
-                                            echo "<a href='$filePath' target='_blank'>View PDF</a>";
-                                        } else {
-                                            // Add handling for other file types here
-                                            echo "<p>Unable to display this file type.</p>";
-                                        }
-                                    }
-                                } else {
-                                    echo "<p>No file uploaded.</p>";
-                                }
-                            }
+                        image.style.maxWidth = '90%';
+                        image.style.maxHeight = '90%';
 
-                            // Display permits
-                            echo "<h6><strong>Permits</strong></h6>";
-                            displayFile($permitPath, 'Permits',  500, 900, 800, 400);
+                        modal.appendChild(image);
+                        document.body.appendChild(modal);
 
-                            // Display sanitary
-                            echo "<h6><strong>Sanitary</strong></h6>";
-                            displayFile($sanitaryPath, 'Sanitary', 500, 900,  800, 400);
-
-                            // Display tax
-                            echo "<h6><strong>Tax</strong></h6>";
-                            displayFile($taxPath, 'Tax',500, 900,  800, 400);
-                            ?>
+                        // Close modal on click
+                        modal.onclick = function () {
+                            modal.remove();
+                        };
+                    }
+                }
+            </script>
 
                      
                       

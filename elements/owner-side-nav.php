@@ -1,10 +1,23 @@
+<?php
+$userData = viewUser($_SESSION['userID']);
+$profileImage = $userData->profileImage;
+
+?>
+
+
 <div class="side-nav card fixed-top rounded-4 bg-opacity-10 bg-white">
   <?php if (isset($_SESSION[AUTH_ID])) { ?>
     <?php if ($_SESSION[AUTH_TYPE] === 'business owner') { ?>
       <div class="d-flex mx-3 justify-content-start align-items-center">
-        <i class="bi bi-person-circle" style="font-size: 45px"></i>
-        <h3 class="mt-4 mx-2"><?php echo $_SESSION[AUTH_NAME]; ?></h3>
-      </div>
+    <?php if (!empty($profileImage)): ?>
+        <img class="profileImg rounded-circle shadow p-1 bg-white" id="preview_profileImage" alt="Profile Image" 
+            src="<?php echo $profileImage; ?>" style="width:5rem; height: 5rem">
+    <?php else: ?>
+        <i class="bi bi-person-circle" style="font-size: 2rem"></i>
+    <?php endif; ?>
+    <h3 class="mt-4 mx-2"><?php echo $_SESSION[AUTH_NAME]; ?></h3>
+</div>
+
     <?php } ?>
     <hr class="mx-3">
     <div>

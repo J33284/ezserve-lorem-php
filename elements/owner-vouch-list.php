@@ -70,11 +70,11 @@
                         <td>
                             <?= ($row["discountType"] === 'percentage') ? $row["discountValue"] . '%' : '₱' . $row["discountValue"] ?>
                         </td>
-                        <td><?= $row["startDate"] ?></td>
-                        <td><?= $row["endDate"] ?></td>
-                        <td>
-                            <div class="d-flex">
-                                <a href="?page=edit_voucher&id=<?= $row["voucherID"] ?>" class="btn btn-warning">
+                        <td class="bg-transparent border border-white"><?= $row["startDate"] ?></td>
+                        <td class="bg-transparent border border-white"><?= $row["endDate"] ?></td>
+                        <td class="bg-transparent border border-white">
+                            <div class="d-flex ">
+                                <a href="?page=edit_voucher&id=<?= $row["voucherID"] ?>" class="btn btn-warning mx-2">
                                     <i class="fas fa-edit"></i> <!-- Edit icon -->
                                 </a>
                                 <a href="#" class="btn btn-danger" onclick="confirmDelete(<?= $row["voucherID"] ?>)">
