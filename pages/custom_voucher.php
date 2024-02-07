@@ -80,7 +80,7 @@ $hasVouchers = $voucherResult->num_rows > 0;
                                 <h5 class="card-title"><?= $voucher['voucherCode'] ?></h5>
                                 <p class="card-text">Condition: <?= $voucher['voucherType'] ?></p>
                                 <p class="card-text m-0" style="color:  #ff1a1a"><?= $voucher['startDate'] ?> - <?= $voucher['endDate'] ?></p>
-                                <a href="#" class="btn btn-primary float-end" onclick="applyVoucher('<?= $voucher['voucherCode'] ?>', '<?= $voucher['packCode'] ?>', '<?= $voucher['voucherType'] ?>', '<?= $voucher['discountType'] ?>', <?= $voucher['discountValue'] ?>, <?= $grandTotal ?>, '<?= $packCode ?>', '<?= $voucher['startDate'] ?>', '<?= $voucher['endDate'] ?>')">Use Voucher</a>
+                                <a href="#" class="btn btn-primary float-end" onclick="applyVoucher('<?= $voucher['voucherCode'] ?>', '<?= $voucher['packCode'] ?>', '<?= $voucher['voucherType'] ?>', '<?= $voucher['discountType'] ?>', <?= $voucher['discountValue'] ?>, <?= $grandTotal ?>, '<?= $voucher['startDate'] ?>', '<?= $voucher['endDate'] ?>')">Use Voucher</a>
                     
                               
                                 </div>

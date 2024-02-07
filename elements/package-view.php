@@ -53,7 +53,7 @@ $itemsResults = $DB->query($itemsQuery);
                                     <i class="bi bi-pencil-fill"></i>
                                     <span>Edit</span>
                                 </a>
-                                <a href="?action=delete_item&itemCode=<?php echo $item['itemCode']; ?>" class="btn-delete btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?'); ">
+                                <a href="?action=delete_item&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>&packCode=<?= $packCode ?>&itemCode=<?php echo $item['itemCode']; ?>" class="btn-delete btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?'); ">
                                 <i class="bi bi-trash"></i>
                                 <span>Delete</span>
                                  </a>
