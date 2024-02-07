@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
         set_message("File upload error for permits: " . $permits['error']);
         // Handle the error or redirect accordingly
     } else {
-        $targetDirectory = 'assets/uploads';
+        $targetDirectory = '/assets/uploads';
         $targetFile = $targetDirectory . '/' . basename($permits['name']);
 
         // Create the target directory if it doesn't exist
