@@ -33,7 +33,7 @@ if (!empty($businessCode) && !empty($branchCode)) {
 
         <div class="package-details">
               <div class="justify-items-center align-items-center d-flex row mb-4">
-                  <a href="?page=branches&branchCode=<?= $branchCode ?>" class=" col-1 btn-back btn-md text-dark float-center d-flex">
+                  <a href="?page=branches&businesscode=<?=$businessCode?>" class=" col-1 btn-back btn-md text-dark float-center d-flex">
                       <i class="bi bi-arrow-left"></i>
                   </a>
                   <h1 class="d-flex justify-content-start align-items-center col-8"><?= $branch['branchName'] ?> </h1>
