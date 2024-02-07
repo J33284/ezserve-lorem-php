@@ -159,15 +159,15 @@ function displayFileName($filePath, $fileType)
 
                         <h5 class="text-light bg-info p-2">Business Permits</h5>      
                         <?php
-            $permitPath = $business['permits']; // Assuming the file path is stored in the 'permits' field
-            $sanitaryPath = $business['sanitary']; // Assuming the file path is stored in the 'sanitary' field
-            $taxPath = $business['tax']; // Assuming the file path is stored in the 'tax' field
-            $clearancePath = $business['clearance'];
-            $BIRPath = $business['BIR']; // Assuming the file path is stored in the 'permits' field
-            $ECCPath = $business['ECC']; // Assuming the file path is stored in the 'sanitary' field
-            $DTIPath = $business['DTI']; // Assuming the file path is stored in the 'tax' field
-            $firesafetyPath = $business['fireSafety'];
-            $SECPath = $business['SEC'];
+                        $permitPath = $business['permits']; // Assuming the file path is stored in the 'permits' field
+                        $sanitaryPath = $business['sanitary']; // Assuming the file path is stored in the 'sanitary' field
+                        $taxPath = $business['tax']; // Assuming the file path is stored in the 'tax' field
+                        $clearancePath = $business['clearance'];
+                        $BIRPath = $business['BIR']; // Assuming the file path is stored in the 'permits' field
+                        $ECCPath = $business['ECC']; // Assuming the file path is stored in the 'sanitary' field
+                        $DTIPath = $business['DTI']; // Assuming the file path is stored in the 'tax' field
+                        $firesafetyPath = $business['fireSafety'];
+                        $SECPath = $business['SEC'];
         
 
             // Display permits
@@ -235,10 +235,7 @@ function displayFileName($filePath, $fileType)
                 }
             </script>
 
-                     
-                      
-
-
+                    
                 </div>
             <?php endforeach; ?>
         </tbody>

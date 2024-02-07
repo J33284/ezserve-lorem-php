@@ -91,53 +91,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
 
                 $businessID = $DB->insert_id;
 
-                if(isset($_FILES['permits']) && !empty($_FILES['permits']['name'])) {
-                    $permitFileName = $_FILES['permits']['name'];
-                    $permitTempName = $_FILES['permits']['tmp_name'];
-                    $permitType = 'BIR';
-                    move_uploaded_file($permitTempName, "/assets/uploads/" . $permitFileName);
-                    $DB->query("UPDATE business SET BIR = '$permitFileName' WHERE businessCode = '$businessID'");
-                }
+                $permitTypes = ['BIR', 'clearance', 'DTI', 'ECC', 'firesafety', 'SEC'];
+    foreach ($permitTypes as $permitType) {
+        if (isset($_FILES['permits'][$permitType]) && !empty($_FILES['permits'][$permitType]['name'])) {
+            $permitFileName = $_FILES['permits'][$permitType]['name'];
+            $permitTempName = $_FILES['permits'][$permitType]['tmp_name'];
+            $targetDirectory = '/assets/uploads';
+            $targetFile = $targetDirectory . '/' . $permitFileName;
 
-                if(isset($_FILES['permits']) && !empty($_FILES['permits']['name'])) {
-                    $permitFileName = $_FILES['permits']['name'];
-                    $permitTempName = $_FILES['permits']['tmp_name'];
-                    $permitType = 'clearance';
-                    move_uploaded_file($permitTempName, "/assets/uploads/" . $permitFileName);
-                    $DB->query("UPDATE business SET clearance  = '$permitFileName' WHERE businessCode = '$businessID'");
-                }
+            // Create the target directory if it doesn't exist
+            if (!file_exists($targetDirectory)) {
+                mkdir($targetDirectory, 0755, true);
+            }
 
-                if(isset($_FILES['permits']) && !empty($_FILES['permits']['name'])) {
-                    $permitFileName = $_FILES['permits']['name'];
-                    $permitTempName = $_FILES['permits']['tmp_name'];
-                    $permitType = 'DTI';
-                    move_uploaded_file($permitTempName, "/assets/uploads/" . $permitFileName);
-                    $DB->query("UPDATE business SET DTI  = '$permitFileName' WHERE businessCode = '$businessID'");
-                }
+            // Move the file to the specified directory
+            if (move_uploaded_file($permitTempName, $_SERVER['DOCUMENT_ROOT'] . $targetFile)) {
+                // Update the corresponding column in the database
+                $DB->query("UPDATE business SET $permitType = '$permitFileName' WHERE businessCode = '$businessID'");
+            } else {
+                set_message("Failed to upload $permitType file.");
+            }
+        }
+    }
 
-                if(isset($_FILES['permits']) && !empty($_FILES['permits']['name'])) {
-                    $permitFileName = $_FILES['permits']['name'];
-                    $permitTempName = $_FILES['permits']['tmp_name'];
-                    $permitType = 'ECC';
-                    move_uploaded_file($permitTempName, "/assets/uploads/" . $permitFileName);
-                    $DB->query("UPDATE businesses SET ECC  = '$permitFileName' WHERE businessCode = '$businessID'");
-                }
-
-                if(isset($_FILES['permits']) && !empty($_FILES['permits']['name'])) {
-                    $permitFileName = $_FILES['permits']['name'];
-                    $permitTempName = $_FILES['permits']['tmp_name'];
-                    $permitType = 'firesafety';
-                    move_uploaded_file($permitTempName, "/assets/uploads/" . $permitFileName);
-                    $DB->query("UPDATE business SET firesafety  = '$permitFileName' WHERE businessCode = '$businessID'");
-                }
-
-                if(isset($_FILES['permits']) && !empty($_FILES['permits']['name'])) {
-                    $permitFileName = $_FILES['permits']['name'];
-                    $permitTempName = $_FILES['permits']['tmp_name'];
-                    $permitType = 'SEC';
-                    move_uploaded_file($permitTempName, "/assets/uploads/" . $permitFileName);
-                    $DB->query("UPDATE business SET SEC  = '$permitFileName' WHERE businessCode = '$businessID'");
-                }
     $stmt->close();
 }
 ?>
