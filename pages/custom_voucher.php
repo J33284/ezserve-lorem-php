@@ -24,14 +24,14 @@ $hasVouchers = $voucherResult->num_rows > 0;
 <!-- Display vouchers in Bootstrap cards -->
 <div class="container " style="min-height: 100vh; margin-top: 150px">
 <div class=" mb-4">
-            <!-- <div class="d-flex">
-            <a href="?page=&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class="col-1 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
+             <div class="d-flex">
+            <a href="?page=custom_checkout&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class="col-1 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
             <i class="bi bi-arrow-left"></i>
                 </a>
                     <h3 style="font-size: 34px; padding: 20px; ">
                      Select voucher
                     </h3> 
-                </div>-->
+                </div>
                     <div class="d-flex justify-content-center align-items-center">
                         <form method="post">
                             <div class="input-group mb-3">
