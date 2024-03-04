@@ -82,7 +82,7 @@ $result = $DB->query($sql);
                         <div class="d-flex justify-content-center">
                             <div id="filelabel1" class="btn-primary" style="display: none;">
                                 <label class="form-label text-white m-1" for="busImage">Choose File</label>
-                                <input type="file" class="form-control d-none" id="busImage" name="busImage" accept="image/*" onchange="previewImage(this)">
+                                <input type="file" class="form-control"  id="busImage" name="busImage" accept="image/*" onchange="previewImage(this)">
                             </div>
                         </div>
                         <br>

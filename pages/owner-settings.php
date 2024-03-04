@@ -2,6 +2,13 @@
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 global $DB;
 
+$businessID = $_SESSION['userID'];
+
+$businesses = $DB->query("
+    SELECT b.*, br.* FROM business b
+    JOIN branches br ON b.businessCode = br.businessCode
+    WHERE business.ownerID = '$businessID'
+");
 
 ?>
 
@@ -32,10 +39,7 @@ global $DB;
             <label for="business">Choose which business:</label>
             <select name="business" id="business" class="form-select" required>
             <option disabled selected >--Select business--</option>
-            <option value="volvo">Volvo</option>
-            <option value="saab">Saab</option>
-            <option value="mercedes">Mercedes</option>
-            <option value="audi">Audi</option>
+            <option value=""><? $business['']?></option>
             </select>
         </div>
         <div >
