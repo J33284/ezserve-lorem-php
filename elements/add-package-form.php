@@ -17,6 +17,7 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
                 <h2>Pre-made Package</h2>
                 <br>
                 <label for="packageName">PACKAGE INFORMATION</label>
+                <hr>
                 <input class="form-control mb-3" type="text" id="packageName" name="packageName" placeholder="Package Name" required>
                 <textarea class="form-control" id="packageDescription" name="packageDescription" placeholder="Description"></textarea>
                 <input type="hidden" name="businessCode" value="<?= $businessCode ?>">

@@ -2,7 +2,10 @@
 
 // Check if the business form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
+    session_start(); // Start session if not already started
     $userID = $_SESSION['userID'];
+
+    // Your database connection should be established here (assuming $DB is your database connection)
 
     // Collect form data
     $busName = mysqli_real_escape_string($DB, $_POST["data"]["busName"]);
@@ -15,19 +18,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
     $region = mysqli_real_escape_string($DB, $_POST["data"]["region"]);
     $phone = mysqli_real_escape_string($DB, $_POST["data"]["phone"]);
     $mobile = mysqli_real_escape_string($DB, $_POST["data"]["mobile"]);
-    $permits = $_FILES["permits"];
-    $sanitary = $_FILES["sanitary"];
-    $tax = $_FILES["tax"];
-
-   
+    $permitsFile = "";
+    $sanitaryFile = "";
+    $taxFile = "";
 
     // Check if a file was uploaded for permits
-    if ($permits['error'] != 0) {
-        set_message("File upload error for permits: " . $permits['error']);
-        // Handle the error or redirect accordingly
-    } else {
-        $targetDirectory = '/assets/uploads';
-        $targetFile = $targetDirectory . '/' . basename($permits['name']);
+    if ($_FILES["permits"]["error"] == 0) {
+        $permits = $_FILES["permits"];
+
+        $targetDirectory = 'assets/uploads/';
+        $targetFile = $targetDirectory . basename($permits['name']);
 
         // Create the target directory if it doesn't exist
         if (!file_exists($targetDirectory)) {
@@ -38,25 +38,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
         $allowedFormats = array("pdf", "jpeg", "jpg", "png");
         $maxFileSize = 5242880; // 5 MB
 
-        if (!in_array(pathinfo($permits['name'], PATHINFO_EXTENSION), $allowedFormats) || $permits['size'] > $maxFileSize) {
-            set_message("Invalid file format or size for permits.");
-            // Handle the error or redirect accordingly
-        } else {
+        if (in_array(pathinfo($permits['name'], PATHINFO_EXTENSION), $allowedFormats) && $permits['size'] <= $maxFileSize) {
             // Move the file to the specified directory for permits
             if (move_uploaded_file($permits['tmp_name'], $targetFile)) {
                 $permitsFile = $targetFile;
             } else {
                 set_message("Failed to upload permits file.");
             }
+        } else {
+            set_message("Invalid file format or size for permits.");
         }
     }
 
     // Check if a file was uploaded for sanitary
-    if ($sanitary['error'] != 0) {
-        set_message("File upload error for sanitary: " . $sanitary['error']);
-        // Handle the error or redirect accordingly
-    } else {
-        $targetFile = $targetDirectory . '/' . basename($sanitary['name']);
+    if ($_FILES["sanitary"]["error"] == 0) {
+        $sanitary = $_FILES["sanitary"];
+        $targetFile = $targetDirectory . basename($sanitary['name']);
         if (move_uploaded_file($sanitary['tmp_name'], $targetFile)) {
             $sanitaryFile = $targetFile;
         } else {
@@ -65,11 +62,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
     }
 
     // Check if a file was uploaded for tax
-    if ($tax['error'] != 0) {
-        set_message("File upload error for tax: " . $tax['error']);
-        // Handle the error or redirect accordingly
-    } else {
-        $targetFile = $targetDirectory . '/' . basename($tax['name']);
+    if ($_FILES["tax"]["error"] == 0) {
+        $tax = $_FILES["tax"];
+        $targetFile = $targetDirectory . basename($tax['name']);
         if (move_uploaded_file($tax['tmp_name'], $targetFile)) {
             $taxFile = $targetFile;
         } else {
@@ -82,38 +77,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
 
     $stmt->bind_param("ssssssssssssss", $userID, $busName, $busType, $house_building, $street, $barangay, $city_municipality, $province, $region, $phone, $mobile, $permitsFile, $sanitaryFile, $taxFile);
 
-                if ($stmt->execute()) {
-                    set_message("Thank you for your registration. Please wait for Confirmation");
-                    header('Location:?page=owner_business');
-                } else {
-                    set_message("Failed Registration: " . $stmt->error);
-                }
-
-                $businessID = $DB->insert_id;
-
-                $permitTypes = ['BIR', 'clearance', 'DTI', 'ECC', 'firesafety', 'SEC'];
-    foreach ($permitTypes as $permitType) {
-        if (isset($_FILES['permits'][$permitType]) && !empty($_FILES['permits'][$permitType]['name'])) {
-            $permitFileName = $_FILES['permits'][$permitType]['name'];
-            $permitTempName = $_FILES['permits'][$permitType]['tmp_name'];
-            $targetDirectory = '/assets/uploads';
-            $targetFile = $targetDirectory . '/' . $permitFileName;
-
-            // Create the target directory if it doesn't exist
-            if (!file_exists($targetDirectory)) {
-                mkdir($targetDirectory, 0755, true);
-            }
-
-            // Move the file to the specified directory
-            if (move_uploaded_file($permitTempName, $_SERVER['DOCUMENT_ROOT'] . $targetFile)) {
-                // Update the corresponding column in the database
-                $DB->query("UPDATE business SET $permitType = '$permitFileName' WHERE businessCode = '$businessID'");
-            } else {
-                set_message("Failed to upload $permitType file.");
-            }
-        }
+    if ($stmt->execute()) {
+        set_message("Thank you for your registration. Please wait for Confirmation");
+        header('Location:?page=owner_business');
+    } else {
+        set_message("Failed Registration: " . $stmt->error);
     }
 
-    $stmt->close();
+    $businessID = $DB->insert_id;
+
+    $permitTypes = $_POST['permit_type'];
+    $permitFiles = $_FILES['permit_files'];
+
+    // Loop through the permit types and files
+    for ($i = 0; $i < count($permitTypes); $i++) {
+        $permitType = $permitTypes[$i];
+        $permitFileName = $permitFiles['name'][$i];
+        $permitFileTmpName = $permitFiles['tmp_name'][$i];
+        $permitFileSize = $permitFiles['size'][$i];
+        $permitFileError = $permitFiles['error'][$i];
+
+        // Check if file was uploaded without errors
+        if ($permitFileError === 0) {
+            // File path where the file will be stored
+            $uploadPath = 'assets/uploads/' . $permitFileName;
+            // Move the uploaded file to the desired directory
+            move_uploaded_file($permitFileTmpName, $uploadPath);
+
+            // Update the business table
+            // You may need to adjust the SQL query based on your table structure
+            $sql = "UPDATE business SET permit_type = ?, permit_file = ? WHERE businessCode = ?";
+            $stmt = $DB->prepare($sql);
+            $stmt->bind_param("ssi", $permitType, $uploadPath, $businessID);
+            $stmt->execute();
+            $stmt->close();
+        }
+    }
 }
 ?>
