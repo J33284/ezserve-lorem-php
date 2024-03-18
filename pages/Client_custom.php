@@ -183,4 +183,8 @@ WHERE c.branchCode = '$branchCode'");
     });
 </script>
 </html>
-
+<style>
+    .fixed-top{
+        z-index: 1000!important;
+    }
+</style>

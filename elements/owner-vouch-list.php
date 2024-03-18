@@ -6,6 +6,11 @@
 <div id="voucher-tbl" style="margin: 150px 0 0 22%; width: 75vw;">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Voucher</h2>
+        <div class="d-flex justify-content-between mb-3">
+            <div class="d-flex">
+            </div>
+            <a href="?page=create_voucher" class="btn btn-primary">Add Voucher</a>
+        </div>
     </div>
     <?php
     global $DB;
@@ -15,11 +20,7 @@
 
     if ($result->num_rows > 0) {
     ?>
-        <div class="d-flex justify-content-between mb-3">
-            <div class="d-flex">
-            </div>
-            <a href="?page=create_voucher" class="btn btn-primary">Add Voucher</a>
-        </div>
+      
 
         <table class="table">
             <thead class="table-dark">

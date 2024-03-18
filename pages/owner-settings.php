@@ -2,7 +2,7 @@
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 global $DB;
 
-$businessID = $_SESSION['userID'];
+$businessID = $_SESSION['ownerID'];
 
 $businesses = $DB->query("
     SELECT b.*, br.* FROM business b

@@ -7,13 +7,22 @@ $businesses = $DB->query("SELECT * FROM business WHERE ownerID = '$ownerID'");
 $branches = $DB->query("SELECT * FROM branches");
 $packages = $DB->query("SELECT * FROM package");
 ?>
+<div class="d-flex" style="margin: 120px 0 0 10% ">
+        <a href="?page=&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class=" btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
+            <i class="bi bi-arrow-left"></i>
+        </a>
+        <h1 class=" d-flex justify-content-start mx-3"></h1>
+        
+        </div>
+<div class="package-info" style="margin-left:30%">
 
-<div class="package-info" style="margin: 120px 0 0 30%">
     <div class="card p-5 bg-opacity-25 bg-white">
         <h2>Create Voucher</h2>
         <form method="post" action="?action=save_voucher" id="voucherForm">
             <label for="businessCode">Select Business:</label>
-            <select name="businessCode" class="form-control " id="businessCode" onchange="updateBranches()">
+            <select name="businessCode" class="form-select " id="businessCode" onchange="updateBranches()">
+                <option disabled selected >--Select Business--</option>
+                <option value="all">All Business</option>
                 <?php
                 while ($row = $businesses->fetch_assoc()) {
                     echo "<option value='" . $row["businessCode"] . "'>" . $row["busName"] . "</option>";
@@ -25,17 +34,18 @@ $packages = $DB->query("SELECT * FROM package");
             <br>
 
             <label for="branchCode">Select Branch:</label>
-            <select name="branchCode" class="form-control" id="branchCode" onchange="updatePackages()">
+            <select name="branchCode" class="form-select" id="branchCode" onchange="updatePackages()">
             </select><br>
 
             <label for="voucherName">Voucher Name:</label>
-            <input type="text" class="form-control" name="voucherName" required><br>
+            <input type="text" class="form-control" name="voucherName" placeholder="Enter voucher name"required><br>
 
             <label for="voucherCode">Voucher Code:</label>
-            <input type="text" class="form-control" name="voucherCode"><br>
+            <input type="text" class="form-control" name="voucherCode" placeholder="Enter voucher code"><br>
 
             <label for="condition">Voucher Type:</label>
-            <select name="condition" class="form-control" id="condition" onchange="updateDiscountFields()">
+            <select name="condition" class="form-select" id="condition" onchange="updateDiscountFields()">
+                <option disabled selected >--Select voucher type--</option>
                 <option value="Gift Card">Gift Card</option>
                 <option value="Specific Package">Specific Package</option>
                 <option value="Minimum Spend">Minimum Spend</option>
@@ -59,14 +69,30 @@ $packages = $DB->query("SELECT * FROM package");
             </div>
 
             <label for="discountType">Discount Type:</label>
-            <select name="discountType" class="form-control">
+            <select name="discountType" class="form-select" id="discountTypeSelect">
+                <option disabled selected >--Select discount type--</option>
                 <option value="percentage">Percentage</option>
                 <option value="amount">Amount</option>
             </select><br>
+          
+            <p id="defaultMessage">Please select a discount type.</p>
+            <div class="input-group mb-3"id="percentageInput" style="display: none;">
+                <input type="text" class="form-control" placeholder="Percentage Value" aria-label="Percentage Value" >
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2">%</span>
+                </div>
+                </div>
 
-            <label for="discountValue">Discount Value:</label>
-            <input type="text" class="form-control" name="discountValue" required><br>
+<div class="input-group mb-3" id="amountInput" style="display: none;">
+    <div class="input-group-prepend">
+        <span class="input-group-text" id="">₱</span>
+    </div>
+    <input type="text" class="form-control" placeholder="Amount Value" aria-label="Amount Value" aria-describedby="basic-addon1">
+</div>
 
+
+
+            
             <label for="startDate">Start Date:</label>
             <input type="date"class="form-control" name="startDate" required><br>
 
@@ -134,4 +160,22 @@ $packages = $DB->query("SELECT * FROM package");
     // Initial calls to populate branches and packages based on the default selected businessCode and branchCode
     updateBranches();
     updatePackages();
+
+    document.getElementById("discountTypeSelect").addEventListener("change", function() {
+        var discountType = this.value;
+        
+        // Hide all input fields by default
+        document.getElementById("percentageInput").style.display = "none";
+        document.getElementById("amountInput").style.display = "none";
+        document.getElementById("defaultMessage").style.display = "none";
+
+        // Show the corresponding input field based on the selected discount type
+        if (discountType === 'percentage') {
+            document.getElementById("percentageInput").style.display = "flex";
+        } else if (discountType === 'amount') {
+            document.getElementById("amountInput").style.display = "flex";
+        } else {
+            document.getElementById("defaultMessage").style.display = "block";
+        }
+    });
 </script>

@@ -38,7 +38,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
         <h1 class=" d-flex justify-content-start mx-3"><?= $packageDetails['packName'] ?></h1>
         
         </div>
-        <button type="button" class="btn btn-primary w-25" data-bs-toggle="offcanvas" data-bs-target="#menuOffcanvas">Options</button>
+        
     </div>
 
     <!-- Package Details Table -->
@@ -51,6 +51,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                     <th>Item Name</th>
                     <th>Description</th>
                     <th>Additional Detail</th>
+                    <th></th>
                     <?php if ($packageDetails['pricingType'] === 'per pax') : ?>
                     <?php else : ?>
                         <th>Quantity</th>
@@ -83,6 +84,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                         N/A
                     <?php endif; ?>
                 </td>
+                <td style="width: 150px;"><button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#menuOffcanvas">Options</button></td>
                         <?php if ($packageDetails['pricingType'] === 'per pax') : ?>
                         <?php else : ?>
                             <td><?= $row['quantity']." ". $row['unit'] ?></td>
@@ -92,7 +94,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                     </tr>
                 <?php endforeach; ?>
             </tbody>
-            <div class="offcanvas offcanvas-start" tabindex="-1" id="menuOffcanvas" data-bs-backdrop="false" data-bs-scroll="true" style="width: 350px;">
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="menuOffcanvas" data-bs-backdrop="false" data-bs-scroll="true" style="width: 450px;">
     <div class="offcanvas-header">
         <?php
             $packageInfoQ = $DB->query("SELECT p.*, b.*, bs.* 
@@ -108,14 +110,13 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <!-- Place your menu items or content here -->
-        <!-- Example: -->
         <?php 
    
     $customCategoryQ = $DB->query("SELECT * FROM custom_category WHERE branchCode = '$branchCode'");
     
     while ($category = $customCategoryQ->fetch_assoc()) : ?>
-        <li style="list-style-type:none;">
+    <div style="height: 45vh">
+        <li class="overflow-auto" style="list-style-type:none;">
            <strong><?= $category['categoryName'] ?></strong> 
             <ul>
                 <?php 
@@ -124,12 +125,15 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                 $customItemsQ = $DB->query("SELECT * FROM custom_items WHERE customCategoryCode = '$categoryId'");
 
                 while ($item = $customItemsQ->fetch_assoc()) : ?>
-                    <li><?= $item['itemName'] ?></li>
+                    <li style="list-style-type:none;">
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                    <?= $item['itemName'] ?></li>
                 <?php endwhile; ?>
             </ul>
         </li>
     <?php endwhile; ?>
-</ul>
+    </div>
+<button id="doneButton" class="btn btn-primary float-end" >Done</button>
     </div>
 </div>
         </table>

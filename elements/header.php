@@ -49,7 +49,7 @@ if (isset($_SESSION['userID'])) {
 
           
                 <?php if (isset($_SESSION[AUTH_ID])) { ?>
-            <li class="dropdown">
+            <li class="dropdown profile-drop" >
             <?php if (isset($_SESSION[AUTH_NAME])): ?>
                 <a class="d-flex" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <?php if (isset($_SESSION[AUTH_ID]) && !empty($profileImage)): ?>
@@ -241,7 +241,9 @@ nav{
     nav ul{
         padding:0;
     }
-  
+.profile-drop{
+    z-index: 1040!important;
+}
 </style>
 <script>
     function toggleMenu() {

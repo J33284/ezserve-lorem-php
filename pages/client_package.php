@@ -150,7 +150,7 @@ if ($branchesQ) {
         scroll-padding-top: 250px;
     
     }
-    @media (max-width:1700px) {
+    @media (max-width:2000px) {
      
      .head {
          display: flex;

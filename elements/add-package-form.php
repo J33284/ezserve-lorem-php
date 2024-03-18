@@ -13,7 +13,7 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
     }
     @media (max-width: 2000px) {
     .package-info{
-        margin: 120px 0 0 30%;
+        margin: 0 0 0 30%;
     }
     @media (max-width: 700px) {
     .package-info{
@@ -22,8 +22,16 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
     }
 }}
 </style>
-
+<div class="d-flex justify-content-between p-3" style="margin: 120px 0 0 0">
+                <div class="d-flex ">
+                <a href="?page=choose_package&businesscode=<?=$branchCode?>&businesscode=<?=$branchCode?>" id="backButton" class=" btn-back mx-5">
+                    <i class="bi bi-arrow-left" style="color: black;"></i>
+                </a>
+                </div>
+                
+            </div>
 <div class="package-info" >
+
     <div class="card p-5 bg-opacity-25 bg-white">
         <form action="?action=add_packageAction" method="post" enctype="multipart/form-data">
             <div class="form-group mb-5">
@@ -196,7 +204,7 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
                     </select>
                    
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button">Add</button>
+                        <button class="btn btn-primary" type="button">Add</button>
                     </div>
                     </div>
                     <table class="table">
