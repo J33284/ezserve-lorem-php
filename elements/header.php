@@ -206,7 +206,7 @@ if (isset($_SESSION['userID'])) {
     }
     nav ul li a{
         display:flex;
-        justify-content: end;
+        justify-content: center;
     }
     .burger-menu {
                 display: none;
