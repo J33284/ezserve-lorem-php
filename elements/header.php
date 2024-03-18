@@ -156,7 +156,7 @@ if (isset($_SESSION['userID'])) {
     .burger-menu-icon {
             display: block;
         }
-   @media (max-width: 1700px) {
+   @media (max-width: 2000px) {
         .logo{
             width: 10rem;
             height: 5rem;

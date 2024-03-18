@@ -1,6 +1,9 @@
 <?php
 $businessCode = isset($_GET['businessCode']) ? $_GET['businessCode'] : '';
 $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
+//$sql = "SELECT * FROM custom_category WHERE business_code = '$businessCode' AND branch_code = '$branchCode'";
+//$result = mysqli_query($conn, $sql);
+
 ?>
 
 <style>
@@ -8,9 +11,19 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
         display: none;
         margin-top: 10px;
     }
+    @media (max-width: 2000px) {
+    .package-info{
+        margin: 120px 0 0 30%;
+    }
+    @media (max-width: 700px) {
+    .package-info{
+        width: 100vw;
+        margin: 120px 0;
+    }
+}}
 </style>
 
-<div class="package-info" style="margin: 120px 0 0 30%">
+<div class="package-info" >
     <div class="card p-5 bg-opacity-25 bg-white">
         <form action="?action=add_packageAction" method="post" enctype="multipart/form-data">
             <div class="form-group mb-5">
@@ -170,8 +183,36 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
 
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="${toggleSwitchId}" name="userInput[${itemIndex}][]" checked>
-                <label class="form-check-label" for="${toggleSwitchId}">Enable User Input</label>
-                <p style="font-size:15px; color: green"> *Activate the user input feature to allow your clients to input their preferences for specific items.</p>
+                <label class="form-check-label" for="${toggleSwitchId}">Enable Options</label>
+                <p style="font-size:15px; color: green"> *Activating the 'Options' feature to allow your clients to choose their specified product/services under your item.</p>
+                <br>
+                <p style="font-size:15px; color: green"> Add categories that will display on the Options under this item (ex. Item - main dish, Categories - Pork, Chicken, Seafood)</p>
+                <div class="input-group mb-3">
+                    <select class="form-select" aria-label="Default select example">
+                    <option selected>Open this select menu</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                    </select>
+                   
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button">Add</button>
+                    </div>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                            <th class="table-dark">Added Category</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                                    <tr>
+                                        <td>sample category</td>
+                                    </tr>
+                                
+                        </tbody>
+                    </table>
             </div>
             <hr>
             <button type="button" class="add-details-btn btn btn-primary mb-3" onclick="cloneDetails(this, ${itemIndex})">Add Other Details</button>
@@ -265,3 +306,4 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
         }
     }
 </script>
+

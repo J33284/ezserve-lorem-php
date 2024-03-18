@@ -21,7 +21,7 @@ $result = $DB->query($sql);
 ?>
 
 <?php while ($row = $result->fetch_assoc()): ?>
-<div id="own-bus" class="own-bus mb-5" style="height: 100vh; margin: 120px 0 0 22%">
+<div id="own-bus" class="own-bus mb-5" style="height: 100vh; margin: 120px 0 0 18%; width: 75vw">
             <div class="d-flex justify-content-between p-3">
                 <div class="d-flex ">
                 <a href="?page=owner_business" id="backButton" class=" btn-back mx-5">
