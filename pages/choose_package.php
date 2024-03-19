@@ -30,12 +30,10 @@ $branch = $branchResult->fetch_assoc();
         <div class="pack">
             <div class="pack-preview">
                 <h2>Pre-Made Packages</h2>
-                <h3></h3>This section lets you create pre-made packages for your customers.</h3>
+                
             </div>
             <div class="pack-info">
-                <h2>Features</h2>
-                <hr>
-                <h6>I dont know what I have done help me Jireh</h6>
+				<p>Make a ready-made bundle with set items and cost for easy customer selection.</p>
                 <a href="?page=add_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="add"><i class="fas fa-plus"></i> Add</a>
                 <a href="?page=package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="view"><i class="fas fa-eye"></i> View</a>      
 
@@ -44,12 +42,12 @@ $branch = $branchResult->fetch_assoc();
 
         <div class="pack">
             <div class="pack-preview">
-                <h2>Custom</h2>
-                <h3></h3>This section lets you create custom packages for your customers.</h3>
+                <h2>Custom Package</h2>
             </div>
             <div class="pack-info">
-                <h2>Features</h2>
-                <hr>
+                
+				<p>Allow your customers to design their own personalized package.</p>
+
                 <a href="?page=custom_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="add"><i class="fas fa-plus"></i> Add</a>
                 <a href="?page=add_custom_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="view"><i class="fas fa-eye"></i> View</a>      
 
