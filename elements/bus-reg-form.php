@@ -74,7 +74,7 @@ $businessesResult = $DB->query("SELECT * FROM businesstypes");
                         <h6 class="page-title text-light">Upload Business Permits <br> (Allowed File Types: pdf, jpeg, jpg, png)</h6>
                         <div class="row align-items-center d-flex justify-content-center">
                             <span class="col-3">Business Permit</span>
-                            <input class="col form-control mt-3" name="permits" type="file" id="formFile" required>
+                            <input class="col form-control mt-3" name="business" type="file" id="formFile" required>
                         </div>
                         <div class="row align-items-center d-flex justify-content-center">
                             <span class="col-3">Tax Permit</span>
@@ -85,11 +85,12 @@ $businessesResult = $DB->query("SELECT * FROM businesstypes");
                             <input class="col form-control mt-3" name="sanitary" type="file" id="formFile" required>
                         </div>
                     </div>
-                    <div class="p-0">
-                        <div id="permit-fields-container">
+                        <!-- Add Permit Button -->
+                        <button type="button" class="btn btn-secondary mt-3" id="addPermitBtn">Add Permit</button>
+
+                        <!-- Container to hold dynamically added permit fields -->
+                        <div id="permitFieldsContainer">
                         </div>
-                        <button type="button" class="btn btn-secondary mt-3" id="add-permit-field">Add Another Permit</button>
-                    </div>
 
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="termsCheckbox" name="termsCheckbox" required>
@@ -97,8 +98,8 @@ $businessesResult = $DB->query("SELECT * FROM businesstypes");
                             I have read and agree to the <a href="#termsModal" data-bs-toggle="modal">Terms and Conditions</a>
                         </label>
                     </div>
-                    
-                    <button type="submit" class="btn btn-primary mt-5">Submit</button>
+                        
+                        <button type="submit" class="btn btn-primary mt-5">Submit</button>
 
                         <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
@@ -157,60 +158,38 @@ $businessesResult = $DB->query("SELECT * FROM businesstypes");
         </div>
     </div>
 </div>
+
+
+
+
+
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("add-permit-field").addEventListener("click", function () {
-            var container = document.getElementById("permit-fields-container");
-            var permitField = document.createElement('div');
-            permitField.className = 'row align-items-center d-flex justify-content-center permit-field';
-            permitField.innerHTML = `
-                <div class="col-3">
-                    <select class="form-select permit-type" name="permit_type[]" required>
-                        <option value="" selected disabled>Select Permit Type</option>
-                        <option value="clearance">Barangay Clearance</option>
-                        <option value="BIR">BIR Clearance</option>
-                        <option value="fireSafety">Fire Safety Inspection Certificate</option>
-                        <option value="DTI">DTI Business Name Registration</option>
-                        <option value="ECC">Environmental Compliance Certificate</option>
-                        <option value="SEC">SEC permit</option>
-                        <option value="Others">Others</option>
-                    </select>
-                </div>
-                <div class="col">
-                    <input class="form-control mt-3 permit-file" type="file" name="permit_files[]" required>
-                </div>
-                <div class="col-auto">
-                    <button type="button" class="btn btn-danger remove-permit">Remove</button>
-                </div>
-            `;
-            container.appendChild(permitField);
+    // Function to dynamically add permit fields
+    document.getElementById('addPermitBtn').addEventListener('click', function() {
+        var permitFieldsContainer = document.getElementById('permitFieldsContainer');
 
-            // Remove selected permit type from subsequent dropdowns
-            var permitDropdowns = document.querySelectorAll('.permit-type');
-            var lastDropdown = permitDropdowns[permitDropdowns.length - 1]; // Get the newly added dropdown
-            var selectedPermit = lastDropdown.value;
-            permitDropdowns.forEach(function (dropdown) {
-                if (dropdown !== lastDropdown) { // Exclude the newly added dropdown
-                    dropdown.querySelectorAll('option').forEach(function (option) {
-                        if (option.value === selectedPermit) {
-                            option.remove();
-                        }
-                    });
-                }
-            });
-
-            // Attach event listener to remove permit button
-            permitField.querySelector('.remove-permit').addEventListener('click', function () {
-                permitField.remove();
-                // Restore removed permit type back to dropdowns
-                permitDropdowns.forEach(function (dropdown) {
-                    var permitType = permitField.querySelector('.permit-type').value;
-                    var option = document.createElement('option');
-                    option.value = permitType;
-                    option.text = permitType;
-                    dropdown.appendChild(option);
-                });
-            });
+        // Create dropdown menu for selecting permit type
+        var permitDropdown = document.createElement('select');
+        permitDropdown.classList.add('form-control', 'mb-3');
+        permitDropdown.name = 'permits[]'; // Set name as array to handle multiple permits
+        permitDropdown.required = true;
+        var permitOptions = ['Permit Type 1', 'Permit Type 2', 'Permit Type 3']; // Replace with actual permit types from your database
+        permitOptions.forEach(function(optionText) {
+            var option = document.createElement('option');
+            option.value = optionText;
+            option.text = optionText;
+            permitDropdown.appendChild(option);
         });
+
+        // Create file input field for uploading permit file
+        var permitFileInput = document.createElement('input');
+        permitFileInput.classList.add('form-control', 'mt-3');
+        permitFileInput.type = 'file';
+        permitFileInput.name = 'permit_files[]'; // Set name as array to handle multiple files
+        permitFileInput.required = true;
+
+        // Append dropdown and file input to container
+        permitFieldsContainer.appendChild(permitDropdown);
+        permitFieldsContainer.appendChild(permitFileInput);
     });
 </script>

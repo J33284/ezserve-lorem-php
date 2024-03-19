@@ -24,10 +24,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
 
     // Check if a file was uploaded for permits
     if ($_FILES["permits"]["error"] == 0) {
-        $permits = $_FILES["permits"];
+        $business = $_FILES["business"];
 
         $targetDirectory = 'assets/uploads/';
-        $targetFile = $targetDirectory . basename($permits['name']);
+        $targetFile = $targetDirectory . basename($business['name']);
 
         // Create the target directory if it doesn't exist
         if (!file_exists($targetDirectory)) {
@@ -38,10 +38,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
         $allowedFormats = array("pdf", "jpeg", "jpg", "png");
         $maxFileSize = 5242880; // 5 MB
 
-        if (in_array(pathinfo($permits['name'], PATHINFO_EXTENSION), $allowedFormats) && $permits['size'] <= $maxFileSize) {
+        if (in_array(pathinfo($business['name'], PATHINFO_EXTENSION), $allowedFormats) && $business['size'] <= $maxFileSize) {
             // Move the file to the specified directory for permits
-            if (move_uploaded_file($permits['tmp_name'], $targetFile)) {
-                $permitsFile = $targetFile;
+            if (move_uploaded_file($business['tmp_name'], $targetFile)) {
+                $businessFile = $targetFile;
             } else {
                 set_message("Failed to upload permits file.");
             }
@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
     // SQL statement with placeholders for file paths
     $stmt = $DB->prepare("INSERT INTO business (ownerID, busName, busType, house_building, street, barangay, city_municipality, province, region, phone, mobile, permits, sanitary, tax) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-    $stmt->bind_param("ssssssssssssss", $userID, $busName, $busType, $house_building, $street, $barangay, $city_municipality, $province, $region, $phone, $mobile, $permitsFile, $sanitaryFile, $taxFile);
+    $stmt->bind_param("ssssssssssssss", $userID, $busName, $busType, $house_building, $street, $barangay, $city_municipality, $province, $region, $phone, $mobile, $businessFile, $sanitaryFile, $taxFile);
 
     if ($stmt->execute()) {
         set_message("Thank you for your registration. Please wait for Confirmation");
@@ -84,34 +84,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
         set_message("Failed Registration: " . $stmt->error);
     }
 
-    $businessID = $DB->insert_id;
+    $businessCode = $DB->insert_id;
 
-    $permitTypes = $_POST['permit_type'];
+    // Insert permit details into 'permit' table
+    $permitTypes = $_POST['permits'];
     $permitFiles = $_FILES['permit_files'];
 
-    // Loop through the permit types and files
-    for ($i = 0; $i < count($permitTypes); $i++) {
-        $permitType = $permitTypes[$i];
-        $permitFileName = $permitFiles['name'][$i];
-        $permitFileTmpName = $permitFiles['tmp_name'][$i];
-        $permitFileSize = $permitFiles['size'][$i];
-        $permitFileError = $permitFiles['error'][$i];
+    foreach ($permitTypes as $index => $permitType) {
+        $permitFileName = $permitFiles['name'][$index];
+        $permitFileTmpName = $permitFiles['tmp_name'][$index];
 
-        // Check if file was uploaded without errors
-        if ($permitFileError === 0) {
-            // File path where the file will be stored
-            $uploadPath = 'assets/uploads/' . $permitFileName;
-            // Move the uploaded file to the desired directory
-            move_uploaded_file($permitFileTmpName, $uploadPath);
+        // Move uploaded file to desired location
+        $uploadDirectory = '/path/to/permit/files/';
+        $permitFilePath = $uploadDirectory . $permitFileName;
+        move_uploaded_file($permitFileTmpName, $permitFilePath);
 
-            // Update the business table
-            // You may need to adjust the SQL query based on your table structure
-            $sql = "UPDATE business SET permit_type = ?, permit_file = ? WHERE businessCode = ?";
-            $stmt = $DB->prepare($sql);
-            $stmt->bind_param("ssi", $permitType, $uploadPath, $businessID);
-            $stmt->execute();
-            $stmt->close();
-        }
+        // Insert permit details into database
+        $permitInsertQuery = "INSERT INTO permits (businessCode, permit_type, permit_file) VALUES ($businessCode, '$permitType', '$permitFilePath')";
+        $DB->query($permitInsertQuery);
     }
+
 }
+        header("Location: page=owner_business");
+        exit();
 ?>
