@@ -7,17 +7,15 @@ $businesses = $DB->query("SELECT * FROM business WHERE ownerID = '$ownerID'");
 $branches = $DB->query("SELECT * FROM branches");
 $packages = $DB->query("SELECT * FROM package");
 ?>
-<div class="d-flex" style="margin: 120px 0 0 10% ">
-        <a href="?page=&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class=" btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
+
+<div class="package-info">
+<div class="back-arrow d-flex" >
+        <a href="?page=&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class=" mx-3 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
             <i class="bi bi-arrow-left"></i>
         </a>
-        <h1 class=" d-flex justify-content-start mx-3"></h1>
-        
+        <h2 >Create Voucher</h2>
         </div>
-<div class="package-info" style="margin-left:30%">
-
     <div class="card p-5 bg-opacity-25 bg-white">
-        <h2>Create Voucher</h2>
         <form method="post" action="?action=save_voucher" id="voucherForm">
             <label for="businessCode">Select Business:</label>
             <select name="businessCode" class="form-select " id="businessCode" onchange="updateBranches()">
@@ -75,7 +73,7 @@ $packages = $DB->query("SELECT * FROM package");
                 <option value="amount">Amount</option>
             </select><br>
           
-            <p id="defaultMessage">Please select a discount type.</p>
+            <p id="defaultMessage"></p>
             <div class="input-group mb-3"id="percentageInput" style="display: none;">
                 <input type="text" class="form-control" placeholder="Percentage Value" aria-label="Percentage Value" >
                 <div class="input-group-append">
@@ -102,8 +100,8 @@ $packages = $DB->query("SELECT * FROM package");
             <input type="submit" class="btn btn-primary" style="float: right;" value="Create Voucher">
         </form>
     </div>
-</div>
-
+                </div>
+                
 <!-- Update the script tag in your HTML file -->
 <script>
     function updateBranches() {
@@ -179,3 +177,22 @@ $packages = $DB->query("SELECT * FROM package");
         }
     });
 </script>
+<style>
+     @media (max-width:2000px) {
+        .package-info{
+    margin-left:28%;
+        }
+        .back-arrow{
+            margin: 0 0 5% 0;
+        }
+    }
+    @media (max-width:700px) {
+        .package-info{
+width: 100vw;
+margin: 0;
+        }
+        .back-arrow{
+            margin: 70px 0 0 10% 
+        }
+    }
+</style>
