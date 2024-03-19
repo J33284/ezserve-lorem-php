@@ -44,7 +44,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $selectedPackage = isset($_POST["selectedPackage"]) ? $_POST["selectedPackage"] : null;
     $minSpend = isset($_POST["minSpend"]) ? $_POST["minSpend"] : null;
 
-    // Perform any necessary validation on the input data
+     // Check if the voucher code already exists
+     $checkDuplicateSql = "SELECT COUNT(*) AS count FROM voucher WHERE voucherCode = '$voucherCode'";
+     $result = $DB->query($checkDuplicateSql);
+     $row = $result->fetch_assoc();
+     $count = $row['count'];
+ 
+     if ($count > 0) {
+        echo "<div class='success-popup'>
+        <p>Voucher Code Already Exist. Please use a different Voucher Code.</p>
+      </div>
+      <script>
+        setTimeout(function() {
+            window.location.href = '?page=create_voucher';
+        }, 3000); // Redirect after 3 seconds
+      </script>";
+     }
 
     // Insert voucher details into the database
     if ($condition === "Specific Package") {

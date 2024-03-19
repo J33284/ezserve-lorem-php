@@ -159,43 +159,9 @@ function displayFileName($filePath, $fileType)
 
                         <h5 class="text-light bg-info p-2">Business Permits</h5>      
                         <?php
-                        $permitPath = $business['permits']; // Assuming the file path is stored in the 'permits' field
+                        $permitPath = $business['business_permit']; // Assuming the file path is stored in the 'permits' field
                         $sanitaryPath = $business['sanitary']; // Assuming the file path is stored in the 'sanitary' field
                         $taxPath = $business['tax']; // Assuming the file path is stored in the 'tax' field
-                        $clearancePath = $business['clearance'];
-                        $BIRPath = $business['BIR']; // Assuming the file path is stored in the 'permits' field
-                        $ECCPath = $business['ECC']; // Assuming the file path is stored in the 'sanitary' field
-                        $DTIPath = $business['DTI']; // Assuming the file path is stored in the 'tax' field
-                        $firesafetyPath = $business['fireSafety'];
-                        $SECPath = $business['SEC'];
-        
-
-            // Display permits
-            echo "<h6><strong>Permits</strong></h6>";
-            displayFileName($permitPath, 'Permits');
-
-            // Display sanitary
-            echo "<h6><strong>Sanitary</strong></h6>";
-            displayFileName($sanitaryPath, 'Sanitary');
-
-            // Display tax
-            echo "<h6><strong>Tax</strong></h6>";
-            displayFileName($taxPath, 'Tax');
-
-            echo "<h6><strong>Clearance</strong></h6>";
-            displayFileName($clearancePath, 'clearance');
-
-            echo "<h6><strong>BIR</strong></h6>";
-            displayFileName($BIRPath, 'BIR');
-
-            echo "<h6><strong>ECC</strong></h6>";
-            displayFileName($ECCPath, 'ECC');
-
-            echo "<h6><strong>Fire Safety</strong></h6>";
-            displayFileName($firesafetyPath, 'fireSafety');
-
-            echo "<h6><strong>SEC</strong></h6>";
-            displayFileName($SECPath, 'SEC');
             ?>
 
             <!-- Script to display image when clicked -->

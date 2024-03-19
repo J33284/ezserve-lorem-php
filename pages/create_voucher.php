@@ -41,8 +41,13 @@ $packages = $DB->query("SELECT * FROM package");
             <input type="text" class="form-control" name="voucherName" placeholder="Enter voucher name"required><br>
 
             <label for="voucherCode">Voucher Code:</label>
-            <input type="text" class="form-control" name="voucherCode" placeholder="Enter voucher code"><br>
-
+            <div class="d-flex">  
+            <input type="text" class="form-control" id="voucherCode" name="voucherCode" placeholder="Enter voucher code" required >
+            <button type="button" class= "btn btn-primary" onclick="generateRandomCode()"> 
+            <i class="bi bi-shuffle"></i>
+         </button></div>
+          
+<br>
             <label for="condition">Voucher Type:</label>
             <select name="condition" class="form-select" id="condition" onchange="updateDiscountFields()">
                 <option disabled selected >--Select voucher type--</option>
@@ -83,12 +88,12 @@ $packages = $DB->query("SELECT * FROM package");
                 </div>
                 </div>
 
-<div class="input-group mb-3" id="amountInput" style="display: none;">
-    <div class="input-group-prepend">
-        <span class="input-group-text" id="">₱</span>
-    </div>
-    <input type="text" class="form-control" placeholder="Amount Value" aria-label="Amount Value" aria-describedby="basic-addon1">
-</div>
+            <div class="input-group mb-3" id="amountInput" style="display: none;">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="">₱</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Amount Value" aria-label="Amount Value" aria-describedby="basic-addon1">
+            </div>
 
 
 
@@ -178,4 +183,14 @@ $packages = $DB->query("SELECT * FROM package");
             document.getElementById("defaultMessage").style.display = "block";
         }
     });
+
+    function generateRandomCode() {
+            var length = 10; // You can adjust the length of the generated code
+            var charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var randomCode = "";
+            for (var i = 0; i < length; i++) {
+                randomCode += charset.charAt(Math.floor(Math.random() * charset.length));
+            }
+            document.getElementById("voucherCode").value = randomCode;
+        }
 </script>

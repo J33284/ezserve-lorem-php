@@ -4,7 +4,6 @@ $businessesResult = $DB->query("SELECT * FROM businesstypes");
 
 ?>
 
-
 <div class="bus-reg container row justify-content-center align-items-center">
     <div id="reg-form" class="card justify-content-between border-0 shadow p-3 mb-5 bg-white rounded">
         <div class="card-body">
@@ -164,16 +163,14 @@ $businessesResult = $DB->query("SELECT * FROM businesstypes");
 
 
 <script>
-    // Function to dynamically add permit fields
     document.getElementById('addPermitBtn').addEventListener('click', function() {
         var permitFieldsContainer = document.getElementById('permitFieldsContainer');
 
-        // Create dropdown menu for selecting permit type
         var permitDropdown = document.createElement('select');
         permitDropdown.classList.add('form-control', 'mb-3');
-        permitDropdown.name = 'permits[]'; // Set name as array to handle multiple permits
+        permitDropdown.name = 'permits[]'; 
         permitDropdown.required = true;
-        var permitOptions = ['Permit Type 1', 'Permit Type 2', 'Permit Type 3']; // Replace with actual permit types from your database
+        var permitOptions = ['Clearance', 'BIR', 'ECC', 'Fire and Safety', 'SEC']; 
         permitOptions.forEach(function(optionText) {
             var option = document.createElement('option');
             option.value = optionText;
@@ -181,14 +178,12 @@ $businessesResult = $DB->query("SELECT * FROM businesstypes");
             permitDropdown.appendChild(option);
         });
 
-        // Create file input field for uploading permit file
         var permitFileInput = document.createElement('input');
         permitFileInput.classList.add('form-control', 'mt-3');
         permitFileInput.type = 'file';
-        permitFileInput.name = 'permit_files[]'; // Set name as array to handle multiple files
+        permitFileInput.name = 'permit_files[]'; 
         permitFileInput.required = true;
 
-        // Append dropdown and file input to container
         permitFieldsContainer.appendChild(permitDropdown);
         permitFieldsContainer.appendChild(permitFileInput);
     });

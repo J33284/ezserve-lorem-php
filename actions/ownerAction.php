@@ -2,12 +2,8 @@
 
 // Check if the business form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
-    session_start(); // Start session if not already started
     $userID = $_SESSION['userID'];
 
-    // Your database connection should be established here (assuming $DB is your database connection)
-
-    // Collect form data
     $busName = mysqli_real_escape_string($DB, $_POST["data"]["busName"]);
     $busType = mysqli_real_escape_string($DB, $_POST["data"]["busType"]);
     $house_building = mysqli_real_escape_string($DB, $_POST["data"]["house_building"]);
@@ -73,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
     }
 
     // SQL statement with placeholders for file paths
-    $stmt = $DB->prepare("INSERT INTO business (ownerID, busName, busType, house_building, street, barangay, city_municipality, province, region, phone, mobile, permits, sanitary, tax) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $DB->prepare("INSERT INTO business (ownerID, busName, busType, house_building, street, barangay, city_municipality, province, region, phone, mobile, business_permit, sanitary, tax) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     $stmt->bind_param("ssssssssssssss", $userID, $busName, $busType, $house_building, $street, $barangay, $city_municipality, $province, $region, $phone, $mobile, $businessFile, $sanitaryFile, $taxFile);
 
@@ -95,16 +91,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"])) {
         $permitFileTmpName = $permitFiles['tmp_name'][$index];
 
         // Move uploaded file to desired location
-        $uploadDirectory = '/path/to/permit/files/';
+        $uploadDirectory = 'assets/uploads/permits/';
         $permitFilePath = $uploadDirectory . $permitFileName;
         move_uploaded_file($permitFileTmpName, $permitFilePath);
 
         // Insert permit details into database
-        $permitInsertQuery = "INSERT INTO permits (businessCode, permit_type, permit_file) VALUES ($businessCode, '$permitType', '$permitFilePath')";
+        $permitInsertQuery = "INSERT INTO permits (businessCode, permitType, permitFile) VALUES ($businessCode, '$permitType', '$permitFilePath')";
         $DB->query($permitInsertQuery);
     }
 
 }
-        header("Location: page=owner_business");
+        header("Location: ?page=owner_business");
         exit();
 ?>
