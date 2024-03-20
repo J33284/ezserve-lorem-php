@@ -25,8 +25,8 @@ $payments = $DB->query("
             <i class="bi bi-search"></i>
         </span>
     </div> -->
-<div class="table-responsive" style="overflow-x:auto; height: 100vh; width:auto;">
-    <table class="table table-hover ">
+<div  style="overflow-x:auto; height: 100vh; width:auto;">
+    <table class="table table-hover table-responsive ">
         <thead class="table-dark">
             <tr>
                 <th scope="col"></th>
