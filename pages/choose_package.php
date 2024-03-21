@@ -17,14 +17,17 @@ $branch = $branchResult->fetch_assoc();
 
 
 ?>
-
-<div class="business-branch">
-      <a href="?page=branches&businesscode=<?=$businessCode?>" class=" col-1 btn-back btn-md text-dark float-center">
-          <i class="bi bi-arrow-left"></i>
-      </a>
-      <h2><?= $business['busName'] ." (". $branch['branchName'] .")" ?> </h2>
+<?= element( 'owner-side-nav' ) ?>
+<div class="business-branch" style="margin:120px 0 0 20%">
+		<div class="d-flex">
+		<a href="?page=branches&businesscode=<?=$businessCode?>" class=" col-1 btn-back btn-md text-dark float-center">
+				<i class="bi bi-arrow-left"></i>
+			</a>
+			<h2><?= $business['busName'] ." (". $branch['branchName'] .")" ?> </h2>
+			
+		</div>
       
-</div>
+
 
 <div class="package-container">
         <div class="pack">
@@ -48,14 +51,14 @@ $branch = $branchResult->fetch_assoc();
                 
 				<p>Allow your customers to design their own personalized package.</p>
 
-                <a href="?page=custom_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="add"><i class="fas fa-plus"></i> Add</a>
-                <a href="?page=add_custom_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="view"><i class="fas fa-eye"></i> View</a>      
+                <a href="?page=add_custom_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="add"><i class="fas fa-plus"></i> Add</a>
+                <a href="?page=custom_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="view"><i class="fas fa-eye"></i> View</a>      
 
             </div>
         </div>
     </div>
 </div>
-
+</div>
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
@@ -64,20 +67,13 @@ $branch = $branchResult->fetch_assoc();
 	box-sizing: border-box;
 }
 
-.business-branch {
-	display: flex;
-	justify-content: center;
-	margin-top: 150px;
-  width: 90rem;
-	
-}
+
 
 .package-container {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: row;
-	margin: 20px;
 	
 }
 
@@ -87,7 +83,7 @@ $branch = $branchResult->fetch_assoc();
 	box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
 	display: flex;
 	max-width: 100%;
-	margin: 20px;
+	margin: 50px 50px 0 0;
 	overflow: hidden;
 	width: 700px;
 }

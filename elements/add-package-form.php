@@ -192,12 +192,12 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="${toggleSwitchId}" name="userInput[${itemIndex}][]" checked>
                 <label class="form-check-label" for="${toggleSwitchId}">Enable Options</label>
-                <p style="font-size:15px; color: green"> *Activating the 'Options' feature to allow your clients to choose their specified product/services under your item.</p>
+                <p style="font-size:15px; color: green"> *Activating the 'Options' feature allows your clients to choose their specified product/services under your item.</p>
                 <br>
-                <p style="font-size:15px; color: green"> Add categories that will display on the Options under this item (ex. Item - main dish, Categories - Pork, Chicken, Seafood)</p>
+                <p style="font-size:15px; color: green"> Add categories under your specific Item (ex. Item - main dish, Categories - Pork, Chicken, Seafood)</p>
                 <div class="input-group mb-3">
                     <select class="form-select" aria-label="Default select example">
-                    <option selected>Open this select menu</option>
+                    <option disabled selected>--Select category--</option>
                     <option value="1">One</option>
                     <option value="2">Two</option>
                     <option value="3">Three</option>

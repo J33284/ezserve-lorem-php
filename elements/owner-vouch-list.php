@@ -22,7 +22,7 @@
     ?>
       
 
-        <table class="table">
+        <table class="table table-responsive">
             <thead class="table-dark">
                 <tr>
                     <th scope="col">Business Name</th>
