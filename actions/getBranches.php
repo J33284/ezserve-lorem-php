@@ -1,5 +1,5 @@
 <?php
-// getBranches.php
+
 global $DB;
 
 if (isset($_GET['businessCode'])) {

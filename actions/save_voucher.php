@@ -59,35 +59,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             window.location.href = '?page=create_voucher';
         }, 3000); // Redirect after 3 seconds
       </script>";
-     }
+     } else {
 
-    // Insert voucher details into the database
-    if ($condition === "Specific Package") {
-    // If the discount type is specific package, save the package code
-    $sql = "INSERT INTO voucher (ownerID, businessCode, branchCode, voucherName, voucherCode, voucherType, discountType, discountValue, startDate, endDate, packCode)
-            VALUES ('$ownerID', '$businessCode', '$branchCode', '$voucherName','$voucherCode', '$condition','$discountType', '$discountValue', '$startDate', '$endDate', '$packCode')";
-    }else if ($condition === "Minimum Spend") {
-    // If the condition is minimum spend, save the minimum spend value
-    $sql = "INSERT INTO voucher (ownerID, businessCode, branchCode, voucherName, voucherCode, voucherType, discountType, discountValue, startDate, endDate, min_spend)
-            VALUES ('$ownerID', '$businessCode', '$branchCode', '$voucherName', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate', '$minSpend')";
-    } else {
-    // For other conditions
-    $sql = "INSERT INTO voucher (ownerID, businessCode, branchCode, voucherName, voucherCode, voucherType, discountType, discountValue, startDate, endDate)
-            VALUES ('$ownerID','$businessCode', '$branchCode', '$voucherName', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate')";
-    }
+        // Insert voucher details into the database
+        if ($condition === "Specific Package") {
+        // If the discount type is specific package, save the package code
+        $sql = "INSERT INTO voucher (ownerID, businessCode, branchCode, voucherName, voucherCode, voucherType, discountType, discountValue, startDate, endDate, packCode)
+                VALUES ('$ownerID', '$businessCode', '$branchCode', '$voucherName','$voucherCode', '$condition','$discountType', '$discountValue', '$startDate', '$endDate', '$packCode')";
+        }else if ($condition === "Minimum Spend") {
+        // If the condition is minimum spend, save the minimum spend value
+        $sql = "INSERT INTO voucher (ownerID, businessCode, branchCode, voucherName, voucherCode, voucherType, discountType, discountValue, startDate, endDate, min_spend)
+                VALUES ('$ownerID', '$businessCode', '$branchCode', '$voucherName', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate', '$minSpend')";
+        } else {
+        // For other conditions
+        $sql = "INSERT INTO voucher (ownerID, businessCode, branchCode, voucherName, voucherCode, voucherType, discountType, discountValue, startDate, endDate)
+                VALUES ('$ownerID','$businessCode', '$branchCode', '$voucherName', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate')";
+        }
 
-    if ($DB->query($sql) === TRUE) {
-        // Voucher created successfully
-        echo "<div class='success-popup'>
-                <p>Voucher created successfully!</p>
-              </div>
-              <script>
-                setTimeout(function() {
-                    window.location.href = '?page=owner_voucher';
-                }, 3000); // Redirect after 3 seconds
-              </script>";
-    } else {
-        echo "Error: " . $sql . "<br>" . $DB->error;
+        if ($DB->query($sql) === TRUE) {
+            // Voucher created successfully
+            echo "<div class='success-popup'>
+                    <p>Voucher created successfully!</p>
+                </div>
+                <script>
+                    setTimeout(function() {
+                        window.location.href = '?page=owner_voucher';
+                    }, 3000); // Redirect after 3 seconds
+                </script>";
+        } else {
+            echo "Error: " . $sql . "<br>" . $DB->error;
+        }
     }
 }
 ?>
