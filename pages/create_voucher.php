@@ -8,13 +8,15 @@ $branches = $DB->query("SELECT * FROM branches");
 $packages = $DB->query("SELECT * FROM package");
 ?>
 
-<div class="package-info">
+<div class="voucher-form">
     <div class="card p-5 bg-opacity-25 bg-white">
+        <div class="d-flex">
             <a href="?page=owner_voucher" class="mx-3 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
                 <i class="bi bi-arrow-left"></i>
             </a>
             <h2 >Create Voucher</h2>
-     
+            <hr>
+        </div>
 
         <form method="post" action="?action=save_voucher" id="voucherForm">
             <label for="businessCode">Select Business:</label>
@@ -109,21 +111,30 @@ $packages = $DB->query("SELECT * FROM package");
     </div>
 </div>
                 
-<!-- Update the script tag in your HTML file -->
 <script>
     function updateBranches() {
-        var businessCode = document.getElementById("businessCode").value;
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "?action=getBranches&businessCode=" + businessCode, true);
+    var businessCode = document.getElementById("businessCode").value;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "?action=getBranches&businessCode=" + businessCode, true);
 
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var branchLabel = document.querySelector("label[for='branchCode']");
+            var branchCodeDropdown = document.getElementById("branchCode");
+            if (businessCode === "all") {
+                branchLabel.style.display = "none";
+                branchCodeDropdown.style.display = "none";
+                updatePackages();
+            } else {
+               
+                branchCodeDropdown.style.display = "block";
                 document.getElementById("branchCode").innerHTML = xhr.responseText;
-                updatePackages(); // Also update packages when branches change
+                updatePackages();
             }
-        };
-        xhr.send();
-    }
+        }
+    };
+    xhr.send();
+}
 
     function updatePackages() {
         var branchCode = document.getElementById("branchCode").value;
@@ -197,15 +208,18 @@ $packages = $DB->query("SELECT * FROM package");
 
 <style>
      @media (max-width:2000px) {
-        .package-info{
+        .voucher-form{
     margin-left:28%;
+    margin-top:10%;
+    width: 50vw;
+
         }
         .back-arrow{
             margin: 0 0 5% 0;
         }
     }
     @media (max-width:700px) {
-        .package-info{
+        .voucher-form{
 width: 100vw;
 margin: 0;
         }

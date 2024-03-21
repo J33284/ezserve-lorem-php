@@ -1,9 +1,9 @@
 <?php
+global $DB;
 $businessCode = isset($_GET['businessCode']) ? $_GET['businessCode'] : '';
 $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
-//$sql = "SELECT * FROM custom_category WHERE business_code = '$businessCode' AND branch_code = '$branchCode'";
-//$result = mysqli_query($conn, $sql);
 
+$custom = $DB->query("SELECT * FROM custom_category WHERE branchCode = $branchCode ");
 ?>
 
 <style>
@@ -56,7 +56,10 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
 
                 <div id="pricePerPax" style="display: none;">
                     <label for="pricePerPax">Price per Pax</label>
+                    <div class="d-flex">
+                    <span class="input-group-text">₱</span>
                     <input class="form-control mb-3" type="number" id="pricePerPax" name="pricePerPax" placeholder="Price per Pax">
+                </div>
                 </div>
             </div>
 
@@ -116,130 +119,137 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
 
 
     function createItemGroup(itemIndex) {
-        const newItemGroup = document.createElement('div');
-        newItemGroup.classList.add('item-group');
-        newItemGroup.dataset.item = itemIndex;
+    const newItemGroup = document.createElement('div');
+    newItemGroup.classList.add('item-group');
+    newItemGroup.dataset.item = itemIndex;
 
-        const itemNameId = `itemName_${itemIndex}`;
-        const itemDescriptionId = `itemDescription_${itemIndex}`;
-        const quantityId = `quantity_${itemIndex}`;
-        const unitId = `unit_${itemIndex}`;
-        const priceId = `price_${itemIndex}`;
-        const toggleSwitchId = `userInput_${itemIndex}`;
-        const itemImageId = `itemImage_${itemIndex}`;
+    const itemNameId = `itemName_${itemIndex}`;
+    const itemDescriptionId = `itemDescription_${itemIndex}`;
+    const quantityId = `quantity_${itemIndex}`;
+    const unitId = `unit_${itemIndex}`;
+    const priceId = `price_${itemIndex}`;
+    const toggleSwitchId = `userInput_${itemIndex}`;
+    const itemImageId = `itemImage_${itemIndex}`;
 
-        newItemGroup.innerHTML = `
-            <div class="form-group">
-                <h4 class="item-indicator">Item #${itemIndex}.</h4>
-                <br>
-                <label for="${itemNameId}">Item Information</label>
-                
-                
-                <input class="form-control mb-3" type="text" id="${itemNameId}" name="itemName[${itemIndex}][]" placeholder="Item Name">
-                <textarea class="form-control mb-3" id="${itemDescriptionId}" name="itemDescription[${itemIndex}][]" placeholder="Description"></textarea>
-                <input class="form-control mb-3" type="number" id="${quantityId}" name="quantity[${itemIndex}][]" placeholder="Quantity">
-                <select class="form-select mb-3" id="${unitId}" name="unit[${itemIndex}][]">
-                    <option value="" disabled selected>--Select a unit--</option>
-                    <option value="bag">piece/s</option>
-                    <option disabled>--Container--</option>
-                    <option value="bag">bag</option>
-                    <option value="box">box</option>
-                    <option value="bottle">bottle</option>
-                    <option value="bundle">bundle</option>
-                    <option value="bundle">packet</option>
-                    <option disabled>--Portion--</option>
-                    <option value="bag">platter</option>
-                    <option value="box">tray</option>
-                    <option value="bottle">plate</option>
-                    <option value="bundle">bowl</option>
-                    <option value="bundle">bucket</option>
-                    <option disabled>--Liqiuds--</option>
-                    <option value="bag">gallon</option>
-                    <option value="box">liter</option>
-                    <option value="bottle">ounce(oz)</option>
-                    <option value="bundle">cups</option>
-                    <option value="bundle">pitcher</option>
-                    <option value="bundle">can</option>
-                    <option disabled>--Dimension--</option>
-                    <option value="bag">kilometer(km)</option>
-                    <option value="box">meter(m)</option>
-                    <option value="bottle">centimeter(cm)</option>
-                    <option value="bundle">inch(in)</option>
-                    <option value="bundle">foot(ft)</option>
-                    <option value="bundle">yard(yd)</option>
-                    <option disabled>--Time--</option>
-                    <option value="bag">hour</option>
-                    <option value="box">minute</option>
-                    <option value="bottle">day</option>
-                    <option value="bundle">week</option>
-                    <option value="bundle">shift</option>
-                    <option value="bundle">session</option>
-                    <option value="bundle">month</option>
-                </select>
-                
-                <div id="${priceId}Section">
-                    <label for="${priceId}">Price per unit</label>
-                    <input class="form-control mb-3" type="number" id="${priceId}" name="price[${itemIndex}][]" placeholder="Price per unit">
-                </div>
-                <div class="form-group mb-3">
-            <label for="${itemImageId}">Upload Image</label>
-            <input type="file" id="${itemImageId}" name="itemImage[${itemIndex}][]" accept="image/*" onchange="previewImage(this, 'preview_${itemImageId}')" multiple>
-            <img id="preview_${itemImageId}" style="max-width: 100px; max-height: 100px; margin-top: 10px;" src="assets/images/preview-placeholder.jpg" alt="Image Preview">
-        </div>
+    newItemGroup.innerHTML = `
+        <div class="form-group">
+            <h4 class="item-indicator">Item #${itemIndex}.</h4>
+            <br>
+            <label for="${itemNameId}">Item Information</label>
+            <input class="form-control mb-3" type="text" id="${itemNameId}" name="itemName[${itemIndex}][]" placeholder="Item Name">
+            <textarea class="form-control mb-3" id="${itemDescriptionId}" name="itemDescription[${itemIndex}][]" placeholder="Description"></textarea>
+            <input class="form-control mb-3" type="number" id="${quantityId}" name="quantity[${itemIndex}][]" placeholder="Quantity">
+            <select class="form-select mb-3" id="${unitId}" name="unit[${itemIndex}][]">
+                <option value="" disabled selected>--Select a unit--</option>
+                <!-- Options for units -->
+            </select>
+            <div id="${priceId}Section">
+                <label for="${priceId}">Price per unit</label>
+                <input class="form-control mb-3" type="number" id="${priceId}" name="price[${itemIndex}][]" placeholder="Price per unit">
             </div>
-            
+            <div class="form-group mb-3">
+                <label for="${itemImageId}">Upload Image</label>
+                <input type="file" id="${itemImageId}" name="itemImage[${itemIndex}][]" accept="image/*" onchange="previewImage(this, 'preview_${itemImageId}')" multiple>
+                <img id="preview_${itemImageId}" style="max-width: 100px; max-height: 100px; margin-top: 10px;" src="assets/images/preview-placeholder.jpg" alt="Image Preview">
+            </div>
+        </div>
 
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="${toggleSwitchId}" name="userInput[${itemIndex}][]" checked>
-                <label class="form-check-label" for="${toggleSwitchId}">Enable Options</label>
-                <p style="font-size:15px; color: green"> *Activating the 'Options' feature allows your clients to choose their specified product/services under your item.</p>
-                <br>
-                <p style="font-size:15px; color: green"> Add categories under your specific Item (ex. Item - main dish, Categories - Pork, Chicken, Seafood)</p>
-                <div class="input-group mb-3">
-                    <select class="form-select" aria-label="Default select example">
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="${toggleSwitchId}" name="userInput[${itemIndex}][]" checked>
+            <label class="form-check-label" for="${toggleSwitchId}">Enable Options</label>
+            <p style="font-size:15px; color: green"> *Activating the 'Options' feature allows your clients to choose their specified product/services under your item.</p>
+            <br>
+            <p style="font-size:15px; color: green"> Add categories under your specific Item (ex. Item - main dish, Categories - Pork, Chicken, Seafood)</p>
+            <div class="input-group mb-3">
+                <select class="form-select" id="categorySelect_${itemIndex}">
                     <option disabled selected>--Select category--</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                    </select>
-                   
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">Add</button>
-                    </div>
-                    </div>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                            <th class="table-dark">Added Category</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                                    <tr>
-                                        <td>sample category</td>
-                                    </tr>
-                                
-                        </tbody>
-                    </table>
+                    <?php
+                        while ($row = $custom->fetch_assoc()) {
+                            $categoryName = $row['categoryName'];
+                            $customCategoryCode = $row['customCategoryCode'];
+                            echo "<option value=\"$customCategoryCode\">$categoryName</option>";
+                        }
+                    ?>
+                </select>
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" onclick="addCategory(${itemIndex})">Add</button>
+                </div>
             </div>
-            <hr>
-            <button type="button" class="add-details-btn btn btn-primary mb-3" onclick="cloneDetails(this, ${itemIndex})">Add Other Details</button>
-            
-            <div class="details-group" id="details_${itemIndex}_0">
-                <div class="form-group">
-                    <label for="detailName">Detail Name</label>
-                    <input class="form-control" type="text" name="detailName[${itemIndex}][0][]" placeholder="Detail Name">
-                </div>
-                <div class="form-group">
-                    <label for="detailValue">Value</label>
-                    <input class="form-control" type="text" name="detailValue[${itemIndex}][0][]" placeholder="Detail Value">
-                </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="table-dark">Added Category</th>
+                        <th class="table-dark"></th>
+                    </tr>
+                </thead>
+                <tbody id="categoryTable_${itemIndex}">
+                    <!-- Table body for categories -->
+                </tbody>
+            </table>
+        </div>
+        <hr>
+        <button type="button" class="add-details-btn btn btn-primary mb-3" onclick="cloneDetails(this, ${itemIndex})">Add Other Details</button>
+        <div class="details-group" id="details_${itemIndex}_0">
+            <div class="form-group">
+                <label for="detailName">Detail Name</label>
+                <input class="form-control" type="text" name="detailName[${itemIndex}][0][]" placeholder="Detail Name">
+            </div>
+            <div class="form-group">
+                <label for="detailValue">Value</label>
+                <input class="form-control" type="text" name="detailValue[${itemIndex}][0][]" placeholder="Detail Value">
             </div>
         </div>
-        `;
+    `;
 
-        return newItemGroup;
+    return newItemGroup;
+}
+
+// Function to add selected category to the table body
+function addCategory(itemIndex) {
+    const selectElement = document.getElementById(`categorySelect_${itemIndex}`);
+    const selectedOption = selectElement.options[selectElement.selectedIndex];
+    
+    // Check if the selected option is disabled or if the category is already added
+    if (!selectedOption.disabled) {
+        const selectedCategoryName = selectedOption.text; // Get the text of the selected option
+        const tableBody = document.getElementById(`categoryTable_${itemIndex}`);
+        
+        // Check if the category is already present in the table
+        if (!isCategoryDuplicate(tableBody, selectedCategoryName)) {
+            if (selectedCategoryName) {
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>${selectedCategoryName}</td>
+                    <td><button type="button" class="btn btn-danger btn-sm" onclick="removeCategory(this)">Remove</button></td>
+                `;
+                tableBody.appendChild(newRow);
+            }
+        }
+    
+        // Optionally, you can clear the select input after adding the category
+        selectElement.selectedIndex = 0;
     }
+}
+
+// Function to check if the category is already present in the table
+function isCategoryDuplicate(tableBody, categoryName) {
+    const tableRows = tableBody.querySelectorAll('tr');
+    for (let row of tableRows) {
+        const cell = row.querySelector('td');
+        if (cell && cell.textContent === categoryName) {
+            // Category already exists in the table
+            return true;
+        }
+    }
+    return false;
+}
+
+// Function to remove the category row from the table
+function removeCategory(button) {
+    const row = button.closest('tr');
+    row.remove();
+}
+
 
     function cloneDetails(button, itemIndex) {
         const detailsGroup = button.parentNode.querySelector('.details-group').cloneNode(true);
