@@ -24,7 +24,7 @@ $custom = $DB->query("SELECT * FROM custom_category WHERE branchCode = $branchCo
 </style>
 <div class="d-flex justify-content-between p-3" style="margin: 120px 0 0 0">
                 <div class="d-flex ">
-                <a href="?page=choose_package&businesscode=<?=$branchCode?>&businesscode=<?=$branchCode?>" id="backButton" class=" btn-back mx-5">
+                <a href="?page=choose_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" id="backButton" class=" btn-back mx-5">
                     <i class="bi bi-arrow-left" style="color: black;"></i>
                 </a>
                 </div>
@@ -185,6 +185,10 @@ $custom = $DB->query("SELECT * FROM custom_category WHERE branchCode = $branchCo
                 <tbody id="categoryTable_${itemIndex}">
                     <!-- Table body for categories -->
                 </tbody>
+                <input type="hidden" name="categories[${itemIndex}][]" value="">
+                <input type="hidden" name="customCategoryCode[${itemIndex}][]" value="">
+
+
             </table>
         </div>
         <hr>
@@ -204,14 +208,14 @@ $custom = $DB->query("SELECT * FROM custom_category WHERE branchCode = $branchCo
     return newItemGroup;
 }
 
-// Function to add selected category to the table body
 function addCategory(itemIndex) {
     const selectElement = document.getElementById(`categorySelect_${itemIndex}`);
     const selectedOption = selectElement.options[selectElement.selectedIndex];
     
     // Check if the selected option is disabled or if the category is already added
     if (!selectedOption.disabled) {
-        const selectedCategoryName = selectedOption.text; // Get the text of the selected option
+        const selectedCategoryName = selectedOption.text;
+        const selectedCategoryCode = selectedOption.value; 
         const tableBody = document.getElementById(`categoryTable_${itemIndex}`);
         
         // Check if the category is already present in the table
@@ -223,6 +227,19 @@ function addCategory(itemIndex) {
                     <td><button type="button" class="btn btn-danger btn-sm" onclick="removeCategory(this)">Remove</button></td>
                 `;
                 tableBody.appendChild(newRow);
+                
+                // Populate hidden input field with selected category data
+                const hiddenInputName = document.createElement('input');
+                hiddenInputName.type = 'hidden';
+                hiddenInputName.name = `categories[${itemIndex}][${tableBody.children.length - 1}]`;
+                hiddenInputName.value = selectedCategoryName;
+                document.querySelector(`input[name="categories[${itemIndex}][]"]`).parentNode.appendChild(hiddenInputName);
+
+                const hiddenInputCode = document.createElement('input');
+                hiddenInputCode.type = 'hidden';
+                hiddenInputCode.name = `customCategoryCode[${itemIndex}][${tableBody.children.length - 1}]`;
+                hiddenInputCode.value = selectedCategoryCode;
+                document.querySelector(`input[name="customCategoryCode[${itemIndex}][]"]`).parentNode.appendChild(hiddenInputCode);
             }
         }
     
@@ -231,24 +248,25 @@ function addCategory(itemIndex) {
     }
 }
 
-// Function to check if the category is already present in the table
-function isCategoryDuplicate(tableBody, categoryName) {
-    const tableRows = tableBody.querySelectorAll('tr');
-    for (let row of tableRows) {
-        const cell = row.querySelector('td');
-        if (cell && cell.textContent === categoryName) {
-            // Category already exists in the table
-            return true;
-        }
-    }
-    return false;
-}
 
-// Function to remove the category row from the table
-function removeCategory(button) {
-    const row = button.closest('tr');
-    row.remove();
-}
+    // Function to check if the category is already present in the table
+    function isCategoryDuplicate(tableBody, categoryName) {
+        const tableRows = tableBody.querySelectorAll('tr');
+        for (let row of tableRows) {
+            const cell = row.querySelector('td');
+            if (cell && cell.textContent === categoryName) {
+                // Category already exists in the table
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Function to remove the category row from the table
+    function removeCategory(button) {
+        const row = button.closest('tr');
+        row.remove();
+    }
 
 
     function cloneDetails(button, itemIndex) {

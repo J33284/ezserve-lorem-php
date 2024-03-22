@@ -1,17 +1,15 @@
-<?php
-// Assuming you have a global database connection $DB
+[<?php
 global $DB;
 
-// Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Process package information
     $packageName = $_POST['packageName'];
     $packageDescription = $_POST['packageDescription'];
     $businessCode = $_POST['businessCode'];
     $branchCode = $_POST['branchCode'];
-    
+    $categories = $_POST['categories'];
+    $customCategoryCode = $_POST['customCategoryCode'];
 
-    // Determine pricing type based on checkboxes
+
     $pricingType = '';
     $amount = 0;
 
@@ -61,6 +59,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $updateItemStatement = $DB->prepare($updateItemQuery);
                 $updateItemStatement->execute([$quantity, $unit, $price, $itemCode]);
             }
+
+            foreach ($categories as $itemIndex => $categoryList) {
+                // $itemIndex corresponds to the index of the item group
+                // $categoryList is an array containing the selected categories for that item
+                
+                // Count the number of categories selected for this item
+                $categoryCount = count($categoryList);
+                
+                // Loop through each selected category
+                for ($categoryIndex = 0; $categoryIndex < $categoryCount; $categoryIndex++) {
+                    $categoryName = $categoryList[$categoryIndex];
+                    $customCategoryCode = $_POST['customCategoryCode'][$itemIndex][$categoryIndex]; // Retrieve the custom category code
+                    
+                    // Check if the category name is not empty before inserting
+                    if (!empty($categoryName)) {
+                        // Insert category information into the 'item_option' table
+                        $categoryInsertQuery = "INSERT INTO item_option (optionName, customCategoryCode, itemCode) VALUES (?, ?, ?)";
+                        $categoryStatement = $DB->prepare($categoryInsertQuery);
+                        $categoryStatement->execute([$categoryName, $customCategoryCode, $itemCode]);
+                    }
+                }
+            }
+            
+            
+
             $detailsCount = count($_POST['detailName'][$itemIndex][$key]);
             for ($detailIndex = 0; $detailIndex < $detailsCount; $detailIndex++) {
                 $detailName = $_POST['detailName'][$itemIndex][$key][$detailIndex];
@@ -79,8 +102,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
     }
 
-    // Redirect or perform other actions after successful data insertion
+
     header("Location: ?page=package&businessCode={$businessCode}&branchCode={$branchCode}");
     exit();
 }
 ?>
+
