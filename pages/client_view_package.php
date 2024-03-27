@@ -17,7 +17,6 @@ $packageDetailsQ = $DB->query("SELECT p.*, i.*
     JOIN items i ON p.packCode = i.packCode
     WHERE p.packCode = '$packCode'");
 
-// Check if the query was successful
 if ($packageDetailsQ) {
     $packageDetails = $packageDetailsQ->fetch_assoc();
 }
@@ -61,93 +60,91 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
             </thead>
             <!-- Table Body -->
             <tbody>
-                <?php foreach ($packageDetailsQ as $row) : ?>
-                    <?php
-                    // Fetch other details from item_details table
-                    $itemCode = $row['itemCode'];
-                    $itemDetailsQ = $DB->query("SELECT * FROM item_details WHERE itemCode = '$itemCode'");
-                    $itemDetails = $itemDetailsQ->fetch_assoc();
+                    <?php foreach ($packageDetailsQ as $row) : ?>
+                        <?php
+                            //for item_details table
+                            $itemCode = $row['itemCode']; 
+                            $itemDetailsQ = $DB->query("SELECT * FROM item_details WHERE itemCode = '$itemCode'");
+                            $itemDetails = $itemDetailsQ->fetch_assoc();
                     ?>
-                    <tr>
+                <tr>
+                        
                         <td style="width: 250px;">
                             <img src="<?= $row['itemImage'] ?>" alt="<?= $row['itemName'] ?>" style="width: 200px; height: 180px;"
                             onclick="openModal('<?= $row['itemImage'] ?>', '<?= $row['itemName'] ?>')">
                         </td>
                         <td style="width: 200px;"><?= $row['itemName'] ?></td>
-                        <td style="width: 300px;"><?= $row['description'] ?> (see options)
-                         
-                </td>
-                <td style="width: 300px;">
-                    <?php if (!empty($itemDetails['detailName']) && !empty($itemDetails['detailValue'])) : ?>
-                        <strong><?= $itemDetails['detailName'] ?></strong>: <?= $itemDetails['detailValue'] ?>
-                    <?php else : ?>
-                        N/A
-                    <?php endif; ?>
-                </td>
-                <td style="width: 150px;"><button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#menuOffcanvas">Options</button></td>
+                        <td style="width: 300px;"><?= $row['description'] ?> </td>
+                        <td style="width: 300px;">
+                            <?php if (!empty($itemDetails['detailName']) && !empty($itemDetails['detailValue'])) : ?>
+                                <strong><?= $itemDetails['detailName'] ?></strong>: <?= $itemDetails['detailValue'] ?>
+                            <?php else : ?>
+                                <i class="bi bi-box">None</i>
+                            <?php endif; ?>
+                        </td>
+                        
                         <?php if ($packageDetails['pricingType'] === 'per pax') : ?>
                         <?php else : ?>
                             <td><?= $row['quantity']." ". $row['unit'] ?></td>
                             <td><?= '₱' . number_format($row['price'], 2)  ?></td>
                         <?php endif; ?>
-                        
-                    </tr>
+                            <td><button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#menuOffcanvas">Options</button></td>
+                </tr>
                 <?php endforeach; ?>
             </tbody>
+            
             <div class="offcanvas offcanvas-start" tabindex="-1" id="menuOffcanvas" data-bs-backdrop="false" data-bs-scroll="true" style="width: 450px;">
-    <div class="offcanvas-header">
-        <?php
-            $packageInfoQ = $DB->query("SELECT p.*, b.*, bs.* 
-            FROM package AS p 
-            JOIN branches AS b ON p.branchCode = b.branchCode 
-            JOIN business AS bs ON b.businessCode = bs.businessCode 
-            WHERE p.branchCode = '$branchCode'");
 
-    if ($row = $packageInfoQ->fetch_assoc()) :
-        ?>
-        <h5 class="offcanvas-title my-3"><?= $row['busType'] ?> Options</h5>
-        <?php endif; ?>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        <?php 
-   
-    $customCategoryQ = $DB->query("SELECT * FROM custom_category WHERE branchCode = '$branchCode'");
-    
-    while ($category = $customCategoryQ->fetch_assoc()) : ?>
-    <div style="height: 45vh">
-        <li class="overflow-auto" style="list-style-type:none;">
-           <strong><?= $category['categoryName'] ?></strong> 
-            <ul>
-                <?php 
-                // Fetch items for each category
-                $categoryId = $category['customCategoryCode'];
-                $customItemsQ = $DB->query("SELECT * FROM custom_items WHERE customCategoryCode = '$categoryId'");
+                    <div class="offcanvas-header">
+                            <?php
+                                $packageInfoQ = $DB->query("SELECT p.*, b.*, bs.* 
+                                FROM package AS p 
+                                JOIN branches AS b ON p.branchCode = b.branchCode 
+                                JOIN business AS bs ON b.businessCode = bs.businessCode 
+                                WHERE p.branchCode = '$branchCode'");
 
-                while ($item = $customItemsQ->fetch_assoc()) : ?>
-                    <li style="list-style-type:none;">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <?= $item['itemName'] ?></li>
-                <?php endwhile; ?>
-            </ul>
-        </li>
-    <?php endwhile; ?>
-    </div>
-<button id="doneButton" class="btn btn-primary float-end" >Done</button>
-    </div>
-</div>
-        </table>
+                                if ($rowl= $packageInfoQ->fetch_assoc()) :
+                                    ?>
+                                    <h5 class="offcanvas-title my-3"><?= $rowl['busType'] ?> Options</h5>
+                                <?php endif; ?>
+                                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                </div>
 
-        
+                                <div class="offcanvas-body">
+                                <?php 
+                                $customCategoryQ = $DB->query("SELECT * FROM item_option WHERE itemCode = '$itemCode'");
+                                
+                                while ($category = $customCategoryQ->fetch_assoc()) : ?>
+                                <div style="height: 45vh">
+                                    <li class="overflow-auto" style="list-style-type:none;">
+                                    <strong><?= $category['optionName'] ?></strong> 
+                                        <ul>
+                                            <?php 
+                                            // Fetch items for each category
+                                            $categoryId = $category['customCategoryCode'];
+                                            $customItemsQ = $DB->query("SELECT * FROM custom_items WHERE customCategoryCode = '$categoryId'");
 
-    </div>
+                                            while ($item = $customItemsQ->fetch_assoc()) : ?>
+                                                <li style="list-style-type:none;">
+                                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                                <?= $item['itemName'] ?></li>
+                                            <?php endwhile; ?>
+                                        </ul>
+                                    </li>
+                                <?php endwhile; ?>
+                                </div>
+                            <button id="doneButton" class="btn btn-primary float-end" >Done</button>
+                                </div>
+                            </div>
+                            </table>
+                        </div>
 
     <!-- Total Container -->
     <div class="container mt-3 text-center" style="background-color: white; padding: 10px; height: auto;">
             <?php
             if ($packageDetails['pricingType'] === 'per pax') {
                 // Display 'per pax' pricing
-                $total = 'Total: ' . '₱' . number_format($packageDetails['amount'], 2) . ' / pax';
+                $total = 'Price: ' . '₱' . number_format($packageDetails['amount'], 2) . ' / pax';
             } else {
                 // Calculate total for other pricing types
                 $total = 0;
@@ -174,6 +171,8 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
     </div>
 
 </div>
+
+
 
 <!-- Checkout Container -->
 <div id="checkoutContainer" class="container mt-3 text-center d-none">
@@ -208,10 +207,11 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
 
         <!-- Table Body -->
         <tbody id="checkoutTableBody">
-            <!-- Checkout table content will be added dynamically -->
+        <!-- Checkout table content will be added dynamically -->
         </tbody>
     </table>
-
+        
+    <!-- Checkout Total -->
     <div class="container mt-3 text-center" style="background-color: white; padding: 10px; height: auto;">
         <h2 id="checkoutTotal">Total: ₱0.00</h2>
     </div>
@@ -245,7 +245,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
 
 <!-- JavaScript for opening and closing the modal -->
 <script>
-    // Open modal with full-size image
+    // Image Window
     function openModal(imageSrc, itemName) {
         var modal = document.getElementById('imageModal');
         var modalImage = document.getElementById('fullImage');
@@ -255,24 +255,15 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
         modalImage.alt = itemName;
     }
 
-    // Close the modal
+    // Close the Image Window
     function closeModal() {
         var modal = document.getElementById('imageModal');
         modal.style.display = 'none';
     }
 
-    // Close the modal when clicking the close button
+    // Close the Image Window when clicking the X button
     document.getElementsByClassName('close')[0].onclick = closeModal;
-
-    // Close the modal when clicking outside the image
-    window.onclick = function(event) {
-        var modal = document.getElementById('imageModal');
-        if (event.target == modal) {
-            closeModal();
-        }
-    };
-
-
+    
     function customizePackage() {
         var packageDetails = <?php echo json_encode($packageDetails); ?>;
         var pricingType = packageDetails['pricingType'];
@@ -294,19 +285,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
 
 function customizePerPax() {
     if (!customizationApplied) {
-        var tableBody = document.querySelector('#package-view table tbody');
-        var rows = tableBody.querySelectorAll('tr');
-
-        // Add a new column with a textarea for 'per pax' pricing
-        rows.forEach(function(row) {
-            var textareaCell = document.createElement('td');
-            var textarea = document.createElement('textarea');
-            textarea.placeholder = 'Enter customization';
-            textarea.className = 'form-control';
-            textareaCell.appendChild(textarea);
-            textareaCell.style.width = '250px';
-            row.appendChild(textareaCell);
-        });
+      
 
         // Show the quantity meter container
         document.getElementById('quantityMeterContainer').style.display = 'block';
@@ -315,7 +294,7 @@ function customizePerPax() {
     }
 }
 
-    function customizeOther() {
+function customizeOther() {
         var tableBody = document.querySelector('#package-view table tbody');
         var rows = tableBody.querySelectorAll('tr');
 
