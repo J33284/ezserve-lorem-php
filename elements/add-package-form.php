@@ -7,6 +7,12 @@ $custom = $DB->query("SELECT * FROM custom_category WHERE branchCode = $branchCo
 ?>
 
 <style>
+
+    /* CSS to initially hide select category and add button */
+.form-select, .input-group-append button, .table, .selection-limit {
+    display: none;
+}
+
     .details-group {
         display: none;
         margin-top: 10px;
@@ -155,8 +161,8 @@ $custom = $DB->query("SELECT * FROM custom_category WHERE branchCode = $branchCo
         </div>
 
         <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="${toggleSwitchId}" name="userInput[${itemIndex}][]" checked>
-            <label class="form-check-label" for="${toggleSwitchId}">Enable Options</label>
+            <input class="form-check-input" type="checkbox" id="${toggleSwitchId}" name="userInput[${itemIndex}][]">
+            <label class="form-check-label" for="${toggleSwitchId}" >Enable Options</label>
             <p style="font-size:15px; color: green"> *Activating the 'Options' feature allows your clients to choose their specified product/services under your item.</p>
             <br>
             <p style="font-size:15px; color: green"> Add categories under your specific Item (ex. Item - main dish, Categories - Pork, Chicken, Seafood)</p>
@@ -190,8 +196,16 @@ $custom = $DB->query("SELECT * FROM custom_category WHERE branchCode = $branchCo
 
 
             </table>
+            <div class="selection-limit">
+                <label for="quantity" class="form-label">Number of Options Needed:</label>
+                <input type="number" class="form-control" id="limit" name="limit" min="1" max="100" value="1">
+            </div>
         </div>
+
+      
+
         <hr>
+
         <button type="button" class="add-details-btn btn btn-primary mb-3" onclick="cloneDetails(this, ${itemIndex})">Add Other Details</button>
         <div class="details-group" id="details_${itemIndex}_0">
             <div class="form-group">
@@ -207,6 +221,43 @@ $custom = $DB->query("SELECT * FROM custom_category WHERE branchCode = $branchCo
 
     return newItemGroup;
 }
+
+// Add an event listener to the document body for change events on checkboxes with the class "form-check-input"
+document.body.addEventListener("change", function(event) {
+    // Check if the changed element is a checkbox with the class "form-check-input"
+    if (event.target.matches(".form-check-input")) {
+        const checkbox = event.target;
+        const isChecked = checkbox.checked;
+
+        // Find the parent div containing the select category and add button elements
+        const parentDiv = checkbox.closest(".form-check");
+        
+
+        // Get the select category and add button elements within the parent div
+        const selectElement = parentDiv.querySelector(`select.form-select`);
+        const addButton = parentDiv.querySelector(`.input-group-append button`);
+        const table = parentDiv.querySelector(`.table`);
+        const limit = parentDiv.querySelector(`.selection-limit`);
+
+
+        // If the checkbox is checked (options enabled), show select category and add button
+        if (isChecked) {
+            selectElement.style.display = "block";
+            addButton.style.display = "block";
+            table.style.display = "block";
+            limit.style.display = "block";
+
+
+        } else { // If the checkbox is not checked (options disabled), hide select category and add button
+            selectElement.style.display = "none";
+            addButton.style.display = "none";
+            table.style.display = "none";
+            limit.style.display = "none";
+
+
+        }
+    }
+});
 
 function addCategory(itemIndex) {
     const selectElement = document.getElementById(`categorySelect_${itemIndex}`);

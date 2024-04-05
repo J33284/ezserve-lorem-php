@@ -59,85 +59,75 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                 </tr>
             </thead>
             <!-- Table Body -->
-            <tbody>
-                    <?php foreach ($packageDetailsQ as $row) : ?>
-                        <?php
-                            //for item_details table
-                            $itemCode = $row['itemCode']; 
-                            $itemDetailsQ = $DB->query("SELECT * FROM item_details WHERE itemCode = '$itemCode'");
-                            $itemDetails = $itemDetailsQ->fetch_assoc();
-                    ?>
+        <tbody>
+            <?php foreach ($packageDetailsQ as $row) : ?>
+                <?php
+                //for item_details table
+                $itemCode = $row['itemCode']; 
+                $itemDetailsQ = $DB->query("SELECT * FROM item_details WHERE itemCode = '$itemCode'");
+                $itemDetails = $itemDetailsQ->fetch_assoc();
+                ?>
                 <tr>
-                        
-                        <td style="width: 250px;">
-                            <img src="<?= $row['itemImage'] ?>" alt="<?= $row['itemName'] ?>" style="width: 200px; height: 180px;"
-                            onclick="openModal('<?= $row['itemImage'] ?>', '<?= $row['itemName'] ?>')">
-                        </td>
-                        <td style="width: 200px;"><?= $row['itemName'] ?></td>
-                        <td style="width: 300px;"><?= $row['description'] ?> </td>
-                        <td style="width: 300px;">
-                            <?php if (!empty($itemDetails['detailName']) && !empty($itemDetails['detailValue'])) : ?>
-                                <strong><?= $itemDetails['detailName'] ?></strong>: <?= $itemDetails['detailValue'] ?>
-                            <?php else : ?>
-                                <i class="bi bi-box">None</i>
-                            <?php endif; ?>
-                        </td>
-                        
-                        <?php if ($packageDetails['pricingType'] === 'per pax') : ?>
+                    <td style="width: 250px;">
+                        <img src="<?= $row['itemImage'] ?>" alt="<?= $row['itemName'] ?>" style="width: 200px; height: 180px;" onclick="openModal('<?= $row['itemImage'] ?>', '<?= $row['itemName'] ?>')">
+                    </td>
+                    <td style="width: 200px;"><?= $row['itemName'] ?></td>
+                    <td style="width: 300px;"><?= $row['description'] ?></td>
+                    <td style="width: 300px;">
+                        <?php if (!empty($itemDetails['detailName']) && !empty($itemDetails['detailValue'])) : ?>
+                            <strong><?= $itemDetails['detailName'] ?></strong>: <?= $itemDetails['detailValue'] ?>
                         <?php else : ?>
-                            <td><?= $row['quantity']." ". $row['unit'] ?></td>
-                            <td><?= '₱' . number_format($row['price'], 2)  ?></td>
+                            <i class="bi bi-box">None</i>
                         <?php endif; ?>
-                            <td><button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#menuOffcanvas">Options</button></td>
+                    </td>
+                    <?php if ($packageDetails['pricingType'] === 'per pax') : ?>
+                    <?php else : ?>
+                        <td><?= $row['quantity']." ". $row['unit'] ?></td>
+                        <td><?= '₱' . number_format($row['price'], 2)  ?></td>
+                    <?php endif; ?>
+                    <?php if ($row['userInput'] === 'enable') : ?>
+                        <td><button type="button" class="btn btn-primary options-button d-none" data-bs-toggle="offcanvas" data-bs-target="#menuOffcanvas<?= $row['itemCode'] ?>">Options</button></td>
+                    <?php else : ?>
+                    <td></td>
+                    <?php endif; ?> 
                 </tr>
-                <?php endforeach; ?>
-            </tbody>
-            
-            <div class="offcanvas offcanvas-start" tabindex="-1" id="menuOffcanvas" data-bs-backdrop="false" data-bs-scroll="true" style="width: 450px;">
 
+                <!-- Offcanvas for each item -->
+                <div class="offcanvas offcanvas-start" tabindex="-1" id="menuOffcanvas<?= $row['itemCode'] ?>" data-bs-backdrop="false" data-bs-scroll="true" style="width: 450px;">
                     <div class="offcanvas-header">
-                            <?php
-                                $packageInfoQ = $DB->query("SELECT p.*, b.*, bs.* 
-                                FROM package AS p 
-                                JOIN branches AS b ON p.branchCode = b.branchCode 
-                                JOIN business AS bs ON b.businessCode = bs.businessCode 
-                                WHERE p.branchCode = '$branchCode'");
-
-                                if ($rowl= $packageInfoQ->fetch_assoc()) :
-                                    ?>
-                                    <h5 class="offcanvas-title my-3"><?= $rowl['busType'] ?> Options</h5>
-                                <?php endif; ?>
-                                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                                </div>
-
-                                <div class="offcanvas-body">
-                                <?php 
-                                $customCategoryQ = $DB->query("SELECT * FROM item_option WHERE itemCode = '$itemCode'");
-                                
-                                while ($category = $customCategoryQ->fetch_assoc()) : ?>
-                                <div style="height: 45vh">
-                                    <li class="overflow-auto" style="list-style-type:none;">
+                        <h5 class="offcanvas-title my-3"><?= $row['itemName'] ?> Options</h5>
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <?php 
+                        $customCategoryQ = $DB->query("SELECT * FROM item_option WHERE itemCode = '$itemCode'");
+                        
+                        while ($category = $customCategoryQ->fetch_assoc()) : ?>
+                            <div>
+                                <li class="overflow-auto" style="list-style-type:none;">
                                     <strong><?= $category['optionName'] ?></strong> 
-                                        <ul>
-                                            <?php 
-                                            // Fetch items for each category
-                                            $categoryId = $category['customCategoryCode'];
-                                            $customItemsQ = $DB->query("SELECT * FROM custom_items WHERE customCategoryCode = '$categoryId'");
+                                    <ul>
+                                        <?php 
+                                        // Fetch items for each category
+                                        $categoryId = $category['customCategoryCode'];
+                                        $customItemsQ = $DB->query("SELECT * FROM custom_items WHERE customCategoryCode = '$categoryId'");
 
-                                            while ($item = $customItemsQ->fetch_assoc()) : ?>
-                                                <li style="list-style-type:none;">
+                                        while ($item = $customItemsQ->fetch_assoc()) : ?>
+                                            <li style="list-style-type:none;">
                                                 <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                                <?= $item['itemName'] ?></li>
-                                            <?php endwhile; ?>
-                                        </ul>
-                                    </li>
-                                <?php endwhile; ?>
-                                </div>
-                            <button id="doneButton" class="btn btn-primary float-end" >Done</button>
-                                </div>
+                                                <?= $item['itemName'] ?>
+                                            </li>
+                                        <?php endwhile; ?>
+                                    </ul>
+                                </li>
                             </div>
-                            </table>
-                        </div>
+                        <?php endwhile; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </tbody>
+    </table>      
+</div>
 
     <!-- Total Container -->
     <div class="container mt-3 text-center" style="background-color: white; padding: 10px; height: auto;">
@@ -173,7 +163,6 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
 </div>
 
 
-
 <!-- Checkout Container -->
 <div id="checkoutContainer" class="container mt-3 text-center d-none">
     <h2>Checkout</h2>
@@ -189,7 +178,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                     <th>Item Name</th>
                     <th>Description</th>
                     <th>Additional Detail</th>
-                    <th>Customization</th>
+                    <th>Preferences</th>
                 </tr>
             <?php else : ?>
                 <tr>
@@ -198,7 +187,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                     <th>Description</th>
                     <th>Additional Detail</th>
                     <th>Price</th>
-                    <th>Customization</th>
+                    <th>Preferences</th>
                     <th></th> 
 
                 </tr>
@@ -244,98 +233,106 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
 
 
 <!-- JavaScript for opening and closing the modal -->
-<script>
-    // Image Window
-    function openModal(imageSrc, itemName) {
-        var modal = document.getElementById('imageModal');
-        var modalImage = document.getElementById('fullImage');
+    <script>
+        // Image Window
+        function openModal(imageSrc, itemName) {
+            var modal = document.getElementById('imageModal');
+            var modalImage = document.getElementById('fullImage');
 
-        modal.style.display = 'block';
-        modalImage.src = imageSrc;
-        modalImage.alt = itemName;
-    }
-
-    // Close the Image Window
-    function closeModal() {
-        var modal = document.getElementById('imageModal');
-        modal.style.display = 'none';
-    }
-
-    // Close the Image Window when clicking the X button
-    document.getElementsByClassName('close')[0].onclick = closeModal;
-    
-    function customizePackage() {
-        var packageDetails = <?php echo json_encode($packageDetails); ?>;
-        var pricingType = packageDetails['pricingType'];
-
-        if (pricingType === 'per pax') {
-            customizePerPax();
-        } else {
-            customizeOther();
+            modal.style.display = 'block';
+            modalImage.src = imageSrc;
+            modalImage.alt = itemName;
         }
 
-        // Show back button
-        document.getElementById('customizeButton').classList.add('d-none');
-        document.getElementById('backButton').classList.remove('d-none');
-        document.getElementById('saveButton').classList.remove('d-none');
+        // Close the Image Window
+        function closeModal() {
+            var modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
+        }
 
+        // Close the Image Window when clicking the X button
+        document.getElementsByClassName('close')[0].onclick = closeModal;
+
+        function toggleOptionsButton(userInput, buttonElement) {
+        if (userInput === 'enable') {
+            buttonElement.style.display = 'block'; // Show the button
+        } else {
+            buttonElement.style.display = 'none'; // Hide the button
+        }
+    }
+        
+        function customizePackage() {
+            var packageDetails = <?php echo json_encode($packageDetails); ?>;
+            var pricingType = packageDetails['pricingType'];
+            var optionButtons = document.querySelectorAll('.options-button');
+
+            optionButtons.forEach(function(button) {
+                button.classList.remove('d-none'); // Show the "Options" button for each item
+            });
+
+            if (pricingType === 'per pax') {
+                customizePerPax();
+            } else {
+                customizeOther();
+            }
+
+            // Show back button
+            document.getElementById('customizeButton').classList.add('d-none');
+            document.getElementById('backButton').classList.remove('d-none');
+            document.getElementById('saveButton').classList.remove('d-none');
+
+        }
+
+        var customizationApplied = false; // Add this global variable
+
+    function customizePerPax() {
+        if (!customizationApplied) {
+        
+
+            // Show the quantity meter container
+            document.getElementById('quantityMeterContainer').style.display = 'block';
+
+            customizationApplied = true;
+        }
     }
 
-    var customizationApplied = false; // Add this global variable
+    function customizeOther() {
+            var tableBody = document.querySelector('#package-view table tbody');
+            var rows = tableBody.querySelectorAll('tr');
 
-function customizePerPax() {
-    if (!customizationApplied) {
-      
+            // Add two new columns with textarea and quantity meter for other pricing types
+            rows.forEach(function(row) {
+                var quantityCell = document.createElement('td');
+                var quantityInput = document.createElement('input');
+                quantityInput.type = 'number';
+                quantityInput.placeholder = 'Enter quantity';
+                quantityInput.className = 'form-control';
+                quantityInput.value = 1;
+                quantityInput.min = 1;
+                quantityCell.appendChild(quantityInput);
+                row.appendChild(quantityCell);
+            });
 
-        // Show the quantity meter container
-        document.getElementById('quantityMeterContainer').style.display = 'block';
-
-        customizationApplied = true;
-    }
-}
-
-function customizeOther() {
-        var tableBody = document.querySelector('#package-view table tbody');
-        var rows = tableBody.querySelectorAll('tr');
-
-        // Add two new columns with textarea and quantity meter for other pricing types
-        rows.forEach(function(row) {
-            var textareaCell = document.createElement('td');
-            var textarea = document.createElement('textarea');
-            textarea.placeholder = 'Enter customization';
-            textarea.className = 'form-control';
-            textareaCell.appendChild(textarea);
-            row.appendChild(textareaCell);
-
-            var quantityCell = document.createElement('td');
-            var quantityInput = document.createElement('input');
-            quantityInput.type = 'number';
-            quantityInput.placeholder = 'Enter quantity';
-            quantityInput.className = 'form-control';
-            quantityInput.value = 1;
-            quantityInput.min = 1;
-            quantityCell.appendChild(quantityInput);
-            row.appendChild(quantityCell);
-        });
-
-    }
+        }
 
     function backToPackageView() {
     var tableBody = document.querySelector('#package-view table tbody');
     var rows = tableBody.querySelectorAll('tr');
+    var optionButtons = document.querySelectorAll('.options-button');
 
     // Determine pricing type
     var pricingType = <?php echo json_encode($packageDetails['pricingType']); ?>;
 
     if (pricingType === 'per pax') {
-        // Remove the two last cells for 'per pax' pricing
-        rows.forEach(function (row) {
-            row.removeChild(row.lastElementChild); // Remove the last cell
+        optionButtons.forEach(function(button) {
+            button.classList.add('d-none'); // Show the "Options" button for each item
         });
-
         // Hide the quantity meter container
         document.getElementById('quantityMeterContainer').style.display = 'none';
     } else {
+        optionButtons.forEach(function(button) {
+            button.classList.add('d-none'); // Show the "Options" button for each item
+        });
         // Remove the last cell for other pricing types
         rows.forEach(function (row) {
             row.removeChild(row.lastElementChild); // Remove the last 
@@ -354,6 +351,159 @@ function customizeOther() {
 
     customizationApplied = false;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

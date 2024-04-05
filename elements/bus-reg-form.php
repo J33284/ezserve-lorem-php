@@ -85,7 +85,7 @@ $businessesResult = $DB->query("SELECT * FROM businesstypes");
                         </div>
                     </div>
                         <!-- Add Permit Button -->
-                        <button type="button" class="btn btn-secondary mt-3" id="addPermitBtn">Add Permit</button>
+                        <button type="button" class="btn btn-primary mt-3" id="addPermitBtn">Add Permit</button>
 
                         <!-- Container to hold dynamically added permit fields -->
                         <div id="permitFieldsContainer">
