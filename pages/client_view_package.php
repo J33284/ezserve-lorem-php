@@ -155,7 +155,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
 
 
     <div class="container mt-3 text-center">
-        <button id="customizeButton" class="btn btn-primary" onclick="customizePackage()">Customize</button>
+        <button id="customizeButton" class="btn btn-primary" onclick="customizePackage()">Modify</button>
         <button id="backButton" class="btn btn-secondary d-none" onclick="backToPackageView()">Back</button>
         <button id="saveButton" class="btn btn-success d-none" onclick="saveCustomization()">Save</button>
     </div>

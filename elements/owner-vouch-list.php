@@ -54,11 +54,11 @@
                     $packName = ($packNameResult->num_rows > 0) ? $packNameResult->fetch_assoc()["packName"] : '';
                 ?>
                     <tr>
-                        <td><?= $busName ?></td>
-                        <td><?= $branchName ?></td>
-                        <td><?= $row["voucherName"] ?></td>
-                        <td><?= $row["voucherCode"] ?></td>
-                        <td>
+                        <td class="bg-transparent border border-white"><?= $busName ?></td>
+                        <td class="bg-transparent border border-white"><?= $branchName ?></td>
+                        <td class="bg-transparent border border-white"><?= $row["voucherName"] ?></td>
+                        <td class="bg-transparent border border-white"><?= $row["voucherCode"] ?></td>
+                        <td class="bg-transparent border border-white">
                         <?php
                         echo $row["voucherType"];
                         if ($row["voucherType"] === "Specific Package") {
@@ -68,12 +68,12 @@
                         }
                         ?>
                         </td>
-                        <td>
+                        <td class="bg-transparent border border-white">
                             <?= ($row["discountType"] === 'percentage') ? $row["discountValue"] . '%' : '₱' . $row["discountValue"] ?>
                         </td>
-                        <td ><?= $row["startDate"] ?></td>
-                        <td ><?= $row["endDate"] ?></td>
-                        <td >
+                        <td class="bg-transparent border border-white"><?= $row["startDate"] ?></td>
+                        <td class="bg-transparent border border-white"><?= $row["endDate"] ?></td>
+                        <td class="bg-transparent border border-white">
                             <div class="d-flex ">
                                 <a href="?page=edit_voucher&id=<?= $row["voucherID"] ?>" class="btn btn-warning mx-2">
                                     <i class="fas fa-edit"></i> <!-- Edit icon -->
@@ -88,11 +88,12 @@
             </tbody>
         </table>
     <?php } else { ?>
-        <div class="d-flex justify-content-center align-items-center" style="height: 60vh;">
-            <div class="card text-center">
-                <div class="card-body">
-                    <p>No vouchers found</p>
-                    <a href="?page=create_voucher" class="btn btn-primary">Add Voucher</a>
+        <div class="d-flex justify-content-center align-items-center" style="height: 40vh;">
+            <div class="card text-center ">
+                <div class="card-body d-flex">
+                    <i class="bi bi-exclamation-triangle " style="font-size: 50px"></i>
+                    <h2 class="py-4 px-2">No Vouchers Found</h2>
+                    
                 </div>
             </div>
         </div>

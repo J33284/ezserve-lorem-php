@@ -91,7 +91,7 @@ if ($branchesQ) {
                                   if ($item_detailsQ) {
                                       $item_details = $item_detailsQ->fetch_assoc();
 
-                                      // The rest of your code remains unchanged
+                                      
                                   }
 
                                 ?>

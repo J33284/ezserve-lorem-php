@@ -15,7 +15,7 @@ $payments = $DB->query("
 
 <?= element('owner-side-nav') ?>
 
-<div id="owner-order-list" class="owner-order-list" style="margin: 120px 0 0 20%">
+<div id="owner-order-list" class="owner-order-list" style="margin: 120px 0 0 15%">
     <div class="d-flex justify-content-between p-3">
         <h1 class="page-title">Client Orders</h1>
     </div>
@@ -55,7 +55,7 @@ $payments = $DB->query("
                     <td class="bg-transparent border border-white"><?= $payment['paymentMethod'] ?></td>
                     <td class="bg-transparent border border-white">₱<?= number_format($payment['totalAmount'], 2) ?></td>
                     <div class="status flex-containeri">
-                    <td class="bg-transparent border border-white"><?= $payment['transaction_status'] ?>
+                    <td class="bg-transparent border border-white d-flex flex-column"><?= $payment['transaction_status'] ?>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateStatusModal<?= $payment['transID'] ?>">Update</button>
                     </div>
                     

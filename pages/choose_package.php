@@ -37,7 +37,7 @@ $branch = $branchResult->fetch_assoc();
             </div>
             <div class="pack-info">
 				<p>Make a ready-made bundle with set items and cost for easy customer selection.</p>
-                <a href="?page=add_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="add"><i class="fas fa-plus"></i> Add</a>
+                
                 <a href="?page=package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="view"><i class="fas fa-eye"></i> View</a>      
 
             </div>
@@ -51,7 +51,7 @@ $branch = $branchResult->fetch_assoc();
                 
 				<p>Allow your customers to design their own personalized package.</p>
 
-                <a href="?page=add_custom_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="add"><i class="fas fa-plus"></i> Add</a>
+                
                 <a href="?page=custom_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="view"><i class="fas fa-eye"></i> View</a>      
 
             </div>

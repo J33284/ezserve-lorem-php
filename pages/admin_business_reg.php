@@ -39,7 +39,7 @@ function displayFileName($filePath, $fileType)
             <?php foreach ($businesses as $key => $business) : ?>
                 <tr class="sticky-top mt-3">
                     <th scope="row" class="bg-transparent border border-white"><?= $key + 1 ?></th>
-                    <td class="bg-transparent border border-white w-100 justify-content-between align-items-center d-flex" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample<?= $business['businessCode'] ?>" role="button">
+                    <td class="bg-transparent border border-white w-100 justify-content-between align-items-center d-flex" >
                         <?= $business['busName'] ?>
                         <button class="btn btn-primary " data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample<?= $business['businessCode'] ?>">View</button>
                     </td>
@@ -56,7 +56,14 @@ function displayFileName($filePath, $fileType)
                         </form>
                         
 
-                        <div class="offcanvas offcanvas-top rounded-3" tabindex="-1" id="offcanvasAccept<?= $business['businessCode'] ?>" style="width: 50vw; height: 50vh; margin: 150px 0 0 25vw;">
+                        
+                        </div>
+
+
+
+                        
+                     </td>
+                     <div class="offcanvas offcanvas-top rounded-3" data-bs-backdrop="static" tabindex="-1" id="offcanvasAccept<?= $business['businessCode'] ?>" style="width: 50vw; height: 50vh; margin: 150px 0 0 25vw;">
                             <div class="offcanvas-header">
                             <h3 class="offcanvas-title p-3">Confirmation</h3>
                             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
@@ -73,14 +80,40 @@ function displayFileName($filePath, $fileType)
                             </div>
                         </div>
 
-                        <div class="offcanvas offcanvas-top rounded-3" tabindex="-1" id="offcanvasReject<?= $business['businessCode'] ?>" style="width: 50vw; height: 50vh; margin: 150px 0 0 25vw;">
+                        <div class="offcanvas offcanvas-top rounded-3 " data-bs-backdrop="static" tabindex="-1" id="offcanvasReject<?= $business['businessCode'] ?>" style="width: 50vw; height: 80vh; margin: 90px 0 0 25vw; ">
                             <div class="offcanvas-header">
                             <h3 class="offcanvas-title p-3">Confirmation</h3>
                             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
                             </div>
                             <div class="offcanvas-body px-5">
-                            Are you sure you want to reject this business? This action cannot be undone.
+
+                            You are about to reject this business. 
+                            Please provide a reason for rejecting.
+
+                            <div class="reasons my-4">
+                                <p> Select a reason for the deletion request</p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault"> Incomplete or inaccurate documentation</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault"> Concerns regarding the business's legality or ethical practices</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault"> Previous history of fraudulent activities</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault"> Conflict of interest with existing businesses or regulations</label>
+                                </div>
                             </div>
+
+                            </div>
+
+                            
+                            
                             <div class=" d-flex justify-content-end m-5">
                                 <button type="button" class="btn btn-secondary mx-3" data-bs-dismiss="offcanvas">Cancel</button>
                                 <form method="post" action="?action=update_status">
@@ -89,20 +122,15 @@ function displayFileName($filePath, $fileType)
                                 </form>
                             </div>
                         </div>
-                        </div>
-
-
-
-                        
-                     </td>
                 </tr>
                 
-                <div class="offcanvas offcanvas-top overflow-auto p-3" style="width: 50vw; height: 100vh; margin-left: 25vw;" tabindex="-1" id="offcanvasExample<?= $business['businessCode'] ?>">
-                <div id="reg-form" class="card justify-content-between border-0 shadow p-3 mb-5 bg-white rounded">
-
+                <div class="offcanvas offcanvas-top overflow-auto p-3" data-bs-backdrop="static" style="width: 50vw; height: 100vh; margin-left: 25vw;" tabindex="-1" id="offcanvasExample<?= $business['businessCode'] ?>">
+                <div id="reg-form" class="justify-content-between ">
+                <div class="offcanvas-header">
+                            <h3 class="offcanvas-title p-1">Business Registration</h3>
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+                            </div>
                             <div class="card-body">
-                            <h1>Business Registration</h1>
-                            <hr>
                             <h5 class="text-light bg-info p-2">Owner Information</h5>
                             <div class="row d-flex align-items-center mb-2">
                                 <label class="mb-2 col-4" for="ownerName">Owner's Name</label>
@@ -212,6 +240,7 @@ function displayFileName($filePath, $fileType)
 
 
 <?= element('footer') ?>
+
 
 <script>
     // Script to display image when clicked
