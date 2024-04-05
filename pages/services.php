@@ -5,7 +5,6 @@ if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
 $businesses = $DB->query("SELECT DISTINCT business.*
     FROM business
-    JOIN branches ON business.businessCode = branches.businessCode
     WHERE business.status = '1'");
 
 
@@ -42,7 +41,7 @@ else {
     <?php if (!empty($results)): ?>
       <div class="service-wrap mx-5 p-5">
         <div class="sub-service row">
-          <?php $cardCount = 0; ?>
+        <?php $cardCount = 0; ?>
           <?php foreach ($results as $business): ?>
             <?php $cardCount++; ?>
             <div class="col-md-3 mb-4">

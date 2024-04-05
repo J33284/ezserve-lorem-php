@@ -8,25 +8,27 @@ $branches = $DB->query("SELECT * FROM branches");
 $packages = $DB->query("SELECT * FROM package");
 ?>
 
-<div class="package-info">
-<div class="back-arrow d-flex" >
-        <a href="?page=&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class=" mx-3 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
-            <i class="bi bi-arrow-left"></i>
-        </a>
-        <h2 >Create Voucher</h2>
-        </div>
+<div class="voucher-form">
     <div class="card p-5 bg-opacity-25 bg-white">
+        <div class="d-flex">
+            <a href="?page=owner_voucher" class="mx-3 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+            <h2 >Create Voucher</h2>
+            <hr>
+        </div>
+
         <form method="post" action="?action=save_voucher" id="voucherForm">
             <label for="businessCode">Select Business:</label>
             <select name="businessCode" class="form-select " id="businessCode" onchange="updateBranches()">
                 <option disabled selected >--Select Business--</option>
                 <option value="all">All Business</option>
-                <?php
-                while ($row = $businesses->fetch_assoc()) {
+                <?php while ($row = $businesses->fetch_assoc()) {
                     echo "<option value='" . $row["businessCode"] . "'>" . $row["busName"] . "</option>";
                 }
                 ?>
             </select>
+
             <input type="hidden" name="packCode" id="hiddenPackageCode" value="">
             <input type="hidden" name="ownerID" id="ownerID" value="<?=$ownerID?>">
             <br>
@@ -44,15 +46,15 @@ $packages = $DB->query("SELECT * FROM package");
             <button type="button" class= "btn btn-primary" onclick="generateRandomCode()"> 
             <i class="bi bi-shuffle"></i>
          </button></div>
-          
-<br>
-            <label for="condition">Voucher Type:</label>
-            <select name="condition" class="form-select" id="condition" onchange="updateDiscountFields()">
-                <option disabled selected >--Select voucher type--</option>
-                <option value="Gift Card">Gift Card</option>
-                <option value="Specific Package">Specific Package</option>
-                <option value="Minimum Spend">Minimum Spend</option>
-            </select><br>
+         <br>
+
+        <label for="condition">Voucher Type:</label>
+        <select name="condition" class="form-select" id="condition" onchange="updateDiscountFields()">
+            <option disabled selected >--Select voucher type--</option>
+            <option value="Gift Card">Gift Card</option>
+            <option value="Specific Package">Specific Package</option>
+            <option value="Minimum Spend">Minimum Spend</option>
+        </select><br>
             <div id="specificPackageField" style="display: none;">
                 <label for="selectedPackage">Select Package:</label>
                 <select name="selectedPackage" class="form-control" id="selectedPackage">
@@ -68,9 +70,13 @@ $packages = $DB->query("SELECT * FROM package");
 
             <div id="minimumSpendField" style="display: none;">
                 <label for="minSpend">Minimum Spend:</label>
+                <div class="d-flex">
+                <span class="input-group-text" id="basic-addon2">₱</span>
                 <input type="number" class="form-control" name="minSpend" min="1"><br>
+                </div>
+                <br>
             </div>
-
+           
             <label for="discountType">Discount Type:</label>
             <select name="discountType" class="form-select" id="discountTypeSelect">
                 <option disabled selected >--Select discount type--</option>
@@ -79,8 +85,8 @@ $packages = $DB->query("SELECT * FROM package");
             </select><br>
           
             <p id="defaultMessage"></p>
-            <div class="input-group mb-3"id="percentageInput" style="display: none;">
-                <input type="text" class="form-control" placeholder="Percentage Value" aria-label="Percentage Value" >
+            <div class="input-group mb-3"id="percentageInput"  style="display: none;">
+                <input type="number" class="form-control" placeholder="Percentage Value" aria-label="Percentage Value" name="discountValue">
                 <div class="input-group-append">
                     <span class="input-group-text" id="basic-addon2">%</span>
                 </div>
@@ -90,12 +96,10 @@ $packages = $DB->query("SELECT * FROM package");
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="">₱</span>
                 </div>
-                <input type="text" class="form-control" placeholder="Amount Value" aria-label="Amount Value" aria-describedby="basic-addon1">
+                <input type="number" class="form-control" placeholder="Amount Value" aria-label="Amount Value" aria-describedby="basic-addon1" name="discountValue">
             </div>
 
 
-
-            
             <label for="startDate">Start Date:</label>
             <input type="date"class="form-control" name="startDate" required><br>
 
@@ -105,23 +109,32 @@ $packages = $DB->query("SELECT * FROM package");
             <input type="submit" class="btn btn-primary" style="float: right;" value="Create Voucher">
         </form>
     </div>
-                </div>
+</div>
                 
-<!-- Update the script tag in your HTML file -->
 <script>
     function updateBranches() {
-        var businessCode = document.getElementById("businessCode").value;
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "?action=getBranches&businessCode=" + businessCode, true);
+    var businessCode = document.getElementById("businessCode").value;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "?action=getBranches&businessCode=" + businessCode, true);
 
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var branchLabel = document.querySelector("label[for='branchCode']");
+            var branchCodeDropdown = document.getElementById("branchCode");
+            if (businessCode === "all") {
+                branchLabel.style.display = "none";
+                branchCodeDropdown.style.display = "none";
+                updatePackages();
+            } else {
+               
+                branchCodeDropdown.style.display = "block";
                 document.getElementById("branchCode").innerHTML = xhr.responseText;
-                updatePackages(); // Also update packages when branches change
+                updatePackages();
             }
-        };
-        xhr.send();
-    }
+        }
+    };
+    xhr.send();
+}
 
     function updatePackages() {
         var branchCode = document.getElementById("branchCode").value;
@@ -192,17 +205,21 @@ $packages = $DB->query("SELECT * FROM package");
             document.getElementById("voucherCode").value = randomCode;
         }
 </script>
+
 <style>
      @media (max-width:2000px) {
-        .package-info{
+        .voucher-form{
     margin-left:28%;
+    margin-top:10%;
+    width: 50vw;
+
         }
         .back-arrow{
             margin: 0 0 5% 0;
         }
     }
     @media (max-width:700px) {
-        .package-info{
+        .voucher-form{
 width: 100vw;
 margin: 0;
         }
