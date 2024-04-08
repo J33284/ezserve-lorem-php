@@ -15,7 +15,7 @@ $payments = $DB->query("
 
 <?= element('owner-side-nav') ?>
 
-<div id="owner-order-list" class="owner-order-list" style="margin: 120px 0 0 20%">
+<div id="owner-order-list" class="owner-order-list" style="margin: 120px 0 0 15%">
     <div class="d-flex justify-content-between p-3">
         <h1 class="page-title">Client Orders</h1>
     </div>
@@ -26,11 +26,11 @@ $payments = $DB->query("
         </span>
     </div> -->
 <div  style="overflow-x:auto; height: 100vh; width:auto;">
-    <table class="table table-hover table-responsive ">
+    <table class="table table-hover table-responsive custom-table ">
         <thead class="table-dark">
             <tr>
                 <th scope="col"></th>
-                <th scope="col" class="w-25 text-wrap">Transaction No.</th>
+                <th scope="col" class="text-wrap" style="width:100px!important">Transaction No.</th>
                 <th scope="col">Client Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Contact No.</th>
@@ -47,7 +47,7 @@ $payments = $DB->query("
             ?>
                 <tr>          
                     <th class="bg-transparent border border-white" scope="row"><?= $rowNumber ?></th>
-                    <td class="bg-transparent border border-white" ><?= $payment['transCode']?></td>
+                    <td class="bg-transparent border border-white" style="width:100px!important"><?= $payment['transCode']?></td>
                     <td class="bg-transparent border border-white "><?= $payment['clientName']?></td>
                     <td class="bg-transparent border border-white"><?= $payment['email']?></td>
                     <td class="bg-transparent border border-white"><?= $payment['mobileNumber']?></td>
@@ -55,7 +55,7 @@ $payments = $DB->query("
                     <td class="bg-transparent border border-white"><?= $payment['paymentMethod'] ?></td>
                     <td class="bg-transparent border border-white">₱<?= number_format($payment['totalAmount'], 2) ?></td>
                     <div class="status flex-containeri">
-                    <td class="bg-transparent border border-white"><?= $payment['transaction_status'] ?>
+                    <td class="bg-transparent border border-white d-flex flex-column"><?= $payment['transaction_status'] ?>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateStatusModal<?= $payment['transID'] ?>">Update</button>
                     </div>
                     
