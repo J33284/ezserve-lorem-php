@@ -49,7 +49,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                     <th>Image</th>
                     <th>Item Name</th>
                     <th>Description</th>
-                    <th>Additional Detail</th>
+                    <th>Preferences</th>
                     <?php if ($packageDetails['pricingType'] === 'per pax') : ?>
                     <?php else : ?>
                         <th>Quantity</th>
@@ -76,7 +76,9 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                         <?php if (!empty($itemDetails['detailName']) && !empty($itemDetails['detailValue'])) : ?>
                             <strong><?= $itemDetails['detailName'] ?></strong>: <?= $itemDetails['detailValue'] ?>
                         <?php else : ?>
-                            <i class="bi bi-box">None</i>
+                            
+                            <div id="checkedItemsTable" class="container mt-3 text-center"></div>
+
                         <?php endif; ?>
                     </td>
                     <?php if ($packageDetails['pricingType'] === 'per pax') : ?>
@@ -122,6 +124,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                                 </li>
                             </div>
                         <?php endwhile; ?>
+                        <button id="showCheckedItemsButton" class="btn btn-primary" onclick="showCheckedItems()">Done</button>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -162,12 +165,9 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
 
 </div>
 
-<div class="container mt-3 text-center">
-    <button id="showCheckedItemsButton" class="btn btn-primary" onclick="showCheckedItems()">Show Checked Items</button>
-</div>
 
 
-<div id="checkedItemsTable" class="container mt-3 text-center"></div>
+
 
 <!-- Checkout Container -->
 <div id="checkoutContainer" class="container mt-3 text-center d-none">
@@ -273,10 +273,6 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
     var table = document.createElement('table');
     table.className = 'table';
 
-    // Create table header
-    var headerRow = table.insertRow();
-    var itemNameHeader = headerRow.insertCell();
-    itemNameHeader.textContent = 'Item Name';
 
     // Iterate over checked checkboxes and add item names to the table
     checkboxes.forEach(function(checkbox) {
