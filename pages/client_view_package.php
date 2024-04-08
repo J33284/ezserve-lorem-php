@@ -162,6 +162,12 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
 
 </div>
 
+<div class="container mt-3 text-center">
+    <button id="showCheckedItemsButton" class="btn btn-primary" onclick="showCheckedItems()">Show Checked Items</button>
+</div>
+
+
+<div id="checkedItemsTable" class="container mt-3 text-center"></div>
 
 <!-- Checkout Container -->
 <div id="checkoutContainer" class="container mt-3 text-center d-none">
@@ -255,6 +261,43 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                 }
             });
         }
+
+        function showCheckedItems() {
+    var checkedItems = [];
+    var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+
+    // Clear any existing table content
+    document.getElementById('checkedItemsTable').innerHTML = '';
+
+    // Create a table element
+    var table = document.createElement('table');
+    table.className = 'table';
+
+    // Create table header
+    var headerRow = table.insertRow();
+    var itemNameHeader = headerRow.insertCell();
+    itemNameHeader.textContent = 'Item Name';
+
+    // Iterate over checked checkboxes and add item names to the table
+    checkboxes.forEach(function(checkbox) {
+        var itemName = checkbox.parentNode.textContent.trim();
+        checkedItems.push(itemName);
+
+        var row = table.insertRow();
+        var cell = row.insertCell();
+        cell.textContent = itemName;
+    });
+
+    // Display the table
+    if (checkedItems.length > 0) {
+        document.getElementById('checkedItemsTable').appendChild(table);
+    } else {
+        // If no items are checked, display a message
+        var noItemsMessage = document.createElement('p');
+        noItemsMessage.textContent = 'No items are checked.';
+        document.getElementById('checkedItemsTable').appendChild(noItemsMessage);
+    }
+}
 
 
         // Image Window
