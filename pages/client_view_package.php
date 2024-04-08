@@ -50,7 +50,6 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                     <th>Item Name</th>
                     <th>Description</th>
                     <th>Additional Detail</th>
-                    <th></th>
                     <?php if ($packageDetails['pricingType'] === 'per pax') : ?>
                     <?php else : ?>
                         <th>Quantity</th>
@@ -114,7 +113,8 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
 
                                         while ($item = $customItemsQ->fetch_assoc()) : ?>
                                             <li style="list-style-type:none;">
-                                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" onclick="handleCheckboxClick('<?= $category['itemCode'] ?>', <?= $category['optionLimit'] ?>)">
+
                                                 <?= $item['itemName'] ?>
                                             </li>
                                         <?php endwhile; ?>
@@ -155,7 +155,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
 
 
     <div class="container mt-3 text-center">
-        <button id="customizeButton" class="btn btn-primary" onclick="customizePackage()">Customize</button>
+        <button id="customizeButton" class="btn btn-primary" onclick="customizePackage()">Modify</button>
         <button id="backButton" class="btn btn-secondary d-none" onclick="backToPackageView()">Back</button>
         <button id="saveButton" class="btn btn-success d-none" onclick="saveCustomization()">Save</button>
     </div>
@@ -196,6 +196,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
 
         <!-- Table Body -->
         <tbody id="checkoutTableBody">
+            <h2 style="margin-top: 90px;">Order Summary</h2>
         <!-- Checkout table content will be added dynamically -->
         </tbody>
     </table>
@@ -233,7 +234,29 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
 
 
 <!-- JavaScript for opening and closing the modal -->
-    <script>
+    <script>    
+       function handleCheckboxClick(itemCode, optionLimit) {
+            var checkboxes = document.querySelectorAll('#menuOffcanvas' + itemCode + ' input[type="checkbox"]');
+            var checkedCount = 0;
+
+            // Count checked checkboxes
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    checkedCount++;
+                }
+            });
+
+            // Disable unchecked checkboxes if option limit reached
+            checkboxes.forEach(function(checkbox) {
+                if (!checkbox.checked && checkedCount >= optionLimit) {
+                    checkbox.disabled = true;
+                } else {
+                    checkbox.disabled = false;
+                }
+            });
+        }
+
+
         // Image Window
         function openModal(imageSrc, itemName) {
             var modal = document.getElementById('imageModal');
@@ -254,12 +277,12 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
         document.getElementsByClassName('close')[0].onclick = closeModal;
 
         function toggleOptionsButton(userInput, buttonElement) {
-        if (userInput === 'enable') {
-            buttonElement.style.display = 'block'; // Show the button
-        } else {
-            buttonElement.style.display = 'none'; // Hide the button
+            if (userInput === 'enable') {
+                buttonElement.style.display = 'block'; // Show the button
+            } else {
+                buttonElement.style.display = 'none'; // Hide the button
+            }
         }
-    }
         
         function customizePackage() {
             var packageDetails = <?php echo json_encode($packageDetails); ?>;
@@ -287,8 +310,6 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
 
     function customizePerPax() {
         if (!customizationApplied) {
-        
-
             // Show the quantity meter container
             document.getElementById('quantityMeterContainer').style.display = 'block';
 
@@ -311,200 +332,47 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                 quantityInput.min = 1;
                 quantityCell.appendChild(quantityInput);
                 row.appendChild(quantityCell);
+                quantityInput.style.width = '100px';
             });
 
-        }
-
-    function backToPackageView() {
-    var tableBody = document.querySelector('#package-view table tbody');
-    var rows = tableBody.querySelectorAll('tr');
-    var optionButtons = document.querySelectorAll('.options-button');
-
-    // Determine pricing type
-    var pricingType = <?php echo json_encode($packageDetails['pricingType']); ?>;
-
-    if (pricingType === 'per pax') {
-        optionButtons.forEach(function(button) {
-            button.classList.add('d-none'); // Show the "Options" button for each item
-        });
-        // Hide the quantity meter container
-        document.getElementById('quantityMeterContainer').style.display = 'none';
-    } else {
-        optionButtons.forEach(function(button) {
-            button.classList.add('d-none'); // Show the "Options" button for each item
-        });
-        // Remove the last cell for other pricing types
-        rows.forEach(function (row) {
-            row.removeChild(row.lastElementChild); // Remove the last 
-            row.removeChild(row.lastElementChild); // Remove the second last cell
-            
-        });
-
-        // Hide the quantity meter container
-        document.getElementById('quantityMeterContainer').style.display = 'none';
     }
 
-    // Hide back button
-    document.getElementById('backButton').classList.add('d-none');
-    document.getElementById('saveButton').classList.add('d-none');
-    document.getElementById('customizeButton').classList.remove('d-none');
-
-    customizationApplied = false;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    function backToPackageView() {
+        var tableBody = document.querySelector('#package-view table tbody');
+        var rows = tableBody.querySelectorAll('tr');
+        var optionButtons = document.querySelectorAll('.options-button');
+
+        // Determine pricing type
+        var pricingType = <?php echo json_encode($packageDetails['pricingType']); ?>;
+
+        if (pricingType === 'per pax') {
+            optionButtons.forEach(function(button) {
+                button.classList.add('d-none'); // Show the "Options" button for each item
+            });
+            // Hide the quantity meter container
+            document.getElementById('quantityMeterContainer').style.display = 'none';
+        } else {
+            optionButtons.forEach(function(button) {
+                button.classList.add('d-none'); // Show the "Options" button for each item
+            });
+            // Remove the last cell for other pricing types
+            rows.forEach(function (row) {
+                row.removeChild(row.lastElementChild); // Remove the last 
+                
+                
+            });
+
+            // Hide the quantity meter container
+            document.getElementById('quantityMeterContainer').style.display = 'none';
+        }
+
+        // Hide back button
+        document.getElementById('backButton').classList.add('d-none');
+        document.getElementById('saveButton').classList.add('d-none');
+        document.getElementById('customizeButton').classList.remove('d-none');
+
+        customizationApplied = false;
+    }
 
 
 function saveCustomization() {
@@ -521,11 +389,13 @@ function saveCustomization() {
     var rows = tableBody.querySelectorAll('tr');
 
     var total = 0; // Initialize the total variable
+    var customizationValue = ''; // Initialize the customization value
 
     rows.forEach(function (row) {
         var itemName = row.children[1].innerText;
         var description = row.children[2].innerText;
         var additionalDetail = row.children[3].innerText;
+        customizationValue = ''; // Reset customization value for each row
 
         var checkoutRow = document.createElement('tr');
         checkoutRow.innerHTML = '<td><img src="' + row.children[0].querySelector('img').src + '" alt="' + itemName + '" style="max-width: 100px; height: 80px;"></td>' +
@@ -533,12 +403,10 @@ function saveCustomization() {
             '<td>' + description + '</td>' +
             '<td>' + additionalDetail + '</td>';
 
-        var customizationValue = '';
         var quantityValue = 1; // Default quantity value
 
         if (pricingType === 'per pax') {
             // Add textarea for 'per pax' pricing
-            customizationValue = row.children[4].querySelector('textarea').value;
             checkoutRow.innerHTML += '<td>' + customizationValue + '</td>';
 
             // Multiply the total by the number of persons (quantity meter)
@@ -549,8 +417,16 @@ function saveCustomization() {
             // Extract numeric part from price text (assuming it's formatted as "₱X,XXX.XX")
             var price = parseFloat(priceText.replace('₱', '').replace(',', ''));
 
-            customizationValue = row.children[6].querySelector('textarea').value;
             quantityValue = parseFloat(row.children[7].querySelector('input').value);
+
+            // Loop through checkboxes to gather checked items
+            var checkboxes = row.querySelectorAll('input[type=checkbox]:checked');
+            checkboxes.forEach(function (checkbox) {
+                customizationValue += checkbox.nextElementSibling.textContent.trim() + ', ';
+            });
+
+            // Remove the trailing comma and space
+            customizationValue = customizationValue.slice(0, -2);
 
             checkoutRow.innerHTML +=
                 '<td>' + '₱' + price.toFixed(2) + '</td>' +
@@ -559,7 +435,6 @@ function saveCustomization() {
 
             // Calculate total for other pricing types
             total += price * quantityValue;
-
         }
 
         checkoutTableBody.appendChild(checkoutRow);
@@ -575,7 +450,6 @@ function saveCustomization() {
     // Update the total in the checkout container
     document.getElementById('checkoutTotal').innerText = 'Total: ₱' + total.toFixed(2);
 }
-
 
     function backToCustomization() {
     // Show the package view and hide the checkout container
@@ -604,23 +478,19 @@ function saveCustomization() {
             var itemName = row.children[1].innerText;
             var description = row.children[2].innerText;
             
-            var customizationValue = '';
             var quantityValue = 1; // Default quantity value
 
             if (pricingType === 'per pax') {
-                customizationValue = row.children[4].querySelector('textarea').value;
                 var quantityMeterValue = document.getElementById('quantityMeter').value;
             } else {
                 var priceText = row.children[5].innerText;
                 var price = parseFloat(priceText.replace('₱', '').replace(',', ''));
-                customizationValue = row.children[6].querySelector('textarea').value;
                 quantityValue = parseFloat(row.children[7].querySelector('input').value);
             }
 
             itemsData.push({
                 itemName: itemName,
                 description: description,
-                customizationValue: customizationValue,
                 quantityValue: quantityValue,
                 price: price
 

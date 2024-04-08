@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 05, 2024 at 03:07 AM
+-- Generation Time: Apr 08, 2024 at 10:25 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -303,7 +303,9 @@ INSERT INTO `items` (`itemCode`, `packCode`, `itemName`, `description`, `quantit
 (401, 308, 'Softdrinks', '', 0, '', 0, '', 'assets/uploads/packages/softdrinks.jpg', 'enable'),
 (402, 308, 'Rice', '', 0, '', 0, '', 'assets/uploads/packages/rice.jpg', 'disable'),
 (403, 309, '3 Main Dish', '*3 Main Dish of your choice', 0, '', 0, '', 'assets/uploads/packages/3 Main Dish.jpg', 'enable'),
-(404, 309, 'Softdrinks', '', 0, '', 0, '', 'assets/uploads/packages/softdrinks.jpg', 'enable');
+(404, 309, 'Softdrinks', '', 0, '', 0, '', 'assets/uploads/packages/softdrinks.jpg', 'enable'),
+(405, 310, 'Coffin', 'Mahogany ', 1, '', 50000, '', 'assets/uploads/packages/5.Mahogany.jpg', 'enable'),
+(406, 310, 'Flower', '', 1, '', 200, '', 'assets/uploads/packages/305398834_446716360809741_7457097433161130092_n.jpg', 'disable');
 
 -- --------------------------------------------------------
 
@@ -337,10 +339,10 @@ CREATE TABLE `item_option` (
 --
 
 INSERT INTO `item_option` (`optionCode`, `itemCode`, `customCategoryCode`, `optionName`, `optionLimit`) VALUES
-(68, 403, 30, 'Pork Menu', 3),
-(69, 403, 33, 'Fish Menu', 3),
-(70, 403, 31, 'Chicken Menu', 3),
-(75, 404, 34, 'Sofdrinks', 1);
+(68, 354, 30, 'Pork Menu', 3),
+(69, 354, 33, 'Fish Menu', 3),
+(70, 354, 31, 'Chicken Menu', 3),
+(75, 356, 34, 'Sofdrinks', 1);
 
 -- --------------------------------------------------------
 
@@ -380,7 +382,8 @@ CREATE TABLE `package` (
 INSERT INTO `package` (`packCode`, `branchCode`, `packName`, `packDesc`, `pricingType`, `amount`) VALUES
 (275, 33, 'Package 1', '*includes food waiter/ attendant *regular setup *utensils', 'per pax', 320),
 (308, 33, 'Package 2', '', 'per pax', 200),
-(309, 33, 'Package 3', '', 'per pax', 300);
+(309, 33, 'Package 3', '', 'per pax', 300),
+(310, 32, 'Basic Package', '', 'per item', 0);
 
 -- --------------------------------------------------------
 
@@ -654,7 +657,7 @@ ALTER TABLE `custom_item_details`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=405;
+  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=407;
 
 --
 -- AUTO_INCREMENT for table `item_details`
@@ -672,7 +675,7 @@ ALTER TABLE `item_option`
 -- AUTO_INCREMENT for table `package`
 --
 ALTER TABLE `package`
-  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=310;
+  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=311;
 
 --
 -- AUTO_INCREMENT for table `permits`

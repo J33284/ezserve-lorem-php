@@ -10,6 +10,12 @@ print_r($checkoutData);
 echo '</pre>';  
 ? -->
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- Leaflet Search Plugin -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet-search/dist/leaflet-search.min.css" />
+<script src="https://unpkg.com/leaflet-search/dist/leaflet-search.min.js"></script>
 
 <?php
 
@@ -93,10 +99,15 @@ if (isset($_GET['checkoutData'])) {
 
     <!-- Hidden fields for delivery address and delivery date -->
     <div id="deliveryFields" style="display: none;">
+
+        <div id="map" style="height: 400px; width: 100%;"></div> 
         <!-- Add your delivery address and date fields here -->
         <div class="form-group">
             <label for="deliveryAddress">Delivery Address</label>
             <input type="text" class="form-control" id="deliveryAddress" name="dAddress">
+
+            <label for="deliveryAddress">Delivery Time</label>
+            <input type="time" class="form-control" id="deliveryAddress" name="dAddress">
         </div>
         <div class="form-group">
             <label for="deliveryDate">Delivery Date</label>
@@ -133,13 +144,12 @@ if (isset($_GET['checkoutData'])) {
                     <tr class="sticky-top">
                         <th scope="col">Item</th>
                         <th scope="col">Description</th>
-                        <th scope="col">Customization</th>
+                        <th scope="col">Variation</th>
                     </tr>
                 <?php else : ?>
                     <tr class="sticky-top">
                         <th scope="col">Item</th>
                         <th scope="col">Description</th>
-                        <th scope="col">Customization</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Price</th>
                     </tr>
@@ -150,7 +160,6 @@ if (isset($_GET['checkoutData'])) {
                     <tr>
                         <td><?= $item['itemName'] ?></td>
                         <td style="max-width: 200px;"><?= $item['description'] ?></td>
-                        <td style="max-width: 150px; overflow: hidden;  ellipsis;"><?= $item['customizationValue'] ?></td>
                         <?php if ($checkoutDetails['pricingType'] !== 'per pax') : ?>
                             <td><?= $item['quantityValue'] ?></td>
                             <td><?= '₱' .number_format($item['price'],2) ?></td>
@@ -269,7 +278,6 @@ if (isset($_GET['checkoutData'])) {
 </div>
    
 
-
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -359,7 +367,53 @@ function submitSecondForm() {
 
 }
 
+    // Initialize the map within Iloilo range
+    var map = L.map('map').setView([10.7202, 122.5621], 13); // Iloilo coordinates [latitude, longitude]
 
+    // Add the base tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Add a marker layer
+    var marker;
+
+    // Add Leaflet Search Plugin
+    var searchControl = new L.Control.Search({
+        position: 'topright',
+        layer: L.layerGroup().addTo(map),
+        propertyName: 'display_name', // Specify which property to search
+        marker: false,
+        moveToLocation: function(latlng, title, map) {
+            // Set the map view to the specified location
+            map.setView(latlng, 13);
+        }
+    });
+    map.addControl(searchControl);
+
+    // Add event listener to the map
+    map.on('click', function(e) {
+        // Remove previous marker
+        if (marker) {
+            map.removeLayer(marker);
+        }
+        // Add new marker
+        marker = L.marker(e.latlng).addTo(map);
+        // Reverse geocode to get address
+        reverseGeocode(e.latlng);
+    });
+
+    // Function to reverse geocode and update address field
+    function reverseGeocode(latlng) {
+        fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + latlng.lat + '&lon=' + latlng.lng)
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                // Update delivery address field
+                document.getElementById('deliveryAddress').value = data.display_name;
+            });
+    }
 
 </script>
 
