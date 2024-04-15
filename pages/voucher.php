@@ -103,7 +103,6 @@ $hasVouchers = $voucherResult->num_rows > 0;
 
 
 
-<!-- ... Previous HTML and PHP code ... -->
 
 <script>
 function applyVoucher(voucherCode, vpackCode, voucherType, discountType, discountValue, grandTotal, packCode, startDate, endDate) {
@@ -168,13 +167,11 @@ function applyVoucher(voucherCode, vpackCode, voucherType, discountType, discoun
 
 
 function displayMessage(message) {
-    // Create a fixed container to display the message at the center of the page
     var messageContainer = document.createElement('div');
     messageContainer.className = 'fixed-container';
     messageContainer.innerHTML = '<p>' + message + '</p>';
     document.body.appendChild(messageContainer);
 
-    // Set a timeout to remove the message container after a few seconds
     setTimeout(function() {
         messageContainer.remove();
     }, 3000);
@@ -187,11 +184,11 @@ function displayMessage(message) {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background-color: #f8d7da; /* Red background color, you can change it to your preference */
-        color: #721c24; /* Text color, you can change it to your preference */
+        background-color: #f8d7da; 
+        color: #721c24; 
         padding: 15px;
-        border: 1px solid #f5c6cb; /* Border color, you can change it to your preference */
+        border: 1px solid #f5c6cb; 
         border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle box shadow */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     }
 </style>
