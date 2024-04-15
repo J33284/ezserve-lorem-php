@@ -1,5 +1,5 @@
 
-<!--php
+<!-- <?php
 
 $checkoutDataJSON = $_GET['checkoutData'];
 $checkoutData = json_decode(urldecode($checkoutDataJSON), true);
@@ -8,7 +8,7 @@ $checkoutData = json_decode(urldecode($checkoutDataJSON), true);
 echo '<pre>';
 print_r($checkoutData);
 echo '</pre>';  
-? -->
+?> -->
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -79,64 +79,64 @@ if (isset($_GET['checkoutData'])) {
 
             <!-- Delivery Information -->
             <div class="delivery mb-3">
-    <h4 class="p-3 mb-4" style="border-bottom: 3px solid #fb7e00;">2. Delivery</h4>
-    <h6></h6>
-    <div class="row d-flex align-items-center my-2 px-5">
-        <div class="form-check row d-flex">
-            <div class="col-5">
-                <input class="form-check-input" type="checkbox"  id="pickUpCheckbox" name="pickUpCheckbox">
-                <label class="form-check-label" for="pickUpCheckbox">Pick-up</label>
+            <h4 class="p-3 mb-4" style="border-bottom: 3px solid #fb7e00;">2. Delivery</h4>
+            <h6></h6>
+            <div class="row d-flex align-items-center my-2 px-5">
+                <div class="form-check row d-flex">
+                    <div class="col-5">
+                        <input class="form-check-input" type="checkbox"  id="pickUpCheckbox" name="pickUpCheckbox">
+                        <label class="form-check-label" for="pickUpCheckbox">Pick-up</label>
+                    </div>
+                    <div class="col-5">
+                        <input type="date" class="form-control" id="pDate" name="pDate"  style="display: none;">
+                    </div>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox"  id="deliveryCheckbox" name="deliveryCheckbox">
+                    <label class="form-check-label" for="deliveryCheckbox">Delivery</label>
+                </div>
             </div>
-            <div class="col-5">
-                <input type="date" class="form-control" id="pDate" name="pDate"  style="display: none;">
+
+            <!-- Hidden fields for delivery address and delivery date -->
+            <div id="deliveryFields" style="display: none;">
+
+                    <div id="map" style="height: 400px; width: 100%;"></div> 
+                    <!-- Add your delivery address and date fields here -->
+                    <div class="form-group">
+                        <label for="deliveryAddress">Delivery Address</label>
+                        <input type="text" class="form-control" id="deliveryAddress" name="dAddress">
+
+                        <label for="deliveryAddress">Delivery Time</label>
+                        <input type="time" class="form-control" id="deliveryAddress" name="dAddress">
+                    </div>
+                    <div class="form-group">
+                        <label for="deliveryDate">Delivery Date</label>
+                        <input type="date" class="form-control" id="deliveryDate" name="dDate">
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox"  id="deliveryCheckbox" name="deliveryCheckbox">
-            <label class="form-check-label" for="deliveryCheckbox">Delivery</label>
-        </div>
-    </div>
-
-    <!-- Hidden fields for delivery address and delivery date -->
-    <div id="deliveryFields" style="display: none;">
-
-        <div id="map" style="height: 400px; width: 100%;"></div> 
-        <!-- Add your delivery address and date fields here -->
-        <div class="form-group">
-            <label for="deliveryAddress">Delivery Address</label>
-            <input type="text" class="form-control" id="deliveryAddress" name="dAddress">
-
-            <label for="deliveryAddress">Delivery Time</label>
-            <input type="time" class="form-control" id="deliveryAddress" name="dAddress">
-        </div>
-        <div class="form-group">
-            <label for="deliveryDate">Delivery Date</label>
-            <input type="date" class="form-control" id="deliveryDate" name="dDate">
-        </div>
-    </div>
-</div>
 
         
-        <div class="payment">
-            <h4 class=" p-3 mb-4" style=" border-bottom: 3px solid #fb7e00;"> 3. Payment </h4>
-            <h6> Mode of Payment </h6>
-        <div class="row d-flex align-items-center my-2 px-5">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="onsitePaymentCheckbox" name="onsitePayment">
-            <label class="form-check-label" for="onsitePaymentCheckbox">On-Site Payment</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="onlinePaymentCheckbox" name="onlinePayment">
-            <label class="form-check-label" for="onlinePaymentCheckbox">Online Payment</label>
+            <div class="payment">
+                <h4 class=" p-3 mb-4" style=" border-bottom: 3px solid #fb7e00;"> 3. Payment </h4>
+                <h6> Mode of Payment </h6>
+            <div class="row d-flex align-items-center my-2 px-5">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="onsitePaymentCheckbox" name="onsitePayment">
+                <label class="form-check-label" for="onsitePaymentCheckbox">On-Site Payment</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="onlinePaymentCheckbox" name="onlinePayment">
+                <label class="form-check-label" for="onlinePaymentCheckbox">Online Payment</label>
+                </div>
             </div>
         </div>
-    </div>
-    </div>
+        </div>
         <!-- Order List -->
         <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" style="height: auto; margin-left: 50px">
-    <h3 class="order-header sticky-top p-3">Order List</h3>
-    <hr class="m-0">
-    <div class="order justify-content-center px-4 overflow-auto">
+        <h3 class="order-header sticky-top p-3">Order List</h3>
+        <hr class="m-0">
+        <div class="order justify-content-center px-4 overflow-auto">
         <hr>
         <table class="table">
             <thead>
@@ -156,17 +156,32 @@ if (isset($_GET['checkoutData'])) {
                 <?php endif; ?>
             </thead>
             <tbody>
-                <?php foreach ($checkoutDetails['items'] as $item) : ?>
-                    <tr>
-                        <td><?= $item['itemName'] ?></td>
-                        <td style="max-width: 200px;"><?= $item['description'] ?></td>
-                        <?php if ($checkoutDetails['pricingType'] !== 'per pax') : ?>
-                            <td><?= $item['quantityValue'] ?></td>
-                            <td><?= '₱' .number_format($item['price'],2) ?></td>
-                        <?php endif; ?>
-                    </tr>
-                <?php endforeach; ?>
+            <?php if (isset($checkoutDetails['packageDetails']) && is_array($checkoutDetails['packageDetails'])) : ?>
+            <?php for ($i = 1; $i < count($checkoutDetails['packageDetails']); $i++) : ?>
+                <?php $item = $checkoutDetails['packageDetails'][$i]; ?>
+                <tr>
+                    <td><?= $item['itemName'] ?></td>
+                    <td><?= $item['description'] ?></td>
+                    <td><?php 
+                        if (isset($item['selectedOptions']) && is_array($item['selectedOptions']) && count($item['selectedOptions']) > 1) {
+                            echo implode(', ', array_slice($item['selectedOptions'], 1)); // Skip the first element
+                        } else {
+                            echo '-';
+                        }
+                    ?></td>
+                <?php if ($checkoutDetails['pricingType'] !== 'per pax') : ?>
+                    <td><?= $item['quantityValue'] ?></td>
+                    <td><?= '₱' . number_format($item['price'], 2) ?></td>
+                <?php endif; ?>
+            </tr>
+        <?php endfor; ?>
+    <?php else : ?>
+        <tr>
+            <td colspan="4">No package details found.</td>
+        </tr>
+    <?php endif; ?>
             </tbody>
+
         </table>
 
         <div style="padding: 10px;">
@@ -176,16 +191,16 @@ if (isset($_GET['checkoutData'])) {
             if ($checkoutDetails['pricingType'] === 'per pax') {
                 preg_match('/\d+\.\d+/', $checkoutDetails['initialTotal'], $matches);
                 $initial = $matches[0];
-                preg_match('/\d+\.\d+/', $checkoutDetails['total'], $matches);
+                preg_match('/\d+\.\d+/', $checkoutDetails['initialTotal'], $matches);
                 $numericTotal = $matches[0];
             } else {
-                preg_match('/\d+\.\d+/', $checkoutDetails['total'], $matches);
+                preg_match('/\d+\.\d+/', $checkoutDetails['initialTotal'], $matches);
                 $numericTotal = $matches[0];
             }
             ?>
             <div class="mb-3">
             <?php if ($checkoutDetails['pricingType'] === 'per pax') : ?>
-                <h5 ><?= '₱' . $initial . ' x ' . $checkoutDetails['quantityMeter'] ?></h5>
+                <h5 ><?= '₱' . $initial . ' x ' . $checkoutDetails['quantityMeterValue'] ?></h5>
                 <p class="m-0">Subtotal: <?= '₱' . number_format($numericTotal, 2) ?></p>
             <?php else : ?>
                 <h5 class="m-0" >Subtotal: <?= '₱' . number_format($numericTotal, 2) ?></h5>
@@ -206,10 +221,17 @@ if (isset($_GET['checkoutData'])) {
         
 
         <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"  
-            href="?page=voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>&grandTotal=<?= $numericTotal ?>&checkoutData=<?= urlencode(json_encode($checkoutDetails)) ?>">
-            <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
-            <i class="bi bi-chevron-right float end col-2"></i>
-        </a>
+    href="?page=voucher&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>&packCode=<?= $packCode ?>&grandTotal=<?= $numericTotal ?>&checkoutData=<?= urlencode(json_encode($checkoutDetails)) ?>
+    &pickUpChecked=<?= isset($_POST['pickUpCheckbox']) && $_POST['pickUpCheckbox'] ? 'true' : 'false' ?>
+    &deliveryChecked=<?= isset($_POST['deliveryCheckbox']) && $_POST['deliveryCheckbox'] ? 'true' : 'false' ?>
+    &deliveryAddress=<?= isset($_POST['dAddress']) ? $_POST['dAddress'] : '' ?>
+    &deliveryDate=<?= isset($_POST['dDate']) ? $_POST['dDate'] : '' ?>
+    &onsitePaymentChecked=<?= isset($_POST['onsitePayment']) && $_POST['onsitePayment'] ? 'true' : 'false' ?>
+    &onlinePaymentChecked=<?= isset($_POST['onlinePayment']) && $_POST['onlinePayment'] ? 'true' : 'false' ?>">
+    <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
+    <i class="bi bi-chevron-right float end col-2"></i>
+</a>
+
 
 
 

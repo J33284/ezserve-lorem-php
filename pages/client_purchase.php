@@ -37,7 +37,7 @@ function saveToDatabase( $dateCreated, $itemName, $amount, $paymentMethod, $stat
     
 
     // Insert data into the 'payment' table (customize this query based on your database structure)
-    $sql = "INSERT INTO transact (businessCode, branchCode, busName, branchName, packName, clientID, clientName, mobileNumber, email, pickupDate, deliveryDate, deliveryAddress, transCode, paymentDate, itemList, totalAmount, paymentMethod, status) 
+    $sql = "INSERT INTO transaction (businessCode, branchCode, busName, branchName, packName, clientID, clientName, mobileNumber, email, pickupDate, deliveryDate, deliveryAddress, transCode, paymentDate, itemList, totalAmount, paymentMethod, status) 
             VALUES ('$businessCode', '$branchCode','$busName', '$branchName', '$packName','$clientID', '$clientName','$mobileNumber', '$email', '$pDate', '$deliveryDate', '$deliveryAddress','$paymentId','$dateCreated', '$itemName', '$amount', '$paymentMethod', '$status')";
 
     if ($DB->query($sql) === TRUE) {

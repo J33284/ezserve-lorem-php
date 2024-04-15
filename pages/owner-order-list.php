@@ -4,9 +4,9 @@ if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 $businessID = $_SESSION['userID'];
 
 $payments = $DB->query("
-    SELECT *, transact.status AS transaction_status
-    FROM transact
-    JOIN business ON transact.businessCode = business.businessCode
+    SELECT *, transaction.status AS transaction_status
+    FROM transaction
+    JOIN business ON transaction.businessCode = business.businessCode
     WHERE business.ownerID = '$businessID'
 ");
 ?>

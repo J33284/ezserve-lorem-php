@@ -119,7 +119,7 @@ WHERE b.businessCode = '$businessCode'");
                             t.pickupDate,
                             t.deliveryDate
                         FROM 
-                            transact t
+                            transaction t
                         WHERE 
                             (t.pickupDate > CURDATE() OR t.deliveryDate > CURDATE())AND
                     t.branchCode = '{$branch['branchCode']}'"; // Filter transactions by branchCode";

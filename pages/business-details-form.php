@@ -165,7 +165,7 @@ $sql = "SELECT
             t.pickupDate,
             t.deliveryDate
         FROM 
-            transact t
+            transaction t
         WHERE 
             (t.pickupDate > CURDATE() OR t.deliveryDate > CURDATE())";
 

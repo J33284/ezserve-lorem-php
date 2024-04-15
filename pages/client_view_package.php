@@ -41,58 +41,54 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
     </div>
 
     <!-- Package Details Table -->
-    <div class="card mt-5 justify-content-center align-items-center d-flex p-3 table-responsive">
-        <table class="table table-hover table-responsive">
-            <!-- Table Header -->
-            <thead>
-                <tr style="border-bottom: 2px solid orange;">
-                    <th>Image</th>
-                    <th>Item Name</th>
-                    <th>Description</th>
-                    <th>Additional Detail</th>
-                    <?php if ($packageDetails['pricingType'] === 'per pax') : ?>
-                    <?php else : ?>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                    <?php endif; ?>
-                </tr>
-            </thead>
-            <!-- Table Body -->
+<div class="card mt-5 justify-content-center align-items-center d-flex p-3 table-responsive">
+    <table class="table table-hover table-responsive">
+        <!-- Table Header -->
+        <thead>
+            <tr style="border-bottom: 2px solid orange;">
+                <th>Image</th>
+                <th>Item Name</th>
+                <th>Description</th>
+                <?php if ($packageDetails['pricingType'] !== 'per pax') : ?>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                <?php endif; ?>
+                <th></th> <!-- Table Body -->
+            </tr>
+        </thead>
         <tbody>
             <?php foreach ($packageDetailsQ as $row) : ?>
                 <?php
                 //for item_details table
-                $itemCode = $row['itemCode']; 
+                $itemCode = $row['itemCode'];
                 $itemDetailsQ = $DB->query("SELECT * FROM item_details WHERE itemCode = '$itemCode'");
                 $itemDetails = $itemDetailsQ->fetch_assoc();
                 ?>
-                <tr>
+                <tr id="packageRow_<?= $row['itemCode'] ?>">
                     <td style="width: 250px;">
                         <img src="<?= $row['itemImage'] ?>" alt="<?= $row['itemName'] ?>" style="width: 200px; height: 180px;" onclick="openModal('<?= $row['itemImage'] ?>', '<?= $row['itemName'] ?>')">
                     </td>
                     <td style="width: 200px;"><?= $row['itemName'] ?></td>
-                    <td style="width: 300px;"><?= $row['description'] ?></td>
-                    <td style="width: 300px;">
+                    <td style="width: 400px;">
+                        <?= $row['description'] ?><br>
                         <?php if (!empty($itemDetails['detailName']) && !empty($itemDetails['detailValue'])) : ?>
-                            <strong><?= $itemDetails['detailName'] ?></strong>: <?= $itemDetails['detailValue'] ?>
-                        <?php else : ?>
-                            <i class="bi bi-box">None</i>
+                            <strong><?= $itemDetails['detailName'] ?>:</strong> <?= $itemDetails['detailValue'] ?>
                         <?php endif; ?>
                     </td>
-                    <?php if ($packageDetails['pricingType'] === 'per pax') : ?>
-                    <?php else : ?>
-                        <td><?= $row['quantity']." ". $row['unit'] ?></td>
-                        <td><?= '₱' . number_format($row['price'], 2)  ?></td>
+                    <?php if ($packageDetails['pricingType'] !== 'per pax') : ?>
+                        <td><?= $row['quantity'] . " " . $row['unit'] ?></td>
+                        <td><?= '₱' . number_format($row['price'], 2) ?></td>
                     <?php endif; ?>
                     <?php if ($row['userInput'] === 'enable') : ?>
-                        <td><button type="button" class="btn btn-primary options-button d-none" data-bs-toggle="offcanvas" data-bs-target="#menuOffcanvas<?= $row['itemCode'] ?>">Options</button></td>
+                        <td><button type="button" style="text-align: center" class="btn btn-primary options-button d-none" data-bs-toggle="offcanvas" data-bs-target="#menuOffcanvas<?= $row['itemCode'] ?>">Options</button></td>
                     <?php else : ?>
-                    <td></td>
-                    <?php endif; ?> 
+                        <td></td>
+                    <?php endif; ?>
                 </tr>
+      
 
                 <!-- Offcanvas for each item -->
-                <div class="offcanvas offcanvas-start" tabindex="-1" id="menuOffcanvas<?= $row['itemCode'] ?>" data-bs-backdrop="false" data-bs-scroll="true" style="width: 450px;">
+                <div class="offcanvas offcanvas-start" tabindex="-1" id="menuOffcanvas<?= $row['itemCode'] ?>" data-bs-backdrop="true" data-bs-scroll="true" style="width: 450px;">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title my-3"><?= $row['itemName'] ?> Options</h5>
                         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -113,11 +109,19 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
 
                                         while ($item = $customItemsQ->fetch_assoc()) : ?>
                                             <li style="list-style-type:none;">
-                                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" onclick="handleCheckboxClick('<?= $category['itemCode'] ?>', <?= $category['optionLimit'] ?>)">
-
+                                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" 
+                                                       data-item-code="<?= $row['itemCode'] ?>" 
+                                                       data-item-name="<?= $item['itemName'] ?>" 
+                                                       onclick="handleCheckboxClick('<?= $category['itemCode'] ?>', <?= $category['optionLimit'] ?>)"
+                                                       <?php if ($item["availability"] == 1) echo "disabled"; ?>>
                                                 <?= $item['itemName'] ?>
+                                                <?php if ($item["availability"] == 1) : ?>
+                                                    <span style="color: red;">(Not Available)</span>
+                                                <?php endif; ?>
                                             </li>
                                         <?php endwhile; ?>
+                                        
+                                        
                                     </ul>
                                 </li>
                             </div>
@@ -130,7 +134,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
 </div>
 
     <!-- Total Container -->
-    <div class="container mt-3 text-center" style="background-color: white; padding: 10px; height: auto;">
+    <div class="container mt-3 text-center" id="initialTotalCon" style="background-color: white; padding: 10px; height: auto;">
             <?php
             if ($packageDetails['pricingType'] === 'per pax') {
                 // Display 'per pax' pricing
@@ -153,71 +157,22 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
             </div>
     </div>
 
+    <div class="container mt-3 text-center d-none" id="checkoutCon" style="background-color: white; padding: 10px; height: auto;">
+        <h2 id="checkoutTotal">Total: ₱0.00</h2>
+    </div>
 
     <div class="container mt-3 text-center">
         <button id="customizeButton" class="btn btn-primary" onclick="customizePackage()">Modify</button>
         <button id="backButton" class="btn btn-secondary d-none" onclick="backToPackageView()">Back</button>
+        <button id="backButton2" class="btn btn-secondary d-none" onclick="backToModify()">Back</button>
         <button id="saveButton" class="btn btn-success d-none" onclick="saveCustomization()">Save</button>
+        <button id="checkoutButton" class="btn btn-primary d-none" >Proceed to Checkout</button>
+
     </div>
 
 </div>
 
-<div class="container mt-3 text-center">
-    <button id="showCheckedItemsButton" class="btn btn-primary" onclick="showCheckedItems()">Show Checked Items</button>
-</div>
-
-
-<div id="checkedItemsTable" class="container mt-3 text-center"></div>
-
-<!-- Checkout Container -->
-<div id="checkoutContainer" class="container mt-3 text-center d-none">
-    <h2>Checkout</h2>
-    <table id="checkoutTable" class="table rounded table-bordered table-responsive" style="margin-top: 130px;">
-        <!-- Table Header -->
-        <thead>
-            <?php
-            $pricingType = $packageDetails['pricingType'];
-            if ($pricingType === 'per pax') :
-            ?>
-                <tr>
-                    <th>Image</th>
-                    <th>Item Name</th>
-                    <th>Description</th>
-                    <th>Additional Detail</th>
-                    <th>Preferences</th>
-                </tr>
-            <?php else : ?>
-                <tr>
-                    <th>Image</th>
-                    <th>Item Name</th>
-                    <th>Description</th>
-                    <th>Additional Detail</th>
-                    <th>Price</th>
-                    <th>Preferences</th>
-                    <th></th> 
-
-                </tr>
-            <?php endif; ?>
-        </thead>
-
-        <!-- Table Body -->
-        <tbody id="checkoutTableBody">
-            <h2 style="margin-top: 90px;">Order Summary</h2>
-        <!-- Checkout table content will be added dynamically -->
-        </tbody>
-    </table>
-        
-    <!-- Checkout Total -->
-    <div class="container mt-3 text-center" style="background-color: white; padding: 10px; height: auto;">
-        <h2 id="checkoutTotal">Total: ₱0.00</h2>
-    </div>
     
-    <!-- Back and Checkout Buttons -->
-    <div class="container mt-3 text-center">
-            <button id="backToCustomization" class="btn btn-secondary d-none" onclick="backToCustomization()">Back to Customization</button>
-            <button id="proceedToCheckout" class="btn btn-success d-none" onclick="proceedToCheckout()">Proceed to Checkout</button>
-        </div>
-    </div>
 
     <div id="loginAsClientPopup">
         <p>You need to log in as a client to proceed.</p>
@@ -261,43 +216,6 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                 }
             });
         }
-
-        function showCheckedItems() {
-    var checkedItems = [];
-    var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-
-    // Clear any existing table content
-    document.getElementById('checkedItemsTable').innerHTML = '';
-
-    // Create a table element
-    var table = document.createElement('table');
-    table.className = 'table';
-
-    // Create table header
-    var headerRow = table.insertRow();
-    var itemNameHeader = headerRow.insertCell();
-    itemNameHeader.textContent = 'Item Name';
-
-    // Iterate over checked checkboxes and add item names to the table
-    checkboxes.forEach(function(checkbox) {
-        var itemName = checkbox.parentNode.textContent.trim();
-        checkedItems.push(itemName);
-
-        var row = table.insertRow();
-        var cell = row.insertCell();
-        cell.textContent = itemName;
-    });
-
-    // Display the table
-    if (checkedItems.length > 0) {
-        document.getElementById('checkedItemsTable').appendChild(table);
-    } else {
-        // If no items are checked, display a message
-        var noItemsMessage = document.createElement('p');
-        noItemsMessage.textContent = 'No items are checked.';
-        document.getElementById('checkedItemsTable').appendChild(noItemsMessage);
-    }
-}
 
 
         // Image Window
@@ -410,254 +328,266 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
         }
 
         // Hide back button
-        document.getElementById('backButton').classList.add('d-none');
         document.getElementById('saveButton').classList.add('d-none');
         document.getElementById('customizeButton').classList.remove('d-none');
+        document.getElementById('checkoutButton').classList.add('d-none');
+        document.getElementById('backButton').classList.add('d-none');
+
+
 
         customizationApplied = false;
     }
 
+    function backToModify() {
+    var tableBody = document.querySelector('#package-view table tbody');
+    var rows = tableBody.querySelectorAll('tr');
+    var optionButtons = document.querySelectorAll('.options-button');
 
-function saveCustomization() {
-    // Hide the package view
-    document.getElementById('package-view').classList.add('d-none');
+    optionButtons.forEach(function(button) {
+        button.classList.remove('d-none'); // Show the "Options" button for each item
+    });
+
+    // Hide the quantity meter container
+    document.getElementById('quantityMeterContainer').style.display = 'none';
+    
+    var checkoutCOnContainer = document.getElementById('checkoutCon');
+    checkoutCOnContainer.classList.add('d-none');
+
+    var InitialTotalCon = document.getElementById('initialTotalCon');
+    InitialTotalCon.classList.remove('d-none');
+    document.getElementById('quantityMeterContainer').style.display = 'block';
+
+    // Clear the inserted cells in the package table
+    rows.forEach(function(row) {
+        var cells = row.querySelectorAll('.options-cell');
+        cells.forEach(function(cell) {
+            cell.parentNode.removeChild(cell); // Remove the cell from its parent (row)
+        });
+    });
+
+    // Hide back button
+    document.getElementById('saveButton').classList.remove('d-none');
+    document.getElementById('customizeButton').classList.add('d-none');
+    document.getElementById('checkoutButton').classList.add('d-none');
+
+    customizationApplied = false;
+}
+
+
+
+    function saveCustomization() {
+    // Array to store checked options data
+    var checkedOptions = {};
+
+    // Iterate through all checkboxes to identify the checked ones
+    var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    checkboxes.forEach(function(checkbox) {
+        var itemName = checkbox.getAttribute('data-item-name');
+        var rowId = checkbox.getAttribute('data-item-code');
+
+        // Store checked options data by rowId
+        if (!checkedOptions[rowId]) {
+            checkedOptions[rowId] = [];
+        }
+        checkedOptions[rowId].push(itemName);
+    });
+
+     // Update the package table to display checked options
+     for (var rowId in checkedOptions) {
+        var optionsHtml = '<b>Selected Item/s:</b><br>' + checkedOptions[rowId].join('<br>'); 
+        var row = document.getElementById('packageRow_' + rowId); 
+        var checkedOptionsCell = row.insertCell(-1); // new cell at the end of the row
+        checkedOptionsCell.innerHTML = optionsHtml; // checked options HTML into the cell
+        checkedOptionsCell.classList.add('options-cell'); 
+    }
+
+    
+     // Hide all option buttons
+     var optionButtons = document.querySelectorAll('.options-button');
+        optionButtons.forEach(function(button) {
+            button.classList.add('d-none');
+        });
 
     var packageDetails = <?php echo json_encode($packageDetails); ?>;
     var pricingType = packageDetails['pricingType'];
+    var total = 0;
 
-    var checkoutTableBody = document.getElementById('checkoutTableBody');
-    checkoutTableBody.innerHTML = ''; // Clear existing content
+    // When save is clicked
+    if (pricingType === 'per pax') {
+        // Multiply the total by the number of persons (quantity meter)
+        var quantityMeterValue = document.getElementById('quantityMeter').value;
+        total = parseFloat(packageDetails['amount']) * parseFloat(quantityMeterValue);
+    }
 
-    var tableBody = document.querySelector('#package-view table tbody');
-    var rows = tableBody.querySelectorAll('tr');
+    // Format the total with commas
+    var formattedTotal = total.toLocaleString('en-US', { style: 'currency', currency: 'PHP' });
 
-    var total = 0; // Initialize the total variable
-    var customizationValue = ''; // Initialize the customization value
+    document.getElementById('checkoutTotal').textContent = 'Total: ' + formattedTotal;
 
-    rows.forEach(function (row) {
-        var itemName = row.children[1].innerText;
-        var description = row.children[2].innerText;
-        var additionalDetail = row.children[3].innerText;
-        customizationValue = ''; // Reset customization value for each row
+    var checkoutCOnContainer = document.getElementById('checkoutCon');
+    checkoutCOnContainer.classList.remove('d-none');
 
-        var checkoutRow = document.createElement('tr');
-        checkoutRow.innerHTML = '<td><img src="' + row.children[0].querySelector('img').src + '" alt="' + itemName + '" style="max-width: 100px; height: 80px;"></td>' +
-            '<td>' + itemName + '</td>' +
-            '<td>' + description + '</td>' +
-            '<td>' + additionalDetail + '</td>';
+    var InitialTotalCon = document.getElementById('initialTotalCon');
+    InitialTotalCon.classList.add('d-none');
 
-        var quantityValue = 1; // Default quantity value
+    document.getElementById('customizeButton').classList.add('d-none');
+    document.getElementById('saveButton').classList.add('d-none');
+    document.getElementById('backButton').classList.add('d-none');
+    document.getElementById('checkoutButton').classList.remove('d-none');
+    document.getElementById('backButton2').classList.remove('d-none');
+}
 
-        if (pricingType === 'per pax') {
-            // Add textarea for 'per pax' pricing
-            checkoutRow.innerHTML += '<td>' + customizationValue + '</td>';
+//for checkout button
+document.getElementById('checkoutButton').addEventListener('click', function() {
+    var packageTable = document.getElementById('package-view').querySelector('table');
+    var packageRows = packageTable.querySelectorAll('tr');
 
-            // Multiply the total by the number of persons (quantity meter)
-            var quantityMeterValue = document.getElementById('quantityMeter').value;
-            total = parseFloat(packageDetails['amount']) * parseFloat(quantityMeterValue);
-        } else {
-            var priceText = row.children[5].innerText;
-            // Extract numeric part from price text (assuming it's formatted as "₱X,XXX.XX")
-            var price = parseFloat(priceText.replace('₱', '').replace(',', ''));
+    var packageDetails = [];
+    var pricingType = <?php echo json_encode($packageDetails['pricingType']); ?>;
+    var initialTotal = document.getElementById('initialTotal').textContent.trim();
+    var quantityMeterValue = document.getElementById('quantityMeter').value;
 
-            quantityValue = parseFloat(row.children[7].querySelector('input').value);
+    packageRows.forEach(function(row) {
+        var rowData = {};
 
-            // Loop through checkboxes to gather checked items
-            var checkboxes = row.querySelectorAll('input[type=checkbox]:checked');
-            checkboxes.forEach(function (checkbox) {
-                customizationValue += checkbox.nextElementSibling.textContent.trim() + ', ';
+        var itemName = row.cells[1].textContent.trim(); 
+        var description = row.cells[2].textContent.trim(); 
+
+
+        rowData['itemName'] = itemName;
+        rowData['description'] = description;
+
+
+        var optionCell = row.querySelector('.options-cell');
+        if (optionCell) {
+            var selectedOptions = optionCell.innerHTML.split('<br>').map(function(option) {
+                return option.trim();
             });
-
-            // Remove the trailing comma and space
-            customizationValue = customizationValue.slice(0, -2);
-
-            checkoutRow.innerHTML +=
-                '<td>' + '₱' + price.toFixed(2) + '</td>' +
-                '<td>' + customizationValue + '</td>' +
-                '<td>' + quantityValue + '</td>';
-
-            // Calculate total for other pricing types
-            total += price * quantityValue;
+            rowData['selectedOptions'] = selectedOptions;
+        } else {
+            rowData['selectedOptions'] = []; 
         }
 
-        checkoutTableBody.appendChild(checkoutRow);
+        if (pricingType !== 'per pax') {
+            var quantity = row.cells[3].textContent.trim(); 
+            var price = row.cells[4].textContent.trim(); 
+            rowData['quantity'] = quantity;
+            rowData['price'] = price;
+        }
+
+        packageDetails.push(rowData);
     });
 
-    // Show the checkout container
-    document.getElementById('checkoutContainer').classList.remove('d-none');
+    // Convert package details array to JSON
+    var checkoutData = {
+        'packageDetails': packageDetails,
+        'pricingType': pricingType,
+        'initialTotal': initialTotal,
+        'quantityMeterValue': quantityMeterValue,
+        'checkoutTotal': document.getElementById('checkoutTotal').textContent.trim()
+    };
+    var checkoutDataJSON = JSON.stringify(checkoutData);
+    var clientType = <?php echo json_encode($clientType); ?>;
 
-    // Show the "Back to Customization" and "Proceed to Checkout" buttons
-    document.getElementById('backToCustomization').classList.remove('d-none');
-    document.getElementById('proceedToCheckout').classList.remove('d-none');
+    if (clientType === 'business owner' || clientType === null) {
+        // Display the pop-up container
+        document.getElementById('loginAsClientPopup').style.display = 'block';
 
-    // Update the total in the checkout container
-    document.getElementById('checkoutTotal').innerText = 'Total: ₱' + total.toFixed(2);
-}
-
-    function backToCustomization() {
-    // Show the package view and hide the checkout container
-    document.getElementById('package-view').classList.remove('d-none');
-    document.getElementById('checkoutContainer').classList.add('d-none');
-}
-
-
-    function proceedToCheckout() {
-        // Collect data from the customization
-        var packageDetails = <?php echo json_encode($packageDetails); ?>;
-        var pricingType = packageDetails['pricingType'];
-        var totalValue = document.getElementById('initialTotal').innerText;
-
-        var checkoutData = {};
-
-        // Include pricing type in the JSON
-        checkoutData['pricingType'] = pricingType;
-        checkoutData['initialTotal'] = totalValue;
-
-        var tableBody = document.querySelector('#package-view table tbody');
-        var rows = tableBody.querySelectorAll('tr');
-        var itemsData = [];
-
-        rows.forEach(function (row) {
-            var itemName = row.children[1].innerText;
-            var description = row.children[2].innerText;
-            
-            var quantityValue = 1; // Default quantity value
-
-            if (pricingType === 'per pax') {
-                var quantityMeterValue = document.getElementById('quantityMeter').value;
-            } else {
-                var priceText = row.children[5].innerText;
-                var price = parseFloat(priceText.replace('₱', '').replace(',', ''));
-                quantityValue = parseFloat(row.children[7].querySelector('input').value);
-            }
-
-            itemsData.push({
-                itemName: itemName,
-                description: description,
-                quantityValue: quantityValue,
-                price: price
-
-            });
-        });
-
-        // Include values from the quantity meter container
-        var quantityMeterValue = document.getElementById('quantityMeter').value;
-        checkoutData['quantityMeter'] = quantityMeterValue;
-
-        // Include the total calculation
-        var total = document.getElementById('checkoutTotal').innerText;
-        checkoutData['total'] = total;
-
-        // Include items data
-        checkoutData['items'] = itemsData;
-
-        // Convert the checkoutData object to JSON
-        var checkoutDataJSON = JSON.stringify(checkoutData);
-        var clientType = <?php echo json_encode($clientType); ?>;
-
-        if (clientType === 'business owner' || clientType === null) {
-            // Display the pop-up container
-            document.getElementById('loginAsClientPopup').style.display = 'block';
-
-            // Set a timeout to hide the pop-up after 3 seconds
-            setTimeout(function () {
-                document.getElementById('loginAsClientPopup').style.display = 'none';
-            }, 2000);        
-        } else {
-            
-            window.location.href = '?page=checkout&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?=$packCode?>&checkoutData=' + encodeURIComponent(checkoutDataJSON);
-
-        }
-        
+        // Set a timeout to hide the pop-up after 3 seconds
+        setTimeout(function () {
+            document.getElementById('loginAsClientPopup').style.display = 'none';
+        }, 2000);        
+    } else {
+    // Redirect to checkout page with package details in query parameter
+    window.location.href = '?page=checkout&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?=$packCode?>&checkoutData=' + encodeURIComponent(checkoutDataJSON);
     }
-    
-    function redirectLogout() {
-    window.location.href = '?action=logout';
-    }
+});
+
+
 
     function redirectLogin() {
         // Redirect to login page
         window.location.href = '?page=login';
     }
 
-</script>
-<!-- Styles -->
-<style>
-    @media (min-width: 1000px) {
-        .package-view {
-            margin: 120px;
-            width: auto;
-        }
-    }
-
-    @media (max-width: 700px) {
-        .package-view {
-            margin-top: 120px;
+    </script>
+    <!-- Styles -->
+    <style>
+        @media (min-width: 1000px) {
+            .package-view {
+                margin: 120px;
+                width: auto;
+            }
         }
 
-        .total {
-            margin: 0 !important;
+        @media (max-width: 700px) {
+            .package-view {
+                margin-top: 120px;
+            }
+
+            .total {
+                margin: 0 !important;
+            }
         }
-    }
 
-    /* Additional styling for the modal */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgb(0, 0, 0);
-        background-color: rgba(0, 0, 0, 0.9);
-        padding-top: 160px;
-    }
+        /* Additional styling for the modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.9);
+            padding-top: 160px;
+        }
 
-    .modal-content {
-        margin: auto;
-        display: block;
-        max-width: 50%;
-        max-height: 50%;
-        position: relative;
-    }
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 50%;
+            max-height: 50%;
+            position: relative;
+        }
 
-    .close {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        font-size: 30px;
-        color: #fff;
-        cursor: pointer;
-    }
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 30px;
+            color: #fff;
+            cursor: pointer;
+        }
 
-    #loginAsClientPopup {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 20px;
-        background-color: #001f3f; /* Dark blue background color */
-        color: #ffffff; /* White text color */
-        border-radius: 5px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        z-index: 1000;
-    }
+        #loginAsClientPopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #001f3f; /* Dark blue background color */
+            color: #ffffff; /* White text color */
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            z-index: 1000;
+        }
 
-    #loginAsClientPopup button {
-        margin-top: 10px;
-        padding: 10px 15px;
-        background-color: #0074cc; /* Blue button color */
-        color: #ffffff; /* White text color */
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+        #loginAsClientPopup button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #0074cc; /* Blue button color */
+            color: #ffffff; /* White text color */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-</style>
+    </style>
 
 
 

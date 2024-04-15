@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['ac
     if (!empty($discountedTotal)) {
         $totalAmount = $discountedTotal;
     }
-    $insertQuery = "INSERT INTO transact (businessCode, branchCode, branchName, transCode, packName, clientID, clientName, mobileNumber, email, busName, itemList, totalAmount, paymentMethod, status, pickupDate, deliveryDate, deliveryAddress )
+    $insertQuery = "INSERT INTO transaction (businessCode, branchCode, branchName, transCode, packName, clientID, clientName, mobileNumber, email, busName, itemList, totalAmount, paymentMethod, status, pickupDate, deliveryDate, deliveryAddress )
                     VALUES ('$businessCode', '$branchCode', '$branchName', '$transCode', '$packName', '$clientID', '$clientName', '$mobileNumber', '$email', '$busName', '$combinedItemNames', '$totalAmount', '$paymentMethod', '$status', '$pDate', '$dDate', '$dAddress')";
 
     // Execute the query

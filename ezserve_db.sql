@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 08, 2024 at 10:25 AM
+-- Generation Time: Apr 15, 2024 at 03:32 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -233,30 +233,31 @@ CREATE TABLE `custom_items` (
   `itemName` varchar(200) NOT NULL,
   `description` varchar(200) NOT NULL,
   `price` int(200) NOT NULL,
-  `custom_itemImage` longblob NOT NULL
+  `custom_itemImage` longblob NOT NULL,
+  `availability` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `custom_items`
 --
 
-INSERT INTO `custom_items` (`itemCode`, `customCategoryCode`, `itemName`, `description`, `price`, `custom_itemImage`) VALUES
-(37, 30, 'Pork Menudo', '', 50, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f),
-(38, 30, 'Pork Afritada', '', 50, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f),
-(39, 30, 'Pork Sweet and Sour', '', 60, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f),
-(40, 30, 'Crispy Pata', '', 90, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f),
-(41, 30, 'Pork Adobo', '', 50, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f),
-(42, 31, 'Chicken Lollipop', '', 40, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f),
-(43, 31, 'Buttered Chicken', '', 45, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f),
-(44, 31, 'Fried Chicken', '', 45, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f),
-(45, 32, 'Beef Frita', '', 80, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f),
-(46, 32, 'Kare-Kare', '', 60, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f),
-(47, 32, 'Beef Nilaga', '', 45, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f),
-(48, 33, 'Fried Fish', '', 40, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f),
-(49, 33, 'Fish Sinigang', '', 40, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f),
-(50, 34, 'Royal', '12oz', 20, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f),
-(51, 34, 'Sprite', '12oz', 20, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f),
-(52, 34, 'Coke', '1 liter', 40, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f);
+INSERT INTO `custom_items` (`itemCode`, `customCategoryCode`, `itemName`, `description`, `price`, `custom_itemImage`, `availability`) VALUES
+(37, 30, 'Pork Menudo', '', 50, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
+(38, 30, 'Pork Afritada', '', 50, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
+(39, 30, 'Pork Sweet and Sour', '', 60, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
+(40, 30, 'Crispy Pata', '', 90, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 1),
+(41, 30, 'Pork Adobo', '', 50, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
+(42, 31, 'Chicken Lollipop', '', 40, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
+(43, 31, 'Buttered Chicken', '', 45, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
+(44, 31, 'Fried Chicken', '', 45, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
+(45, 32, 'Beef Frita', '', 80, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
+(46, 32, 'Kare-Kare', '', 60, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
+(47, 32, 'Beef Nilaga', '', 45, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
+(48, 33, 'Fried Fish', '', 40, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
+(49, 33, 'Fish Sinigang', '', 40, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
+(50, 34, 'Royal', '12oz', 20, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
+(51, 34, 'Sprite', '12oz', 20, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
+(52, 34, 'Coke', '1 liter', 40, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0);
 
 -- --------------------------------------------------------
 
@@ -408,10 +409,10 @@ INSERT INTO `permits` (`permitID`, `businessCode`, `permitType`, `permitFile`) V
 -- --------------------------------------------------------
 
 --
--- Table structure for table `transact`
+-- Table structure for table `transaction`
 --
 
-CREATE TABLE `transact` (
+CREATE TABLE `transaction` (
   `transID` int(11) NOT NULL,
   `clientID` int(11) NOT NULL,
   `businessCode` int(11) NOT NULL,
@@ -432,17 +433,6 @@ CREATE TABLE `transact` (
   `deliveryAddress` varchar(100) NOT NULL,
   `status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `transact`
---
-
-INSERT INTO `transact` (`transID`, `clientID`, `businessCode`, `branchCode`, `busName`, `branchName`, `packName`, `transCode`, `clientName`, `email`, `mobileNumber`, `totalAmount`, `paymentDate`, `itemList`, `paymentMethod`, `pickupDate`, `deliveryDate`, `deliveryAddress`, `status`) VALUES
-(130, 33, 24, 33, 'Bahay Kusina De Tangra', 'Lambunao Branches', 'Package 1', 'pay_sg3u8XQBpfHXynM5KCCCUjzu', 'Alisah Bolivar', 'bvrlisah@gmail.com', 9564200614, 320, '2024-02-05', '[\"3 Main Dish\", \"2 Side Dish\", \"Softdrinks\", \"Utensils\"]', 'gcash', '2024-03-01', '', '', 'paid'),
-(131, 33, 24, 33, 'Bahay Kusina De Tangra', 'Lambunao Branches', 'Package 1', 'pay_sg3u8XQBpfHXynM5KCCCUjzu', 'Alisah Bolivar', 'bvrlisah@gmail.com', 9564200614, 320, '2024-02-05', '[\"3 Main Dish\", \"2 Side Dish\", \"Softdrinks\", \"Utensils\"]', 'gcash', '2024-03-01', '', '', 'paid'),
-(132, 33, 24, 33, 'Bahay Kusina De Tangra', 'Lambunao Branch', 'Package 1', 'pay_KFYJPw9PXGpaYBW9AqNxNSkP', 'Alisah Bolivar', 'bvrlisah@gmail.com', 9564200614, 4320, '2024-02-07', '[\"3 Main Dish\", \"2 Side Dish\", \"Softdrinks\", \"Utensils\"]', 'gcash', '2024-02-16', '', '', 'paid'),
-(133, 33, 24, 33, 'Bahay Kusina De Tangra', 'Lambunao Branch', 'Package 1', 'pay_KFYJPw9PXGpaYBW9AqNxNSkP', 'Alisah Bolivar', 'bvrlisah@gmail.com', 9564200614, 4320, '2024-02-07', '[\"3 Main Dish\", \"2 Side Dish\", \"Softdrinks\", \"Utensils\"]', 'gcash', '2024-02-16', '', '', 'paid'),
-(134, 33, 24, 33, 'Bahay Kusina De Tangra', 'Lambunao Branch', 'Package 1', 'EzServe_86264819034466268859', 'Alisah Bolivar', 'bvrlisah@gmail.com', 9564200614, 320, '2024-02-07', '3 Main Dish, 2 Side Dish, Softdrinks, Utensils', 'on site payment', '2024-02-23', '', '', 'partially paid');
 
 -- --------------------------------------------------------
 
@@ -473,7 +463,7 @@ CREATE TABLE `voucher` (
 
 INSERT INTO `voucher` (`voucherID`, `ownerID`, `businessCode`, `branchCode`, `packCode`, `voucherName`, `voucherCode`, `voucherType`, `min_spend`, `discountValue`, `discountType`, `startDate`, `endDate`, `creationDate`) VALUES
 (244, 31, 24, 33, 275, 'Bahay Kusina Voucher 1', '', 'Specific Package', 0, 20, 'percentage', '2024-02-01', '2024-03-08', '2024-02-02'),
-(245, 31, 24, 33, 0, 'Bahay Kusina Voucher 2', '', 'Minimum Spend', 300, 200, 'amount', '2024-02-02', '2024-03-09', '2024-02-02'),
+(245, 31, 24, 33, 0, 'Bahay Kusina Voucher 2', '', 'Minimum Spend', 100, 200, 'amount', '2024-02-02', '2024-04-30', '2024-02-02'),
 (246, 31, 24, 33, 0, 'Bahay Kusina Voucher 3', '', 'Gift Card', 0, 200, 'amount', '2024-02-01', '2024-03-08', '2024-02-06'),
 (248, 31, 24, 33, 0, 'BahayKusina2024', 'Voucher001', 'Gift Card', 0, 10, 'percentage', '2024-02-01', '2024-03-07', '2024-02-07');
 
@@ -577,9 +567,9 @@ ALTER TABLE `permits`
   ADD KEY `businessCode` (`businessCode`);
 
 --
--- Indexes for table `transact`
+-- Indexes for table `transaction`
 --
-ALTER TABLE `transact`
+ALTER TABLE `transaction`
   ADD PRIMARY KEY (`transID`),
   ADD KEY `client` (`clientID`),
   ADD KEY `businessCode` (`businessCode`),
@@ -684,10 +674,10 @@ ALTER TABLE `permits`
   MODIFY `permitID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `transact`
+-- AUTO_INCREMENT for table `transaction`
 --
-ALTER TABLE `transact`
-  MODIFY `transID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
+ALTER TABLE `transaction`
+  MODIFY `transID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
 
 --
 -- AUTO_INCREMENT for table `voucher`
@@ -760,12 +750,12 @@ ALTER TABLE `permits`
   ADD CONSTRAINT `permits_ibfk_1` FOREIGN KEY (`businessCode`) REFERENCES `business` (`businessCode`);
 
 --
--- Constraints for table `transact`
+-- Constraints for table `transaction`
 --
-ALTER TABLE `transact`
-  ADD CONSTRAINT `transact_ibfk_1` FOREIGN KEY (`clientID`) REFERENCES `client` (`clientID`),
-  ADD CONSTRAINT `transact_ibfk_2` FOREIGN KEY (`businessCode`) REFERENCES `business` (`businessCode`),
-  ADD CONSTRAINT `transact_ibfk_3` FOREIGN KEY (`branchCode`) REFERENCES `branches` (`branchCode`);
+ALTER TABLE `transaction`
+  ADD CONSTRAINT `transaction_ibfk_1` FOREIGN KEY (`clientID`) REFERENCES `client` (`clientID`),
+  ADD CONSTRAINT `transaction_ibfk_2` FOREIGN KEY (`businessCode`) REFERENCES `business` (`businessCode`),
+  ADD CONSTRAINT `transaction_ibfk_3` FOREIGN KEY (`branchCode`) REFERENCES `branches` (`branchCode`);
 
 --
 -- Constraints for table `voucher`
