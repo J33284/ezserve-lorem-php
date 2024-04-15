@@ -126,6 +126,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                                 </li>
                             </div>
                         <?php endwhile; ?>
+                        <button id="showCheckedItemsButton" class="btn btn-primary" onclick="showCheckedItems()">Done</button>
                     </div>
                 </div>
             <?php endforeach; ?>
