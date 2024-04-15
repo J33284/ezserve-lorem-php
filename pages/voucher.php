@@ -159,18 +159,11 @@ function applyVoucher(voucherCode, vpackCode, voucherType, discountType, discoun
        
     }
 
-   // Get the status of checkboxes and field values
-   var pickUpChecked = document.getElementById('pickUpCheckbox').checked;
-    var deliveryChecked = document.getElementById('deliveryCheckbox').checked;
-    var deliveryAddress = document.getElementById('deliveryAddress').value;
-    var deliveryDate = document.getElementById('deliveryDate').value;
-    var onsitePaymentChecked = document.getElementById('onsitePaymentCheckbox').checked;
-    var onlinePaymentChecked = document.getElementById('onlinePaymentCheckbox').checked;
-
-    // Redirect back to the checkout page with the discounted total, checkout details, and other parameters
+    // Redirect back to the checkout page with the discounted total and checkout details
     var checkoutData = <?= json_encode($_GET['checkoutData']) ?>;
-    window.location.href = "?page=checkout&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>&packCode=<?= $packCode ?>&discountedTotal=" + discountedTotal + "&checkoutData=" + encodeURIComponent(checkoutData) + "&pickUpChecked=" + pickUpChecked + "&deliveryChecked=" + deliveryChecked + "&deliveryAddress=" + deliveryAddress + "&deliveryDate=" + deliveryDate + "&onsitePaymentChecked=" + onsitePaymentChecked + "&onlinePaymentChecked=" + onlinePaymentChecked;
+    window.location.href = "?page=checkout&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>&packCode=<?= $packCode ?>&discountedTotal=" + discountedTotal + "&checkoutData=" + encodeURIComponent(checkoutData);
 }
+
 
 
 

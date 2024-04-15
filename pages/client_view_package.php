@@ -112,6 +112,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                                                 <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" 
                                                        data-item-code="<?= $row['itemCode'] ?>" 
                                                        data-item-name="<?= $item['itemName'] ?>" 
+                                                       data-availability="<?= $item["availability"] ?>"
                                                        onclick="handleCheckboxClick('<?= $category['itemCode'] ?>', <?= $category['optionLimit'] ?>)"
                                                        <?php if ($item["availability"] == 1) echo "disabled"; ?>>
                                                 <?= $item['itemName'] ?>
@@ -120,18 +121,18 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                                                 <?php endif; ?>
                                             </li>
                                         <?php endwhile; ?>
-                                        
-                                        
                                     </ul>
                                 </li>
                             </div>
                         <?php endwhile; ?>
-                        <button id="showCheckedItemsButton" class="btn btn-primary" onclick="showCheckedItems()">Done</button>
+                    </div>
+                    <div class="offcanvas-footer d-flex justify-content-end">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas">Done</button>
                     </div>
                 </div>
             <?php endforeach; ?>
         </tbody>
-    </table>      
+    </table>     
 </div>
 
     <!-- Total Container -->
@@ -196,27 +197,28 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
 
 
 <!-- JavaScript for opening and closing the modal -->
-    <script>    
-       function handleCheckboxClick(itemCode, optionLimit) {
-            var checkboxes = document.querySelectorAll('#menuOffcanvas' + itemCode + ' input[type="checkbox"]');
-            var checkedCount = 0;
+<script>    
+   function handleCheckboxClick(itemCode, optionLimit) {
+    var checkboxes = document.querySelectorAll('#menuOffcanvas' + itemCode + ' input[type="checkbox"]');
+    var checkedCount = 0;
 
-            // Count checked checkboxes
-            checkboxes.forEach(function(checkbox) {
-                if (checkbox.checked) {
-                    checkedCount++;
-                }
-            });
-
-            // Disable unchecked checkboxes if option limit reached
-            checkboxes.forEach(function(checkbox) {
-                if (!checkbox.checked && checkedCount >= optionLimit) {
-                    checkbox.disabled = true;
-                } else {
-                    checkbox.disabled = false;
-                }
-            });
+    // Count checked checkboxes
+    checkboxes.forEach(function(checkbox) {
+        if (checkbox.checked) {
+            checkedCount++;
         }
+    });
+
+    // Disable unchecked checkboxes if option limit reached or item is not available
+    checkboxes.forEach(function(checkbox) {
+        var itemAvailability = checkbox.dataset.availability; // Get the availability status from data attribute
+        if ((!checkbox.checked && checkedCount >= optionLimit) || itemAvailability === "1") {
+            checkbox.disabled = true;
+        } else {
+            checkbox.disabled = false;
+        }
+    });
+}
 
 
         // Image Window

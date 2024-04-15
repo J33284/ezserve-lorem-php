@@ -84,11 +84,12 @@ if (isset($_GET['checkoutData'])) {
             <div class="row d-flex align-items-center my-2 px-5">
                 <div class="form-check row d-flex">
                     <div class="col-5">
-                        <input class="form-check-input" type="checkbox"  id="pickUpCheckbox" name="pickUpCheckbox">
+                        <input class="form-check-input" type="checkbox"  id="pickUpCheckbox" name="pickUpCheckbox" checked>
                         <label class="form-check-label" for="pickUpCheckbox">Pick-up</label>
                     </div>
                     <div class="col-5">
-                        <input type="date" class="form-control" id="pDate" name="pDate"  style="display: none;">
+                    <input type="date" class="form-control" id="pDate" name="pDate" style="display: block;" value="2024-04-30">
+
                     </div>
                 </div>
                 <div class="form-check">
@@ -122,7 +123,7 @@ if (isset($_GET['checkoutData'])) {
                 <h6> Mode of Payment </h6>
             <div class="row d-flex align-items-center my-2 px-5">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="onsitePaymentCheckbox" name="onsitePayment">
+                <input class="form-check-input" type="checkbox" value="" id="onsitePaymentCheckbox" name="onsitePayment" checked>
                 <label class="form-check-label" for="onsitePaymentCheckbox">On-Site Payment</label>
             </div>
             <div class="form-check">
@@ -217,13 +218,16 @@ if (isset($_GET['checkoutData'])) {
             <?php endif; ?>
             
 
-        
+        <?php
+        // Assuming $pickUpStatus holds the status of the Pick-Up checkbox (true or false)
+        $pickUpStatus = isset($_GET['pickUpCheckbox']) ? true : false;
+        ?>
 
-        <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"  
-            href="?page=voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>&grandTotal=<?= $numericTotal ?>&checkoutData=<?= urlencode(json_encode($checkoutDetails)) ?>">
-            <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
-            <i class="bi bi-chevron-right float end col-2"></i>
-        </a>
+<a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"  
+    href="?page=voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>&grandTotal=<?= $numericTotal ?>&checkoutData=<?= urlencode(json_encode($checkoutDetails)) ?>&pickUpStatus=<?= $pickUpStatus ? 'true' : 'false' ?>">
+    <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
+    <i class="bi bi-chevron-right float end col-2"></i>
+</a>
 
 
 

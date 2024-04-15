@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2024 at 03:32 AM
+-- Generation Time: Apr 15, 2024 at 12:21 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -219,7 +219,9 @@ INSERT INTO `custom_category` (`customCategoryCode`, `branchCode`, `categoryName
 (31, 33, 'Chicken Menu'),
 (32, 33, 'Beef Menu'),
 (33, 33, 'Fish Menu'),
-(34, 33, 'Sofdrinks');
+(34, 33, 'Sofdrinks'),
+(35, 33, 'Vegetable Dishes'),
+(36, 33, 'Fried Side Dish');
 
 -- --------------------------------------------------------
 
@@ -257,7 +259,13 @@ INSERT INTO `custom_items` (`itemCode`, `customCategoryCode`, `itemName`, `descr
 (49, 33, 'Fish Sinigang', '', 40, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
 (50, 34, 'Royal', '12oz', 20, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
 (51, 34, 'Sprite', '12oz', 20, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
-(52, 34, 'Coke', '1 liter', 40, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0);
+(52, 34, 'Coke', '1 liter', 40, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
+(53, 35, 'Pinakbet', '', 50, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
+(54, 35, 'Ginisang Ampalaya', '', 60, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
+(55, 35, 'Ensaladang Talong', '', 45, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
+(56, 36, 'Lumpiang Shanghai', '', 60, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
+(57, 36, 'Fried Tofu', '', 50, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
+(58, 36, 'Dynamite Lumpia', '', 45, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0);
 
 -- --------------------------------------------------------
 
@@ -343,7 +351,9 @@ INSERT INTO `item_option` (`optionCode`, `itemCode`, `customCategoryCode`, `opti
 (68, 354, 30, 'Pork Menu', 3),
 (69, 354, 33, 'Fish Menu', 3),
 (70, 354, 31, 'Chicken Menu', 3),
-(75, 356, 34, 'Sofdrinks', 1);
+(75, 356, 34, 'Sofdrinks', 1),
+(76, 355, 35, 'Vegetable Dish', 2),
+(77, 355, 36, 'Fried Side Dish', 2);
 
 -- --------------------------------------------------------
 
@@ -434,6 +444,13 @@ CREATE TABLE `transaction` (
   `status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `transaction`
+--
+
+INSERT INTO `transaction` (`transID`, `clientID`, `businessCode`, `branchCode`, `busName`, `branchName`, `packName`, `transCode`, `clientName`, `email`, `mobileNumber`, `totalAmount`, `paymentDate`, `itemList`, `paymentMethod`, `pickupDate`, `deliveryDate`, `deliveryAddress`, `status`) VALUES
+(138, 33, 24, 33, 'Bahay Kusina De Tangra', 'Lambunao Branch', 'Package 1', 'EzServe_13552801636923390600', 'Alisah Bolivar', 'bvrlisah@gmail.com', 9564200614, 120, '2024-04-15', '', 'on site payment', '2024-04-30', '', '', 'unpaid');
+
 -- --------------------------------------------------------
 
 --
@@ -462,10 +479,7 @@ CREATE TABLE `voucher` (
 --
 
 INSERT INTO `voucher` (`voucherID`, `ownerID`, `businessCode`, `branchCode`, `packCode`, `voucherName`, `voucherCode`, `voucherType`, `min_spend`, `discountValue`, `discountType`, `startDate`, `endDate`, `creationDate`) VALUES
-(244, 31, 24, 33, 275, 'Bahay Kusina Voucher 1', '', 'Specific Package', 0, 20, 'percentage', '2024-02-01', '2024-03-08', '2024-02-02'),
-(245, 31, 24, 33, 0, 'Bahay Kusina Voucher 2', '', 'Minimum Spend', 100, 200, 'amount', '2024-02-02', '2024-04-30', '2024-02-02'),
-(246, 31, 24, 33, 0, 'Bahay Kusina Voucher 3', '', 'Gift Card', 0, 200, 'amount', '2024-02-01', '2024-03-08', '2024-02-06'),
-(248, 31, 24, 33, 0, 'BahayKusina2024', 'Voucher001', 'Gift Card', 0, 10, 'percentage', '2024-02-01', '2024-03-07', '2024-02-07');
+(258, 31, 24, 33, 0, 'vouchermo', 'voucher1001', 'Minimum Spend', 100, 0, 'percentage', '2024-04-01', '2024-04-30', '2024-04-15');
 
 --
 -- Indexes for dumped tables
@@ -580,6 +594,7 @@ ALTER TABLE `transaction`
 --
 ALTER TABLE `voucher`
   ADD PRIMARY KEY (`voucherID`),
+  ADD UNIQUE KEY `voucherCode` (`voucherCode`),
   ADD KEY `businessCode` (`businessCode`),
   ADD KEY `branchCode` (`branchCode`),
   ADD KEY `packCode` (`packCode`),
@@ -629,13 +644,13 @@ ALTER TABLE `client`
 -- AUTO_INCREMENT for table `custom_category`
 --
 ALTER TABLE `custom_category`
-  MODIFY `customCategoryCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `customCategoryCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `custom_items`
 --
 ALTER TABLE `custom_items`
-  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `custom_item_details`
@@ -653,13 +668,13 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT for table `item_details`
 --
 ALTER TABLE `item_details`
-  MODIFY `detailsCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=316;
+  MODIFY `detailsCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=317;
 
 --
 -- AUTO_INCREMENT for table `item_option`
 --
 ALTER TABLE `item_option`
-  MODIFY `optionCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `optionCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT for table `package`
@@ -677,13 +692,13 @@ ALTER TABLE `permits`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `transID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
+  MODIFY `transID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
 
 --
 -- AUTO_INCREMENT for table `voucher`
 --
 ALTER TABLE `voucher`
-  MODIFY `voucherID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=257;
+  MODIFY `voucherID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=267;
 
 --
 -- Constraints for dumped tables
