@@ -5,14 +5,12 @@ $customCategoryCode = isset($_GET['customCategoryCode']) ? $_GET['customCategory
 
 global $DB;
 
-// Constructing the SQL query
 $sql = "
     SELECT *
     FROM custom_category c
     WHERE c.customCategoryCode = '$customCategoryCode'
 ";
 
-// Executing the query
 $result = $DB->query($sql);
 $row = $result->fetch_assoc();
 ?>

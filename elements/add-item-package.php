@@ -3,17 +3,14 @@ $businessCode = isset($_GET['businessCode']) ? $_GET['businessCode'] : '';
 $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
 $packCode = isset($_GET['packCode']) ? $_GET['packCode'] : '';
 
-// Assuming $DB is your database connection
 global $DB;
 
-// Constructing the SQL query
 $sql = "
     SELECT *
     FROM package p 
     WHERE p.packCode = '$packCode'
 ";
 
-// Executing the query
 $result = $DB->query($sql);
 $row = $result->fetch_assoc();
 ?>
@@ -131,7 +128,7 @@ function cloneDetails(button, itemIndex) {
     detailsGroup.id = `details_${itemIndex}_${detailsCount}`;
     clearInputValues(detailsGroup);
     button.parentNode.insertBefore(detailsGroup, button.nextSibling);
-    detailsGroup.style.display = 'block';  // Ensure the cloned details group is displayed
+    detailsGroup.style.display = 'block';  
 }
 
 

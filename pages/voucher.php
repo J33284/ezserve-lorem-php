@@ -1,9 +1,6 @@
 <?= element('header') ?>
 
 <?php
-// voucher.php
-
-// Retrieve data from the URL
 $businessCode = $_GET['businessCode'];
 $branchCode = $_GET['branchCode'];
 $packCode = $_GET['packCode'];
@@ -148,7 +145,7 @@ function applyVoucher(voucherCode, vpackCode, voucherType, discountType, discoun
 
     // Redirect back to the checkout page with the discounted total and checkout details
     var checkoutData = <?= json_encode($_GET['checkoutData']) ?>;
-    window.location.href = "?page=checkout&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>&packCode=<?= $packCode ?>&discountedTotal=" + discountedTotal + "&checkoutData=" + encodeURIComponent(checkoutData);
+    window.location.href = "?page=checkoutt&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>&packCode=<?= $packCode ?>&discountedTotal=" + discountedTotal + "&checkoutData=" + encodeURIComponent(checkoutData);
 }
 
 

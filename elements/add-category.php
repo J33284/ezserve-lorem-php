@@ -7,7 +7,6 @@ global $DB;
 
 $sql = "SELECT * FROM package WHERE packCode = '$packCode'";
 
-// Executing the query
 $result = $DB->query($sql);
 $row = $result->fetch_assoc();
 
@@ -105,7 +104,6 @@ function createCategoryGroup(categoryIndex) {
     const newCategoryGroup = document.createElement('div');
     newCategoryGroup.classList.add('category-group');
 
-    // Generate unique IDs for the category input fields
     const categoryId = `categoryName_${categoryIndex}`;
     const itemGroupId = `itemGroup_${categoryIndex}`;
     const itemNameId = `itemName_${categoryIndex}`;
@@ -113,7 +111,6 @@ function createCategoryGroup(categoryIndex) {
     const quantityId = `quantity_${categoryIndex}`;
     const priceId = `price_${categoryIndex}`;
 
-    // Add your category-group structure here
     
     newCategoryGroup.innerHTML = `
         <div class="form-group">
