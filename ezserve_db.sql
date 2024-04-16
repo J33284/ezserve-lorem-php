@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 16, 2024 at 04:58 AM
+-- Generation Time: Apr 16, 2024 at 10:09 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -463,7 +463,6 @@ CREATE TABLE `voucher` (
   `businessCode` int(11) DEFAULT NULL,
   `branchCode` int(11) DEFAULT NULL,
   `packCode` int(11) NOT NULL,
-  `voucherName` varchar(200) NOT NULL,
   `voucherCode` varchar(200) NOT NULL,
   `voucherType` varchar(100) NOT NULL,
   `min_spend` int(100) NOT NULL,
@@ -478,8 +477,10 @@ CREATE TABLE `voucher` (
 -- Dumping data for table `voucher`
 --
 
-INSERT INTO `voucher` (`voucherID`, `ownerID`, `businessCode`, `branchCode`, `packCode`, `voucherName`, `voucherCode`, `voucherType`, `min_spend`, `discountValue`, `discountType`, `startDate`, `endDate`, `creationDate`) VALUES
-(288, 31, NULL, NULL, 0, 'vouchermo', '92AW6KKNQB', 'Gift Card', 0, 10, 'percentage', '2024-04-01', '2024-05-01', '2024-04-16');
+INSERT INTO `voucher` (`voucherID`, `ownerID`, `businessCode`, `branchCode`, `packCode`, `voucherCode`, `voucherType`, `min_spend`, `discountValue`, `discountType`, `startDate`, `endDate`, `creationDate`) VALUES
+(292, 31, 24, 33, 0, 'VZIMDEUNI0', 'Gift Card', 0, 100, 'amount', '2024-04-16', '2024-05-11', '2024-04-16'),
+(299, 31, 24, 33, 0, 'XM3BU3YDUU', 'Gift Card', 0, 58, 'percentage', '2024-04-16', '2024-05-11', '2024-04-16'),
+(301, 31, NULL, NULL, 0, 'ZT5S7BIE91', 'Minimum Spend', 200, 2, 'percentage', '2024-04-16', '2024-05-11', '2024-04-16');
 
 --
 -- Indexes for dumped tables
@@ -698,7 +699,7 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT for table `voucher`
 --
 ALTER TABLE `voucher`
-  MODIFY `voucherID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=289;
+  MODIFY `voucherID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=302;
 
 --
 -- Constraints for dumped tables

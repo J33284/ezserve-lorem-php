@@ -26,7 +26,6 @@ $successMessage = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_GET['action']) && $_GET['action'] == 'update_voucher') {
     // Retrieve form data
     $voucherID = $_POST['voucherID'];
-    $voucherName = $_POST['voucherName'];
     $voucherCode = $_POST['voucherCode'];
     $discountType = $_POST['discountType'];
     $discountValue = $_POST['discountValue'];
@@ -43,7 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_GET['action']) && $_GET['act
     // Update voucher record in the database
     if ($voucherType === 'Gift Card') {
         $updateQuery = "UPDATE voucher SET 
-                        voucherName = '$voucherName', 
                         voucherCode = '$voucherCode', 
                         discountType = '$discountType', 
                         discountValue = '$discountValue', 
@@ -53,7 +51,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_GET['action']) && $_GET['act
                         
     } else  if ($voucherType === 'Specific Package') {
         $updateQuery = "UPDATE voucher SET 
-                        voucherName = '$voucherName', 
                         voucherCode = '$voucherCode', 
                         discountType = '$discountType', 
                         discountValue = '$discountValue', 
@@ -66,7 +63,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_GET['action']) && $_GET['act
         // For other voucher types, update all columns
     
         $updateQuery = "UPDATE voucher SET 
-                        voucherName = '$voucherName', 
                         voucherCode = '$voucherCode', 
                         discountType = '$discountType', 
                         discountValue = '$discountValue', 

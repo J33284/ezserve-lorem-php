@@ -3,7 +3,6 @@
 <?php
 $voucherID = $_GET['id'];
 
-// Fetch voucher details based on voucherID
 $voucherDetails = $DB->query("SELECT * FROM voucher WHERE voucherID = '$voucherID'");
 if ($voucherDetails->num_rows > 0) {
     $voucher = $voucherDetails->fetch_assoc();
@@ -19,20 +18,21 @@ $branchDetails = $DB->query("SELECT * FROM branches  WHERE branchCode = '$branch
 $branch = $branchDetails->fetch_assoc();
 
 if ($voucher["voucherType"] == 'Specific Package') {
-    // Fetch all packages associated with the branch
     $packageDetails = $DB->query("SELECT * FROM package WHERE branchCode = '$branchCode'");
 }
+
+$busName = isset($business["busName"]) ? $business["busName"] : "All Business";
+$branchName = isset($branch["branchName"]) ? $branch["branchName"] : "";
 ?>
 
 <div class="package-info" style="margin: 120px 0 0 30%">
     <div class="card p-5 bg-opacity-25 bg-white">
         <form action="?action=update_voucher" method="post">
             <h4>Edit Voucher</h4>
-            <h6><?= $business["busName"] . " (" . $branch["branchName"] . ")" ?></h6>
+            <h6><?= $busName . ($branchName !== "" ? " (" . $branchName . ")" : "") ?></h6>
+
             <hr>
             <h6><?= $voucher["voucherType"] ?></h6><br>
-
-            Voucher Name: <input type="text" name="voucherName" class="form-control" value="<?= $voucher["voucherName"] ?>"required><br>
            
             Voucher Code: <input type="text" name="voucherCode" class="form-control" value="<?= $voucher["voucherCode"] ?>"><br>
             
@@ -63,9 +63,9 @@ if ($voucher["voucherType"] == 'Specific Package') {
             
            
             
-            Start Date: <input type="text" name="startDate" class="form-control" value="<?= $voucher["startDate"] ?>"required><br>
+            Start Date: <input type="date" name="startDate" class="form-control" value="<?= $voucher["startDate"] ?>"required><br>
             
-            End Date: <input type="text" name="endDate" class="form-control" value="<?= $voucher["endDate"] ?>" required><br>
+            End Date: <input type="date" name="endDate" class="form-control" value="<?= $voucher["endDate"] ?>" required><br>
             <input type="hidden" name="voucherID" value="<?= $voucherID ?>">
             <input type="submit" class="btn btn-primary" value="Update Voucher">
         </form>

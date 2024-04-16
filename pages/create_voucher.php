@@ -3,7 +3,7 @@
 <?php
 global $DB;
 $ownerID = isset($_SESSION['userID']) ? $_SESSION['userID'] : null;
-$businesses = $DB->query("SELECT * FROM business WHERE ownerID = '$ownerID'");
+$businesses = $DB->query("SELECT * FROM business WHERE ownerID = '$ownerID' AND status ='1'");
 $branches = $DB->query("SELECT * FROM branches");
 $packages = $DB->query("SELECT * FROM package");
 ?>
@@ -27,7 +27,7 @@ $packages = $DB->query("SELECT * FROM package");
                     echo "<option value='" . $row["businessCode"] . "'>" . $row["busName"] . "</option>";
                 }
                 ?>
-            </select>
+            </select>                             
 
             <input type="hidden" name="packCode" id="hiddenPackageCode" value="">
             <input type="hidden" name="ownerID" id="ownerID" value="<?=$ownerID?>">
@@ -36,10 +36,7 @@ $packages = $DB->query("SELECT * FROM package");
             <label for="branchCode">Select Branch:</label>
             <select name="branchCode" class="form-select" id="branchCode" onchange="updatePackages()">
             </select><br>
-
-            <label for="voucherName">Voucher Name:</label>
-            <input type="text" class="form-control" name="voucherName" placeholder="Enter voucher name"required><br>
-
+            
             <label for="voucherCode">Voucher Code:</label>
             <div class="d-flex">  
             <input type="text" class="form-control" id="voucherCode" name="voucherCode" placeholder="Enter voucher code" required >
@@ -85,8 +82,8 @@ $packages = $DB->query("SELECT * FROM package");
             </select><br>
           
             <p id="defaultMessage"></p>
-            <div class="input-group mb-3"id="percentageInput"  style="display: none;">
-                <input type="number" class="form-control" placeholder="Percentage Value" aria-label="Percentage Value" name="discountValue">
+            <div class="input-group mb-3" id="percentageInput"  style="display: none;">
+                <input type="number" class="form-control" placeholder="Percentage Value" aria-label="Percentage Value" name="percentageValue">
                 <div class="input-group-append">
                     <span class="input-group-text" id="basic-addon2">%</span>
                 </div>
@@ -96,7 +93,7 @@ $packages = $DB->query("SELECT * FROM package");
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="">₱</span>
                 </div>
-                <input type="number" class="form-control" placeholder="Amount Value" aria-label="Amount Value" aria-describedby="basic-addon1" name="discountValue">
+                <input type="number" class="form-control" placeholder="Amount Value" aria-label="Amount Value" aria-describedby="basic-addon1" name="amountValue">
             </div>
 
 

@@ -36,10 +36,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $businessCode = isset($_POST['businessCode']) ? $_POST['businessCode'] : "0"; 
     $branchCode = isset($_POST['branchCode']) ? $_POST['branchCode'] : "0";
     $packCode = $_POST["packCode"];
-    $voucherName = $_POST["voucherName"];
     $voucherCode = $_POST["voucherCode"];
     $discountType = $_POST["discountType"];
-    $discountValue = $_POST["discountValue"];
+    $percentageValue = $_POST["percentageValue"];
+    $amountValue = $_POST["amountValue"];
+
+
+    if ($discountType === "percentage") {
+        $discountValue = $percentageValue;
+    } else {
+        $discountValue = $amountValue;
+    }
+
     $startDate = $_POST["startDate"];
     $endDate = $_POST["endDate"];
     $condition = $_POST["condition"];
@@ -49,22 +57,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         if ($condition === "Specific Package") {
-            $sql = "INSERT INTO voucher (ownerID, businessCode, branchCode, voucherName, voucherCode, voucherType, discountType, discountValue, startDate, endDate, packCode)
-                VALUES ('$ownerID', '$businessCode', '$branchCode', '$voucherName','$voucherCode', '$condition','$discountType', '$discountValue', '$startDate', '$endDate', '$packCode')";
+            $sql = "INSERT INTO voucher (ownerID, businessCode, branchCode, voucherCode, voucherType, discountType, discountValue, startDate, endDate, packCode)
+                VALUES ('$ownerID', '$businessCode', '$branchCode','$voucherCode', '$condition','$discountType', '$discountValue', '$startDate', '$endDate', '$packCode')";
         }elseif ($condition === "Minimum Spend" && $businessCode === "0") {
-            $sql = "INSERT INTO voucher (ownerID, voucherName, voucherCode, voucherType, discountType, discountValue, startDate, endDate)
-                VALUES ('$ownerID', '$voucherName', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate')";
+            $sql = "INSERT INTO voucher (ownerID, voucherCode, voucherType, discountType, discountValue, min_Spend, startDate, endDate)
+                VALUES ('$ownerID','$voucherCode', '$condition', '$discountType', '$discountValue', '$minSpend','$startDate', '$endDate')";
         } elseif ($condition === "Minimum Spend") {
-            $sql = "INSERT INTO voucher (ownerID, businessCode, branchCode, voucherName, voucherCode, voucherType, discountType, discountValue, startDate, endDate, min_spend)
-                VALUES ('$ownerID', '$businessCode', '$branchCode', '$voucherName', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate', '$minSpend')";
+            $sql = "INSERT INTO voucher (ownerID, businessCode, branchCode, voucherCode, voucherType, discountType,  discountValue,min_Spend, startDate, endDate, min_spend)
+                VALUES ('$ownerID', '$businessCode', '$branchCode','$voucherCode', '$condition', '$discountType', '$discountValue', '$minSpend','$startDate', '$endDate', '$minSpend')";
         } else if ($condition === "Gift Card" && $businessCode === "0") {
-            $sql = "INSERT INTO voucher (ownerID, voucherName, voucherCode, voucherType, discountType, discountValue, startDate, endDate)
-            VALUES ('$ownerID', '$voucherName', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate')";
+            $sql = "INSERT INTO voucher (ownerID, voucherCode, voucherType, discountType, discountValue, startDate, endDate)
+            VALUES ('$ownerID', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate')";
         } else {
-            $sql = "INSERT INTO voucher (ownerID, businessCode, branchCode, voucherName, voucherCode, voucherType, discountType, discountValue, startDate, endDate)
-            VALUES ('$ownerID','$businessCode', '$branchCode', '$voucherName', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate')";
+            $sql = "INSERT INTO voucher (ownerID, businessCode, branchCode, voucherCode, voucherType, discountType, discountValue, startDate, endDate)
+            VALUES ('$ownerID','$businessCode', '$branchCode', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate')";
         }
-        
+
         if ($DB->query($sql) === TRUE) {
             echo "<div class='success-popup'>
                     <p>Voucher created successfully!</p>

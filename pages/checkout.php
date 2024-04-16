@@ -77,61 +77,60 @@ if (isset($_GET['checkoutData'])) {
                 </div>
             </div>
 
-            <!-- Delivery Information -->
-            <div class="delivery mb-3">
-            <h4 class="p-3 mb-4" style="border-bottom: 3px solid #fb7e00;">2. Delivery</h4>
-            <h6></h6>
-            <div class="row d-flex align-items-center my-2 px-5">
-                <div class="form-check row d-flex">
-                    <div class="col-5">
-                        <input class="form-check-input" type="checkbox"  id="pickUpCheckbox" name="pickUpCheckbox">
-                        <label class="form-check-label" for="pickUpCheckbox">Pick-up</label>
-                    </div>
-                    <div class="col-5">
-                        <input type="date" class="form-control" id="pDate" name="pDate"  style="display: none;">
-                    </div>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox"  id="deliveryCheckbox" name="deliveryCheckbox">
-                    <label class="form-check-label" for="deliveryCheckbox">Delivery</label>
-                </div>
+            <!-- Pick-up and Delivery Information -->
+<div class="delivery mb-3">
+    <h4 class="p-3 mb-4" style="border-bottom: 3px solid #fb7e00;">2. Delivery</h4>
+    <div class="row d-flex align-items-center my-2 px-5">
+        <div class="form-check row d-flex">
+            <div class="col-5">
+                <input class="form-check-input" type="checkbox" id="pickUpCheckbox" name="pickUpCheckbox" <?php echo isset($_POST['pickUpCheckbox']) && $_POST['pickUpCheckbox'] == 'on' ? 'checked' : ''; ?>>
+                <label class="form-check-label" for="pickUpCheckbox">Pick-up</label>
             </div>
-
-            <!-- Hidden fields for delivery address and delivery date -->
-            <div id="deliveryFields" style="display: none;">
-
-                    <div id="map" style="height: 400px; width: 100%;"></div> 
-                    <!-- Add your delivery address and date fields here -->
-                    <div class="form-group">
-                        <label for="deliveryAddress">Delivery Address</label>
-                        <input type="text" class="form-control" id="deliveryAddress" name="dAddress">
-
-                        <label for="deliveryAddress">Delivery Time</label>
-                        <input type="time" class="form-control" id="deliveryAddress" name="dAddress">
-                    </div>
-                    <div class="form-group">
-                        <label for="deliveryDate">Delivery Date</label>
-                        <input type="date" class="form-control" id="deliveryDate" name="dDate">
-                    </div>
-                </div>
-            </div>
-
-        
-            <div class="payment">
-                <h4 class=" p-3 mb-4" style=" border-bottom: 3px solid #fb7e00;"> 3. Payment </h4>
-                <h6> Mode of Payment </h6>
-            <div class="row d-flex align-items-center my-2 px-5">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="onsitePaymentCheckbox" name="onsitePayment">
-                <label class="form-check-label" for="onsitePaymentCheckbox">On-Site Payment</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="onlinePaymentCheckbox" name="onlinePayment">
-                <label class="form-check-label" for="onlinePaymentCheckbox">Online Payment</label>
-                </div>
+            <div class="col-5">
+                <input type="date" class="form-control" id="pDate" name="pDate" style="display: <?php echo isset($_POST['pickUpCheckbox']) && $_POST['pickUpCheckbox'] == 'on' ? 'block' : 'none'; ?>" value="<?php echo isset($_POST['pDate']) ? $_POST['pDate'] : ''; ?>">
             </div>
         </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="deliveryCheckbox" name="deliveryCheckbox" <?php echo isset($_POST['deliveryCheckbox']) && $_POST['deliveryCheckbox'] == 'on' ? 'checked' : ''; ?>>
+            <label class="form-check-label" for="deliveryCheckbox">Delivery</label>
         </div>
+    </div>
+
+    <!-- Hidden fields for delivery address and delivery date -->
+    <div id="deliveryFields" style="display: <?php echo isset($_POST['deliveryCheckbox']) && $_POST['deliveryCheckbox'] == 'on' ? 'block' : 'none'; ?>">
+        <div id="map" style="height: 400px; width: 100%;"></div> 
+        <!-- Add your delivery address and delivery date fields here -->
+        <div class="form-group">
+            <label for="deliveryAddress">Delivery Address</label>
+            <input type="text" class="form-control" id="deliveryAddress" name="deliveryAddress" value="<?php echo isset($_POST['deliveryAddress']) ? $_POST['deliveryAddress'] : ''; ?>">
+        </div>
+        <div class="form-group">
+            <label for="deliveryTime">Delivery Time</label>
+            <input type="time" class="form-control" id="deliveryTime" name="deliveryTime" value="<?php echo isset($_POST['deliveryTime']) ? $_POST['deliveryTime'] : ''; ?>">
+        </div>
+        <div class="form-group">
+            <label for="deliveryDate">Delivery Date</label>
+            <input type="date" class="form-control" id="deliveryDate" name="deliveryDate" value="<?php echo isset($_POST['deliveryDate']) ? $_POST['deliveryDate'] : ''; ?>">
+        </div>
+    </div>
+</div>
+
+<!-- Payment Information -->
+<div class="payment">
+    <h4 class=" p-3 mb-4" style=" border-bottom: 3px solid #fb7e00;">3. Payment</h4>
+    <h6>Mode of Payment</h6>
+    <div class="row d-flex align-items-center my-2 px-5">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="onsitePaymentCheckbox" name="onsitePayment" <?php echo isset($_POST['onsitePayment']) && $_POST['onsitePayment'] == 'on' ? 'checked' : ''; ?>>
+            <label class="form-check-label" for="onsitePaymentCheckbox">On-Site Payment</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="onlinePaymentCheckbox" name="onlinePayment" <?php echo isset($_POST['onlinePayment']) && $_POST['onlinePayment'] == 'on' ? 'checked' : ''; ?>>
+            <label class="form-check-label" for="onlinePaymentCheckbox">Online Payment</label>
+        </div>
+    </div>
+</div>
+
         <!-- Order List -->
         <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" style="height: auto; margin-left: 50px">
         <h3 class="order-header sticky-top p-3">Order List</h3>
@@ -216,8 +215,6 @@ if (isset($_GET['checkoutData'])) {
             </div>
             <?php endif; ?>
             
-
-        
 
         <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"  
             href="?page=voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>&grandTotal=<?= $numericTotal ?>&checkoutData=<?= urlencode(json_encode($checkoutDetails)) ?>">
