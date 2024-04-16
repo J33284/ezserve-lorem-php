@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $transID = $_POST['transID'];
 
     // Perform the database update
-    $updateQuery = "UPDATE transact SET status = '$status' WHERE transID = '$transID'";
+    $updateQuery = "UPDATE transaction SET status = '$status' WHERE transID = '$transID'";
     $DB->query($updateQuery);
 
     // Redirect back to the original page

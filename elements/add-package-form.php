@@ -11,7 +11,6 @@ $custom = $DB->query("SELECT * FROM custom_category WHERE branchCode = $branchCo
 .form-select, .input-group-append button, .table, .selection-limit {
     display: none;
 }
-
     .details-group {
         display: none;
         margin-top: 10px;
