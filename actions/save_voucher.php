@@ -4,7 +4,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background-color: #4CAF50; /* Green for success, you can adjust this color */
+        background-color: #4CAF50; 
         color: #fff;
         padding: 20px;
         border-radius: 5px;
@@ -29,13 +29,12 @@
 
 
 <?php
-// Include your database connection logic here
 global $DB;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ownerID = $_POST['ownerID'];
-    $businessCode = $_POST["businessCode"];
-    $branchCode = $_POST["branchCode"];
+    $businessCode = isset($_POST['businessCode']) ? $_POST['businessCode'] : "0"; 
+    $branchCode = isset($_POST['branchCode']) ? $_POST['branchCode'] : "0";
     $packCode = $_POST["packCode"];
     $voucherName = $_POST["voucherName"];
     $voucherCode = $_POST["voucherCode"];
@@ -45,28 +44,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $endDate = $_POST["endDate"];
     $condition = $_POST["condition"];
 
-    // Additional fields for specific conditions
     $selectedPackage = isset($_POST["selectedPackage"]) ? $_POST["selectedPackage"] : null;
     $minSpend = isset($_POST["minSpend"]) ? $_POST["minSpend"] : null;
 
     try {
-        // Insert voucher details into the database
         if ($condition === "Specific Package") {
-            // If the discount type is specific package, save the package code
             $sql = "INSERT INTO voucher (ownerID, businessCode, branchCode, voucherName, voucherCode, voucherType, discountType, discountValue, startDate, endDate, packCode)
                 VALUES ('$ownerID', '$businessCode', '$branchCode', '$voucherName','$voucherCode', '$condition','$discountType', '$discountValue', '$startDate', '$endDate', '$packCode')";
+        }elseif ($condition === "Minimum Spend" && $businessCode === "0") {
+            $sql = "INSERT INTO voucher (ownerID, voucherName, voucherCode, voucherType, discountType, discountValue, startDate, endDate)
+                VALUES ('$ownerID', '$voucherName', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate')";
         } elseif ($condition === "Minimum Spend") {
-            // If the condition is minimum spend, save the minimum spend value
             $sql = "INSERT INTO voucher (ownerID, businessCode, branchCode, voucherName, voucherCode, voucherType, discountType, discountValue, startDate, endDate, min_spend)
                 VALUES ('$ownerID', '$businessCode', '$branchCode', '$voucherName', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate', '$minSpend')";
+        } else if ($condition === "Gift Card" && $businessCode === "0") {
+            $sql = "INSERT INTO voucher (ownerID, voucherName, voucherCode, voucherType, discountType, discountValue, startDate, endDate)
+            VALUES ('$ownerID', '$voucherName', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate')";
         } else {
-            // For other conditions
             $sql = "INSERT INTO voucher (ownerID, businessCode, branchCode, voucherName, voucherCode, voucherType, discountType, discountValue, startDate, endDate)
-                VALUES ('$ownerID','$businessCode', '$branchCode', '$voucherName', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate')";
+            VALUES ('$ownerID','$businessCode', '$branchCode', '$voucherName', '$voucherCode', '$condition', '$discountType', '$discountValue', '$startDate', '$endDate')";
         }
-
+        
         if ($DB->query($sql) === TRUE) {
-            // Voucher created successfully
             echo "<div class='success-popup'>
                     <p>Voucher created successfully!</p>
                 </div>
@@ -79,7 +78,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Error: " . $sql . "<br>" . $DB->error;
         }
     } catch (mysqli_sql_exception $e) {
-        // Duplicate entry error
         if ($e->getCode() == 1062) {
             echo "<div class='error-popup'>
                     <p>The voucher code '$voucherCode' already exists. Please choose a different voucher code.</p>

@@ -22,7 +22,6 @@ $voucherResult = $DB->query($voucherQuery);
 $hasVouchers = $voucherResult->num_rows > 0;
 ?>
 
-<!-- Display vouchers in Bootstrap cards -->
 <div class="container " style="min-height: 100vh; margin-top: 150px">
     
         
@@ -115,30 +114,22 @@ function applyVoucher(voucherCode, vpackCode, voucherType, discountType, discoun
         return;
     }
 
-    // Logic to apply the voucher and send the discounted total back to the checkout page
     var discountedTotal;
 
     if (voucherType === 'Minimum Spend') {
-        // Check if the grand total meets the minimum spend criteria
         if (grandTotal >= parseFloat(discountValue)) {
             if (discountType === 'percentage') {
-                // Calculate the discount based on percentage
                 discountedTotal = grandTotal * (1 - (parseFloat(discountValue) / 100));
             } else {
-                // Subtract the discount value from the grand total
                 discountedTotal = grandTotal - parseFloat(discountValue);
             }
         } else {
-            // Grand total doesn't meet the minimum spend criteria, no discount applied
             discountedTotal = grandTotal;
         }
     } else if (voucherType === 'Specific Package' && vpackCode === '<?= $packCode ?>') {
-        // Check if the voucher is for the specific package and packCode matches
         if (discountType.toLowerCase() === 'percentage') {
-            // Calculate the discount based on percentage
             discountedTotal = grandTotal * (1 - (parseFloat(discountValue) / 100));
         } else {
-            // Subtract the discount value from the grand total
             discountedTotal = grandTotal - parseFloat(discountValue);
         }
     } else if (voucherType === 'Specific Package' && vpackCode !== '<?= $packCode ?>') {
@@ -146,12 +137,9 @@ function applyVoucher(voucherCode, vpackCode, voucherType, discountType, discoun
         return;
 
     } else if (voucherType === 'Gift Card') {
-        // Check if the discount type is percentage or amount
         if (discountType.toLowerCase() === 'percentage') {
-            // Calculate the discount based on percentage
             discountedTotal = grandTotal * (1 - (parseFloat(discountValue) / 100));
         } else {
-            // Subtract the discount value from the grand total
             discountedTotal = grandTotal - parseFloat(discountValue);
         }
     } else {
@@ -162,8 +150,6 @@ function applyVoucher(voucherCode, vpackCode, voucherType, discountType, discoun
     var checkoutData = <?= json_encode($_GET['checkoutData']) ?>;
     window.location.href = "?page=checkout&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>&packCode=<?= $packCode ?>&discountedTotal=" + discountedTotal + "&checkoutData=" + encodeURIComponent(checkoutData);
 }
-
-
 
 
 function displayMessage(message) {

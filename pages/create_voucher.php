@@ -22,7 +22,7 @@ $packages = $DB->query("SELECT * FROM package");
             <label for="businessCode">Select Business:</label>
             <select name="businessCode" class="form-select " id="businessCode" onchange="updateBranches()">
                 <option disabled selected >--Select Business--</option>
-                <option value="all">All Business</option>
+                <option value="0">All Business</option>
                 <?php while ($row = $businesses->fetch_assoc()) {
                     echo "<option value='" . $row["businessCode"] . "'>" . $row["busName"] . "</option>";
                 }
@@ -112,7 +112,7 @@ $packages = $DB->query("SELECT * FROM package");
 </div>
                 
 <script>
-    function updateBranches() {
+function updateBranches() {
     var businessCode = document.getElementById("businessCode").value;
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "?action=getBranches&businessCode=" + businessCode, true);
@@ -121,12 +121,14 @@ $packages = $DB->query("SELECT * FROM package");
         if (xhr.readyState == 4 && xhr.status == 200) {
             var branchLabel = document.querySelector("label[for='branchCode']");
             var branchCodeDropdown = document.getElementById("branchCode");
-            if (businessCode === "all") {
+            if (businessCode === "0") {
                 branchLabel.style.display = "none";
                 branchCodeDropdown.style.display = "none";
-                updatePackages();
+                // Set branchCode to "0"
+                document.getElementById("branchCode").innerHTML = '<option value="0">All Branches</option>';
+                document.getElementById("hiddenPackageCode").value = ""; 
             } else {
-               
+                branchLabel.style.display = "block";
                 branchCodeDropdown.style.display = "block";
                 document.getElementById("branchCode").innerHTML = xhr.responseText;
                 updatePackages();
@@ -136,6 +138,7 @@ $packages = $DB->query("SELECT * FROM package");
     xhr.send();
 }
 
+
     function updatePackages() {
         var branchCode = document.getElementById("branchCode").value;
         var xhr = new XMLHttpRequest();
@@ -144,7 +147,6 @@ $packages = $DB->query("SELECT * FROM package");
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 document.getElementById("selectedPackage").innerHTML = xhr.responseText;
-                // Update the hidden input field with the first packageCode in the list
                 var firstPackageCode = document.querySelector("#selectedPackage option:first-child").value;
                 document.getElementById("hiddenPackageCode").value = firstPackageCode;
             }
@@ -161,31 +163,28 @@ $packages = $DB->query("SELECT * FROM package");
         if (condition === "Specific Package") {
             specificPackageField.style.display = "block";
             minimumSpendField.style.display = "none";
-            minSpendInput.removeAttribute("required"); // Remove the required attribute
+            minSpendInput.removeAttribute("required"); 
         } else if (condition === "Minimum Spend") {
             specificPackageField.style.display = "none";
             minimumSpendField.style.display = "block";
-            minSpendInput.setAttribute("required", "required"); // Add the required attribute
+            minSpendInput.setAttribute("required", "required"); 
         } else {
             specificPackageField.style.display = "none";
             minimumSpendField.style.display = "none";
-            minSpendInput.removeAttribute("required"); // Remove the required attribute
+            minSpendInput.removeAttribute("required"); 
         }
     }
 
-    // Initial calls to populate branches and packages based on the default selected businessCode and branchCode
     updateBranches();
     updatePackages();
 
     document.getElementById("discountTypeSelect").addEventListener("change", function() {
         var discountType = this.value;
         
-        // Hide all input fields by default
         document.getElementById("percentageInput").style.display = "none";
         document.getElementById("amountInput").style.display = "none";
         document.getElementById("defaultMessage").style.display = "none";
 
-        // Show the corresponding input field based on the selected discount type
         if (discountType === 'percentage') {
             document.getElementById("percentageInput").style.display = "flex";
         } else if (discountType === 'amount') {
@@ -196,7 +195,7 @@ $packages = $DB->query("SELECT * FROM package");
     });
 
     function generateRandomCode() {
-            var length = 10; // You can adjust the length of the generated code
+            var length = 10; 
             var charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             var randomCode = "";
             for (var i = 0; i < length; i++) {

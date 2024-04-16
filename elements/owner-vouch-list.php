@@ -54,8 +54,8 @@
                     $packName = ($packNameResult->num_rows > 0) ? $packNameResult->fetch_assoc()["packName"] : '';
                 ?>
                     <tr>
-                        <td class="bg-transparent border border-white"><?= $busName ?></td>
-                        <td class="bg-transparent border border-white"><?= $branchName ?></td>
+                        <td class="bg-transparent border border-white"><?= $busName ? $busName : "All Business" ?></td>
+                        <td class="bg-transparent border border-white"><?= $branchName ? $branchName : "All Branches" ?></td>
                         <td class="bg-transparent border border-white"><?= $row["voucherName"] ?></td>
                         <td class="bg-transparent border border-white"><?= $row["voucherCode"] ?></td>
                         <td class="bg-transparent border border-white">
