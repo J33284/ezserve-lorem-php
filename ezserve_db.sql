@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2024 at 12:21 PM
+-- Generation Time: Apr 16, 2024 at 04:58 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -460,8 +460,8 @@ INSERT INTO `transaction` (`transID`, `clientID`, `businessCode`, `branchCode`, 
 CREATE TABLE `voucher` (
   `voucherID` int(255) NOT NULL,
   `ownerID` int(11) NOT NULL,
-  `businessCode` int(11) NOT NULL,
-  `branchCode` int(11) NOT NULL,
+  `businessCode` int(11) DEFAULT NULL,
+  `branchCode` int(11) DEFAULT NULL,
   `packCode` int(11) NOT NULL,
   `voucherName` varchar(200) NOT NULL,
   `voucherCode` varchar(200) NOT NULL,
@@ -479,7 +479,7 @@ CREATE TABLE `voucher` (
 --
 
 INSERT INTO `voucher` (`voucherID`, `ownerID`, `businessCode`, `branchCode`, `packCode`, `voucherName`, `voucherCode`, `voucherType`, `min_spend`, `discountValue`, `discountType`, `startDate`, `endDate`, `creationDate`) VALUES
-(258, 31, 24, 33, 0, 'vouchermo', 'voucher1001', 'Minimum Spend', 100, 0, 'percentage', '2024-04-01', '2024-04-30', '2024-04-15');
+(288, 31, NULL, NULL, 0, 'vouchermo', '92AW6KKNQB', 'Gift Card', 0, 10, 'percentage', '2024-04-01', '2024-05-01', '2024-04-16');
 
 --
 -- Indexes for dumped tables
@@ -698,7 +698,7 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT for table `voucher`
 --
 ALTER TABLE `voucher`
-  MODIFY `voucherID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=267;
+  MODIFY `voucherID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=289;
 
 --
 -- Constraints for dumped tables
