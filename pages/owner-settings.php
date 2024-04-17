@@ -2,13 +2,12 @@
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 global $DB;
 
-$businessID = $_SESSION['ownerID'];
+$businessID = $_SESSION['userID'];
 
 $businesses = $DB->query("
     SELECT b.*, br.* FROM business b
     JOIN branches br ON b.businessCode = br.businessCode
-    WHERE business.ownerID = '$businessID'
-");
+    WHERE b.ownerID = '$businessID'");
 
 ?>
 

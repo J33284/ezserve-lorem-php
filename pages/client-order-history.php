@@ -58,7 +58,7 @@ if (isset($_POST['keyword'])) {
                 <tbody>
                     <?php while ($row = $payment->fetch_assoc()): ?>
                         <tr>
-                            <td ><?= $row['transCode'] != '' ? $row['transCode'] : 'N/A' ?></td>
+                            <td ><?= $row['transNo'] != '' ? $row['transNo'] : 'N/A' ?></td>
                             <td><?= $row['busName']. "<br>(" . $row['branchName'] .")"?></td>
                             <td ><?= $row['packName'] != '' ? $row['packName'] : 'Custom Package' ?></td>
                             <td><?= $row['paymentDate'] ?></td>

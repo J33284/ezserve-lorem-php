@@ -1,9 +1,6 @@
 <?= element('header') ?>
 
 <?php
-// voucher.php
-
-// Retrieve data from the URL
 $businessCode = $_GET['businessCode'];
 $branchCode = $_GET['branchCode'];
 $packCode = $_GET['packCode'];
@@ -22,7 +19,6 @@ $voucherResult = $DB->query($voucherQuery);
 $hasVouchers = $voucherResult->num_rows > 0;
 ?>
 
-<!-- Display vouchers in Bootstrap cards -->
 <div class="container " style="min-height: 100vh; margin-top: 150px">
     
         
@@ -103,7 +99,6 @@ $hasVouchers = $voucherResult->num_rows > 0;
 
 
 
-<!-- ... Previous HTML and PHP code ... -->
 
 <script>
 function applyVoucher(voucherCode, vpackCode, voucherType, discountType, discountValue, grandTotal, packCode, startDate, endDate) {
@@ -116,30 +111,22 @@ function applyVoucher(voucherCode, vpackCode, voucherType, discountType, discoun
         return;
     }
 
-    // Logic to apply the voucher and send the discounted total back to the checkout page
     var discountedTotal;
 
     if (voucherType === 'Minimum Spend') {
-        // Check if the grand total meets the minimum spend criteria
         if (grandTotal >= parseFloat(discountValue)) {
             if (discountType === 'percentage') {
-                // Calculate the discount based on percentage
                 discountedTotal = grandTotal * (1 - (parseFloat(discountValue) / 100));
             } else {
-                // Subtract the discount value from the grand total
                 discountedTotal = grandTotal - parseFloat(discountValue);
             }
         } else {
-            // Grand total doesn't meet the minimum spend criteria, no discount applied
             discountedTotal = grandTotal;
         }
     } else if (voucherType === 'Specific Package' && vpackCode === '<?= $packCode ?>') {
-        // Check if the voucher is for the specific package and packCode matches
         if (discountType.toLowerCase() === 'percentage') {
-            // Calculate the discount based on percentage
             discountedTotal = grandTotal * (1 - (parseFloat(discountValue) / 100));
         } else {
-            // Subtract the discount value from the grand total
             discountedTotal = grandTotal - parseFloat(discountValue);
         }
     } else if (voucherType === 'Specific Package' && vpackCode !== '<?= $packCode ?>') {
@@ -147,41 +134,27 @@ function applyVoucher(voucherCode, vpackCode, voucherType, discountType, discoun
         return;
 
     } else if (voucherType === 'Gift Card') {
-        // Check if the discount type is percentage or amount
         if (discountType.toLowerCase() === 'percentage') {
-            // Calculate the discount based on percentage
             discountedTotal = grandTotal * (1 - (parseFloat(discountValue) / 100));
         } else {
-            // Subtract the discount value from the grand total
             discountedTotal = grandTotal - parseFloat(discountValue);
         }
     } else {
        
     }
 
-   // Get the status of checkboxes and field values
-   var pickUpChecked = document.getElementById('pickUpCheckbox').checked;
-    var deliveryChecked = document.getElementById('deliveryCheckbox').checked;
-    var deliveryAddress = document.getElementById('deliveryAddress').value;
-    var deliveryDate = document.getElementById('deliveryDate').value;
-    var onsitePaymentChecked = document.getElementById('onsitePaymentCheckbox').checked;
-    var onlinePaymentChecked = document.getElementById('onlinePaymentCheckbox').checked;
-
-    // Redirect back to the checkout page with the discounted total, checkout details, and other parameters
+    // Redirect back to the checkout page with the discounted total and checkout details
     var checkoutData = <?= json_encode($_GET['checkoutData']) ?>;
-    window.location.href = "?page=checkout&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>&packCode=<?= $packCode ?>&discountedTotal=" + discountedTotal + "&checkoutData=" + encodeURIComponent(checkoutData) + "&pickUpChecked=" + pickUpChecked + "&deliveryChecked=" + deliveryChecked + "&deliveryAddress=" + deliveryAddress + "&deliveryDate=" + deliveryDate + "&onsitePaymentChecked=" + onsitePaymentChecked + "&onlinePaymentChecked=" + onlinePaymentChecked;
+    window.location.href = "?page=checkoutt&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>&packCode=<?= $packCode ?>&discountedTotal=" + discountedTotal + "&checkoutData=" + encodeURIComponent(checkoutData);
 }
 
 
-
 function displayMessage(message) {
-    // Create a fixed container to display the message at the center of the page
     var messageContainer = document.createElement('div');
     messageContainer.className = 'fixed-container';
     messageContainer.innerHTML = '<p>' + message + '</p>';
     document.body.appendChild(messageContainer);
 
-    // Set a timeout to remove the message container after a few seconds
     setTimeout(function() {
         messageContainer.remove();
     }, 3000);
@@ -194,11 +167,11 @@ function displayMessage(message) {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background-color: #f8d7da; /* Red background color, you can change it to your preference */
-        color: #721c24; /* Text color, you can change it to your preference */
+        background-color: #f8d7da; 
+        color: #721c24; 
         padding: 15px;
-        border: 1px solid #f5c6cb; /* Border color, you can change it to your preference */
+        border: 1px solid #f5c6cb; 
         border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle box shadow */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     }
 </style>

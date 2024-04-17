@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['ac
     $paymentMethod = "on site payment";
     $status = "unpaid";
     $encodedDetails = json_decode(htmlspecialchars_decode($_POST['itemList']), true);
-    $transCode = generateRandomTransID();
+    $transNo = generateRandomTransID();
     // Array to store item names
     $itemNames = array();
 
@@ -39,8 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['ac
     if (!empty($discountedTotal)) {
         $totalAmount = $discountedTotal;
     }
-    $insertQuery = "INSERT INTO transaction (businessCode, branchCode, branchName, transCode, packName, clientID, clientName, mobileNumber, email, busName, itemList, totalAmount, paymentMethod, status, pickupDate, deliveryDate, deliveryAddress )
-                    VALUES ('$businessCode', '$branchCode', '$branchName', '$transCode', '$packName', '$clientID', '$clientName', '$mobileNumber', '$email', '$busName', '$combinedItemNames', '$totalAmount', '$paymentMethod', '$status', '$pDate', '$dDate', '$dAddress')";
+    $insertQuery = "INSERT INTO transaction (businessCode, branchCode, branchName, transNo, packName, clientID, clientName, mobileNumber, email, busName, itemList, totalAmount, paymentMethod, status, pickupDate, deliveryDate, deliveryAddress )
+                    VALUES ('$businessCode', '$branchCode', '$branchName', '$transNo', '$packName', '$clientID', '$clientName', '$mobileNumber', '$email', '$busName', '$combinedItemNames', '$totalAmount', '$paymentMethod', '$status', '$pDate', '$dDate', '$dAddress')";
 
     // Execute the query
     $DB->query($insertQuery);

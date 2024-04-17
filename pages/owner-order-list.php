@@ -47,7 +47,7 @@ $payments = $DB->query("
             ?>
                 <tr>          
                     <th class="bg-transparent border border-white" scope="row"><?= $rowNumber ?></th>
-                    <td class="bg-transparent border border-white" style="width:100px!important"><?= $payment['transCode']?></td>
+                    <td class="bg-transparent border border-white" style="width:100px!important"><?= $payment['transNo']?></td>
                     <td class="bg-transparent border border-white "><?= $payment['clientName']?></td>
                     <td class="bg-transparent border border-white"><?= $payment['email']?></td>
                     <td class="bg-transparent border border-white"><?= $payment['mobileNumber']?></td>

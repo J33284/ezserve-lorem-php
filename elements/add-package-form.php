@@ -8,11 +8,9 @@ $custom = $DB->query("SELECT * FROM custom_category WHERE branchCode = $branchCo
 
 <style>
 
-    /* CSS to initially hide select category and add button */
 .form-select, .input-group-append button, .table, .selection-limit {
     display: none;
 }
-
     .details-group {
         display: none;
         margin-top: 10px;
@@ -222,25 +220,20 @@ $custom = $DB->query("SELECT * FROM custom_category WHERE branchCode = $branchCo
     return newItemGroup;
 }
 
-// Add an event listener to the document body for change events on checkboxes with the class "form-check-input"
 document.body.addEventListener("change", function(event) {
-    // Check if the changed element is a checkbox with the class "form-check-input"
     if (event.target.matches(".form-check-input")) {
         const checkbox = event.target;
         const isChecked = checkbox.checked;
 
-        // Find the parent div containing the select category and add button elements
         const parentDiv = checkbox.closest(".form-check");
         
 
-        // Get the select category and add button elements within the parent div
         const selectElement = parentDiv.querySelector(`select.form-select`);
         const addButton = parentDiv.querySelector(`.input-group-append button`);
         const table = parentDiv.querySelector(`.table`);
         const limit = parentDiv.querySelector(`.selection-limit`);
 
 
-        // If the checkbox is checked (options enabled), show select category and add button
         if (isChecked) {
             selectElement.style.display = "block";
             addButton.style.display = "block";
@@ -248,7 +241,7 @@ document.body.addEventListener("change", function(event) {
             limit.style.display = "block";
 
 
-        } else { // If the checkbox is not checked (options disabled), hide select category and add button
+        } else { 
             selectElement.style.display = "none";
             addButton.style.display = "none";
             table.style.display = "none";
@@ -294,26 +287,22 @@ function addCategory(itemIndex) {
             }
         }
     
-        // Optionally, you can clear the select input after adding the category
         selectElement.selectedIndex = 0;
     }
 }
 
 
-    // Function to check if the category is already present in the table
     function isCategoryDuplicate(tableBody, categoryName) {
         const tableRows = tableBody.querySelectorAll('tr');
         for (let row of tableRows) {
             const cell = row.querySelector('td');
             if (cell && cell.textContent === categoryName) {
-                // Category already exists in the table
                 return true;
             }
         }
         return false;
     }
 
-    // Function to remove the category row from the table
     function removeCategory(button) {
         const row = button.closest('tr');
         row.remove();
@@ -327,7 +316,7 @@ function addCategory(itemIndex) {
         detailsGroup.id = `details_${itemIndex}_${detailsCount}`;
         clearInputValues(detailsGroup);
         button.parentNode.insertBefore(detailsGroup, button.nextSibling);
-        detailsGroup.style.display = 'block';  // Ensure the cloned details group is displayed
+        detailsGroup.style.display = 'block';  
     }
 
     function cloneItemFields() {
@@ -389,7 +378,7 @@ function addCategory(itemIndex) {
 
         if (!perPaxCheckbox.checked && !totalItemsCheckbox.checked) {
             alert('Please check either "Per Pax" or "Total of Items" before saving.');
-            return false; // Prevent form submission
+            return false; 
         }
     }
 </script>
