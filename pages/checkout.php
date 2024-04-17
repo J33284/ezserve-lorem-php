@@ -1,10 +1,9 @@
 
-<!-- <?php
+ <!-- <?php
 
 $checkoutDataJSON = $_GET['checkoutData'];
 $checkoutData = json_decode(urldecode($checkoutDataJSON), true);
 
-// Print all data in JSON format
 echo '<pre>';
 print_r($checkoutData);
 echo '</pre>';  
@@ -84,29 +83,29 @@ if (isset($_GET['checkoutData'])) {
                 <div class="row d-flex align-items-center my-2 px-5">
                     <div class="form-check row d-flex">
                         <div class="col-5">
-                            <input class="form-check-input" type="checkbox" id="pickUpCheckbox" name="pickUpCheckbox" <?php echo isset($_POST['pickUpCheckbox']) && $_POST['pickUpCheckbox'] == 'on' ? 'checked' : ''; ?>>
+                            <input class="form-check-input" type="checkbox" id="pickUpCheckbox" name="pickUpCheckbox">
                             <label class="form-check-label" for="pickUpCheckbox">Pick-up</label>
                         </div>
                         <div class="col-5">
-                            <input type="date" class="form-control" id="pDate" name="pDate" style="display: <?php echo isset($_POST['pickUpCheckbox']) && $_POST['pickUpCheckbox'] == 'on' ? 'block' : 'none'; ?>" value="<?php echo isset($_POST['pDate']) ? $_POST['pDate'] : ''; ?>">
+                            <input type="date" class="form-control" id="pDate" name="pDate" style="display: none;" value="<?php echo isset($_POST['pDate']) ? $_POST['pDate'] : ''; ?>">
                         </div>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="deliveryCheckbox" name="deliveryCheckbox" <?php echo isset($_POST['deliveryCheckbox']) && $_POST['deliveryCheckbox'] == 'on' ? 'checked' : ''; ?>>
+                        <input class="form-check-input" type="checkbox" id="deliveryCheckbox" name="deliveryCheckbox">
                         <label class="form-check-label" for="deliveryCheckbox">Delivery</label>
                     </div>
                 </div>
 
                 <!-- delivery address and delivery date -->
-                <div id="deliveryFields" style="display: <?php echo isset($_POST['deliveryCheckbox']) && $_POST['deliveryCheckbox'] == 'on' ? 'block' : 'none'; ?>">
+                <div id="deliveryFields" style="display: none">
                     <div class="form-group">
                         <label for="deliveryAddress">Delivery Address</label>
-                        <input type="text" class="form-control" id="deliveryAddress" name="deliveryAddress" value="<?php echo isset($_POST['deliveryAddress']) ? $_POST['deliveryAddress'] : ''; ?>">
-                        <div id="map" style="height: 400px; width: 700px;"></div> 
+                        <input type="text" class="form-control" id="deliveryAddress" name="deliveryAddress" >
+                        <div id="map" style="display: none; height: 400px; width: 700px;"></div> 
                     </div>
                     <div class="form-group">
                         <label for="deliveryDate">Delivery Date</label>
-                        <input type="datetime-local" class="form-control" id="deliveryDate" name="deliveryDate" value="<?php echo isset($_POST['deliveryDate']) ? $_POST['deliveryDate'] : ''; ?>">
+                        <input type="datetime-local" class="form-control" id="deliveryDate" name="deliveryDate">
                     </div>
                 </div>
                 </div>
@@ -118,11 +117,11 @@ if (isset($_GET['checkoutData'])) {
                 <h6>Mode of Payment</h6>
                 <div class="row d-flex align-items-center my-2 px-5">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="onsitePaymentCheckbox" name="onsitePayment" <?php echo isset($_POST['onsitePayment']) && $_POST['onsitePayment'] == 'on' ? 'checked' : ''; ?>>
+                        <input class="form-check-input" type="checkbox"  id="onsitePaymentCheckbox" name="onsitePayment">
                         <label class="form-check-label" for="onsitePaymentCheckbox">On-Site Payment</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="onlinePaymentCheckbox" name="onlinePayment" <?php echo isset($_POST['onlinePayment']) && $_POST['onlinePayment'] == 'on' ? 'checked' : ''; ?>>
+                        <input class="form-check-input" type="checkbox" id="onlinePaymentCheckbox" name="onlinePayment">
                         <label class="form-check-label" for="onlinePaymentCheckbox">Online Payment</label>
                     </div>
                 </div>
@@ -183,31 +182,31 @@ if (isset($_GET['checkoutData'])) {
         </table>
 
         <div style="padding: 10px;">
-            <?php
-            $numericTotal = 0;
+    <?php
+    $numericTotal = 0;
 
-            if ($checkoutDetails['pricingType'] === 'per pax') {
-                preg_match('/\d+\.\d+/', $checkoutDetails['initialTotal'], $matches);
-                $initial = $matches[0];
-                preg_match('/\d+\.\d+/', $checkoutDetails['initialTotal'], $matches);
-                $numericTotal = $matches[0];
-            } else {
-                preg_match('/\d+\.\d+/', $checkoutDetails['initialTotal'], $matches);
-                $numericTotal = $matches[0];
-            }
-            ?>
-            <div class="mb-3">
-            <?php if ($checkoutDetails['pricingType'] === 'per pax') : ?>
-                <h5 ><?= '₱' . $initial . ' x ' . $checkoutDetails['quantityMeterValue'] ?></h5>
-                <p class="m-0">Subtotal: <?= '₱' . number_format($numericTotal, 2) ?></p>
-            <?php else : ?>
-                <h5 class="m-0" >Subtotal: <?= '₱' . number_format($numericTotal, 2) ?></h5>
-            <?php endif; ?>
+    if ($checkoutDetails['pricingType'] === 'per pax') {
+        preg_match('/\d+\.\d+/', $checkoutDetails['initialTotal'], $matches);
+        $initial = $matches[0];
+        $numericTotal = $initial * $checkoutDetails['quantityMeterValue'];
+        
+    } else {
+        preg_match('/\d+\.\d+/', $checkoutDetails['initialTotal'], $matches);
+        $numericTotal = $matches[0];
+    }
+    ?>
+    <div class="mb-3">
+        <?php if ($checkoutDetails['pricingType'] === 'per pax') : ?>
+            <h5><?= '₱' . $initial . ' x ' . $checkoutDetails['quantityMeterValue'] ?></h5>
+            <p class="m-0">Subtotal: <?= '₱' . number_format($numericTotal, 2) ?></p>
+        <?php else : ?>
+            <h5 class="m-0">Subtotal: <?= '₱' . number_format($numericTotal, 2) ?></h5>
+        <?php endif; ?>
            
             <?php 
         
-        if ($discountedTotal != 0): ?>
-           
+     
+              if ($discountedTotal != 0): ?>
             <p class="m-0">Discount: <?= '₱' . number_format($numericTotal - $discountedTotal, 2) ?></p>
             </div>
             <h2> Total: <?= '₱' . number_format($discountedTotal, 2) ?></h2>
@@ -215,8 +214,7 @@ if (isset($_GET['checkoutData'])) {
             <?php endif; ?>
             
 
-        <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"  
-            href="?page=voucher&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?= $packCode ?>&grandTotal=<?= $numericTotal ?>&checkoutData=<?= urlencode(json_encode($checkoutDetails)) ?>">
+            <a class="border-top border-bottom voucher-btn row justify-content-center align-items-center" style="height: 60px"  >
             <h6 class="col-10"><i class="bi bi-tags"></i>Apply Voucher</h6>
             <i class="bi bi-chevron-right float end col-2"></i>
         </a>
@@ -229,13 +227,11 @@ if (isset($_GET['checkoutData'])) {
         $businessRow = $businessResult->fetch_assoc();
         $busName = $businessRow['BusName'];
         
-        // Query to select branch name based on branch code
         $selectBranchQuery = "SELECT branchName FROM branches WHERE branchCode = '$branchCode'";
         $branchResult = $DB->query($selectBranchQuery);
         $branchRow = $branchResult->fetch_assoc();
         $branchName = $branchRow['branchName'];
         
-        // Query to select package name based on package code
         $selectPackageQuery = "SELECT packName FROM package WHERE packCode = '$packCode'";
         $packageResult = $DB->query($selectPackageQuery);
         $packageRow = $packageResult->fetch_assoc();
@@ -290,6 +286,8 @@ if (isset($_GET['checkoutData'])) {
 
 <script>
 
+
+
 document.addEventListener('DOMContentLoaded', function () {
     var pickUpCheckbox = document.getElementById('pickUpCheckbox');
     var pickUpDateField = document.getElementById('pDate');
@@ -323,7 +321,187 @@ document.addEventListener('DOMContentLoaded', function () {
     var onlinePaymentCheckbox = document.getElementById('onlinePaymentCheckbox');
     var placeOrderButton = document.getElementById('placeOrderButton');
     var placeOrderButton2 = document.getElementById('placeOrderButton2');
+    var pickUpCheckbox = document.getElementById('pickUpCheckbox');
+    var deliveryCheckbox = document.getElementById('deliveryCheckbox');
+    var deliveryAddressInput = document.getElementById('deliveryAddress');
+    var deliveryDateInput = document.getElementById('deliveryDate');
+    var pDateInput = document.getElementById('pDate');
 
+    // Toggle place order buttons initially
+    togglePlaceOrderButtons();
+
+    // Add event listener for onsitePaymentCheckbox
+    onsitePaymentCheckbox.addEventListener('change', function () {
+        if (onsitePaymentCheckbox.checked) {
+            onlinePaymentCheckbox.checked = false;
+        }
+        togglePlaceOrderButtons();
+    });
+
+    // Add event listener for onlinePaymentCheckbox
+    onlinePaymentCheckbox.addEventListener('change', function () {
+        if (onlinePaymentCheckbox.checked) {
+            onsitePaymentCheckbox.checked = false;
+        }
+        togglePlaceOrderButtons();
+    });
+
+    // Add event listener for pickUpCheckbox
+    pickUpCheckbox.addEventListener('change', function () {
+        if (pickUpCheckbox.checked) {
+            // If Pick-up is selected, clear fields under Delivery
+            deliveryCheckbox.checked = false;
+            clearDeliveryFields();
+        }
+    });
+
+    // Add event listener for deliveryCheckbox
+    deliveryCheckbox.addEventListener('change', function () {
+        if (deliveryCheckbox.checked) {
+            // If Delivery is selected, clear fields under Pick-up
+            pickUpCheckbox.checked = false;
+            clearPickUpField();
+        }
+    });
+
+    function togglePlaceOrderButtons() {
+        if (onsitePaymentCheckbox.checked) {
+            placeOrderButton.style.display = 'none';
+            placeOrderButton2.style.display = 'block';
+        } else {
+            placeOrderButton.style.display = 'block';
+            placeOrderButton2.style.display = 'none';
+        }
+    }
+
+    function clearDeliveryFields() {
+        // Clear delivery address and delivery date fields
+        deliveryAddressInput.value = '';
+        deliveryDateInput.value = '';
+    }
+
+    function clearPickUpField() {
+        // Clear pick-up date field
+        pDateInput.value = '';
+    }
+});
+
+
+
+
+
+
+function submitSecondForm() {
+    // Get the values from the first form
+    var pDateValue = document.getElementById('pDate').value;
+    var deliveryDateValue = document.getElementById('deliveryDate').value;
+    var deliveryAddressValue = document.getElementById('deliveryAddress').value;
+
+    // Set the values for the hidden inputs in the second form
+    document.querySelector('form[action="?action=onsite"] input[name="pDate"]').value = pDateValue;
+    document.querySelector('form[action="?action=onsite"] input[name="deliveryDate"]').value = deliveryDateValue;
+    document.querySelector('form[action="?action=onsite"] input[name="deliveryAddress"]').value = deliveryAddressValue;
+
+    document.querySelector('form[action="?action=payMongo"] input[name="pDateM"]').value = pDateValue;
+    document.querySelector('form[action="?action=payMongo"] input[name="deliveryDateM"]').value = deliveryDateValue;
+    document.querySelector('form[action="?action=payMongo"] input[name="deliveryAddressM"]').value = deliveryAddressValue;
+
+}
+
+    var map;
+    var marker;
+
+    function initializeMap() {
+        if (!map) {
+            map = L.map('map').setView([10.7202, 122.5621], 14);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            marker = L.marker([10.7202, 122.5621], { draggable: true }).addTo(map);
+
+            map.on('click', function (e) {
+                updateAddressInput(e.latlng.lat, e.latlng.lng);
+                marker.setLatLng(e.latlng); 
+            });
+
+            var searchControl = new L.Control.Search({
+                position: 'topright',
+                layer: L.layerGroup([marker]), 
+                propertyName: 'address',
+                zoom: 16,
+                marker: false 
+            });
+
+            searchControl.on('search:locationfound', function(e) {
+                map.setView(e.latlng);
+            });
+
+            map.addControl(searchControl);
+        }
+        var mapDiv = document.getElementById("map");
+        mapDiv.style.display = "block";
+        map.invalidateSize();
+    }
+
+    function updateAddressInput(lat, lng) {
+        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
+            .then(response => response.json())
+            .then(data => {
+                var address = data.display_name;
+                document.getElementById('deliveryAddress').value = address;
+            });
+    }
+
+    document.getElementById('deliveryAddress').addEventListener('click', function () {
+        initializeMap();
+    });
+
+
+    
+   
+
+//For voucher page
+document.addEventListener('DOMContentLoaded', function() {
+        setCheckboxStatusFromURL();
+    });
+
+   function sendData() {
+    var formData = {
+        'pickUpCheckbox': document.getElementById('pickUpCheckbox').checked,
+        'pDate': document.getElementById('pDate').value,
+        'deliveryCheckbox': document.getElementById('deliveryCheckbox').checked,
+        'deliveryAddress': document.getElementById('deliveryAddress').value,
+        'deliveryDate': document.getElementById('deliveryDate').value,
+        'onsitePayment': document.getElementById('onsitePaymentCheckbox').checked,
+        'onlinePayment': document.getElementById('onlinePaymentCheckbox').checked
+    };
+    var encodedFormData = encodeURIComponent(JSON.stringify(formData));
+    var encodedCheckoutDetails = encodeURIComponent('<?= urlencode(json_encode($checkoutDetails)) ?>');
+
+    var url = "?page=voucher&businessCode=" + encodeURIComponent('<?=$businessCode?>') +
+              "&branchCode=" + encodeURIComponent('<?=$branchCode?>') +
+              "&packCode=" + encodeURIComponent('<?=$packCode?>') +
+              "&grandTotal=" + encodeURIComponent('<?=$numericTotal?>') +
+              "&formData=" + encodedFormData +
+              "&checkoutData=" + encodedCheckoutDetails;
+
+    window.location.href = url;
+    }
+    document.querySelector('.voucher-btn').addEventListener('click', function(event) {
+            event.preventDefault(); 
+            sendData(); 
+    });
+    
+
+    document.addEventListener('DOMContentLoaded', function () {
+    var onsitePaymentCheckbox = document.getElementById('onsitePaymentCheckbox');
+    var onlinePaymentCheckbox = document.getElementById('onlinePaymentCheckbox');
+    var placeOrderButton = document.getElementById('placeOrderButton');
+    var placeOrderButton2 = document.getElementById('placeOrderButton2');
+
+    setCheckboxStatusFromURL();
     togglePlaceOrderButtons();
 
     onsitePaymentCheckbox.addEventListener('change', function () {
@@ -351,61 +529,68 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+function setCheckboxStatusFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const formData = JSON.parse(decodeURIComponent(urlParams.get('formData')));
 
-function submitSecondForm() {
-    // Get the values from the first form
-    var pDateValue = document.getElementById('pDate').value;
-    var deliveryDateValue = document.getElementById('deliveryDate').value;
-    var deliveryAddressValue = document.getElementById('deliveryAddress').value;
+    if (formData.pickUpCheckbox) {
+        const pickUpCheckbox = document.getElementById('pickUpCheckbox');
+        if (pickUpCheckbox) {
+            pickUpCheckbox.checked = true;
+            // Show pick-up date input
+            document.getElementById('pDate').style.display = 'block';
+        }
+    }
 
-    // Set the values for the hidden inputs in the second form
-    document.querySelector('form[action="?action=onsite"] input[name="pDate"]').value = pDateValue;
-    document.querySelector('form[action="?action=onsite"] input[name="deliveryDate"]').value = deliveryDateValue;
-    document.querySelector('form[action="?action=onsite"] input[name="deliveryAddress"]').value = deliveryAddressValue;
+    if (formData.deliveryCheckbox) {
+        const deliveryCheckbox = document.getElementById('deliveryCheckbox');
+        if (deliveryCheckbox) {
+            deliveryCheckbox.checked = true;
+            // Show delivery address and date inputs
+            document.getElementById('deliveryAddress').style.display = 'block';
+            document.getElementById('deliveryDate').style.display = 'block';
+        }
+    }
 
-    document.querySelector('form[action="?action=payMongo"] input[name="pDateM"]').value = pDateValue;
-    document.querySelector('form[action="?action=payMongo"] input[name="deliveryDateM"]').value = deliveryDateValue;
-    document.querySelector('form[action="?action=payMongo"] input[name="deliveryAddressM"]').value = deliveryAddressValue;
+    const pDate = formData.pDate;
+    if (pDate) {
+        const pDateInput = document.getElementById('pDate');
+        if (pDateInput) {
+            pDateInput.value = pDate;
+        }
+    }
 
+    const deliveryAddress = formData.deliveryAddress;
+    if (deliveryAddress) {
+        const deliveryAddressInput = document.getElementById('deliveryAddress');
+        if (deliveryAddressInput) {
+            deliveryAddressInput.value = deliveryAddress;
+        }
+    }
+
+    const deliveryDate = formData.deliveryDate;
+    if (deliveryDate) {
+        const deliveryDateInput = document.getElementById('deliveryDate');
+        if (deliveryDateInput) {
+            deliveryDateInput.value = deliveryDate;
+        }
+    }
+
+    if (formData.onsitePayment) {
+        const onsitePaymentCheckbox = document.getElementById('onsitePaymentCheckbox');
+        if (onsitePaymentCheckbox) {
+            onsitePaymentCheckbox.checked = true;
+        }
+    }
+
+    if (formData.onlinePayment) {
+        const onlinePaymentCheckbox = document.getElementById('onlinePaymentCheckbox');
+        if (onlinePaymentCheckbox) {
+            onlinePaymentCheckbox.checked = true;
+        }
+    }
 }
 
-var map;
-    var marker;
-
-    function initializeMap() {
-        if (!map) {
-            map = L.map('map').setView([10.7202, 122.5621], 14);
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-
-            marker = L.marker([10.7202, 122.5621], { draggable: true }).addTo(map);
-
-            map.on('click', function (e) {
-                updateAddressInput(e.latlng.lat, e.latlng.lng);
-                marker.setLatLng(e.latlng); // Update marker position on click
-            });
-        }
-        var mapDiv = document.getElementById("map");
-        mapDiv.style.display = "block";
-        map.invalidateSize();
-    }
-
-    function updateAddressInput(lat, lng) {
-        // Reverse geocode to get address from latlng
-        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
-            .then(response => response.json())
-            .then(data => {
-                var address = data.display_name;
-                document.getElementById('deliveryAddress').value = address;
-            });
-    }
-
-    // Event listener for delivery address field click
-    document.getElementById('deliveryAddress').addEventListener('click', function () {
-        initializeMap();
-    });
 </script>
 
 

@@ -168,15 +168,12 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
         <button id="backButton" class="btn btn-secondary d-none" onclick="backToPackageView()">Back</button>
         <button id="backButton2" class="btn btn-secondary d-none" onclick="backToModify()">Back</button>
         <button id="saveButton" class="btn btn-success d-none" onclick="saveCustomization()">Save</button>
-        <button id="checkoutButton" class="btn btn-primary d-none" >Proceed to Checkout</button>
+        <button id="checkoutButton" class="btn btn-primary d-none" >Checkout</button>
 
     </div>
 
 </div>
-
-    
-
-    <div id="loginAsClientPopup">
+   <div id="loginAsClientPopup">
         <p>You need to log in as a client to proceed.</p>
         <?php if ($clientType === 'business owner') : ?>
             <button onclick="redirectLogout()">Logout</button>
@@ -219,7 +216,6 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
         }
     });
 }
-
 
         // Image Window
         function openModal(imageSrc, itemName) {
@@ -270,11 +266,10 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
 
         }
 
-        var customizationApplied = false; // Add this global variable
+        var customizationApplied = false; 
 
     function customizePerPax() {
         if (!customizationApplied) {
-            // Show the quantity meter container
             document.getElementById('quantityMeterContainer').style.display = 'block';
 
             customizationApplied = true;
@@ -285,7 +280,6 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
             var tableBody = document.querySelector('#package-view table tbody');
             var rows = tableBody.querySelectorAll('tr');
 
-            // Add two new columns with textarea and quantity meter for other pricing types
             rows.forEach(function(row) {
                 var quantityCell = document.createElement('td');
                 var quantityInput = document.createElement('input');
@@ -306,31 +300,26 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
         var rows = tableBody.querySelectorAll('tr');
         var optionButtons = document.querySelectorAll('.options-button');
 
-        // Determine pricing type
         var pricingType = <?php echo json_encode($packageDetails['pricingType']); ?>;
 
         if (pricingType === 'per pax') {
             optionButtons.forEach(function(button) {
-                button.classList.add('d-none'); // Show the "Options" button for each item
+                button.classList.add('d-none');
             });
-            // Hide the quantity meter container
             document.getElementById('quantityMeterContainer').style.display = 'none';
         } else {
             optionButtons.forEach(function(button) {
-                button.classList.add('d-none'); // Show the "Options" button for each item
+                button.classList.add('d-none'); 
             });
-            // Remove the last cell for other pricing types
             rows.forEach(function (row) {
-                row.removeChild(row.lastElementChild); // Remove the last 
+                row.removeChild(row.lastElementChild); 
                 
                 
             });
 
-            // Hide the quantity meter container
             document.getElementById('quantityMeterContainer').style.display = 'none';
         }
 
-        // Hide back button
         document.getElementById('saveButton').classList.add('d-none');
         document.getElementById('customizeButton').classList.remove('d-none');
         document.getElementById('checkoutButton').classList.add('d-none');
@@ -347,10 +336,9 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
     var optionButtons = document.querySelectorAll('.options-button');
 
     optionButtons.forEach(function(button) {
-        button.classList.remove('d-none'); // Show the "Options" button for each item
+        button.classList.remove('d-none'); 
     });
 
-    // Hide the quantity meter container
     document.getElementById('quantityMeterContainer').style.display = 'none';
     
     var checkoutCOnContainer = document.getElementById('checkoutCon');
@@ -360,15 +348,13 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
     InitialTotalCon.classList.remove('d-none');
     document.getElementById('quantityMeterContainer').style.display = 'block';
 
-    // Clear the inserted cells in the package table
     rows.forEach(function(row) {
         var cells = row.querySelectorAll('.options-cell');
         cells.forEach(function(cell) {
-            cell.parentNode.removeChild(cell); // Remove the cell from its parent (row)
+            cell.parentNode.removeChild(cell);
         });
     });
 
-    // Hide back button
     document.getElementById('saveButton').classList.remove('d-none');
     document.getElementById('customizeButton').classList.add('d-none');
     document.getElementById('checkoutButton').classList.add('d-none');
@@ -379,33 +365,27 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
 
 
     function saveCustomization() {
-    // Array to store checked options data
     var checkedOptions = {};
 
-    // Iterate through all checkboxes to identify the checked ones
     var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
     checkboxes.forEach(function(checkbox) {
         var itemName = checkbox.getAttribute('data-item-name');
         var rowId = checkbox.getAttribute('data-item-code');
 
-        // Store checked options data by rowId
         if (!checkedOptions[rowId]) {
             checkedOptions[rowId] = [];
         }
         checkedOptions[rowId].push(itemName);
     });
 
-     // Update the package table to display checked options
      for (var rowId in checkedOptions) {
         var optionsHtml = '<b>Selected Item/s:</b><br>' + checkedOptions[rowId].join('<br>'); 
         var row = document.getElementById('packageRow_' + rowId); 
-        var checkedOptionsCell = row.insertCell(-1); // new cell at the end of the row
-        checkedOptionsCell.innerHTML = optionsHtml; // checked options HTML into the cell
+        var checkedOptionsCell = row.insertCell(-1); 
+        checkedOptionsCell.innerHTML = optionsHtml; 
         checkedOptionsCell.classList.add('options-cell'); 
     }
 
-    
-     // Hide all option buttons
      var optionButtons = document.querySelectorAll('.options-button');
         optionButtons.forEach(function(button) {
             button.classList.add('d-none');
@@ -415,14 +395,11 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
     var pricingType = packageDetails['pricingType'];
     var total = 0;
 
-    // When save is clicked
     if (pricingType === 'per pax') {
-        // Multiply the total by the number of persons (quantity meter)
         var quantityMeterValue = document.getElementById('quantityMeter').value;
         total = parseFloat(packageDetails['amount']) * parseFloat(quantityMeterValue);
     }
 
-    // Format the total with commas
     var formattedTotal = total.toLocaleString('en-US', { style: 'currency', currency: 'PHP' });
 
     document.getElementById('checkoutTotal').textContent = 'Total: ' + formattedTotal;
@@ -440,7 +417,6 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
     document.getElementById('backButton2').classList.remove('d-none');
 }
 
-//for checkout button
 document.getElementById('checkoutButton').addEventListener('click', function() {
     var packageTable = document.getElementById('package-view').querySelector('table');
     var packageRows = packageTable.querySelectorAll('tr');
@@ -481,7 +457,6 @@ document.getElementById('checkoutButton').addEventListener('click', function() {
         packageDetails.push(rowData);
     });
 
-    // Convert package details array to JSON
     var checkoutData = {
         'packageDetails': packageDetails,
         'pricingType': pricingType,
@@ -493,15 +468,12 @@ document.getElementById('checkoutButton').addEventListener('click', function() {
     var clientType = <?php echo json_encode($clientType); ?>;
 
     if (clientType === 'business owner' || clientType === null) {
-        // Display the pop-up container
         document.getElementById('loginAsClientPopup').style.display = 'block';
 
-        // Set a timeout to hide the pop-up after 3 seconds
         setTimeout(function () {
             document.getElementById('loginAsClientPopup').style.display = 'none';
         }, 2000);        
     } else {
-    // Redirect to checkout page with package details in query parameter
     window.location.href = '?page=checkout&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&packCode=<?=$packCode?>&checkoutData=' + encodeURIComponent(checkoutDataJSON);
     }
 });
@@ -509,12 +481,10 @@ document.getElementById('checkoutButton').addEventListener('click', function() {
 
 
     function redirectLogin() {
-        // Redirect to login page
         window.location.href = '?page=login';
     }
 
     </script>
-    <!-- Styles -->
     <style>
         @media (min-width: 1000px) {
             .package-view {
@@ -533,7 +503,6 @@ document.getElementById('checkoutButton').addEventListener('click', function() {
             }
         }
 
-        /* Additional styling for the modal */
         .modal {
             display: none;
             position: fixed;
@@ -572,8 +541,8 @@ document.getElementById('checkoutButton').addEventListener('click', function() {
             left: 50%;
             transform: translate(-50%, -50%);
             padding: 20px;
-            background-color: #001f3f; /* Dark blue background color */
-            color: #ffffff; /* White text color */
+            background-color: #001f3f;
+            color: #ffffff; 
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
@@ -583,8 +552,8 @@ document.getElementById('checkoutButton').addEventListener('click', function() {
         #loginAsClientPopup button {
             margin-top: 10px;
             padding: 10px 15px;
-            background-color: #0074cc; /* Blue button color */
-            color: #ffffff; /* White text color */
+            background-color: #0074cc; 
+            color: #ffffff; 
             border: none;
             border-radius: 5px;
             cursor: pointer;

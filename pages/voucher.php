@@ -102,10 +102,8 @@ $hasVouchers = $voucherResult->num_rows > 0;
 
 <script>
 function applyVoucher(voucherCode, vpackCode, voucherType, discountType, discountValue, grandTotal, packCode, startDate, endDate) {
-    // Get the current date in the format YYYY-MM-DD
     var currentDate = new Date().toISOString().split('T')[0];
 
-    // Check if the current date is within the voucher validity range
     if (currentDate < startDate || currentDate > endDate) {
         displayMessage('This voucher is not currently valid.');
         return;
@@ -142,10 +140,9 @@ function applyVoucher(voucherCode, vpackCode, voucherType, discountType, discoun
     } else {
        
     }
-
-    // Redirect back to the checkout page with the discounted total and checkout details
+    var formData = JSON.parse(decodeURIComponent('<?= $_GET['formData'] ?>'));
     var checkoutData = <?= json_encode($_GET['checkoutData']) ?>;
-    window.location.href = "?page=checkoutt&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>&packCode=<?= $packCode ?>&discountedTotal=" + discountedTotal + "&checkoutData=" + encodeURIComponent(checkoutData);
+    window.location.href = "?page=checkout&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>&packCode=<?= $packCode ?>&discountedTotal=" + discountedTotal + "&checkoutData=" + encodeURIComponent(checkoutData)+ "&formData=" + encodeURIComponent(JSON.stringify(formData));
 }
 
 
