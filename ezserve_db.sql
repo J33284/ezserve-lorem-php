@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 16, 2024 at 10:09 AM
+-- Generation Time: Apr 17, 2024 at 01:59 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -430,7 +430,7 @@ CREATE TABLE `transaction` (
   `busName` varchar(255) NOT NULL,
   `branchName` varchar(255) NOT NULL,
   `packName` varchar(255) NOT NULL,
-  `transCode` varchar(100) NOT NULL,
+  `transNo` varchar(100) NOT NULL,
   `clientName` varchar(200) NOT NULL,
   `email` varchar(200) NOT NULL,
   `mobileNumber` bigint(255) NOT NULL,
@@ -439,17 +439,10 @@ CREATE TABLE `transaction` (
   `itemList` varchar(10000) NOT NULL,
   `paymentMethod` varchar(50) NOT NULL,
   `pickupDate` varchar(100) NOT NULL,
-  `deliveryDate` varchar(100) NOT NULL,
+  `deliveryDate` datetime NOT NULL,
   `deliveryAddress` varchar(100) NOT NULL,
   `status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `transaction`
---
-
-INSERT INTO `transaction` (`transID`, `clientID`, `businessCode`, `branchCode`, `busName`, `branchName`, `packName`, `transCode`, `clientName`, `email`, `mobileNumber`, `totalAmount`, `paymentDate`, `itemList`, `paymentMethod`, `pickupDate`, `deliveryDate`, `deliveryAddress`, `status`) VALUES
-(138, 33, 24, 33, 'Bahay Kusina De Tangra', 'Lambunao Branch', 'Package 1', 'EzServe_13552801636923390600', 'Alisah Bolivar', 'bvrlisah@gmail.com', 9564200614, 120, '2024-04-15', '', 'on site payment', '2024-04-30', '', '', 'unpaid');
 
 -- --------------------------------------------------------
 
@@ -693,7 +686,7 @@ ALTER TABLE `permits`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `transID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
+  MODIFY `transID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
 
 --
 -- AUTO_INCREMENT for table `voucher`

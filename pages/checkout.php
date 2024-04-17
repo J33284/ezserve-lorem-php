@@ -546,9 +546,7 @@ function setCheckboxStatusFromURL() {
         const deliveryCheckbox = document.getElementById('deliveryCheckbox');
         if (deliveryCheckbox) {
             deliveryCheckbox.checked = true;
-            // Show delivery address and date inputs
-            document.getElementById('deliveryAddress').style.display = 'block';
-            document.getElementById('deliveryDate').style.display = 'block';
+            document.getElementById('deliveryFields').style.display = 'block';
         }
     }
 
