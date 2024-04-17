@@ -91,7 +91,6 @@ $result = $DB->query($sql);
 
                 <?php
                 $businessCode = $row['businessCode'];
-                // Fetch branch details from the branches table based on the businessCode
                 $branchQuery = "SELECT * FROM branches WHERE businessCode = $businessCode";
                 $branchResult = $DB->query($branchQuery);
 
@@ -112,57 +111,57 @@ $result = $DB->query($sql);
     </div>
 
 
-<!-- Add this in the "add-branch" section -->
-<div class="add-branch" id="branch<?= $businessCode ?>" style="display: none;">
-    <div class="branch-info card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" style="height: auto">
-        <div class="d-flex justify-content-between p-4">
-            <h2>Branch Information</h2>
-        </div>
-        <form method="post" action="?action=businessAction" enctype="multipart/form-data">
-            <input type="hidden" name="add_branch" value="<?= $row['businessCode'] ?>">
-            <div class="column d-flex row justify-content-between">
-                <div class="col-md-7 flex-column">
-                    <div class="mb-3">
-                    <h6>Branch Name</h6>
-                    <input type="text" class="about-field form-control" name="data[branchName]" placeholder="Tell something about your business"  style="height: 50px;" required>
-                    </div>
-                    <div class="mb-3">
-                    <h6>Address</h6>
-                    <input type="text" class="about-field form-control" name="data[address]" placeholder="Bldg No., Street, Brgy., City/Province" style="height: 50px;" required>
-                    </div>
-                    
-
-                    <!-- Coordinates -->
-                    <h6>Coordinates</h6>
-                    <div>
-                        <input type="text" class="about-field form-control" name="data[coordinates]" id="coordinatesInputAddBranch" placeholder="Enter Branch Map Location"  style="height: 50px;" required>
-                        <button type="button" class="btn btn-primary mt-2" onclick="openMapInAddBranch()">Browse Map</button>
-                        <div id="mapAddBranch" style="display: none; height: 400px; width: 700px;"></div>
-                    </div>
-                </div>
-
-                <div class="col-md-5">
-                    <div class="mb-4 d-flex justify-content-center">
-                        <img id="imageAddBranch"  class="rounded-4" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg" alt="business image" >
-                    </div>
-
-                    <div class="d-flex justify-content-center">
-                        
-                            <label class="form-label text-white m-1" for="addBranchImage"></label>
-                            <input type="file" class="form-control w-50" id="addBranchImage" name="addBranchImage" accept="image/*" onchange="previewAddBranch(this)">
-                        
-                    </div>
-                    <br>
-                </div>
-
-                <div class=" p-4 d-flex ">
-                    <button type="submit" button class="btn btn-primary" name=createBranch id="createBranch<?= $branchData['branchCode'] ?>">Create Branch</button>
-                    <button type="button" button class="btn btn-secondary mx-3" name=cancelCreate id="cancelCreate<?= $branchData['branchCode'] ?>" onclick="hideAddBranch('<?= $businessCode ?>')">Cancel</button>
-                </div>
+    <!-- Add this in the "add-branch" section -->
+    <div class="add-branch" id="branch<?= $businessCode ?>" style="display: none;">
+        <div class="branch-info card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" style="height: auto">
+            <div class="d-flex justify-content-between p-4">
+                <h2>Branch Information</h2>
             </div>
-        </form>
+            <form method="post" action="?action=businessAction" enctype="multipart/form-data">
+                <input type="hidden" name="add_branch" value="<?= $row['businessCode'] ?>">
+                <div class="column d-flex row justify-content-between">
+                    <div class="col-md-7 flex-column">
+                        <div class="mb-3">
+                        <h6>Branch Name</h6>
+                        <input type="text" class="about-field form-control" name="data[branchName]" placeholder="Tell something about your business"  style="height: 50px;" required>
+                        </div>
+                        <div class="mb-3">
+                        <h6>Address</h6>
+                        <input type="text" class="about-field form-control" name="data[address]" placeholder="Bldg No., Street, Brgy., City/Province" style="height: 50px;" required>
+                        </div>
+                        
+
+                        <!-- Coordinates -->
+                        <h6>Coordinates</h6>
+                        <div>
+                            <input type="text" class="about-field form-control" name="data[coordinates]" id="coordinatesInputAddBranch" placeholder="Enter Branch Map Location"  style="height: 50px;" required>
+                            <button type="button" class="btn btn-primary mt-2" onclick="openMapInAddBranch()">Browse Map</button>
+                            <div id="mapAddBranch" style="display: none; height: 400px; width: 700px;"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="mb-4 d-flex justify-content-center">
+                            <img id="imageAddBranch"  class="rounded-4" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg" alt="business image" >
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+                            
+                                <label class="form-label text-white m-1" for="addBranchImage"></label>
+                                <input type="file" class="form-control w-50" id="addBranchImage" name="addBranchImage" accept="image/*" onchange="previewAddBranch(this)">
+                            
+                        </div>
+                        <br>
+                    </div>
+
+                    <div class=" p-4 d-flex ">
+                        <button type="submit" button class="btn btn-primary" name=createBranch id="createBranch<?= $branchData['branchCode'] ?>">Create Branch</button>
+                        <button type="button" button class="btn btn-secondary mx-3" name=cancelCreate id="cancelCreate<?= $branchData['branchCode'] ?>" onclick="hideAddBranch('<?= $businessCode ?>')">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
 
 

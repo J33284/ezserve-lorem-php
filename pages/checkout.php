@@ -13,6 +13,7 @@ echo '</pre>';
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
+
 <!-- Leaflet Search Plugin -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet-search/dist/leaflet-search.min.css" />
 <script src="https://unpkg.com/leaflet-search/dist/leaflet-search.min.js"></script>
@@ -78,58 +79,56 @@ if (isset($_GET['checkoutData'])) {
             </div>
 
             <!-- Pick-up and Delivery Information -->
-<div class="delivery mb-3">
-    <h4 class="p-3 mb-4" style="border-bottom: 3px solid #fb7e00;">2. Delivery</h4>
-    <div class="row d-flex align-items-center my-2 px-5">
-        <div class="form-check row d-flex">
-            <div class="col-5">
-                <input class="form-check-input" type="checkbox" id="pickUpCheckbox" name="pickUpCheckbox" <?php echo isset($_POST['pickUpCheckbox']) && $_POST['pickUpCheckbox'] == 'on' ? 'checked' : ''; ?>>
-                <label class="form-check-label" for="pickUpCheckbox">Pick-up</label>
-            </div>
-            <div class="col-5">
-                <input type="date" class="form-control" id="pDate" name="pDate" style="display: <?php echo isset($_POST['pickUpCheckbox']) && $_POST['pickUpCheckbox'] == 'on' ? 'block' : 'none'; ?>" value="<?php echo isset($_POST['pDate']) ? $_POST['pDate'] : ''; ?>">
-            </div>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="deliveryCheckbox" name="deliveryCheckbox" <?php echo isset($_POST['deliveryCheckbox']) && $_POST['deliveryCheckbox'] == 'on' ? 'checked' : ''; ?>>
-            <label class="form-check-label" for="deliveryCheckbox">Delivery</label>
-        </div>
-    </div>
+            <div class="delivery mb-3">
+                <h4 class="p-3 mb-4" style="border-bottom: 3px solid #fb7e00;">2. Delivery</h4>
+                <div class="row d-flex align-items-center my-2 px-5">
+                    <div class="form-check row d-flex">
+                        <div class="col-5">
+                            <input class="form-check-input" type="checkbox" id="pickUpCheckbox" name="pickUpCheckbox" <?php echo isset($_POST['pickUpCheckbox']) && $_POST['pickUpCheckbox'] == 'on' ? 'checked' : ''; ?>>
+                            <label class="form-check-label" for="pickUpCheckbox">Pick-up</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="date" class="form-control" id="pDate" name="pDate" style="display: <?php echo isset($_POST['pickUpCheckbox']) && $_POST['pickUpCheckbox'] == 'on' ? 'block' : 'none'; ?>" value="<?php echo isset($_POST['pDate']) ? $_POST['pDate'] : ''; ?>">
+                        </div>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="deliveryCheckbox" name="deliveryCheckbox" <?php echo isset($_POST['deliveryCheckbox']) && $_POST['deliveryCheckbox'] == 'on' ? 'checked' : ''; ?>>
+                        <label class="form-check-label" for="deliveryCheckbox">Delivery</label>
+                    </div>
+                </div>
 
-    <!-- Hidden fields for delivery address and delivery date -->
-    <div id="deliveryFields" style="display: <?php echo isset($_POST['deliveryCheckbox']) && $_POST['deliveryCheckbox'] == 'on' ? 'block' : 'none'; ?>">
-        <div id="map" style="height: 400px; width: 100%;"></div> 
-        <!-- Add your delivery address and delivery date fields here -->
-        <div class="form-group">
-            <label for="deliveryAddress">Delivery Address</label>
-            <input type="text" class="form-control" id="deliveryAddress" name="deliveryAddress" value="<?php echo isset($_POST['deliveryAddress']) ? $_POST['deliveryAddress'] : ''; ?>">
-        </div>
-        <div class="form-group">
-            <label for="deliveryTime">Delivery Time</label>
-            <input type="time" class="form-control" id="deliveryTime" name="deliveryTime" value="<?php echo isset($_POST['deliveryTime']) ? $_POST['deliveryTime'] : ''; ?>">
-        </div>
-        <div class="form-group">
-            <label for="deliveryDate">Delivery Date</label>
-            <input type="date" class="form-control" id="deliveryDate" name="deliveryDate" value="<?php echo isset($_POST['deliveryDate']) ? $_POST['deliveryDate'] : ''; ?>">
-        </div>
-    </div>
-</div>
+                <!-- delivery address and delivery date -->
+                <div id="deliveryFields" style="display: <?php echo isset($_POST['deliveryCheckbox']) && $_POST['deliveryCheckbox'] == 'on' ? 'block' : 'none'; ?>">
+                    <div class="form-group">
+                        <label for="deliveryAddress">Delivery Address</label>
+                        <input type="text" class="form-control" id="deliveryAddress" name="deliveryAddress" value="<?php echo isset($_POST['deliveryAddress']) ? $_POST['deliveryAddress'] : ''; ?>">
+                        <div id="map" style="height: 400px; width: 700px;"></div> 
+                    </div>
+                    <div class="form-group">
+                        <label for="deliveryDate">Delivery Date</label>
+                        <input type="datetime-local" class="form-control" id="deliveryDate" name="deliveryDate" value="<?php echo isset($_POST['deliveryDate']) ? $_POST['deliveryDate'] : ''; ?>">
+                    </div>
+                </div>
+                </div>
 
-<!-- Payment Information -->
-<div class="payment">
-    <h4 class=" p-3 mb-4" style=" border-bottom: 3px solid #fb7e00;">3. Payment</h4>
-    <h6>Mode of Payment</h6>
-    <div class="row d-flex align-items-center my-2 px-5">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="onsitePaymentCheckbox" name="onsitePayment" <?php echo isset($_POST['onsitePayment']) && $_POST['onsitePayment'] == 'on' ? 'checked' : ''; ?>>
-            <label class="form-check-label" for="onsitePaymentCheckbox">On-Site Payment</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="onlinePaymentCheckbox" name="onlinePayment" <?php echo isset($_POST['onlinePayment']) && $_POST['onlinePayment'] == 'on' ? 'checked' : ''; ?>>
-            <label class="form-check-label" for="onlinePaymentCheckbox">Online Payment</label>
-        </div>
-    </div>
-</div>
+
+            <!-- Payment Information -->
+            <div class="payment">
+                <h4 class=" p-3 mb-4" style=" border-bottom: 3px solid #fb7e00;">3. Payment</h4>
+                <h6>Mode of Payment</h6>
+                <div class="row d-flex align-items-center my-2 px-5">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="onsitePaymentCheckbox" name="onsitePayment" <?php echo isset($_POST['onsitePayment']) && $_POST['onsitePayment'] == 'on' ? 'checked' : ''; ?>>
+                        <label class="form-check-label" for="onsitePaymentCheckbox">On-Site Payment</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="onlinePaymentCheckbox" name="onlinePayment" <?php echo isset($_POST['onlinePayment']) && $_POST['onlinePayment'] == 'on' ? 'checked' : ''; ?>>
+                        <label class="form-check-label" for="onlinePaymentCheckbox">Online Payment</label>
+                    </div>
+                </div>
+            </div>
+            </div>
+
 
         <!-- Order List -->
         <div class="order-list col-4 card border-0 rounded-3 shadow p-3 mb-5 bg-white rounded" style="height: auto; margin-left: 50px">
@@ -320,38 +319,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Get references to the checkboxes and buttons
     var onsitePaymentCheckbox = document.getElementById('onsitePaymentCheckbox');
     var onlinePaymentCheckbox = document.getElementById('onlinePaymentCheckbox');
     var placeOrderButton = document.getElementById('placeOrderButton');
     var placeOrderButton2 = document.getElementById('placeOrderButton2');
 
-    // Initial check on page load
     togglePlaceOrderButtons();
 
-    // Add event listeners for checkbox changes
     onsitePaymentCheckbox.addEventListener('change', function () {
         if (onsitePaymentCheckbox.checked) {
-            onlinePaymentCheckbox.checked = false; // Uncheck online payment if onsite is checked
+            onlinePaymentCheckbox.checked = false; 
         }
         togglePlaceOrderButtons();
     });
 
     onlinePaymentCheckbox.addEventListener('change', function () {
         if (onlinePaymentCheckbox.checked) {
-            onsitePaymentCheckbox.checked = false; // Uncheck onsite payment if online is checked
+            onsitePaymentCheckbox.checked = false; 
         }
         togglePlaceOrderButtons();
     });
 
-    // Function to toggle the "Place Order" buttons visibility based on checkbox state
     function togglePlaceOrderButtons() {
         if (onsitePaymentCheckbox.checked) {
-            // Onsite payment is checked, show placeOrderButton2 and hide placeOrderButton
             placeOrderButton.style.display = 'none';
             placeOrderButton2.style.display = 'block';
         } else {
-            // Onsite payment is not checked, show placeOrderButton and hide placeOrderButton2
             placeOrderButton.style.display = 'block';
             placeOrderButton2.style.display = 'none';
         }
@@ -376,54 +369,43 @@ function submitSecondForm() {
 
 }
 
-    // Initialize the map within Iloilo range
-    var map = L.map('map').setView([10.7202, 122.5621], 13); // Iloilo coordinates [latitude, longitude]
-
-    // Add the base tile layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    // Add a marker layer
+var map;
     var marker;
 
-    // Add Leaflet Search Plugin
-    var searchControl = new L.Control.Search({
-        position: 'topright',
-        layer: L.layerGroup().addTo(map),
-        propertyName: 'display_name', // Specify which property to search
-        marker: false,
-        moveToLocation: function(latlng, title, map) {
-            // Set the map view to the specified location
-            map.setView(latlng, 13);
-        }
-    });
-    map.addControl(searchControl);
+    function initializeMap() {
+        if (!map) {
+            map = L.map('map').setView([10.7202, 122.5621], 14);
 
-    // Add event listener to the map
-    map.on('click', function(e) {
-        // Remove previous marker
-        if (marker) {
-            map.removeLayer(marker);
-        }
-        // Add new marker
-        marker = L.marker(e.latlng).addTo(map);
-        // Reverse geocode to get address
-        reverseGeocode(e.latlng);
-    });
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
 
-    // Function to reverse geocode and update address field
-    function reverseGeocode(latlng) {
-        fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + latlng.lat + '&lon=' + latlng.lng)
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(data) {
-                // Update delivery address field
-                document.getElementById('deliveryAddress').value = data.display_name;
+            marker = L.marker([10.7202, 122.5621], { draggable: true }).addTo(map);
+
+            map.on('click', function (e) {
+                updateAddressInput(e.latlng.lat, e.latlng.lng);
+                marker.setLatLng(e.latlng); // Update marker position on click
+            });
+        }
+        var mapDiv = document.getElementById("map");
+        mapDiv.style.display = "block";
+        map.invalidateSize();
+    }
+
+    function updateAddressInput(lat, lng) {
+        // Reverse geocode to get address from latlng
+        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
+            .then(response => response.json())
+            .then(data => {
+                var address = data.display_name;
+                document.getElementById('deliveryAddress').value = address;
             });
     }
 
+    // Event listener for delivery address field click
+    document.getElementById('deliveryAddress').addEventListener('click', function () {
+        initializeMap();
+    });
 </script>
 
 

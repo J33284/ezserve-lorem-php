@@ -27,7 +27,6 @@
                 <tr>
                     <th scope="col">Business Name</th>
                     <th scope="col">Branch Name</th>
-                    <th scope="col">Voucher Name</th>
                     <th scope="col">Voucher Code</th>
                     <th scope="col">Voucher Type</th>
                     <th scope="col">Discount Value</th>
