@@ -18,8 +18,9 @@ $result = $DB->query($sql);
     
 <div class="d-flex justify-content-between p-3">
         <h1>My Business</h1>
-        <a href="?page=bus-register" id="registerButton" class=" float-end mt-4 btn btn-md btn-outline-dark justify-content-center align-items-center d-flex" style="height: 2em">
-            <i class="bi bi-plus-square " >Register your business here!</i>
+        <a href="?page=bus-register" id="registerButton" class=" float-end mt-4 btn btn-md btn-primary justify-content-center align-items-center d-flex" style="height: 2em">
+        <i class="bi bi-plus" style="font-size: 24px; "></i>
+                <span class="mt-1">Register your business here!</span>
         </a>
     </div>
 

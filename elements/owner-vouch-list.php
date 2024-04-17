@@ -9,7 +9,8 @@
         <div class="d-flex justify-content-between mb-3">
             <div class="d-flex">
             </div>
-            <a href="?page=create_voucher" class="btn btn-primary">Add Voucher</a>
+            <a href="?page=create_voucher" class="btn btn-primary"><i class="bi bi-plus" style="font-size: 24px; "></i>
+                <span class="mt-1">Add Voucher</span></a>
         </div>
     </div>
     <?php
