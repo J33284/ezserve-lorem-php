@@ -70,9 +70,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                            
                              </td>
                         <td class="bg-transparent border border-white " style="width: 200px;">
-                        <button class="btn btn-sm btn-primary " data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccount<?= $account['ownerID'] ?>"><i class="bi bi-eye"></i> View</button>
+                        <button class="btn btn-sm btn-primary " data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccount<?= $account['ownerID'] ?>"><i class="bi bi-eye-fill"></i> View</button>
                        
-                            <button type="button" class="btn btn-sm btn-danger " data-bs-toggle="offcanvas" data-bs-target="#offcanvasDelete<?= $account['ownerID'] ?>"> <i class="bi bi-trash"></i><span> Delete</span></button>
+                            <button type="button" class="btn btn-sm btn-danger " data-bs-toggle="offcanvas" data-bs-target="#offcanvasDelete<?= $account['ownerID'] ?>"><i class="bi bi-trash-fill"></i><span> Delete</span></button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
