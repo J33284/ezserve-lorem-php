@@ -15,7 +15,7 @@ $payments = $DB->query("
 
 <?= element('owner-side-nav') ?>
 
-<div id="owner-order-list" class="owner-order-list" style="margin: 120px 0 0 15%">
+<div id="owner-order-list" class="owner-order-list" style="margin: 120px 0 0 21%">
     <div class="d-flex justify-content-between p-3">
         <h1 class="page-title">Client Orders</h1>
     </div>
@@ -25,7 +25,7 @@ $payments = $DB->query("
             <i class="bi bi-search"></i>
         </span>
     </div> -->
-<div  style="overflow-x:auto; height: 100vh; width:auto;">
+<div  style="overflow-x:auto; height: 100vh; width:75vw;">
     <table class="table table-hover table-responsive custom-table ">
         <thead class="table-dark">
             <tr>

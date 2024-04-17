@@ -71,11 +71,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <td class="bg-transparent border border-white d-flex " style="width:220px;">
                     <form action="?page=business-branches" method="post">
                         <input type="hidden" name="businessCode" value="<?= $business['businessCode'] ?>">
-                        <button type="submit" class="btn btn-sm btn-primary view-package m-2" data-business-code="<?= $business['businessCode'] ?>"> <i class="bi bi-eye"></i>
+                        <button type="submit" class="btn btn-sm btn-primary view-package m-2" data-business-code="<?= $business['businessCode'] ?>"> <i class="bi bi-eye-fill"></i>
                             View
                         </button>
                     </form>
-                    <button type="button" class="btn btn-sm btn-danger m-2 " data-bs-toggle="offcanvas" data-bs-target="#offcanvasDelete<?= $business['businessCode'] ?>"> <i class="bi bi-trash"></i><span> Delete</span></button>
+                    <button type="button" class="btn btn-sm btn-danger m-2 " data-bs-toggle="offcanvas" data-bs-target="#offcanvasDelete<?= $business['businessCode'] ?>"> <i class="bi bi-trash-fill"></i><span> Delete</span></button>
                     
                 </td>
             </tr>

@@ -9,21 +9,29 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
 $categoriesQuery = "SELECT * FROM custom_category WHERE branchCode = '$branchCode'";
 $categoriesResult = $DB->query($categoriesQuery);
 ?>
-
-<?php if ($categoriesResult->num_rows > 0): ?>
-    <div class="package-details" id="packageDetails<?= $branchCode ?>" style="height: 100vh; margin: 120px 0 0 23%">
-    <div class="d-flex justify-content-between align-items-center mb-4" >
+<div style="margin: 120px 0 0 20%; width: 70vw">
+    <div class="justify-content-center align-items-center" >
+        
+            <div class="d-flex justify-content-between align-items-center mb-4" >
                 <div class="d-flex"> 
                     <a href="?page=choose_package&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class=" mx-3 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
                     <i class="bi bi-arrow-left"></i>
                 </a>
                 <h1>
-                    Custom Package
+                    Create Custom Package
                     
                 </h1>
                 </div>
-</div>
-        <div class="d-flex align-items-center" >
+                <a href="?page=add_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="  btn btn-md btn btn-primary">
+                <i class="bi bi-plus" style="font-size: 24px; "></i>
+                <span>Add Category</span>
+    </a>
+            </div>
+
+       
+<?php if ($categoriesResult->num_rows > 0): ?>
+    
+        <div>
             <div class="package-details overflow-auto col-5 card bg-opacity-25 bg-white mx-4 px-4" style="height: 100vh; width: 70vw;">
                         <div class="text-end mb-3">
                             <a href="?page=add_custom_package&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class="btn-edit btn btn-primary btn-md text-white mt-4">
@@ -133,25 +141,20 @@ $categoriesResult = $DB->query($categoriesQuery);
                         </div>
                     <?php } ?>
                     
-                </div>
-            </div>
-        </div>
-    </div>
+                
+          
+    
 <?php else: ?>
    
     <div class="package-details" id="packageDetails<?= $branchCode ?>" style="display: block;">
-    <div class="d-flex align-items-center" style="height: 200px; margin-top: 300px; margin-left: 390px; width: 140%;">
-      <div class="package-details col-5 card py-5 mx-4 px-4">
+    <div class="d-flex align-items-center justify-content-center" style="margin-top: 100px"  >
+            <div class="" style="height: 200px; ;">
+      <div class="package-details card py-5 mx-4 px-4" style="width: 50vw">
       <h2><span style="color: red;">&#9888;</span> No Records Found</h2>
-        
-          <div >
-            <a href="?page=add_custom_package&businessCode=<?= $businessCode ?>&branchCode=<?= $branchCode ?>" class="btn-edit btn btn-primary btn-lg mt-4">
-              <i class="bi bi-plus-square"></i>
-              <span>Create Custom Items</span>
-            </a>
-          </div>
-
-      </div>
+          
+</div></div>
+</div>
+      </div></div>
     </div>
   </div>
 <?php endif; ?>
