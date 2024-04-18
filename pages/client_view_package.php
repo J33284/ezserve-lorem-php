@@ -202,7 +202,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
     }
 
     function redirectLogout() {
-        window.location.href = '?page=logout';
+        window.location.href = '?action=logout';
     }
 
    function handleCheckboxClick(itemCode, optionLimit) {

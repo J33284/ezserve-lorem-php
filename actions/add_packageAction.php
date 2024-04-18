@@ -6,8 +6,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $packageDescription = $_POST['packageDescription'];
     $businessCode = $_POST['businessCode'];
     $branchCode = $_POST['branchCode'];
-    $categories = $_POST['categories'];
-    $customCategoryCode = $_POST['customCategoryCode'];
+    $optionLimit = $_POST['limit'];
+
 
 
     $pricingType = '';
@@ -60,27 +60,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $updateItemStatement->execute([$quantity, $unit, $price, $itemCode]);
             }
 
-            foreach ($categories as $itemIndex => $categoryList) {
-                // $itemIndex corresponds to the index of the item group
-                // $categoryList is an array containing the selected categories for that item
-                
-                // Count the number of categories selected for this item
-                $categoryCount = count($categoryList);
-                
-                // Loop through each selected category
-                for ($categoryIndex = 0; $categoryIndex < $categoryCount; $categoryIndex++) {
-                    $categoryName = $categoryList[$categoryIndex];
-                    $customCategoryCode = $_POST['customCategoryCode'][$itemIndex][$categoryIndex]; // Retrieve the custom category code
-                    
-                    // Check if the category name is not empty before inserting
-                    if (!empty($categoryName)) {
-                        // Insert category information into the 'item_option' table
-                        $categoryInsertQuery = "INSERT INTO item_option (optionName, customCategoryCode, itemCode) VALUES (?, ?, ?)";
-                        $categoryStatement = $DB->prepare($categoryInsertQuery);
-                        $categoryStatement->execute([$categoryName, $customCategoryCode, $itemCode]);
-                    }
+            $categoryList = $_POST['categories'][$itemIndex];
+            $customCategoryCodeList = $_POST['customCategoryCode'][$itemIndex];
+            $optionLimitList = $_POST['limit'][$itemIndex]; // New: Retrieve option limits for categories
+            $categoryCount = count($categoryList);
+    
+            // Loop through each selected category for the current item
+            for ($categoryIndex = 0; $categoryIndex < $categoryCount; $categoryIndex++) {
+                $categoryName = $categoryList[$categoryIndex];
+                $customCategoryCode = $customCategoryCodeList[$categoryIndex]; 
+                $optionLimit = $optionLimitList[$categoryIndex]; 
+    
+                // Check if the category name is not empty before inserting
+                if (!empty($categoryName)) {
+                    // Insert category information into the 'item_option' table
+                    $categoryInsertQuery = "INSERT INTO item_option (optionName, customCategoryCode, itemCode, optionLimit) VALUES (?, ?, ?, ?)";
+                    $categoryStatement = $DB->prepare($categoryInsertQuery);
+                    $categoryStatement->execute([$categoryName, $customCategoryCode, $itemCode, $optionLimit]);
+    
                 }
             }
+        }
             
             
 
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
         }
         
-    }
+    
 
 
     header("Location: ?page=package&businessCode={$businessCode}&branchCode={$branchCode}");

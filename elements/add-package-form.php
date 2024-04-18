@@ -1,10 +1,4 @@
-<?php
-global $DB;
-$businessCode = isset($_GET['businessCode']) ? $_GET['businessCode'] : '';
-$branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
 
-$custom = $DB->query("SELECT * FROM custom_category WHERE branchCode = $branchCode ");
-?>
 
 <style>
 
@@ -26,6 +20,16 @@ $custom = $DB->query("SELECT * FROM custom_category WHERE branchCode = $branchCo
     }
 }}
 </style>
+
+<?php
+global $DB;
+$businessCode = isset($_GET['businessCode']) ? $_GET['businessCode'] : '';
+$branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
+
+$custom = $DB->query("SELECT * FROM custom_category WHERE branchCode = $branchCode ");
+?>
+
+
 <div class="d-flex justify-content-between p-3" style="margin: 120px 0 0 0">
                 <div class="d-flex ">
                 <a href="?page=choose_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" id="backButton" class=" btn-back mx-5">
@@ -39,7 +43,26 @@ $custom = $DB->query("SELECT * FROM custom_category WHERE branchCode = $branchCo
 
     <div class="card p-5 bg-opacity-25 bg-white">
         <form action="?action=add_packageAction" method="post" enctype="multipart/form-data">
-            <div class="form-group mb-5">
+        <style>
+
+.form-select, .input-group-append button, .table, .selection-limit {
+    display: none;
+}
+    .details-group {
+        display: none;
+        margin-top: 10px;
+    }
+    @media (max-width: 2000px) {
+    .package-info{
+        margin: 0 0 0 25%;
+    }
+    @media (max-width: 700px) {
+    .package-info{
+        width: 100vw;
+        margin: 120px 0;
+    }
+}}
+</style> <div class="form-group mb-5">
                 
                 <label for="packageName">PACKAGE INFORMATION</label>
                 <hr>
@@ -196,7 +219,7 @@ $custom = $DB->query("SELECT * FROM custom_category WHERE branchCode = $branchCo
             </table>
             <div class="selection-limit">
                 <label for="quantity" class="form-label">Number of Options Needed:</label>
-                <input type="number" class="form-control" id="limit" name="limit" min="1" max="100" value="1">
+                <input type="number" class="form-control" id="limit_${itemIndex}" name="limit[${itemIndex}]" min="1" max="100" value="1">
             </div>
         </div>
 
