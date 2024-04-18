@@ -4,16 +4,13 @@ if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 $branchCode = $_GET['branchCode'];
 $businessCode = $_GET['businessCode'];
 
-// Retrieve all branches for the given business
 $branchesQ = $DB->query("SELECT br.*, p.*, i.*
   FROM branches br
   JOIN package p ON br.branchCode = p.branchCode
   JOIN items i ON p.packCode = i.packCode
   WHERE br.branchCode = '$branchCode'");
 
-// Check if the query was successful before trying to fetch data
 if ($branchesQ) {
-    // Fetch the first row (branch) from the result set
     $branch = $branchesQ->fetch_assoc();
 }
 ?>
@@ -87,7 +84,6 @@ if ($branchesQ) {
                                       JOIN item_details d ON i.itemCode = d.itemCode
                                       WHERE i.itemCode = '$itemCode' LIMIT 1");
 
-                                  // Check if the query was successful before trying to fetch data
                                   if ($item_detailsQ) {
                                       $item_details = $item_detailsQ->fetch_assoc();
 

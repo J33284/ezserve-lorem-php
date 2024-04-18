@@ -125,9 +125,9 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                                 </li>
                             </div>
                         <?php endwhile; ?>
-                    </div>
-                    <div class="offcanvas-footer d-flex justify-content-end">
+                        <div class="offcanvas-footer d-flex justify-content-end">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas">Done</button>
+                    </div>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -195,27 +195,35 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
 
 <!-- JavaScript for opening and closing the modal -->
 <script>    
+
+
+    function redirectLogin() {
+        window.location.href = '?page=login';
+    }
+
+    function redirectLogout() {
+        window.location.href = '?page=logout';
+    }
+
    function handleCheckboxClick(itemCode, optionLimit) {
-    var checkboxes = document.querySelectorAll('#menuOffcanvas' + itemCode + ' input[type="checkbox"]');
-    var checkedCount = 0;
+        var checkboxes = document.querySelectorAll('#menuOffcanvas' + itemCode + ' input[type="checkbox"]');
+        var checkedCount = 0;
 
-    // Count checked checkboxes
-    checkboxes.forEach(function(checkbox) {
-        if (checkbox.checked) {
-            checkedCount++;
-        }
-    });
+        checkboxes.forEach(function(checkbox) {
+            if (checkbox.checked) {
+                checkedCount++;
+            }
+        });
 
-    // Disable unchecked checkboxes if option limit reached or item is not available
-    checkboxes.forEach(function(checkbox) {
-        var itemAvailability = checkbox.dataset.availability; // Get the availability status from data attribute
-        if ((!checkbox.checked && checkedCount >= optionLimit) || itemAvailability === "1") {
-            checkbox.disabled = true;
-        } else {
-            checkbox.disabled = false;
-        }
-    });
-}
+        checkboxes.forEach(function(checkbox) {
+            var itemAvailability = checkbox.dataset.availability; 
+            if ((!checkbox.checked && checkedCount >= optionLimit) || itemAvailability === "1") {
+                checkbox.disabled = true;
+            } else {
+                checkbox.disabled = false;
+            }
+        });
+    }
 
         // Image Window
         function openModal(imageSrc, itemName) {
@@ -227,7 +235,6 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
             modalImage.alt = itemName;
         }
 
-        // Close the Image Window
         function closeModal() {
             var modal = document.getElementById('imageModal');
             modal.style.display = 'none';
@@ -480,9 +487,7 @@ document.getElementById('checkoutButton').addEventListener('click', function() {
 
 
 
-    function redirectLogin() {
-        window.location.href = '?page=login';
-    }
+    
 
     </script>
     <style>

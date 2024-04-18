@@ -1,5 +1,4 @@
-
- <!-- <?php
+<?php
 
 $checkoutDataJSON = $_GET['checkoutData'];
 $checkoutData = json_decode(urldecode($checkoutDataJSON), true);
@@ -7,7 +6,7 @@ $checkoutData = json_decode(urldecode($checkoutDataJSON), true);
 echo '<pre>';
 print_r($checkoutData);
 echo '</pre>';  
-?> -->
+?>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -161,7 +160,7 @@ if (isset($_GET['checkoutData'])) {
                     <td><?= $item['description'] ?></td>
                     <td><?php 
                         if (isset($item['selectedOptions']) && is_array($item['selectedOptions']) && count($item['selectedOptions']) > 1) {
-                            echo implode(', ', array_slice($item['selectedOptions'], 1)); // Skip the first element
+                            echo implode(', ', array_slice($item['selectedOptions'], 1)); 
                         } else {
                             echo '-';
                         }
@@ -392,12 +391,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 function submitSecondForm() {
-    // Get the values from the first form
     var pDateValue = document.getElementById('pDate').value;
     var deliveryDateValue = document.getElementById('deliveryDate').value;
     var deliveryAddressValue = document.getElementById('deliveryAddress').value;
 
-    // Set the values for the hidden inputs in the second form
     document.querySelector('form[action="?action=onsite"] input[name="pDate"]').value = pDateValue;
     document.querySelector('form[action="?action=onsite"] input[name="deliveryDate"]').value = deliveryDateValue;
     document.querySelector('form[action="?action=onsite"] input[name="deliveryAddress"]').value = deliveryAddressValue;

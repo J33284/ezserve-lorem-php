@@ -14,38 +14,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['ac
     $pDate = isset($_POST['pDate']) ? $_POST['pDate'] : '';
     $dAddress = isset($_POST['deliveryAddress']) ? $_POST['deliveryAddress'] : '';
     $dDate = isset($_POST['deliveryDate']) ? $_POST['deliveryDate'] : '';
-    $paymentMethod = "on site payment";
+    $paymentMethod = "On-site payment";
     $status = "unpaid";
     $encodedDetails = json_decode(htmlspecialchars_decode($_POST['itemList']), true);
     $transNo = generateRandomTransID();
-    // Array to store item names
     $itemNames = array();
-
-    foreach ($encodedDetails['items'] as $item) {
-        // Assuming each item has an 'itemName' property
-        $itemName = $item['itemName'];
-
-        // Store each item name in the array
-        $itemNames[] = $itemName;
-    }
-
-    // Combine item names into a comma-separated string
-    $combinedItemNames = implode(', ', $itemNames);
-
     $discountedTotal = isset($_POST['discountedTotal']) ? $_POST['discountedTotal'] : null;
     $totalAmount = isset($encodedDetails['total']) ? filter_var($encodedDetails['total'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION) : null;
 
-    // Set $totalAmount to $discountedTotal if $discountedTotal is not empty
     if (!empty($discountedTotal)) {
         $totalAmount = $discountedTotal;
     }
-    $insertQuery = "INSERT INTO transaction (businessCode, branchCode, branchName, transNo, packName, clientID, clientName, mobileNumber, email, busName, itemList, totalAmount, paymentMethod, status, pickupDate, deliveryDate, deliveryAddress )
-                    VALUES ('$businessCode', '$branchCode', '$branchName', '$transNo', '$packName', '$clientID', '$clientName', '$mobileNumber', '$email', '$busName', '$combinedItemNames', '$totalAmount', '$paymentMethod', '$status', '$pDate', '$dDate', '$dAddress')";
+    $insertQuery = "INSERT INTO transaction (businessCode, branchCode, branchName, transNo, packName, clientID, clientName, mobileNumber, email, busName, totalAmount, paymentMethod, status, pickupDate, deliveryDate, deliveryAddress )
+                    VALUES ('$businessCode', '$branchCode', '$branchName', '$transNo', '$packName', '$clientID', '$clientName', '$mobileNumber', '$email', '$busName',  '$totalAmount', '$paymentMethod', '$status', '$pDate', '$dDate', '$dAddress')";
 
-    // Execute the query
     $DB->query($insertQuery);
 
-    // Optionally, you can redirect the user to a success page
+    $transID = $DB->insert_id;
+
+    for ($i = 1; $i < count($encodedDetails['packageDetails']); $i++) {
+        $item = $encodedDetails['packageDetails'][$i];
+        $itemName = $item['itemName'];
+        $description = $item['description'];
+
+        $selectedOptions = '';
+        if (is_array($item['selectedOptions'])) {
+            for ($j = 1; $j < count($item['selectedOptions']); $j++) {
+                $selectedOptions .= $item['selectedOptions'][$j] . ', ';
+            }
+            $selectedOptions = rtrim($selectedOptions, ', ');
+        }
+
+        $orderInsertQuery = "INSERT INTO orderlist (transID, clientID, businessCode, itemName, description, variation)
+                            VALUES ('$transID','$clientID', '$businessCode', '$itemName', '$description', '$selectedOptions')";
+        $DB->query($orderInsertQuery);
+    }
     header('Location: ?page=client-order-history');
     exit();
 }

@@ -74,70 +74,62 @@ if (isset($_POST['keyword'])) {
     </div>
 </div>
 
-<!-- Modals placed outside the loop -->
 <?php $payment->data_seek(0); // Reset the result set pointer ?>
 <?php while ($row = $payment->fetch_assoc()): ?>
     <div class="modal fade" id="itemModal<?= $row['transID'] ?>" tabindex="-1" role="dialog" aria-labelledby="itemModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="itemModalLabel">Order Details</h5>
                     
                 </div>
                 <div class="modal-body">
-                    <?= $row['busName']. "<br>(" . $row['branchName'] .")"?>
+                    <strong><?= $row['busName']. "<br>(" . $row['branchName'] .")"?></strong>
                     <br>
                     <?= $row['paymentDate'] ?>
                     <br>
                     <br>
                     <p>Order Details: </p>
                     <?php
+                                $transID = $row['transID'];
+                                $orderlistQuery = "SELECT * FROM orderlist WHERE transID = '$transID' AND clientID = $clientID";
+                                $orderlistResult = $DB->query($orderlistQuery);
 
-                            $itemList = $row['itemList'];
+                                if ($orderlistResult->num_rows > 0) {
+                                     echo "<table style='border-collapse: collapse; width: 100%;'>";
+                                    echo "<tr style='background-color: #f2f2f2;'>";
+                                    echo "<th style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>Item Name</th>";
+                                    echo "<th style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>Description</th>";
+                                    echo "<th style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>Variation</th>";
+                                    echo "</tr>";
 
-                            // Check if itemList contains square brackets
-                            if (strpos($itemList, '[') !== false) {
-                                // Remove square brackets, quotation marks, and commas, and split the items by newline
-                                $items = explode(", ", trim(str_replace(['[', ']', '"'], '', $itemList)));
-                            } else {
-                                // Remove commas and split the items by newline
-                                $items = explode(", ", $itemList);
-                            }
-
-                            // Echo each item in a new line without commas
-                            foreach ($items as $item) {
-                                // Check if the item is in the special format {" Shrimp ":"1"," Royal ":"1"}
-                                if (preg_match_all('/"([^"]+)":\s*"(\d+)"/', $item, $matches, PREG_SET_ORDER)) {
-                                    // Iterate over all matches and output each item with quantity
-                                    foreach ($matches as $match) {
-                                        echo $match[1] . " (Quantity: " . $match[2] . ")<br>";
+                                    while ($order = $orderlistResult->fetch_assoc()) {
+                                        echo "<tr>";
+                                        echo "<td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>" . $order['itemName'] . "</td>";
+                                        echo "<td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>" . $order['description'] . "</td>";
+                                        echo "<td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>" . $order['variation'] . "</td>";
+                                        echo "</tr>";
                                     }
+                                    echo "</table>";
                                 } else {
-                                    // Output the item without modification
-                                    echo $item . "<br>";
+                                    echo "No items found in the Order List.";
                                 }
-                            }
-                        ?>
-
-
-
-                    <hr>
-                            <td>Total:<?= '₱' . number_format($row['totalAmount'], 2) ?></td>
+                                ?>
+                            
+                             <hr>
+                            <td><h2>Total:<?= '₱' . number_format($row['totalAmount'], 2) ?></h2></td>
                             <br>
                             <br>
 
                             <?php
                                 if (isset($row['pickupDate']) && !empty($row['pickupDate'])) {
                                     echo "Pick-up Date: " . $row['pickupDate'] . "<br>";
-                                }
-
-                                if (isset($row['deliveryDate']) && !empty($row['deliveryDate'])) {
+                                } elseif (isset($row['deliveryDate']) && !empty($row['deliveryDate'])) {
                                     echo "Delivery Date: " . $row['deliveryDate'] . "<br>";
-                                }
-
-                                if (isset($row['deliveryAddress']) && !empty($row['deliveryAddress'])) {
-                                    echo "Delivery Address: " . $row['deliveryAddress'] . "<br>";
-                                }
+                                    if (isset($row['deliveryAddress']) && !empty($row['deliveryAddress'])) {
+                                        echo "Delivery Address: " . $row['deliveryAddress'] . "<br>";
+                                    }
+                                } 
 
                                 if (isset($row['clientName']) && !empty($row['clientName'])) {
                                     echo "Purchased by: " . $row['clientName'] . "<br>";

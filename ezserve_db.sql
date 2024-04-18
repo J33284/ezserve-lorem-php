@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 17, 2024 at 01:59 PM
+-- Generation Time: Apr 18, 2024 at 08:17 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -101,7 +101,7 @@ CREATE TABLE `business` (
 --
 
 INSERT INTO `business` (`businessCode`, `ownerID`, `busName`, `about`, `busType`, `house_building`, `street`, `barangay`, `city_municipality`, `province`, `region`, `phone`, `mobile`, `business_permit`, `sanitary`, `tax`, `busImage`, `status`) VALUES
-(22, 28, 'Puga Funeral Home', 'In times of loss, finding solace in a compassionate and dedicated funeral home is paramount. At Puga Funeral, we understand the delicate nature of saying farewell to a loved one, and we strive to provide support and comfort when it\'s needed most.', 'Funeral Services', '', '', 'Brgy. Tolicuran', 'Iloilo City', 'Iloilo', '6', '330-39-13', '09831837281', 0x6173736574732f75706c6f6164732f3430303831383438355f3637383239373836343430393538355f333334383734323732383439303230313730375f6e2e6a7067, '', '', 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 1),
+(22, 28, 'Puga Funeral Home', 'In times of loss, finding solace in a compassionate and dedicated funeral home is paramount. At Puga Funeral, we understand the delicate nature of saying farewell to a loved one, and we strive to provide support and comfort when it\'s needed most.', 'Funeral Services', '', '', 'Brgy. Tolicuran', 'Iloilo City', 'Iloilo', '6', '330-39-13', '09831837281', 0x6173736574732f75706c6f6164732f3430303831383438355f3637383239373836343430393538355f333334383734323732383439303230313730375f6e2e6a7067, '', '', 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 0),
 (23, 28, 'Puga Photography Services', '', 'Photography', '', '', 'Tolicuran', 'Mina', 'Iloilo ', '6', '320-39-12', '0928372672', 0x6173736574732f75706c6f6164732f3430303831383438355f3637383239373836343430393538355f333334383734323732383439303230313730375f6e2e6a7067, '', '', 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 0),
 (24, 31, 'Bahay Kusina De Tangra', 'Bahay Kusina De Tangra Catering & Eatery seamlessly blends the rich heritage of Tangra-style Filipino cuisine with a versatile business model that caters to diverse culinary needs. Our eatery, adorned with cultural nuances, provides a welcoming ambiance for patrons seeking an authentic dining experience. The menu boasts a tantalizing array of Tangra specialties, carefully curated to offer a fusion of bold flavors and traditional culinary techniques. From sizzling stir-fries to delectable dim su', 'Catering', '20', '7th Street', 'Poblacion Ilawod', 'Lambunao', 'Iloilo', '6', '09452781051', '09452781023', 0x6173736574732f75706c6f6164732f494354203133392d2047726f757020436173652053747564792023332e706466, '', '', 0x6173736574732f75706c6f6164732f627573696e6573732f527251384b446f2e77656270, 1),
 (46, 31, 'Alisah Photography', '', 'Photography', '23', 'jereos', 'jereos', 'iloilo city', 'iloilo', '6', '09637283627', '09637283627', 0x6173736574732f75706c6f6164732f50616c617920616e6420436f726e2e706e67, 0x6173736574732f75706c6f6164732f50616c617920616e6420436f726e202831292e706e67, 0x6173736574732f75706c6f6164732f494e464f47524150482d312e6a7067, 0x6173736574732f75706c6f6164732f627573696e6573732f52756e6e6572205b31393230c397313038305d2e6a666966, 0),
@@ -363,13 +363,26 @@ INSERT INTO `item_option` (`optionCode`, `itemCode`, `customCategoryCode`, `opti
 
 CREATE TABLE `orderlist` (
   `orderListID` int(11) NOT NULL,
+  `clientID` int(11) NOT NULL,
+  `businessCode` int(11) NOT NULL,
+  `transID` int(11) NOT NULL,
   `itemName` varchar(200) NOT NULL,
   `description` varchar(1000) NOT NULL,
   `quantity` int(255) NOT NULL,
   `unit` varchar(200) NOT NULL,
   `price` bigint(255) NOT NULL,
-  `custom` varchar(500) NOT NULL
+  `variation` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orderlist`
+--
+
+INSERT INTO `orderlist` (`orderListID`, `clientID`, `businessCode`, `transID`, `itemName`, `description`, `quantity`, `unit`, `price`, `variation`) VALUES
+(15, 33, 24, 148, '3 Main Dish', '3 main dish of your choice', 0, '', 0, 'Pork Menudo, Pork Afritada, Pork Sweet and Sour'),
+(16, 33, 24, 148, '2 Side Dish', '2 side dish of your choice', 0, '', 0, 'Pinakbet, Ginisang Ampalaya'),
+(17, 33, 24, 148, 'Softdrinks', '1L of softdrinks of your choice', 0, '', 0, 'Sprite'),
+(18, 33, 24, 148, 'Utensils', 'Includes spoon, fork, serving spoon, glasses', 0, '', 0, '');
 
 -- --------------------------------------------------------
 
@@ -436,13 +449,19 @@ CREATE TABLE `transaction` (
   `mobileNumber` bigint(255) NOT NULL,
   `totalAmount` int(200) NOT NULL,
   `paymentDate` date DEFAULT current_timestamp(),
-  `itemList` varchar(10000) NOT NULL,
   `paymentMethod` varchar(50) NOT NULL,
   `pickupDate` varchar(100) NOT NULL,
   `deliveryDate` datetime NOT NULL,
   `deliveryAddress` varchar(100) NOT NULL,
   `status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `transaction`
+--
+
+INSERT INTO `transaction` (`transID`, `clientID`, `businessCode`, `branchCode`, `busName`, `branchName`, `packName`, `transNo`, `clientName`, `email`, `mobileNumber`, `totalAmount`, `paymentDate`, `paymentMethod`, `pickupDate`, `deliveryDate`, `deliveryAddress`, `status`) VALUES
+(148, 33, 24, 33, 'Bahay Kusina De Tangra', 'Lambunao Branch', 'Package 1', 'EzServe_16949267915461166920', 'Alisah Bolivar', 'bvrlisah@gmail.com', 9564200614, 134, '2024-04-18', 'On-site payment', '2024-04-20', '0000-00-00 00:00:00', '', 'paid');
 
 -- --------------------------------------------------------
 
@@ -561,6 +580,12 @@ ALTER TABLE `item_option`
   ADD KEY `itemCode` (`itemCode`);
 
 --
+-- Indexes for table `orderlist`
+--
+ALTER TABLE `orderlist`
+  ADD PRIMARY KEY (`orderListID`);
+
+--
 -- Indexes for table `package`
 --
 ALTER TABLE `package`
@@ -671,6 +696,12 @@ ALTER TABLE `item_option`
   MODIFY `optionCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
+-- AUTO_INCREMENT for table `orderlist`
+--
+ALTER TABLE `orderlist`
+  MODIFY `orderListID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
 -- AUTO_INCREMENT for table `package`
 --
 ALTER TABLE `package`
@@ -686,7 +717,7 @@ ALTER TABLE `permits`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `transID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
+  MODIFY `transID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
 
 --
 -- AUTO_INCREMENT for table `voucher`

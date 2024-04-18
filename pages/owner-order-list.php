@@ -97,7 +97,7 @@ $payments = $DB->query("
                                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
                                 </div>
                                 <div class="offcanvas-body px-5">
-                                <?= $payment['busName']. "<br>(" . $payment['branchName'] .")"?>
+                                <strong><?= $payment['busName']. "<br>(" . $payment['branchName'] .")"?></strong>
                                 <br>
                                 <?= $payment['paymentDate'] ?>
                                 <br>
@@ -105,46 +105,49 @@ $payments = $DB->query("
                                 <p>Order Details: </p>
                                 <?php
 
-                            $itemList = $payment['itemList'];
+                                    $transID = $payment['transID'];
+                                    $busCode = $payment['businessCode'];
+                                    $orderlistQuery = "SELECT * FROM orderlist WHERE transID = '$transID' AND businessCode = $busCode";
+                                    $orderlistResult = $DB->query($orderlistQuery);
 
-                            // Check if itemList contains square brackets
-                            if (strpos($itemList, '[') !== false) {
-                                // Remove square brackets, quotation marks, and commas, and split the items by newline
-                                $items = explode(", ", trim(str_replace(['[', ']', '"'], '', $itemList)));
-                            } else {
-                                // Remove commas and split the items by newline
-                                $items = explode(", ", $itemList);
-                            }
+                                    if ($orderlistResult->num_rows > 0) {
+                                        echo "<table style='border-collapse: collapse; width: 100%;'>";
+                                        echo "<tr style='background-color: #f2f2f2;'>";
+                                        echo "<th style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>Item Name</th>";
+                                        echo "<th style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>Description</th>";
+                                        echo "<th style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>Variation</th>";
+                                        echo "</tr>";
 
-                            // Echo each item in a new line without commas
-                            foreach ($items as $item) {
-                                // Check if the item is in the special format {" Shrimp ":"1"," Royal ":"1"}
-                                if (preg_match_all('/"([^"]+)":\s*"(\d+)"/', $item, $matches, PREG_SET_ORDER)) {
-                                    // Iterate over all matches and output each item with quantity
-                                    foreach ($matches as $match) {
-                                        echo $match[1] . " (Quantity: " . $match[2] . ")<br>";
+                                        while ($order = $orderlistResult->fetch_assoc()) {
+                                            echo "<tr>";
+                                            echo "<td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>" . $order['itemName'] . "</td>";
+                                            echo "<td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>" . $order['description'] . "</td>";
+                                            echo "<td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>" . $order['variation'] . "</td>";
+                                            echo "</tr>";
+                                        }
+                                        echo "</table>";
+                                    } else {
+                                        echo "No items found in the Order List.";
                                     }
-                                } else {
-                                    // Output the item without modification
-                                    echo $item . "<br>";
-                                }
-                            }
-                        ?>
+
+                                ?>
 
 
-                            <hr>
-                            Total:<?= '₱' . number_format($payment['totalAmount'], 2) ?>
-                            <br>
-                            <br>
+                                <hr>
+                                <h2>Total:<?= '₱' . number_format($payment['totalAmount'], 2) ?></h2>
+                                <br>
+                                <br>    
 
                             <?php
-                                if (isset($payment['pickupDate']) && !empty($payment['pickupDate'])) {
-                                    echo "Pick-up Date: " . $payment['pickupDate'] . "<br>";
-                                }
 
-                                if (isset($payment['deliveryDate']) && !empty($payment['deliveryDate'])) {
+                               if (isset($payment['pickupDate']) && !empty($payment['pickupDate'])) {
+                                echo "Pick-up Date: " . $payment['pickupDate'] . "<br>";
+                                } elseif (isset($payment['deliveryDate']) && !empty($payment['deliveryDate'])) {
                                     echo "Delivery Date: " . $payment['deliveryDate'] . "<br>";
-                                }
+                                    if (isset($payment['deliveryAddress']) && !empty($payment['deliveryAddress'])) {
+                                        echo "Delivery Address: " . $payment['deliveryAddress'] . "<br>";
+                                    }
+                                } 
 
                                 if (isset($payment['deliveryAddress']) && !empty($payment['deliveryAddress'])) {
                                     echo "Delivery Address: " . $payment['deliveryAddress'] . "<br>";
