@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2024 at 08:17 AM
+-- Generation Time: Apr 19, 2024 at 03:41 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -307,14 +307,7 @@ INSERT INTO `items` (`itemCode`, `packCode`, `itemName`, `description`, `quantit
 (354, 275, '3 Main Dish', '3 main dish of your choice', 0, '', 0, '', 'assets/uploads/packages/420045990_917586769805131_1358493736596732913_n.jpg', 'enable'),
 (355, 275, '2 Side Dish', '2 side dish of your choice', 0, '', 0, '', 'assets/uploads/packages/420038104_1413551699238034_7737994293452447082_n.jpg', 'enable'),
 (356, 275, 'Softdrinks', '1L of softdrinks of your choice', 0, '', 0, '', 'assets/uploads/packages/softdrinks.jpg', 'enable'),
-(357, 275, 'Utensils', 'Includes spoon, fork, serving spoon, glasses', 0, '', 0, '', 'assets/uploads/packages/cutlery.jpg', 'disable'),
-(400, 308, '3 Main Dish', '', 0, '', 0, '', 'assets/uploads/packages/3 Main Dish.jpg', 'enable'),
-(401, 308, 'Softdrinks', '', 0, '', 0, '', 'assets/uploads/packages/softdrinks.jpg', 'enable'),
-(402, 308, 'Rice', '', 0, '', 0, '', 'assets/uploads/packages/rice.jpg', 'disable'),
-(403, 309, '3 Main Dish', '*3 Main Dish of your choice', 0, '', 0, '', 'assets/uploads/packages/3 Main Dish.jpg', 'enable'),
-(404, 309, 'Softdrinks', '', 0, '', 0, '', 'assets/uploads/packages/softdrinks.jpg', 'enable'),
-(405, 310, 'Coffin', 'Mahogany ', 1, '', 50000, '', 'assets/uploads/packages/5.Mahogany.jpg', 'enable'),
-(406, 310, 'Flower', '', 1, '', 200, '', 'assets/uploads/packages/305398834_446716360809741_7457097433161130092_n.jpg', 'disable');
+(357, 275, 'Utensils', 'Includes spoon, fork, serving spoon, glasses', 0, '', 0, '', 'assets/uploads/packages/cutlery.jpg', 'disable');
 
 -- --------------------------------------------------------
 
@@ -404,10 +397,7 @@ CREATE TABLE `package` (
 --
 
 INSERT INTO `package` (`packCode`, `branchCode`, `packName`, `packDesc`, `pricingType`, `amount`) VALUES
-(275, 33, 'Package 1', '*includes food waiter/ attendant *regular setup *utensils', 'per pax', 320),
-(308, 33, 'Package 2', '', 'per pax', 200),
-(309, 33, 'Package 3', '', 'per pax', 300),
-(310, 32, 'Basic Package', '', 'per item', 0);
+(275, 33, 'Bahay Kusina(Basic Package)', '*includes food waiter/ attendant *regular setup *utensils', 'per pax', 320);
 
 -- --------------------------------------------------------
 
@@ -681,19 +671,19 @@ ALTER TABLE `custom_item_details`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=407;
+  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=413;
 
 --
 -- AUTO_INCREMENT for table `item_details`
 --
 ALTER TABLE `item_details`
-  MODIFY `detailsCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=317;
+  MODIFY `detailsCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=318;
 
 --
 -- AUTO_INCREMENT for table `item_option`
 --
 ALTER TABLE `item_option`
-  MODIFY `optionCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `optionCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT for table `orderlist`
@@ -705,7 +695,7 @@ ALTER TABLE `orderlist`
 -- AUTO_INCREMENT for table `package`
 --
 ALTER TABLE `package`
-  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=311;
+  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=313;
 
 --
 -- AUTO_INCREMENT for table `permits`
