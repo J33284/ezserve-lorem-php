@@ -30,7 +30,7 @@ $branch = $branchResult->fetch_assoc();
                 </h1>
                 </div>
                 <a href="?page=add_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="  btn btn-md btn btn-primary"> <i class="bi bi-plus" style="font-size: 24px; "></i>
-                <span>Add Category</span></a>
+                <span>Add Package</span></a>
             </div>
 
         <?php
@@ -57,7 +57,6 @@ $branch = $branchResult->fetch_assoc();
                                     if ($row['pricingType'] == "per pax") {
                                         echo "₱" . number_format($row['amount'], 2) . " " . $row['pricingType'];
                                     } else {
-                                        // Calculate total cost for packages with items
                                         $packCode = $row['packCode'];
                                         $packageQuery = "SELECT * FROM package LEFT JOIN items ON package.packCode = items.packCode WHERE package.branchCode = '$branchCode' AND package.packCode = '$packCode';";
                                         $packageResults = $DB->query($packageQuery);

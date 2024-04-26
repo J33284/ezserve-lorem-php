@@ -9,28 +9,23 @@ $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
 $categoriesQuery = "SELECT * FROM custom_category WHERE branchCode = '$branchCode'";
 $categoriesResult = $DB->query($categoriesQuery);
 ?>
-<div style="margin: 120px 0 0 20%; width: 70vw">
-    <div class="justify-content-center align-items-center" >
-        
-            <div class="d-flex justify-content-between align-items-center mb-4" >
-                <div class="d-flex"> 
-                    <a href="?page=choose_package&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class=" mx-3 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
-                    <i class="bi bi-arrow-left"></i>
-                </a>
-                <h1>
-                    Create Custom Package
-                    
-                </h1>
-                </div>
-                <a href="?page=add_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="  btn btn-md btn btn-primary">
-                <i class="bi bi-plus" style="font-size: 24px; "></i>
-                <span>Add Category</span>
-    </a>
-            </div>
 
        
 <?php if ($categoriesResult->num_rows > 0): ?>
-    
+    <div style="margin: 120px 0 0 20%; width: 70vw">
+    <div class="justify-content-center align-items-center" >
+        <div class="d-flex justify-content-between align-items-center mb-4" >
+            <div class="d-flex"> 
+                    <a href="?page=choose_package&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class=" mx-3 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
+                    <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <h1>
+                        Create Custom Package
+                        
+                    </h1>
+            </div>
+        </div>
+
         <div>
             <div class="package-details overflow-auto col-5 card bg-opacity-25 bg-white mx-4 px-4" style="height: 100vh; width: 70vw;">
                         <div class="text-end mb-3">
@@ -59,22 +54,24 @@ $categoriesResult = $DB->query($categoriesQuery);
                                                 <th scope="col">Items</th>
                                                 <th scope="col">Description</th>
                                                 <th scope="col">Price</th>
-                                                <th scope="col">Other Details</th>
+                                                <th scope="col">Availability</th>
                                                 <th scope="col" style="width:190px">Action</th> 
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $itemsQuery = "SELECT * FROM custom_items WHERE customCategoryCode = '$categoryCode'";
-                                            $itemsResult = $DB->query($itemsQuery);
+                                                $itemsQuery = "SELECT * FROM custom_items WHERE customCategoryCode = '$categoryCode'";
+                                                $itemsResult = $DB->query($itemsQuery);
 
-                                            while ($item = $itemsResult->fetch_assoc()) {
+                                                while ($item = $itemsResult->fetch_assoc()) {
                                                 $itemCode = $item['itemCode'];
                                                 $detailsQuery = "SELECT * FROM custom_item_details WHERE ItemCode = '$itemCode'";
                                                 $detailsResult = $DB->query($detailsQuery);
                                                 $details = $detailsResult->fetch_assoc();
-                                                ?>
-                                                <tr data-item-code="<?php echo $item['itemCode']; ?>">
+                                            ?>
+                                            <form action="?actions=save_custom" method="POST">
+                                            <tr data-item-code="<?php echo $item['itemCode']; ?>">
+                                           
                                                     <td>
                                                         <p id="nameDisplay<?= $item['itemCode']; ?>" style="display:block"><?= $item['itemName'] ?></p>
                                                         <input type="text" class="form-control" id="editName<?= $item['itemCode']; ?>" placeholder="Enter new item name" style="display:none;" value="<?php echo $item['itemName']; ?>">
@@ -82,6 +79,17 @@ $categoriesResult = $DB->query($categoriesQuery);
                                                     <td>
                                                         <p id="descriptionDisplay<?= $item['itemCode']; ?>" style="display:block"><?= $item['description'] ?></p>
                                                         <input type="text" class="form-control" id="editDescription<?= $item['itemCode']; ?>" placeholder="Enter new description" style="display:none;" value="<?php echo $item['description']; ?>">
+
+                                                        <?php if (!empty($details['detailName']) && !empty($details['detailValue'])) { ?>
+                                                        <p id="detailsDisplay<?= $item['itemCode']; ?>" style="display: block;"><?php echo $details['detailName'] . ': ' . $details['detailValue']; ?></p>
+                                                        <div id="editDetails<?= $item['itemCode']; ?>" style="display: none;">
+                                                            <input type="text" class="form-control" id="editDetailName<?= $item['itemCode']; ?>" placeholder="Enter new detail name" value="<?php echo $details['detailName']; ?>">
+                                                            <input type="text" class="form-control" id="editDetailValue<?= $item['itemCode']; ?>" placeholder="Enter new detail value" value="<?php echo $details['detailValue']; ?>">
+                                                        </div>
+                                                    <?php } else { 
+                                                        echo '';
+                                                    }
+                                                        ?>
                                                     
                                                     </td>
                                                     <td>
@@ -90,41 +98,33 @@ $categoriesResult = $DB->query($categoriesQuery);
                                                     
                                                     </td>
                                                     <td>
-                                                    <?php if (!empty($details['detailName']) && !empty($details['detailValue'])) { ?>
-                                                        <p id="detailsDisplay<?= $item['itemCode']; ?>" style="display: block;"><?php echo $details['detailName'] . ': ' . $details['detailValue']; ?></p>
-                                                        <div id="editDetails<?= $item['itemCode']; ?>" style="display: none;">
-                                                            <input type="text" class="form-control" id="editDetailName<?= $item['itemCode']; ?>" placeholder="Enter new detail name" value="<?php echo $details['detailName']; ?>">
-                                                            <input type="text" class="form-control" id="editDetailValue<?= $item['itemCode']; ?>" placeholder="Enter new detail value" value="<?php echo $details['detailValue']; ?>">
-                                                        </div>
-                                                    <?php } else { 
-                                                        echo 'N/A';
-                                                    }
-                                                        ?>
-                                                       
+                                                        <p id="availabilityDisplay<?= $item['availability']; ?>" style="display:block">
+                                                            <?= ($item['availability'] == 1) ? 'No' : 'Yes' ?>
+                                                        </p>
+
                                                     </td>
 
                                                     <td class="flex-column">
-                                                    <div class="d-flex">
-                                                    <a href="#" id="editButton" class="btn-edit btn btn-primary " onclick="toggleEditable('<?php echo $item['itemCode']; ?>')">
-                                                        <i class="bi bi-pencil-fill"></i>
-                                                        <span>Edit</span>
-                                                    </a>
-                                                    <a href="#" id="deleteButton" class="btn-delete btn btn-danger mx-3" style="display:block">
-                                                        <i class="bi bi-trash"></i>
-                                                        <span>Delete</span>
-                                                    </a>
-                                                    <a href="#" id="saveButton" class="btn-delete btn btn-primary" style="display:none;" >
-                                                        <i class="bi bi-trash"></i>
-                                                        <span>Save</span>
-                                                    </a>
-                                                    <a href="#" id="cancelButton" class="btn-delete btn btn-secondary mx-3" style="display:none" onclick="cancelEdit('<?php echo $item['itemCode']; ?>')">
-                                                        <i class="bi bi-trash"></i>
-                                                        <span>Cancel</span>
-                                                    </a>
-
+                                                        <div class="d-flex">
+                                                            <a href="#" id="editButton<?= $item['itemCode']; ?>" class="btn-edit btn btn-primary " style="display:block" onclick="toggleEditable('<?php echo $item['itemCode']; ?>')">
+                                                                <i class="bi bi-pencil-fill"></i>
+                                                                <span>Edit</span>
+                                                            </a>
+                                                            <a href="#" id="deleteButton<?= $item['itemCode']; ?>" class="btn-delete btn btn-danger mx-3" style="display:block">
+                                                                <i class="bi bi-trash"></i>
+                                                                <span>Delete</span>
+                                                            </a>
+                                                            <a href="#" id="saveButton<?= $item['itemCode']; ?>" class="btn-save btn btn-success mx-3" style="display:none">
+                                                                <i class="bi bi-check-circle"></i>
+                                                                <span>Save</span>
+                                                            </a>
+                                                            <a href="#" id="cancelButton<?= $item['itemCode']; ?>" class="btn-cancel btn btn-secondary" style="display:none" onclick="toggleEditable('<?php echo $item['itemCode']; ?>')">
+                                                                <i class="bi bi-x-circle"></i>
+                                                                <span>Cancel</span>
+                                                            </a>
                                                         </div>
                                                     </td>
-
+                                                </form>
                                                 </tr>
                                             <?php } ?>
                                         </tbody>
@@ -145,52 +145,70 @@ $categoriesResult = $DB->query($categoriesQuery);
           
     
 <?php else: ?>
-   
+    <div style="margin: 120px 0 0 20%; width: 70vw">
+    <div class="justify-content-center align-items-center" >
+        <div class="d-flex justify-content-between align-items-center mb-4" >
+            <div class="d-flex"> 
+                    <a href="?page=choose_package&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class=" mx-3 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
+                    <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <h1>
+                        Create Custom Package
+                        
+                    </h1>
+            </div>
+                    <a href="?page=add_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="  btn btn-md btn btn-primary">
+                    <i class="bi bi-plus" style="font-size: 24px; "></i>
+                    <span>Add Category</span>
+                    </a>
+        </div>
+
     <div class="package-details" id="packageDetails<?= $branchCode ?>" style="display: block;">
     <div class="d-flex align-items-center justify-content-center" style="margin-top: 100px"  >
             <div class="" style="height: 200px; ;">
       <div class="package-details card py-5 mx-4 px-4" style="width: 50vw">
       <h2><span style="color: red;">&#9888;</span> No Records Found</h2>
           
-</div></div>
 </div>
-      </div></div>
     </div>
   </div>
 <?php endif; ?>
 
 <script>
-     
+
 function toggleEditable(itemCode) {
-        toggleVisibility("nameDisplay", itemCode);
-        toggleVisibility("editName", itemCode);
+        var editButton = document.getElementById('editButton' + itemCode);
+        var deleteButton = document.getElementById('deleteButton' + itemCode);
+        var saveButton = document.getElementById('saveButton' + itemCode);
+        var cancelButton = document.getElementById('cancelButton' + itemCode);
 
-        toggleVisibility("descriptionDisplay", itemCode);
-        toggleVisibility("editDescription", itemCode);
+        var nameDisplay = document.getElementById('nameDisplay' + itemCode);
+        var editName = document.getElementById('editName' + itemCode);
 
-        toggleVisibility("priceDisplay", itemCode);
-        toggleVisibility("editPrice", itemCode);
+        var descriptionDisplay = document.getElementById('descriptionDisplay' + itemCode);
+        var editDescription = document.getElementById('editDescription' + itemCode);
 
-        toggleVisibility("detailsDisplay", itemCode);
-        toggleVisibility("editDetails", itemCode);
+        var priceDisplay = document.getElementById('priceDisplay' + itemCode);
+        var editPrice = document.getElementById('editPrice' + itemCode);
 
-      ['nameDisplay', 'editName', 'descriptionDisplay', 'editDescription', 'priceDisplay', 'editPrice', 'detailsDisplay', 'editDetails'].forEach(function(elementId) {
-        toggleVisibility(elementId, itemCode);
-    });
+        // Toggle display properties for buttons
+        editButton.style.display = (editButton.style.display === 'none') ? 'block' : 'none';
+        deleteButton.style.display = (deleteButton.style.display === 'none') ? 'block' : 'none';
+        saveButton.style.display = (saveButton.style.display === 'none') ? 'block' : 'none';
+        cancelButton.style.display = (cancelButton.style.display === 'none') ? 'block' : 'none';
 
-    // For buttons inside <td> elements
-    ['btn-edit', 'btn-delete', 'btn-save', 'btn-cancel'].forEach(function(buttonClass) {
-        toggleButtonVisibility(buttonClass, itemCode);
-    });
-}
-    
-    
-    function toggleVisibility(elementId, itemCode) {
-    var element = document.getElementById(elementId + itemCode);
-    if (element.style.display === "none" || element.style.display === "") {
-        element.style.display = "block";
-    } else {
-        element.style.display = "none";
+        // Toggle display properties for paragraphs and inputs
+        nameDisplay.style.display = (nameDisplay.style.display === 'none') ? 'block' : 'none';
+        editName.style.display = (editName.style.display === 'none') ? 'block' : 'none';
+
+        descriptionDisplay.style.display = (descriptionDisplay.style.display === 'none') ? 'block' : 'none';
+        editDescription.style.display = (editDescription.style.display === 'none') ? 'block' : 'none';
+
+        priceDisplay.style.display = (priceDisplay.style.display === 'none') ? 'block' : 'none';
+        editPrice.style.display = (editPrice.style.display === 'none') ? 'block' : 'none';
     }
-}
+
+
+
+
 </script>

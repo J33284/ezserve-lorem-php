@@ -1,4 +1,4 @@
-<?php
+<!--<?php
 
 $checkoutDataJSON = $_GET['checkoutData'];
 $checkoutData = json_decode(urldecode($checkoutDataJSON), true);
@@ -6,7 +6,7 @@ $checkoutData = json_decode(urldecode($checkoutDataJSON), true);
 echo '<pre>';
 print_r($checkoutData);
 echo '</pre>';  
-?>
+?> -->
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -36,10 +36,8 @@ if ($client) {
 }         
 
 if (isset($_GET['checkoutData'])) {
-    // Retrieve the encoded JSON string from the URL
     $encodedDetails = $_GET['checkoutData'];
 
-    // Decode the JSON string to an array
     $checkoutDetails = json_decode(urldecode($encodedDetails), true);
 }
 

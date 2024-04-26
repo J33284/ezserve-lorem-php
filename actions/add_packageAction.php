@@ -20,12 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pricingType = 'per item';
     }
 
-    // Insert package information into the 'package' table
     $packageInsertQuery = "INSERT INTO package (packName, packDesc, branchCode, pricingType, amount) VALUES (?, ?, ?, ?, ?)";
     $packageStatement = $DB->prepare($packageInsertQuery);
     $packageStatement->execute([$packageName, $packageDescription, $branchCode, $pricingType, $amount]);
 
-    // Get the last inserted package code (assuming it's an auto-incremented primary key)
     $packCode = $DB->insert_id;
 
     $targetDirectory = "assets/uploads/packages/";
@@ -40,21 +38,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $targetFile = $targetDirectory . basename($_FILES['itemImage']['name'][$itemIndex][$key]);
             move_uploaded_file($_FILES['itemImage']['tmp_name'][$itemIndex][$key], $targetFile);
     
-            // Insert item information into the 'items' table
-            $itemInsertQuery = "INSERT INTO items (itemName, description, packCode, userInput, itemImage) VALUES (?, ?, ?, ?, ?)";
-            $itemStatement = $DB->prepare($itemInsertQuery);
-            $itemStatement->execute([$itemName, $itemDescription, $packCode, $userInput, $targetFile]);
+            $optionLimit = $_POST['limit'][$itemIndex];
 
-            // Get the last inserted item code (assuming it's an auto-incremented primary key)
+            $itemInsertQuery = "INSERT INTO items (itemName, description, packCode, userInput, itemImage, optionLimit) VALUES (?, ?, ?, ?, ?, ?)";
+            $itemStatement = $DB->prepare($itemInsertQuery);
+            $itemStatement->execute([$itemName, $itemDescription, $packCode, $userInput, $targetFile, $optionLimit]);
+
             $itemCode = $DB->insert_id;
 
-            // Only insert quantity, unit, and price if the "per pax" checkbox is not checked
             if (!isset($_POST['perPaxCheckbox']) || $_POST['perPaxCheckbox'] != 'on') {
                 $quantity = $_POST['quantity'][$itemIndex][$key];
                 $unit = $_POST['unit'][$itemIndex][$key];
                 $price = $_POST['price'][$itemIndex][$key];
 
-                // Insert quantity, unit, and price information into the 'items' table
                 $updateItemQuery = "UPDATE items SET quantity = ?, unit = ?, price = ? WHERE itemCode = ?";
                 $updateItemStatement = $DB->prepare($updateItemQuery);
                 $updateItemStatement->execute([$quantity, $unit, $price, $itemCode]);
@@ -62,36 +58,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $categoryList = $_POST['categories'][$itemIndex];
             $customCategoryCodeList = $_POST['customCategoryCode'][$itemIndex];
-            $optionLimitList = $_POST['limit'][$itemIndex]; // New: Retrieve option limits for categories
+            $optionLimitList = $_POST['limit'][$itemIndex]; 
             $categoryCount = count($categoryList);
     
-            // Loop through each selected category for the current item
             for ($categoryIndex = 0; $categoryIndex < $categoryCount; $categoryIndex++) {
                 $categoryName = $categoryList[$categoryIndex];
                 $customCategoryCode = $customCategoryCodeList[$categoryIndex]; 
-                $optionLimit = $optionLimitList[$categoryIndex]; 
     
-                // Check if the category name is not empty before inserting
                 if (!empty($categoryName)) {
-                    // Insert category information into the 'item_option' table
-                    $categoryInsertQuery = "INSERT INTO item_option (optionName, customCategoryCode, itemCode, optionLimit) VALUES (?, ?, ?, ?)";
+                    $categoryInsertQuery = "INSERT INTO item_option (optionName, customCategoryCode, itemCode) VALUES (?, ?, ?)";
                     $categoryStatement = $DB->prepare($categoryInsertQuery);
-                    $categoryStatement->execute([$categoryName, $customCategoryCode, $itemCode, $optionLimit]);
+                    $categoryStatement->execute([$categoryName, $customCategoryCode, $itemCode]);
     
                 }
             }
         }
             
-            
-
             $detailsCount = count($_POST['detailName'][$itemIndex][$key]);
             for ($detailIndex = 0; $detailIndex < $detailsCount; $detailIndex++) {
                 $detailName = $_POST['detailName'][$itemIndex][$key][$detailIndex];
                 $detailValue = $_POST['detailValue'][$itemIndex][$key][$detailIndex];
             
-                // Check if both detailName and detailValue are not empty before inserting
                 if (!empty($detailName) && !empty($detailValue)) {
-                    // Insert detail information into the 'item_details' table
                     $detailInsertQuery = "INSERT INTO item_details (detailName, detailValue, itemCode) VALUES (?, ?, ?)";
                     $detailStatement = $DB->prepare($detailInsertQuery);
                     $detailStatement->execute([$detailName, $detailValue, $itemCode]);

@@ -113,7 +113,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                                                        data-item-code="<?= $row['itemCode'] ?>" 
                                                        data-item-name="<?= $item['itemName'] ?>" 
                                                        data-availability="<?= $item["availability"] ?>"
-                                                       onclick="handleCheckboxClick('<?= $category['itemCode'] ?>', <?= $category['optionLimit'] ?>)"
+                                                       onclick="handleCheckboxClick('<?= $row['itemCode'] ?>', <?= $row['optionLimit'] ?>)"
                                                        <?php if ($item["availability"] == 1) echo "disabled"; ?>>
                                                 <?= $item['itemName'] ?>
                                                 <?php if ($item["availability"] == 1) : ?>

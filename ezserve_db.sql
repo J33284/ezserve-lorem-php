@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2024 at 03:41 AM
+-- Generation Time: Apr 26, 2024 at 10:17 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -296,18 +296,19 @@ CREATE TABLE `items` (
   `price` bigint(255) NOT NULL,
   `imageName` varchar(255) NOT NULL,
   `itemImage` varchar(255) NOT NULL,
-  `userInput` varchar(20) NOT NULL
+  `userInput` varchar(20) NOT NULL,
+  `optionLimit` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `items`
 --
 
-INSERT INTO `items` (`itemCode`, `packCode`, `itemName`, `description`, `quantity`, `unit`, `price`, `imageName`, `itemImage`, `userInput`) VALUES
-(354, 275, '3 Main Dish', '3 main dish of your choice', 0, '', 0, '', 'assets/uploads/packages/420045990_917586769805131_1358493736596732913_n.jpg', 'enable'),
-(355, 275, '2 Side Dish', '2 side dish of your choice', 0, '', 0, '', 'assets/uploads/packages/420038104_1413551699238034_7737994293452447082_n.jpg', 'enable'),
-(356, 275, 'Softdrinks', '1L of softdrinks of your choice', 0, '', 0, '', 'assets/uploads/packages/softdrinks.jpg', 'enable'),
-(357, 275, 'Utensils', 'Includes spoon, fork, serving spoon, glasses', 0, '', 0, '', 'assets/uploads/packages/cutlery.jpg', 'disable');
+INSERT INTO `items` (`itemCode`, `packCode`, `itemName`, `description`, `quantity`, `unit`, `price`, `imageName`, `itemImage`, `userInput`, `optionLimit`) VALUES
+(354, 275, '3 Main Dish', '3 main dish of your choice', 0, '', 0, '', 'assets/uploads/packages/420045990_917586769805131_1358493736596732913_n.jpg', 'enable', 3),
+(355, 275, '2 Side Dish', '2 side dish of your choice', 0, '', 0, '', 'assets/uploads/packages/420038104_1413551699238034_7737994293452447082_n.jpg', 'enable', 0),
+(356, 275, 'Softdrinks', '1L of softdrinks of your choice', 0, '', 0, '', 'assets/uploads/packages/softdrinks.jpg', 'enable', 0),
+(357, 275, 'Utensils', 'Includes spoon, fork, serving spoon, glasses', 0, '', 0, '', 'assets/uploads/packages/cutlery.jpg', 'disable', 0);
 
 -- --------------------------------------------------------
 
@@ -332,21 +333,20 @@ CREATE TABLE `item_option` (
   `optionCode` int(11) NOT NULL,
   `itemCode` int(11) NOT NULL,
   `customCategoryCode` int(11) NOT NULL,
-  `optionName` varchar(200) NOT NULL,
-  `optionLimit` int(255) NOT NULL
+  `optionName` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `item_option`
 --
 
-INSERT INTO `item_option` (`optionCode`, `itemCode`, `customCategoryCode`, `optionName`, `optionLimit`) VALUES
-(68, 354, 30, 'Pork Menu', 3),
-(69, 354, 33, 'Fish Menu', 3),
-(70, 354, 31, 'Chicken Menu', 3),
-(75, 356, 34, 'Sofdrinks', 1),
-(76, 355, 35, 'Vegetable Dish', 2),
-(77, 355, 36, 'Fried Side Dish', 2);
+INSERT INTO `item_option` (`optionCode`, `itemCode`, `customCategoryCode`, `optionName`) VALUES
+(68, 354, 30, 'Pork Menu'),
+(69, 354, 33, 'Fish Menu'),
+(70, 354, 31, 'Chicken Menu'),
+(75, 356, 34, 'Sofdrinks'),
+(76, 355, 35, 'Vegetable Dish'),
+(77, 355, 36, 'Fried Side Dish');
 
 -- --------------------------------------------------------
 
@@ -375,7 +375,11 @@ INSERT INTO `orderlist` (`orderListID`, `clientID`, `businessCode`, `transID`, `
 (15, 33, 24, 148, '3 Main Dish', '3 main dish of your choice', 0, '', 0, 'Pork Menudo, Pork Afritada, Pork Sweet and Sour'),
 (16, 33, 24, 148, '2 Side Dish', '2 side dish of your choice', 0, '', 0, 'Pinakbet, Ginisang Ampalaya'),
 (17, 33, 24, 148, 'Softdrinks', '1L of softdrinks of your choice', 0, '', 0, 'Sprite'),
-(18, 33, 24, 148, 'Utensils', 'Includes spoon, fork, serving spoon, glasses', 0, '', 0, '');
+(18, 33, 24, 148, 'Utensils', 'Includes spoon, fork, serving spoon, glasses', 0, '', 0, ''),
+(19, 33, 24, 149, '3 Main Dish', '3 main dish of your choice', 0, '', 0, 'Pork Afritada, Pork Sweet and Sour, Pork Adobo'),
+(20, 33, 24, 149, '2 Side Dish', '2 side dish of your choice', 0, '', 0, 'Pinakbet, Ensaladang Talong'),
+(21, 33, 24, 149, 'Softdrinks', '1L of softdrinks of your choice', 0, '', 0, 'Royal'),
+(22, 33, 24, 149, 'Utensils', 'Includes spoon, fork, serving spoon, glasses', 0, '', 0, '');
 
 -- --------------------------------------------------------
 
@@ -451,7 +455,8 @@ CREATE TABLE `transaction` (
 --
 
 INSERT INTO `transaction` (`transID`, `clientID`, `businessCode`, `branchCode`, `busName`, `branchName`, `packName`, `transNo`, `clientName`, `email`, `mobileNumber`, `totalAmount`, `paymentDate`, `paymentMethod`, `pickupDate`, `deliveryDate`, `deliveryAddress`, `status`) VALUES
-(148, 33, 24, 33, 'Bahay Kusina De Tangra', 'Lambunao Branch', 'Package 1', 'EzServe_16949267915461166920', 'Alisah Bolivar', 'bvrlisah@gmail.com', 9564200614, 134, '2024-04-18', 'On-site payment', '2024-04-20', '0000-00-00 00:00:00', '', 'paid');
+(148, 33, 24, 33, 'Bahay Kusina De Tangra', 'Lambunao Branch', 'Package 1', 'EzServe_16949267915461166920', 'Alisah Bolivar', 'bvrlisah@gmail.com', 9564200614, 134, '2024-04-18', 'On-site payment', '2024-04-20', '0000-00-00 00:00:00', '', 'paid'),
+(149, 33, 24, 33, 'Bahay Kusina De Tangra', 'Lambunao Branch', 'Bahay Kusina(Basic Package)', 'EzServe_59940062314607052806', 'Alisah Bolivar', 'bvrlisah@gmail.com', 9564200614, 1820, '2024-04-26', 'On-site payment', '2024-05-03', '0000-00-00 00:00:00', '', 'unpaid');
 
 -- --------------------------------------------------------
 
@@ -671,7 +676,7 @@ ALTER TABLE `custom_item_details`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=413;
+  MODIFY `itemCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=417;
 
 --
 -- AUTO_INCREMENT for table `item_details`
@@ -683,19 +688,19 @@ ALTER TABLE `item_details`
 -- AUTO_INCREMENT for table `item_option`
 --
 ALTER TABLE `item_option`
-  MODIFY `optionCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `optionCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- AUTO_INCREMENT for table `orderlist`
 --
 ALTER TABLE `orderlist`
-  MODIFY `orderListID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `orderListID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `package`
 --
 ALTER TABLE `package`
-  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=313;
+  MODIFY `packCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=315;
 
 --
 -- AUTO_INCREMENT for table `permits`
@@ -707,7 +712,7 @@ ALTER TABLE `permits`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `transID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
+  MODIFY `transID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
 
 --
 -- AUTO_INCREMENT for table `voucher`
