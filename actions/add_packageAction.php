@@ -1,4 +1,4 @@
-[<?php
+<?php
 global $DB;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
