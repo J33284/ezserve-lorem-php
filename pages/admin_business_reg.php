@@ -6,16 +6,6 @@ $businesses = $DB->query("SELECT b.*, bo.* FROM business b
     JOIN business_owner bo ON b.ownerID = bo.ownerID
     WHERE b.status = 0");
 
-// Function to display file names with links
-function displayFileName($filePath, $fileType)
-{
-    if (file_exists($filePath)) {
-        $fileName = pathinfo($filePath, PATHINFO_BASENAME);
-        echo "<p><a href='javascript:void(0);' onclick='showImage(\"$filePath\", \"$fileType\");'>$fileName</a></p>";
-    } else {
-        echo "<p>No file uploaded for $fileType.</p>";
-    }
-}
 
 ?>
 
@@ -186,95 +176,76 @@ function displayFileName($filePath, $fileType)
                         </div>
 
                         <h5 class="text-light bg-info p-2">Business Permits</h5>      
-                        <?php
-                        $permitPath = $business['business_permit']; // Assuming the file path is stored in the 'permits' field
-                        $sanitaryPath = $business['sanitary']; // Assuming the file path is stored in the 'sanitary' field
-                        $taxPath = $business['tax']; // Assuming the file path is stored in the 'tax' field
-            ?>
+                        
+                        <div class="row mb-2">
+                        <label class="col-4" for="business_permit">Business Permit</label>
+                        <div class="col mx-3">
+                            <?php if (!empty($business['business_permit'])) : ?>
+                                <button type="button" class="btn btn-primary view-btn" data-bs-toggle="modal" data-bs-target="#imageModal" data-bs-image="<?= $business['business_permit'] ?>">View</button>
+                            <?php else : ?>
+                                <p>No Business Permit</p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-4" for="tax">Tax Certificate</label>
+                        <div class="col mx-3">
+                            <?php if (!empty($business['tax'])) : ?>
+                                <button type="button" class="btn btn-primary view-btn" data-bs-toggle="modal" data-bs-target="#imageModal" data-bs-image="<?= $business['tax'] ?>">View</button>
+                            <?php else : ?>
+                                <p>No Tax Certificate</p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-4" for="sanitary">Sanitary Permit</label>
+                        <div class="col mx-3">
+                            <?php if (!empty($business['sanitary'])) : ?>
+                                <button type="button" class="btn btn-primary view-btn" data-bs-toggle="modal" data-bs-target="#imageModal" data-bs-image="<?= $business['sanitary'] ?>">View</button>
+                            <?php else : ?>
+                                <p>No Sanitary Permit</p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
 
-            <!-- Script to display image when clicked -->
-            <script>
-                function showImage(filePath, fileType) {
-                    if (filePath.toLowerCase().endsWith('.pdf')) {
-                        // If it's a PDF, open in a new tab
-                        window.open(filePath, '_blank');
-                    } else {
-                        // If it's an image, display it in a modal or lightbox
-                        var image = new Image();
-                        image.src = filePath;
-
-                        var modal = document.createElement('div');
-                        modal.style.position = 'fixed';
-                        modal.style.top = '0';
-                        modal.style.left = '0';
-                        modal.style.width = '100%';
-                        modal.style.height = '100%';
-                        modal.style.background = 'rgba(0, 0, 0, 0.8)';
-                        modal.style.display = 'flex';
-                        modal.style.alignItems = 'center';
-                        modal.style.justifyContent = 'center';
-                        modal.style.zIndex = '1100';
-
-                        image.style.maxWidth = '90%';
-                        image.style.maxHeight = '90%';
-
-                        modal.appendChild(image);
-                        document.body.appendChild(modal);
-
-                        // Close modal on click
-                        modal.onclick = function () {
-                            modal.remove();
-                        };
-                    }
-                }
-            </script>
-
-                    
+                        </div>
+                    </div>
                 </div>
             <?php endforeach; ?>
         </tbody>
     </table>
 </div>
+        
+                
 
 
 
-
-<?= element('footer') ?>
+<!-- Modal Structure -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Permit</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img src="" id="modalImage" class="img-fluid" alt="Full Image">
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <script>
-    // Script to display image when clicked
-    function showImage(filePath, fileType) {
-        if (filePath.toLowerCase().endsWith('.pdf')) {
-            // If it's a PDF, open in a new tab
-            window.open(filePath, '_blank');
-        } else {
-            // If it's an image, display it in a modal or lightbox
-            var image = new Image();
-            image.src = filePath;
-
-            var modal = document.createElement('div');
-            modal.style.position = 'fixed';
-            modal.style.top = '0';
-            modal.style.left = '0';
-            modal.style.width = '100%';
-            modal.style.height = '100%';
-            modal.style.background = 'rgba(0, 0, 0, 0.8)';
-            modal.style.display = 'flex';
-            modal.style.alignItems = 'center';
-            modal.style.justifyContent = 'center';
-            modal.style.zIndex = '1100';
-
-            image.style.maxWidth = '90%';
-            image.style.maxHeight = '90%';
-
-            modal.appendChild(image);
-            document.body.appendChild(modal);
-
-            // Close modal on click
-            modal.onclick = function() {
-                modal.remove();
-            };
-        }
-    }
+document.addEventListener('DOMContentLoaded', function () {
+    var imageModal = document.getElementById('imageModal');
+    imageModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var imageUrl = button.getAttribute('data-bs-image');
+        var modalImage = imageModal.querySelector('#modalImage');
+        modalImage.src = imageUrl;
+    });
+});
 </script>
+
+
