@@ -74,20 +74,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
             
-            $detailsCount = count($_POST['detailName'][$itemIndex][$key]);
-            for ($detailIndex = 0; $detailIndex < $detailsCount; $detailIndex++) {
-                $detailName = $_POST['detailName'][$itemIndex][$key][$detailIndex];
-                $detailValue = $_POST['detailValue'][$itemIndex][$key][$detailIndex];
             
-                if (!empty($detailName) && !empty($detailValue)) {
-                    $detailInsertQuery = "INSERT INTO item_details (detailName, detailValue, itemCode) VALUES (?, ?, ?)";
-                    $detailStatement = $DB->prepare($detailInsertQuery);
-                    $detailStatement->execute([$detailName, $detailValue, $itemCode]);
-                }
-            }
-            
-        }
-        
+    }
     
 
 

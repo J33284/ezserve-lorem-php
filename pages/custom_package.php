@@ -3,7 +3,6 @@
 <?= element('owner-side-nav') ?>
 
 <?php
-global $DB;                                                                                                                                                            $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
 $businessCode = isset($_GET['businessCode']) ? $_GET['businessCode'] : '';
 $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';
 $categoriesQuery = "SELECT * FROM custom_category WHERE branchCode = '$branchCode'";
@@ -21,7 +20,6 @@ $categoriesResult = $DB->query($categoriesQuery);
                     </a>
                     <h1>
                         Create Custom Package
-                        
                     </h1>
             </div>
         </div>
@@ -65,42 +63,36 @@ $categoriesResult = $DB->query($categoriesQuery);
 
                                                 while ($item = $itemsResult->fetch_assoc()) {
                                                 $itemCode = $item['itemCode'];
-                                                $detailsQuery = "SELECT * FROM custom_item_details WHERE ItemCode = '$itemCode'";
-                                                $detailsResult = $DB->query($detailsQuery);
-                                                $details = $detailsResult->fetch_assoc();
                                             ?>
-                                            <form action="?actions=save_custom" method="POST">
                                             <tr data-item-code="<?php echo $item['itemCode']; ?>">
-                                           
+                                                <form action="?action=save_custom" method="post">
+                                                    <input type="hidden" name="itemCode" value="<?php echo $item['itemCode']; ?>">
+                                                    <input type="hidden" name="businessCode" value="<?php echo $businessCode?>">
+                                                    <input type="hidden" name="branchCode" value="<?php echo $branchCode?>">
+
                                                     <td>
                                                         <p id="nameDisplay<?= $item['itemCode']; ?>" style="display:block"><?= $item['itemName'] ?></p>
-                                                        <input type="text" class="form-control" id="editName<?= $item['itemCode']; ?>" placeholder="Enter new item name" style="display:none;" value="<?php echo $item['itemName']; ?>">
+                                                        <input type="text" name="itemName" class="form-control" id="editName<?= $item['itemCode']; ?>" placeholder="Enter new item name" style="display:none;" value="<?php echo $item['itemName']; ?>">
                                                     </td>
                                                     <td>
                                                         <p id="descriptionDisplay<?= $item['itemCode']; ?>" style="display:block"><?= $item['description'] ?></p>
-                                                        <input type="text" class="form-control" id="editDescription<?= $item['itemCode']; ?>" placeholder="Enter new description" style="display:none;" value="<?php echo $item['description']; ?>">
+                                                        <input type="text" name="description" class="form-control" id="editDescription<?= $item['itemCode']; ?>" placeholder="Enter new description" style="display:none;" value="<?php echo $item['description']; ?>">
 
-                                                        <?php if (!empty($details['detailName']) && !empty($details['detailValue'])) { ?>
-                                                        <p id="detailsDisplay<?= $item['itemCode']; ?>" style="display: block;"><?php echo $details['detailName'] . ': ' . $details['detailValue']; ?></p>
-                                                        <div id="editDetails<?= $item['itemCode']; ?>" style="display: none;">
-                                                            <input type="text" class="form-control" id="editDetailName<?= $item['itemCode']; ?>" placeholder="Enter new detail name" value="<?php echo $details['detailName']; ?>">
-                                                            <input type="text" class="form-control" id="editDetailValue<?= $item['itemCode']; ?>" placeholder="Enter new detail value" value="<?php echo $details['detailValue']; ?>">
-                                                        </div>
-                                                    <?php } else { 
-                                                        echo '';
-                                                    }
-                                                        ?>
                                                     
                                                     </td>
                                                     <td>
                                                         <p id="priceDisplay<?= $item['itemCode']; ?>" style="display:block"><?= $item['price'] ?></p>
-                                                        <input type="text" class="form-control" id="editPrice<?= $item['itemCode']; ?>" placeholder="Enter new price" style="display:none; width: 80px" value="<?php echo $item['price']; ?>">
+                                                        <input type="text" name="price"  class="form-control" id="editPrice<?= $item['itemCode']; ?>" placeholder="Enter new price" style="display:none; width: 80px" value="<?php echo $item['price']; ?>">
                                                     
                                                     </td>
                                                     <td>
-                                                        <p id="availabilityDisplay<?= $item['availability']; ?>" style="display:block">
-                                                            <?= ($item['availability'] == 1) ? 'No' : 'Yes' ?>
+                                                        <p id="availabilityDisplay<?= $item['itemCode']; ?>">
+                                                            <?= ($item['availability'] == 1) ? 'Off' : 'On' ?>
                                                         </p>
+                                                        <div class="form-check form-switch" id="availabilityContainer<?= $item['itemCode']; ?>" style="display: none;">
+                                                        <input class="form-check-input" type="checkbox" id="availabilitySwitch" name="availability" onchange="updateLabel()">
+                                                        <label class="form-check-label" for="availabilitySwitch" id="availabilityLabel">Off</label>
+                                                    </div>
 
                                                     </td>
 
@@ -114,14 +106,16 @@ $categoriesResult = $DB->query($categoriesQuery);
                                                                 <i class="bi bi-trash"></i>
                                                                 <span>Delete</span>
                                                             </a>
-                                                            <a href="#" id="saveButton<?= $item['itemCode']; ?>" class="btn-save btn btn-success mx-3" style="display:none">
+                                                            
+                                                            <button type="submit" name="saveItem" id="saveButton<?= $item['itemCode']; ?>" class="btn-save btn btn-success mx-3" style="display:none">
                                                                 <i class="bi bi-check-circle"></i>
                                                                 <span>Save</span>
-                                                            </a>
-                                                            <a href="#" id="cancelButton<?= $item['itemCode']; ?>" class="btn-cancel btn btn-secondary" style="display:none" onclick="toggleEditable('<?php echo $item['itemCode']; ?>')">
+                                                            </button>
+
+                                                            <button type ="button" id="cancelButton<?= $item['itemCode']; ?>" class="btn-cancel btn btn-secondary" style="display:none" onclick="toggleEditable('<?php echo $item['itemCode']; ?>')">
                                                                 <i class="bi bi-x-circle"></i>
                                                                 <span>Cancel</span>
-                                                            </a>
+                                                            </button>
                                                         </div>
                                                     </td>
                                                 </form>
@@ -140,15 +134,11 @@ $categoriesResult = $DB->query($categoriesQuery);
                             </div>
                         </div>
                     <?php } ?>
-                    
-                
-          
-    
-<?php else: ?>
-    <div style="margin: 120px 0 0 20%; width: 70vw">
-    <div class="justify-content-center align-items-center" >
-        <div class="d-flex justify-content-between align-items-center mb-4" >
-            <div class="d-flex"> 
+    <?php else: ?>
+        <div style="margin: 120px 0 0 20%; width: 70vw">
+        <div class="justify-content-center align-items-center" >
+            <div class="d-flex justify-content-between align-items-center mb-4" >
+                <div class="d-flex"> 
                     <a href="?page=choose_package&businessCode=<?= $businessCode?>&branchCode=<?= $branchCode ?>" class=" mx-3 btn-back btn-lg justify-content-center align-items-center d-flex text-dark">
                     <i class="bi bi-arrow-left"></i>
                     </a>
@@ -157,7 +147,7 @@ $categoriesResult = $DB->query($categoriesQuery);
                         
                     </h1>
             </div>
-                    <a href="?page=add_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="  btn btn-md btn btn-primary">
+                    <a href="?page=add_custom_package&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>" class="  btn btn-md btn btn-primary">
                     <i class="bi bi-plus" style="font-size: 24px; "></i>
                     <span>Add Category</span>
                     </a>
@@ -206,9 +196,47 @@ function toggleEditable(itemCode) {
 
         priceDisplay.style.display = (priceDisplay.style.display === 'none') ? 'block' : 'none';
         editPrice.style.display = (editPrice.style.display === 'none') ? 'block' : 'none';
+
+        var availabilityDisplay = document.getElementById('availabilityDisplay'+ itemCode);
+        availabilityDisplay.style.display = (availabilityDisplay.style.display === 'none') ? 'block' : 'none';
+
+        var availabilityContainer = document.getElementById('availabilityContainer'+ itemCode);
+        availabilityContainer.style.display = (availabilityContainer.style.display === 'none') ? 'block' : 'none';
+
     }
 
 
+    function updateLabel() {
+        var switchElement = document.getElementById("availabilitySwitch");
+        var labelElement = document.getElementById("availabilityLabel");
 
+        if (switchElement.checked) {
+            labelElement.textContent = "On";
+        } else {
+            labelElement.textContent = "Off";
+        }
+    }
+    
+
+
+    function saveItem(itemCode) {
+        // Retrieve values from input fields
+        var itemName = document.getElementById('editName' + itemCode).value;
+        var description = document.getElementById('editDescription' + itemCode).value;
+        var detailName = document.getElementById('editDetailName' + itemCode).value;
+        var detailValue = document.getElementById('editDetailValue' + itemCode).value;
+        var price = document.getElementById('editPrice' + itemCode).value;
+
+        // Construct the URL with the values
+        var url = '?action=save_custom' +
+                  '&itemName=' + encodeURIComponent(itemName) +
+                  '&description=' + encodeURIComponent(description) +
+                  '&detailName=' + encodeURIComponent(detailName) +
+                  '&detailValue=' + encodeURIComponent(detailValue) +
+                  '&price=' + encodeURIComponent(price);
+
+        // Append the URL parameters to the current URL
+        window.location.href = window.location.href + url;
+    }
 
 </script>

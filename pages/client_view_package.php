@@ -58,12 +58,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
         </thead>
         <tbody>
             <?php foreach ($packageDetailsQ as $row) : ?>
-                <?php
-                //for item_details table
-                $itemCode = $row['itemCode'];
-                $itemDetailsQ = $DB->query("SELECT * FROM item_details WHERE itemCode = '$itemCode'");
-                $itemDetails = $itemDetailsQ->fetch_assoc();
-                ?>
+                
                 <tr id="packageRow_<?= $row['itemCode'] ?>">
                     <td style="width: 250px;">
                         <img src="<?= $row['itemImage'] ?>" alt="<?= $row['itemName'] ?>" style="width: 200px; height: 180px;" onclick="openModal('<?= $row['itemImage'] ?>', '<?= $row['itemName'] ?>')">
@@ -71,9 +66,6 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                     <td style="width: 200px;"><?= $row['itemName'] ?></td>
                     <td style="width: 400px;">
                         <?= $row['description'] ?><br>
-                        <?php if (!empty($itemDetails['detailName']) && !empty($itemDetails['detailValue'])) : ?>
-                            <strong><?= $itemDetails['detailName'] ?>:</strong> <?= $itemDetails['detailValue'] ?>
-                        <?php endif; ?>
                     </td>
                     <?php if ($packageDetails['pricingType'] !== 'per pax') : ?>
                         <td><?= $row['quantity'] . " " . $row['unit'] ?></td>
@@ -95,6 +87,7 @@ $customItemsQ = $DB->query("SELECT * FROM custom_items");
                     </div>
                     <div class="offcanvas-body">
                         <?php 
+                        $itemCode = $row['itemCode'];
                         $customCategoryQ = $DB->query("SELECT * FROM item_option WHERE itemCode = '$itemCode'");
                         
                         while ($category = $customCategoryQ->fetch_assoc()) : ?>

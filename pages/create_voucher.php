@@ -22,7 +22,7 @@ $packages = $DB->query("SELECT * FROM package");
             <label for="businessCode">Select Business:</label>
             <select name="businessCode" class="form-select " id="businessCode" onchange="updateBranches()">
                 <option disabled selected >--Select Business--</option>
-                <option value="0">All Business</option>
+                <option value="0">All Businesses</option>
                 <?php while ($row = $businesses->fetch_assoc()) {
                     echo "<option value='" . $row["businessCode"] . "'>" . $row["busName"] . "</option>";
                 }

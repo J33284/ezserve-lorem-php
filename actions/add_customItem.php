@@ -30,19 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Get the last inserted item code (assuming it's an auto-incremented primary key)
             $itemCode = $DB->insert_id;
 
-            $detailsCount = count($_POST['detailName'][$itemIndex][$key]);
-            for ($detailIndex = 0; $detailIndex < $detailsCount; $detailIndex++) {
-                $detailName = $_POST['detailName'][$itemIndex][$key][$detailIndex];
-                $detailValue = $_POST['detailValue'][$itemIndex][$key][$detailIndex];
             
-                // Check if both detailName and detailValue are not empty before inserting
-                if (!empty($detailName) && !empty($detailValue)) {
-                    // Insert detail information into the 'item_details' table
-                    $detailInsertQuery = "INSERT INTO custom_item_details (detailName, detailValue, itemCode) VALUES (?, ?, ?)";
-                    $detailStatement = $DB->prepare($detailInsertQuery);
-                    $detailStatement->execute([$detailName, $detailValue, $itemCode]);
-                }
-            }
         }
     }
 

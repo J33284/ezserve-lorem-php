@@ -34,11 +34,7 @@ $itemsResults = $DB->query($itemsQuery);
 
         <div  >
             <?php while ($item = $itemsResults->fetch_assoc()) { ?>
-                <?php
-                // Query to get details associated with the item
-                $detailsQuery = "SELECT * FROM item_details WHERE itemCode = '{$item['itemCode']}';";
-                $detailsResults = $DB->query($detailsQuery);
-                ?>
+                
                 <?php if ($package['pricingType'] == 'per pax') { ?>
                     <div class="card flex-row my-3" style="padding: 30px;" data-item-code="<?php echo $item['itemCode']; ?>" >
                         <div class="col-3">
@@ -73,10 +69,6 @@ $itemsResults = $DB->query($itemsQuery);
                             <div>
                                 <label><strong>Description:</strong></label>
                                 <p id="descriptionDisplay" style="display:block"><?php echo $item['description']; ?></p>
-                                <?php while ($detail = $detailsResults->fetch_assoc()) { ?>
-                                <p><strong><?php echo $detail['detailName']; ?>:</strong> <?php echo $detail['detailValue']; ?></p>
-                            <?php } ?>
-
                             </div>
                             
                         </div>

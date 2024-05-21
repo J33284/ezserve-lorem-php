@@ -79,9 +79,8 @@ if ($branchesQ) {
                                   $itemCode = $item['itemCode'] ?? '';
 
 
-                                  $item_detailsQ = $DB->query("SELECT i.*, d.*
+                                  $item_detailsQ = $DB->query("SELECT i.*
                                       FROM items i
-                                      JOIN item_details d ON i.itemCode = d.itemCode
                                       WHERE i.itemCode = '$itemCode' LIMIT 1");
 
                                   if ($item_detailsQ) {

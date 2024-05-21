@@ -57,20 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $updateItemStatement->execute([$quantity, $unit, $price, $itemCode]);
             }
 
-            // Process details
-            $detailsCount = count($_POST['detailName'][$itemIndex][$key]);
-            for ($detailIndex = 0; $detailIndex < $detailsCount; $detailIndex++) {
-                $detailName = $_POST['detailName'][$itemIndex][$key][$detailIndex];
-                $detailValue = $_POST['detailValue'][$itemIndex][$key][$detailIndex];
-
-                // Check if both detailName and detailValue are not empty before inserting
-                if (!empty($detailName) && !empty($detailValue)) {
-                    // Insert detail information into the 'item_details' table
-                    $detailInsertQuery = "INSERT INTO item_details (detailName, detailValue, itemCode) VALUES (?, ?, ?)";
-                    $detailStatement = $DB->prepare($detailInsertQuery);
-                    $detailStatement->execute([$detailName, $detailValue, $itemCode]);
-                }
-            }
+            
         }
     }
 

@@ -223,21 +223,9 @@ $custom = $DB->query("SELECT * FROM custom_category WHERE branchCode = $branchCo
             </div>
         </div>
 
-      
+    
 
-        <hr>
-
-        <button type="button" class="add-details-btn btn btn-primary mb-3" onclick="cloneDetails(this, ${itemIndex})">Add Other Details</button>
-        <div class="details-group" id="details_${itemIndex}_0">
-            <div class="form-group">
-                <label for="detailName">Detail Name</label>
-                <input class="form-control" type="text" name="detailName[${itemIndex}][0][]" placeholder="Detail Name">
-            </div>
-            <div class="form-group">
-                <label for="detailValue">Value</label>
-                <input class="form-control" type="text" name="detailValue[${itemIndex}][0][]" placeholder="Detail Value">
-            </div>
-        </div>
+        
     `;
 
     return newItemGroup;
@@ -332,15 +320,6 @@ function addCategory(itemIndex) {
     }
 
 
-    function cloneDetails(button, itemIndex) {
-        const detailsGroup = button.parentNode.querySelector('.details-group').cloneNode(true);
-        const detailsCount = document.querySelectorAll(`#details_${itemIndex} .details-group`).length;
-
-        detailsGroup.id = `details_${itemIndex}_${detailsCount}`;
-        clearInputValues(detailsGroup);
-        button.parentNode.insertBefore(detailsGroup, button.nextSibling);
-        detailsGroup.style.display = 'block';  
-    }
 
     function cloneItemFields() {
         const itemGroup = createItemGroup(itemCounter).cloneNode(true);
