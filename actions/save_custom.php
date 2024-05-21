@@ -7,9 +7,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $newdescription = $_POST["description"];
     $newprice = $_POST["price"];
     $itemCode = $_POST["itemCode"];
+    $new_availability = $_POST["availability"];
+    
+
 
     $updateQuery = "UPDATE custom_items 
-                    SET itemName = '$newitemName', description = '$newdescription', price = $newprice
+                    SET itemName = '$newitemName', description = '$newdescription', price = $newprice, availability = '$new_availability'
                     WHERE itemCode = '$itemCode'";
 
     if ($DB->query($updateQuery) === TRUE) {

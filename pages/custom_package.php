@@ -90,9 +90,9 @@ $categoriesResult = $DB->query($categoriesQuery);
                                                             <?= ($item['availability'] == 1) ? 'Off' : 'On' ?>
                                                         </p>
                                                         <div class="form-check form-switch" id="availabilityContainer<?= $item['itemCode']; ?>" style="display: none;">
-                                                        <input class="form-check-input" type="checkbox" id="availabilitySwitch" name="availability" onchange="updateLabel()">
-                                                        <label class="form-check-label" for="availabilitySwitch" id="availabilityLabel">Off</label>
-                                                    </div>
+                                                            <input class="form-check-input" type="checkbox" id="availabilitySwitch<?= $item['itemCode']; ?>" name="availability" <?= ($item['availability'] == 0) ? 'checked' : '' ?>>
+                                                            <label class="form-check-label" for="availabilitySwitch<?= $item['itemCode']; ?>" id="availabilityLabel"></label>
+                                                        </div>
 
                                                     </td>
 
@@ -217,26 +217,5 @@ function toggleEditable(itemCode) {
         }
     }
     
-
-
-    function saveItem(itemCode) {
-        // Retrieve values from input fields
-        var itemName = document.getElementById('editName' + itemCode).value;
-        var description = document.getElementById('editDescription' + itemCode).value;
-        var detailName = document.getElementById('editDetailName' + itemCode).value;
-        var detailValue = document.getElementById('editDetailValue' + itemCode).value;
-        var price = document.getElementById('editPrice' + itemCode).value;
-
-        // Construct the URL with the values
-        var url = '?action=save_custom' +
-                  '&itemName=' + encodeURIComponent(itemName) +
-                  '&description=' + encodeURIComponent(description) +
-                  '&detailName=' + encodeURIComponent(detailName) +
-                  '&detailValue=' + encodeURIComponent(detailValue) +
-                  '&price=' + encodeURIComponent(price);
-
-        // Append the URL parameters to the current URL
-        window.location.href = window.location.href + url;
-    }
-
+    
 </script>

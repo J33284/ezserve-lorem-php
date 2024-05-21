@@ -109,6 +109,5 @@ $businesses = $DB->query("
 </div>
 
 
-<?= element('footer') ?>
 
 
