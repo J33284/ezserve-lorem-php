@@ -2,10 +2,10 @@ Members:
 
 Bolivar, Alisah Mae - Programmer
 Nieves, Jireh Antonette - Project Manager
-Punsalan, Eden
-Tanotan, Janelle
-Entarcigo, Keryl John
-Gardose, AJ Alfonso
+Punsalan, Eden - Technical Writer
+Tanotan, Janelle - Technical Writer
+Entarcigo, Keryl John - Designer
+Gardose, AJ Alfonso - Data Gatherer
 
 Usernames and Password
 
