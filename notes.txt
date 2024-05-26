@@ -1,0 +1,22 @@
+Members:
+
+Bolivar, Alisah Mae - Programmer
+Nieves, Jireh Antonette - Project Manager
+Punsalan, Eden
+Tanotan, Janelle
+Entarcigo, Keryl John
+Gardose, AJ Alfonso
+
+Usernames and Password
+
+Client
+    Username:
+    Password:
+
+Owner
+    Username:
+    Password:
+
+Admin
+    Username:
+    Password:
