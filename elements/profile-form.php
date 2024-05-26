@@ -18,7 +18,7 @@ $profileImage = $userData->profileImage;
 <div id="profile" class="profile" style="margin: 120px 0 0 23%; width: 70vw" >
   <div class="d-flex justify-content-between align-items-center p-3">
     <h1 >My Profile</h1>
-    <a href="#" class="btn-edit btn-md btn btn-primary float-end  " onclick="toggleEditable()">
+    <a href="#" id="editBtn" class="btn-edit btn-md btn btn-primary float-end  " onclick="toggleEditable()">
     <i id="pencilIcon" class="bi bi-pencil-fill" style="font-size: 24px; "></i>
                 <span class="mt-1">Edit Profile</span>
     </a>
@@ -124,8 +124,9 @@ $profileImage = $userData->profileImage;
 </style>
 <script>
     function toggleEditable() {
-    toggleVisibility("ProfPic");
+    toggleButtonVisibility("editBtn");
 
+    toggleVisibility("ProfPic");
     toggleVisibility("fnameDisplay");
     toggleVisibility("fname");
     toggleVisibility("lnameDisplay");
@@ -148,6 +149,9 @@ $profileImage = $userData->profileImage;
     editButton.style.display = editButton.style.display === "none" ? "block" : "none";
 }
 
+
+
+
 function toggleVisibility(elementId) {
     var element = document.getElementById(elementId);
     if (element.style.display === "none" || element.style.display === "") {
@@ -156,7 +160,15 @@ function toggleVisibility(elementId) {
         element.style.display = "none";
     }
 }
-
+function toggleButtonVisibility(elementId) {
+    var element = document.getElementById(elementId);
+    if (element.style.display === "block" || element.style.display === "") {
+        element.style.display = "none";
+    } else {
+        element.style.display = "block";
+    }
+    
+}
 function previewImage(input, previewId) {
         const preview = document.getElementById(previewId);
 
@@ -170,4 +182,32 @@ function previewImage(input, previewId) {
             reader.readAsDataURL(input.files[0]);
         }
     }
+
+    function cancelEdit() {
+        toggleButtonVisibility("editBtn");
+
+        toggleVisibility("ProfPic");
+        toggleVisibility("fnameDisplay");
+        toggleVisibility("fname");
+        toggleVisibility("lnameDisplay");
+        toggleVisibility("lname");
+        toggleVisibility("birthdayDisplay");
+        toggleVisibility("birthday");
+        toggleVisibility("numberDisplay");
+        toggleVisibility("number");
+        toggleVisibility("ownerAddressDisplay");
+        toggleVisibility("ownerAddress");
+        toggleVisibility("emailDisplay");
+        toggleVisibility("email");
+        toggleVisibility("usernameDisplay");
+        toggleVisibility("username");
+
+        toggleVisibility("updateButton");
+        toggleVisibility("cancelButton");
+
+        var editButton = document.getElementById("editButton");
+        editButton.style.display = editButton.style.display === "none" ? "block" : "none";
+}
+
+
 </script>

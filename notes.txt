@@ -10,8 +10,8 @@ Gardose, AJ Alfonso - Data Gatherer
 Usernames and Password
 
 Client
-    Username:
-    Password:
+    Username: Client
+    Password: Alisah12345$
 
 Owner
     Username:
