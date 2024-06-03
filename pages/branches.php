@@ -305,10 +305,10 @@ $result = $DB->query($sql);
             attribution: '© OpenStreetMap contributors'
         }).addTo(mapBranchDetails[branchCode]);
 
-        // Add the geocoder control
+        
         L.Control.geocoder().addTo(mapBranchDetails[branchCode]);
 
-        // Initialize the marker
+        
         var marker = L.marker([10.7202, 122.5621], { draggable: true }).addTo(mapBranchDetails[branchCode]);
 
         mapBranchDetails[branchCode].on('click', function (e) {
@@ -335,10 +335,9 @@ function updateCoordinatesInputBranchDetails(branchCode, lat, lng) {
     coordinatesInput.value = lat + ', ' + lng;
 }
 
-    // Assuming you have a JavaScript variable hasBranchResults that indicates whether there are branch results
+   
     var hasBranchResults = <?php echo $branchResult->num_rows > 0 ? 'true' : 'false'; ?>;
 
-    // Set the visibility of the "View Branch" button based on the JavaScript variable
     document.getElementById('ViewBranch').style.display = hasBranchResults ? 'block' : 'none';
 
     
