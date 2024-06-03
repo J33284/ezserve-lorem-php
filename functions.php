@@ -80,39 +80,6 @@ function get_page() {
     //exit;
 }
 
-function has_access($redirect = false) {
-  global $restricted_pages;
-  $page = get_page();
-
-  if (isset($_SESSION[AUTH_ID])) {
-      if (isset($_REQUEST['action'])) {
-          return;
-      }
-
-      $type = isset($_SESSION[AUTH_TYPE]) && !empty($_SESSION[AUTH_TYPE]) ? $_SESSION[AUTH_TYPE] : 'default';
-
-      if (array_search($page, $restricted_pages[$type]['access']) === false && ($page != LOGIN_REDIRECT && $restricted_pages[$type]['default_page'] != $page)) {
-
-          if ($redirect) {
-              set_message("You have no access to page <span class='fw-bold'>$page</span>", "warning");
-              redirect($restricted_pages[$type]['default_page']);
-          } else {
-              return false;
-          }
-      }
-
-      return true;
-      
-  } else {
-      if (isset($restricted_pages) && !isset($_SESSION[AUTH_ID])) {
-          if (array_search($page, $restricted_pages['default']['access']) === false) {
-              redirect(LOGIN_REDIRECT);
-          }
-      }
-  }
-}
-
-// End of Subfoldering inside the pages Changes
 
 function is_usertype( $check_type ) {
 	if( $_SESSION[ AUTH_TYPE ] == $check_type ) {

@@ -1,12 +1,33 @@
 <?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); 
 
-$current_page = isset($_GET['page']) ? $_GET['page'] : 'default'; 
+if (isset($_SESSION['userID'])) {
+    $usertype = isset($_SESSION['usertype']) ? $_SESSION['usertype'] : '';
+
+    if ($usertype === 'client') {
+        $allowed_pages = array('services', 'default', 'about', 'client_profile', 'client_business_details');
+        $current_page = isset($_GET['page']) ? $_GET['page'] : 'default';
+
+        if (!in_array($current_page, $allowed_pages)) {
+            header('Location: ' . SITE_URL . '/?page=default');
+            exit();
+        }
+    }
+} else {
+    $allowed_pages = array('register', 'default', 'services', 'about');
+    $current_page = isset($_GET['page']) ? $_GET['page'] : '';
+
+    if ($current_page !== 'login' && !in_array($current_page, $allowed_pages)) {
+        // Redirect to the login page
+        header('Location: ' . SITE_URL . '/?page=login');
+        exit();
+    }
+}
 
 if (isset($_SESSION['userID'])) {
     $userData = viewUser($_SESSION['userID']);
-    $profileImage = !empty($userData->profileImage) ? $userData->profileImage : ''; // Set profileImage if not empty, otherwise set it to an empty string
+    $profileImage = !empty($userData->profileImage) ? $userData->profileImage : ''; 
 } else {
-    $profileImage = ''; // Set profileImage to an empty string if user is not logged in
+    $profileImage = ''; 
 }
 ?>
 

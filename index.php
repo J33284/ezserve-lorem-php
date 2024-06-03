@@ -14,11 +14,10 @@
 	require 'authentication.php';	
 	require 'actions.php';			
 	require 'page.php';
-
 	
 	if( $DB )
 	$DB->close();
-	
+
 ?>
 
 	

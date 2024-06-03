@@ -7,26 +7,32 @@ if (!empty($_POST['username']) && !empty($_POST['password'])) {
     $username = $_POST['username'];
     $enteredPassword = $_POST['password'];
 
-    // Check the "business_owner" table
+
     $ownerQuery = "SELECT ownerID AS ID, username, password, 'business owner' AS usertype, status FROM business_owner WHERE username = ? LIMIT 1";
     $ownerStmt = $DB->prepare($ownerQuery);
     $ownerStmt->bind_param("s", $username);
     $ownerStmt->execute();
     $ownerResult = $ownerStmt->get_result();
 
-    // Check the "client" table
     $clientQuery = "SELECT clientID AS ID, username, password, 'client' AS usertype, status FROM client WHERE username = ? LIMIT 1";
     $clientStmt = $DB->prepare($clientQuery);
     $clientStmt->bind_param("s", $username);
     $clientStmt->execute();
     $clientResult = $clientStmt->get_result();
 
+    $adminQuery = "SELECT adminID AS ID, username, password, 'admin' AS usertype, status FROM admin WHERE username = ? LIMIT 1";
+    $adminStmt = $DB->prepare($adminQuery);
+    $adminStmt->bind_param("s", $username);
+    $adminStmt->execute();
+    $adminResult = $adminStmt->get_result();
+
     if ($ownerResult->num_rows) {
         $user = $ownerResult->fetch_object();
     } elseif ($clientResult->num_rows) {
         $user = $clientResult->fetch_object();
+    } elseif ($adminResult->num_rows) {
+        $user = $adminResult->fetch_object();
     }
-
     if (isset($user)) {
         $storedPassword = $user->password;
 
