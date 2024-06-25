@@ -16,7 +16,6 @@
     <?php
     global $DB;
     $ownerID = $_SESSION['userID'];
-    // Fetch voucher data from the database
     $result = $DB->query("SELECT * FROM voucher WHERE ownerID = '$ownerID'");
 
     if ($result->num_rows > 0) {

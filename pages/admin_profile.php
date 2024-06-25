@@ -1,4 +1,4 @@
-<?= element('header') ?>
+<?= element('admin_header') ?>
 <?= element('admin-side-nav') ?>
 
 <script src="assets/js/script.js"></script>

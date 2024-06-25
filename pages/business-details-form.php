@@ -1,27 +1,22 @@
 <?php
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
-// Use $_POST to retrieve the business code consistently
 if (isset($_POST['businessCode'])) {
     $businessCode = $_POST['businessCode'];
 
-    // Query the database to fetch business details based on $businessCode
     $result = $DB->query("SELECT b.* FROM business b
    
     WHERE b.businessCode = '$businessCode'");
-    // Check if any rows are returned
     if ($result->num_rows > 0) {
         $businessDetails = $result->fetch_assoc();
     } else {
         echo '<p>Business not found</p>';
-        // You might want to handle the case where the business is not found
-        // or redirect the user to an error page.
+        
     }
 } else {
     echo '<p>Invalid request</p>';
 }
 
-// Query the database to fetch businesses with a status of 0
 $businesses = $DB->query("SELECT b.*, br.* FROM business b JOIN branches br ON b.businessCode = br.businessCode
 WHERE b.businessCode = '$businessCode'");
 ?>
@@ -38,7 +33,7 @@ WHERE b.businessCode = '$businessCode'");
                     <div class="row d-flex align-items-center mb-2">
                         <label class="col-3" for="busType">Address</label>
                         <p class="col m-0">
-                            <?= $businessDetails['house_building'] . ', ' . $businessDetails['barangay'] . ', ' . $businessDetails['street'] . ', ' . $businessDetails['city_municipality'] . ', ' . $businessDetails['province'] ?>
+                            <?= $businessDetails['house_building'] . '' . $businessDetails['barangay'] . '' . $businessDetails['street'] . ', ' . $businessDetails['city_municipality'] . ' ' . $businessDetails['province'] ?>
                         </p>
                     </div>
                     <div class="row d-flex align-items-center mb-2">
@@ -66,11 +61,10 @@ WHERE b.businessCode = '$businessCode'");
             <h3>Business Permits</h3>
 
             <?php
-            $permitPath = $businessDetails['permits']; // Assuming the file path is stored in the 'permits' field
-            $sanitaryPath = $businessDetails['sanitary']; // Assuming the file path is stored in the 'sanitary' field
-            $taxPath = $businessDetails['tax']; // Assuming the file path is stored in the 'tax' field
+            $permitPath = $businessDetails['business_permit']; 
+            $sanitaryPath = $businessDetails['sanitary']; 
+            $taxPath = $businessDetails['tax']; 
 
-            // Function to display file names with links
             function displayFileName($filePath, $fileType)
             {
                 if (file_exists($filePath)) {
@@ -81,15 +75,12 @@ WHERE b.businessCode = '$businessCode'");
                 }
             }
 
-            // Display permits
             echo "<h6><strong>Permits</strong></h6>";
             displayFileName($permitPath, 'Permits');
 
-            // Display sanitary
             echo "<h6><strong>Sanitary</strong></h6>";
             displayFileName($sanitaryPath, 'Sanitary');
 
-            // Display tax
             echo "<h6><strong>Tax</strong></h6>";
             displayFileName($taxPath, 'Tax');
             ?>
@@ -98,10 +89,8 @@ WHERE b.businessCode = '$businessCode'");
             <script>
                 function showImage(filePath, fileType) {
                     if (filePath.toLowerCase().endsWith('.pdf')) {
-                        // If it's a PDF, open in a new tab
                         window.open(filePath, '_blank');
                     } else {
-                        // If it's an image, display it in a modal or lightbox
                         var image = new Image();
                         image.src = filePath;
 
@@ -156,7 +145,6 @@ WHERE b.businessCode = '$businessCode'");
 <?php
 
 
-// SQL query to retrieve pending transactions with future pickup or delivery dates
 $sql = "SELECT 
             t.clientName,
             t.totalAmount,

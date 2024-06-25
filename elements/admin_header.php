@@ -93,7 +93,6 @@ if (isset($_SESSION['userID'])) {
 
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -126,9 +125,6 @@ if (isset($_SESSION['userID'])) {
         <nav class="d-flex  align-items-center ">
         <ul class="burger-menu " id="burgerDropdown" >
                 
-        <li><a class="burger-item <?php echo ($current_page === 'default') ? 'active' : ''; ?>" href="<?= SITE_URL ?>/?page=default">Home</a></li>
-    <li><a class="burger-item <?php echo ($current_page === 'services') ? 'active' : ''; ?>" href="<?= SITE_URL ?>/?page=services">Service</a></li>
-    <li><a class="burger-item <?php echo ($current_page === 'about') ? 'active' : ''; ?>" href="<?= SITE_URL ?>/?page=about">About Us</a></li>
 
           
                 <?php if (isset($_SESSION[AUTH_ID])) { ?>

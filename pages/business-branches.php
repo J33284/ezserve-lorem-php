@@ -1,27 +1,22 @@
 <?php
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
-// Use $_POST to retrieve the business code consistently
 if (isset($_POST['businessCode'])) {
     $businessCode = $_POST['businessCode'];
 
-    // Query the database to fetch business details based on $businessCode
     $result = $DB->query("SELECT b.*, bo.*, br.* FROM business b JOIN business_owner bo ON b.ownerID = bo.ownerID JOIN branches br ON b.businessCOde = br.businessCode
    
     WHERE b.businessCode = '$businessCode'");
-    // Check if any rows are returned
     if ($result->num_rows > 0) {
         $businessDetails = $result->fetch_assoc();
     } else {
         echo '<p>Business not found</p>';
-        // You might want to handle the case where the business is not found
-        // or redirect the user to an error page.
+      
     }
 } else {
     echo '<p>Invalid request</p>';
 }
 
-// Query the database to fetch businesses with a status of 0
 $businesses = $DB->query("SELECT b.*, br.* FROM business b JOIN branches br ON b.businessCode = br.businessCode
 WHERE b.businessCode = '$businessCode'");
 ?>

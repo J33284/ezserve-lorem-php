@@ -3,7 +3,7 @@
 <div class="aboutContainer" style="margin: 150px 100px 100px 100px; height: auto">
     <div class="quotenquote">
         <h1 class="mb-5">ABOUT ezServe</h1>
-        <p class="text-justify">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+        <p class="text-justify">"EzServe is your one-stop online platform designed to streamline and simplify the process of searching services and customizing service packages. Our mission is to provide a user-friendly and efficient experience for both customers and service providers, ensuring that your needs are met with ease and convenience."</p>
     </div>
 
     <div class="contactus" style="width: 40vw">

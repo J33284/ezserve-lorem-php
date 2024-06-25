@@ -1,4 +1,4 @@
-<?= element('header') ?>
+<?= element('owner_header') ?>
 <?php
 $businessCode = isset($_GET['businessCode']) ? $_GET['businessCode'] : '';
 $branchCode = isset($_GET['branchCode']) ? $_GET['branchCode'] : '';

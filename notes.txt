@@ -14,9 +14,9 @@ Client
     Password: Alisah12345$
 
 Owner
-    Username:
-    Password:
+    Username: JoseCruz
+    Password: BusOwner24!
 
 Admin
-    Username:
-    Password:
+    Username: admin
+    Password: Admin12345!

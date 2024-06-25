@@ -9,7 +9,7 @@ $businesses = $DB->query("SELECT b.*, bo.* FROM business b
 
 ?>
 
-<?= element('header') ?>
+<?= element('admin_header') ?>
 
 <?= element('admin-side-nav') ?>
 

@@ -12,7 +12,6 @@
                 <input type="hidden" name="action" value="email_verify">
                 <input type="hidden" name="usertype" value="<?= isset($_GET['usertype']) ? $_GET['usertype'] : ''; ?>">
                 <div class="row p-3">
-                    <!-- Add any other necessary input fields -->
                 <input type="text" class="form-control mb-3" name="email" value="<?= isset($_GET['email']) ? $_GET['email'] : ''; ?>" readonly>
                 <input type="text" class="form-control mb-3" name="verification_code" required placeholder="Input Verification Code">
                 

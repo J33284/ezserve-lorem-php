@@ -1,4 +1,4 @@
-<?= element('header') ?>
+<?= element('owner_header') ?>
 
 <?php
 $voucherID = $_GET['id'];

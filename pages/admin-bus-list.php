@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<?= element('header') ?>
+<?= element('admin_header') ?>
 
 <?= element('admin-side-nav') ?>
 
@@ -75,7 +75,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             View
                         </button>
                     </form>
-                    <button type="button" class="btn btn-sm btn-danger m-2 " data-bs-toggle="offcanvas" data-bs-target="#offcanvasDelete<?= $business['businessCode'] ?>"> <i class="bi bi-trash-fill"></i><span> Delete</span></button>
                     
                 </td>
             </tr>

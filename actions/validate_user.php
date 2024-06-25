@@ -36,7 +36,6 @@ if (!empty($_POST['username']) && !empty($_POST['password'])) {
     if (isset($user)) {
         $storedPassword = $user->password;
 
-        // Verify the entered password against the stored hashed password
         if (password_verify($enteredPassword, $storedPassword)) {
             $userID = $user->ID;
 
@@ -49,7 +48,22 @@ if (!empty($_POST['username']) && !empty($_POST['password'])) {
                 $_SESSION[AUTH_TOKEN] = $user->token;
 
                 set_message("Welcome back {$user->username}!", 'success');
-                header ("Location:?page=default"); // Redirect to the desired location for active users
+                
+                switch ($user->usertype) {
+                    case 'admin':
+                        header("Location: ?page=admin_profile");
+                        break;
+                    case 'business owner':
+                        header("Location: ?page=owner_profile");
+                        break;
+                    case 'client':
+                        header("Location: ?page=client_profile");
+                        break;
+                    default:
+                        header("Location: ?page=default");
+                        break;
+                }
+                exit;
             }
         } else {
             set_message("Invalid login, please try again.", "danger");

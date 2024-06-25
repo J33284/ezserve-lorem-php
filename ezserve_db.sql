@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 21, 2024 at 09:16 AM
+-- Generation Time: Jun 25, 2024 at 09:34 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -43,7 +43,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`adminID`, `email`, `username`, `password`, `usertype`, `status`, `created`, `updated`) VALUES
-(1, 'bvrlisah@gmail.com', 'Admin', '827ccb0eea8a706c4c34a16891f84e7b', 'admin', 1, '2023-10-26 21:01:34', '2023-10-26 21:01:34');
+(1, 'bvrlisah@gmail.com', 'admin', '$argon2i$v=19$m=65536,t=4,p=1$R3N2T1VGVVR4MmpOUU1QcA$U+v9XIMxGB0xe5PW2Pqd2ZGo7wl8oBw+od03R30mGgA', 'admin', 1, '2023-10-26 21:01:34', '2023-10-26 21:01:34');
 
 -- --------------------------------------------------------
 
@@ -103,7 +103,7 @@ CREATE TABLE `business` (
 INSERT INTO `business` (`businessCode`, `ownerID`, `busName`, `about`, `busType`, `house_building`, `street`, `barangay`, `city_municipality`, `province`, `region`, `phone`, `mobile`, `business_permit`, `sanitary`, `tax`, `busImage`, `status`) VALUES
 (22, 28, 'Puga Funeral Home', 'In times of loss, finding solace in a compassionate and dedicated funeral home is paramount. At Puga Funeral, we understand the delicate nature of saying farewell to a loved one, and we strive to provide support and comfort when it\'s needed most.', 'Funeral Services', '', '', 'Brgy. Tolicuran', 'Iloilo City', 'Iloilo', '6', '330-39-13', '09831837281', 0x6173736574732f75706c6f6164732f3430303831383438355f3637383239373836343430393538355f333334383734323732383439303230313730375f6e2e6a7067, '', '', 0x6173736574732f75706c6f6164732f627573696e6573732f564746535f44726578656c5f48696c6c2d3134382d7765622e6a706567, 1),
 (24, 31, 'Bahay Kusina De Tangra', 'Bahay Kusina De Tangra Catering & Eatery seamlessly blends the rich heritage of Tangra-style Filipino cuisine with a versatile business model that caters to diverse culinary needs. Our eatery, adorned with cultural nuances, provides a welcoming ambiance for patrons seeking an authentic dining experience. The menu boasts a tantalizing array of Tangra specialties, carefully curated to offer a fusion of bold flavors and traditional culinary techniques. From sizzling stir-fries to delectable dim su', 'Catering', '20', '7th Street', 'Poblacion Ilawod', 'Lambunao', 'Iloilo', '6', '09452781051', '09452781023', 0x6173736574732f75706c6f6164732f494354203133392d2047726f757020436173652053747564792023332e706466, '', '', 0x6173736574732f75706c6f6164732f627573696e6573732f527251384b446f2e77656270, 1),
-(49, 28, 'Funeral', '', 'Funeral Services', '20', ',', 'Tolarucan', 'Mina', 'Iloilo', '6', '3202917', '09637283627', 0x6173736574732f75706c6f6164732f627573696e6573735f7065726d69742e6a7067, 0x6173736574732f75706c6f6164732f7461785f7065726d69742e6a7067, 0x6173736574732f75706c6f6164732f73616e69746172795f7065726d69742e6a7067, '', 0);
+(49, 28, 'Funeral', '', 'Funeral Services', '20', '', 'Tolarucan', 'Mina', 'Iloilo', '6', '3202917', '09637283627', 0x6173736574732f75706c6f6164732f627573696e6573735f7065726d69742e6a7067, 0x6173736574732f75706c6f6164732f7461785f7065726d69742e6a7067, 0x6173736574732f75706c6f6164732f73616e69746172795f7065726d69742e6a7067, '', 0);
 
 -- --------------------------------------------------------
 
@@ -157,7 +157,7 @@ CREATE TABLE `business_owner` (
 
 INSERT INTO `business_owner` (`ownerID`, `fname`, `lname`, `birthday`, `email`, `verification_code`, `number`, `ownerAddress`, `username`, `password`, `repassword`, `usertype`, `profileImage`, `status`, `created`, `updated`) VALUES
 (28, 'Jose ', 'Puga', '1985-10-21', 'lalalaamb@gmail.com', '462081', '09452781051', '', 'JosePuga', '$argon2i$v=19$m=65536,t=4,p=1$dlYzVWM3ZTB6WHlZMjRkWQ$uXqRlJ7A6I70lW8qQnKYcYYzWPRRsc4LhSqouUXAgDU', '', 'business owner', '', 1, '2023-12-18 01:51:48', '2023-12-18 01:51:48'),
-(31, 'Jose', 'Cruz', '1962-04-21', 'bvrlisah@gmail.com', '674098', '09452781051', '', 'JoseCruz', '$argon2i$v=19$m=65536,t=4,p=1$QU9DTDM2RFBjSml3QUxWaw$2eEPbJIUBT/BeDWIV+6Oyy/h4D0V5xuo0IE1/1zLNHU', '', 'business owner', 0x6173736574732f75706c6f6164732f70726f66696c652f6a6f73652072697a7a2e61766966, 1, '2024-01-05 04:05:52', '2024-01-05 04:05:52'),
+(31, 'Jose', 'Cruz', '1962-04-21', 'bvrlisah@gmail.com', '674098', '09452781051', '', 'JoseCruz', '$argon2i$v=19$m=65536,t=4,p=1$YmFZeFR2MEVkSGZISDliRw$V1oQeymaudv39k35OzPNEjLVTTQCJHodnIpHsTF15wQ', '', 'business owner', 0x6173736574732f75706c6f6164732f70726f66696c652f6a6f73652072697a7a2e61766966, 1, '2024-01-05 04:05:52', '2024-01-05 04:05:52'),
 (42, 'ALISAH MAE', 'BOLIVAR', '2001-07-01', 'bvrlisah@gmail.com', '610792', '09452781051', '', 'Alisah12', '$argon2i$v=19$m=65536,t=4,p=1$NEJuLndIcUtrQi81OFRVRQ$aHSySuU/oGvmsxHGyijGN0jyGPetKvX5wl2BjOLx91k', '@123asdA', 'business owner', '', 1, '2024-01-23 07:01:42', '2024-01-23 07:01:42');
 
 -- --------------------------------------------------------
@@ -192,7 +192,8 @@ CREATE TABLE `client` (
 INSERT INTO `client` (`clientID`, `fname`, `lname`, `birthday`, `email`, `verification_code`, `number`, `ownerAddress`, `username`, `password`, `repassword`, `usertype`, `profileImage`, `status`, `created`, `updated`) VALUES
 (18, 'Vianney', 'Sobrevega', '2002-01-02', 'vianneysobrevega@gmail.com', 113308, '09452781051', 'pasil', 'vianney', '$argon2i$v=19$m=65536,t=4,p=1$bktGSURMZkFMRklkSWZ3eA$FGYsvzu3j5f7Qvtt3ZTs5PEk5crEQ3mELiGWu6sps2w', '', 'client', '', 1, '2024-01-08 14:52:35', '2024-01-08 14:52:35'),
 (20, 'Alisah Mae', 'Bolivar', '2001-07-01', 'bvrlisa@gmail.com', 284725, '09452781051', '', 'alisahMae', '$argon2i$v=19$m=65536,t=4,p=1$UnZGVGRkVS9uQTdjd0dXaw$odR1DIjLN87DEas4ba/fqPKTy/9k05ahvQK01jIxQtI', '12345', 'client', '', 1, '2024-01-23 01:05:06', '2024-01-23 01:05:06'),
-(33, 'Alisah', 'Bolivar', '2001-07-01', 'bvrlisah@gmail.com', 84770, '09564200614', '', 'Client', '$argon2i$v=19$m=65536,t=4,p=1$QmJZV1Q2ZWpzaHdkZVVTSA$KKnFD31AJWee/MJU4xsBWCKuS4ZguDglxFnIhZ31JEk', 'Alisah12345$', 'client', 0x6173736574732f75706c6f6164732f70726f66696c652f6276723730373834355f3931373737313531303035303134355f333237383535343936383633393130383936375f6e2d72656d6f766562672d707265766965772e706e67, 1, '2024-01-30 05:32:27', '2024-01-30 05:32:27');
+(33, 'Alisah', 'Bolivar', '2001-07-01', 'bvrlisah@gmail.com', 84770, '09564200614', '', 'Client', '$argon2i$v=19$m=65536,t=4,p=1$QmJZV1Q2ZWpzaHdkZVVTSA$KKnFD31AJWee/MJU4xsBWCKuS4ZguDglxFnIhZ31JEk', 'Alisah12345$', 'client', 0x6173736574732f75706c6f6164732f70726f66696c652f636c69656e742069636f6e2e706e67, 1, '2024-01-30 05:32:27', '2024-01-30 05:32:27'),
+(39, 'Emma', 'Bolivar', '1999-01-23', 'officialwebworks@gmail.com', 146428, '09203633104', '', 'emma12345', '$argon2i$v=19$m=65536,t=4,p=1$U3hPRE53WkRFV2VzbTNXZg$GoQKfGmvxR5KpDl7KHNVes71hHtPUWfz0QBN1QSOAvE', 'Emma12345!', 'client', '', 1, '2024-06-23 11:27:10', '2024-06-23 11:27:10');
 
 -- --------------------------------------------------------
 
@@ -242,7 +243,7 @@ CREATE TABLE `custom_items` (
 
 INSERT INTO `custom_items` (`itemCode`, `customCategoryCode`, `itemName`, `description`, `price`, `custom_itemImage`, `availability`) VALUES
 (37, 30, 'Pork Menudo', '', 55, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
-(38, 30, 'Pork Afritada', '', 50, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 1),
+(38, 30, 'Pork Afritada', '', 50, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
 (39, 30, 'Pork Sweet and Sour', '', 60, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
 (40, 30, 'Crispy Pata', '', 90, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
 (41, 30, 'Pork Adobo', '', 50, 0x6173736574732f75706c6f6164732f637573746f6d2d7061636b616765732f, 0),
@@ -352,7 +353,15 @@ INSERT INTO `orderlist` (`orderListID`, `clientID`, `businessCode`, `transID`, `
 (19, 33, 24, 149, '3 Main Dish', '3 main dish of your choice', 0, '', 0, 'Pork Afritada, Pork Sweet and Sour, Pork Adobo'),
 (20, 33, 24, 149, '2 Side Dish', '2 side dish of your choice', 0, '', 0, 'Pinakbet, Ensaladang Talong'),
 (21, 33, 24, 149, 'Softdrinks', '1L of softdrinks of your choice', 0, '', 0, 'Royal'),
-(22, 33, 24, 149, 'Utensils', 'Includes spoon, fork, serving spoon, glasses', 0, '', 0, '');
+(22, 33, 24, 149, 'Utensils', 'Includes spoon, fork, serving spoon, glasses', 0, '', 0, ''),
+(23, 33, 24, 150, '3 Main Dish', '3 main dish of your choice', 0, '', 0, 'Pork Menudo, Crispy Pata, Fried Fish'),
+(24, 33, 24, 150, '2 Side Dish', '2 side dish of your choice', 0, '', 0, 'Pinakbet, Lumpiang Shanghai'),
+(25, 33, 24, 150, 'Softdrinks', '1L of softdrinks of your choice', 0, '', 0, 'Royal'),
+(26, 33, 24, 150, 'Utensils', 'Includes spoon, fork, serving spoon, glasses', 0, '', 0, ''),
+(27, 33, 24, 151, '3 Main Dish', '3 main dish of your choice', 0, '', 0, 'Pork Menudo, Crispy Pata, Fried Fish'),
+(28, 33, 24, 151, '2 Side Dish', '2 side dish of your choice', 0, '', 0, 'Pinakbet, Lumpiang Shanghai'),
+(29, 33, 24, 151, 'Softdrinks', '1L of softdrinks of your choice', 0, '', 0, 'Royal'),
+(30, 33, 24, 151, 'Utensils', 'Includes spoon, fork, serving spoon, glasses', 0, '', 0, '');
 
 -- --------------------------------------------------------
 
@@ -429,7 +438,9 @@ CREATE TABLE `transaction` (
 
 INSERT INTO `transaction` (`transID`, `clientID`, `businessCode`, `branchCode`, `busName`, `branchName`, `packName`, `transNo`, `clientName`, `email`, `mobileNumber`, `totalAmount`, `paymentDate`, `paymentMethod`, `pickupDate`, `deliveryDate`, `deliveryAddress`, `status`) VALUES
 (148, 33, 24, 33, 'Bahay Kusina De Tangra', 'Lambunao Branch', 'Package 1', 'EzServe_16949267915461166920', 'Alisah Bolivar', 'bvrlisah@gmail.com', 9564200614, 134, '2024-04-18', 'On-site payment', '2024-04-20', '0000-00-00 00:00:00', '', 'paid'),
-(149, 33, 24, 33, 'Bahay Kusina De Tangra', 'Lambunao Branch', 'Bahay Kusina(Basic Package)', 'EzServe_59940062314607052806', 'Alisah Bolivar', 'bvrlisah@gmail.com', 9564200614, 1820, '2024-04-26', 'On-site payment', '2024-05-03', '0000-00-00 00:00:00', '', 'unpaid');
+(149, 33, 24, 33, 'Bahay Kusina De Tangra', 'Lambunao Branch', 'Bahay Kusina(Basic Package)', 'EzServe_59940062314607052806', 'Alisah Bolivar', 'bvrlisah@gmail.com', 9564200614, 1820, '2024-04-26', 'On-site payment', '2024-05-03', '0000-00-00 00:00:00', '', 'unpaid'),
+(150, 33, 24, 33, 'Bahay Kusina De Tangra', 'Lambunao Branch', 'Bahay Kusina(Basic Package)', 'EzServe_23413268571245122387', 'Alisah Bolivar', 'bvrlisah@gmail.com', 9564200614, 0, '2024-06-03', 'On-site payment', '2024-06-26', '0000-00-00 00:00:00', '', 'unpaid'),
+(151, 33, 24, 33, 'Bahay Kusina De Tangra', 'Lambunao Branch', 'Bahay Kusina(Basic Package)', 'EzServe_16311668638345880987', 'Alisah Bolivar', 'bvrlisah@gmail.com', 9564200614, 0, '2024-06-03', 'On-site payment', '', '2024-06-03 09:20:00', 'Javellana Street, San Pedro, Jaro, Iloilo City, Western Visayas, 5000, Philippines', 'unpaid');
 
 -- --------------------------------------------------------
 
@@ -605,13 +616,13 @@ ALTER TABLE `businesstypes`
 -- AUTO_INCREMENT for table `business_owner`
 --
 ALTER TABLE `business_owner`
-  MODIFY `ownerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `ownerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-  MODIFY `clientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `clientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `custom_category`
@@ -641,7 +652,7 @@ ALTER TABLE `item_option`
 -- AUTO_INCREMENT for table `orderlist`
 --
 ALTER TABLE `orderlist`
-  MODIFY `orderListID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `orderListID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `package`
@@ -659,7 +670,7 @@ ALTER TABLE `permits`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `transID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
+  MODIFY `transID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
 
 --
 -- AUTO_INCREMENT for table `voucher`

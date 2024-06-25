@@ -11,7 +11,7 @@ $payments = $DB->query("
 ");
 ?>
 
-<?= element('header') ?>
+<?= element( 'owner_header' ) ?>
 
 <?= element('owner-side-nav') ?>
 

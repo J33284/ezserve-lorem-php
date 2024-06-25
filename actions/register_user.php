@@ -1,7 +1,7 @@
 <?php
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
-require 'vendor/autoload.php'; // Include PHPMailer autoloader
+require 'vendor/autoload.php'; 
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -10,25 +10,21 @@ if (isset($_POST['data'])) {
     $email = $_POST["data"]["email"];
     $username = $_POST["data"]["username"];
 
-    // Check if username already exists in either client or business_owner table
     if (usernameExistsInTable($username, 'client') || usernameExistsInTable($username, 'business_owner')) {
         set_message("Username already exists. Please choose a different username.", "danger");
         register_redirect("?page=register&", $_POST['data']);
         exit();
     }
 
-    // Password Hashing
     $plainPassword = $_POST['data']['password'];
     $repassword = $_POST['data']['repassword'];
 
-    // Check if passwords match
     if ($plainPassword !== $repassword) {
         set_message("Passwords do not match. Please make sure both passwords are the same.", "danger");
         register_redirect("?page=register&", $_POST['data']);
         exit();
     }
 
-    // Check password strength
     if (!isStrongPassword($plainPassword)) {
         set_message("Password is not strong enough.", "danger");
         register_redirect("?page=register&", $_POST['data']);
@@ -39,7 +35,6 @@ if (isset($_POST['data'])) {
     $allowedUsertypes = ['client', 'business owner'];
     $usertype = $_POST['data']['usertype'];
 
-    // Check if the email already exists in the respective table
     if ($usertype === 'client' && emailExistsInTable($email, 'client')) {
         set_message("Email is already registered as a client.", "danger");
         register_redirect("?page=register&", $_POST['data']);
@@ -64,14 +59,12 @@ if (isset($_POST['data'])) {
             set_message("Failed to register.", "danger");
         }
     } else {
-        // Handle the case where an invalid usertype was selected.
         set_message("Invalid usertype selected.", "danger");
     }
 }
 
 redirect();
 
-// Function to check if the email exists in the specified table
 function emailExistsInTable($email, $table) {
     global $DB;
     $sql = "SELECT COUNT(*) as count FROM $table WHERE email = '$email'";
@@ -89,8 +82,6 @@ function usernameExistsInTable($username, $table) {
 }
 
 function isStrongPassword($password) {
-    // Add your password strength criteria here
-    // For example, you can check minimum length, uppercase, lowercase, numbers, special characters, etc.
 
     $minLength = 8;
     $hasUppercase = preg_match('/[A-Z]/', $password);
@@ -131,10 +122,10 @@ function configureMailer() {
 
     try {
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com'; // Replace with your email provider's SMTP server
+        $mail->Host       = 'smtp.gmail.com'; 
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'officialezserve@gmail.com'; // Replace with your email address
-        $mail->Password   = 'ijzf jsos mrtb fbyb'; // Replace with your email password
+        $mail->Username   = 'officialezserve@gmail.com'; 
+        $mail->Password   = 'ijzf jsos mrtb fbyb'; 
         $mail->SMTPSecure = 'tls';
         $mail->Port       = 587;
 

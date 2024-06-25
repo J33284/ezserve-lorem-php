@@ -14,7 +14,7 @@ if ($businessesResult) {
 
 ?>
 
-<?= element('header') ?>
+<?= element('admin_header') ?>
 
 <?= element('admin-side-nav') ?>
 

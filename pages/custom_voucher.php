@@ -1,9 +1,7 @@
 <?= element('header') ?>
 
 <?php
-// voucher.php
 
-// Retrieve data from the URL
 $businessCode = $_GET['businessCode'];
 $branchCode = $_GET['branchCode'];
 $grandTotal = $_GET['grandTotal'];
