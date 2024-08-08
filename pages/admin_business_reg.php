@@ -1,7 +1,6 @@
 <?php
 if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
-// Query the database to fetch businesses with a status of 0
 $businesses = $DB->query("SELECT b.*, bo.* FROM business b
     JOIN business_owner bo ON b.ownerID = bo.ownerID
     WHERE b.status = 0");

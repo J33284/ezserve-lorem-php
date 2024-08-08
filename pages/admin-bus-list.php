@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['keyword'])) {
         $keyword = $_POST['keyword'];
 
-        // Use prepared statements to prevent SQL injection
         $sql = "SELECT bo.*, b.*
         FROM business_owner bo
         LEFT JOIN business b ON bo.ownerID = b.ownerID

@@ -170,13 +170,11 @@ WHERE c.branchCode = '$branchCode'");
                 orderBody.append('<tr><td>' + orderItem.itemName + '</td><td>' + orderItem.quantity + '</td><td>₱' + orderItem.subtotal.toFixed(2) + '</td></tr>');
             }
 
-            // Update total price
             $('.total-price').text('₱' + total.toFixed(2));
 
             var orderDetailsJson = JSON.stringify(orderDetails);
             $('.checkout-btn').attr('data-order-details', orderDetailsJson);
     
-            // Append encoded order details as a query parameter to the form action URL
             var checkoutURL = "?page=custom_checkout&businessCode=<?=$businessCode?>&branchCode=<?=$branchCode?>&orderDetails=" + encodeURIComponent(orderDetailsJson);
             $('form').attr('action', checkoutURL);
         }
